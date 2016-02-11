@@ -23,7 +23,7 @@ return [
         'attribute'=>'count_beds',
     ],
     [
-        'class'=>'\kartik\grid\DataColumn',
+        'class'=>'\kartik\grid\BooleanColumn',
         'attribute'=>'active',
     ],
     [
