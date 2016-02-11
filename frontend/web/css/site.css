@@ -89,3 +89,29 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+
+.main{
+    background-image: url(../assets/img/background.png);
+    background-repeat: no-repeat;
+    background-color: #fff;
+    background-position: top;
+}
+
+.menu_gory a{
+    background-image: url(../assets/img/menu_gory.png);
+    background-position: top;
+    background-repeat: no-repeat;
+    /*background-color: #fff;*/
+    background-size: 120px auto;
+    height: 120px;
+    width: 121px;
+    text-align: center;
+    vertical-align: bottom;
+    padding-top: 100px;
+    padding-bottom: 40px;
+}
+
+.navbar-nav>li>a{
+    font-weight: bold;
+    color: #000000;
+}
