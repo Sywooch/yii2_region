@@ -31,7 +31,7 @@ return [
         'attribute'=>'date_edit',
     ],
     [
-        'class'=>'\kartik\grid\DataColumn',
+        'class'=>'\kartik\grid\BooleanColumn',
         'attribute'=>'active',
     ],
     [

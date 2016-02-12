@@ -13,9 +13,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'date_add')->textInput() ?>
+    <?= $form->field($model, 'date_add')->widget(\kartik\datetime\DateTimePicker::classname(), [
+        //'language' => 'ru',
+        //'dateFormat' => 'yyyy-MM-dd',
+    ]) ?>
 
-    <?= $form->field($model, 'date_edit')->textInput() ?>
+    <?= $form->field($model, 'date_edit')->widget(\kartik\datetime\DateTimePicker::classname(), [
+        //'language' => 'ru',
+        //'dateFormat' => 'yyyy-MM-dd',
+    ]) ?>
 
     <?= $form->field($model, 'active')->textInput() ?>
 

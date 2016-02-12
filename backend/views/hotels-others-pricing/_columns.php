@@ -27,7 +27,7 @@ return [
         'attribute'=>'type_price',
     ],
     [
-        'class'=>'\kartik\grid\DataColumn',
+        'class'=>'\kartik\grid\BooleanColumn',
         'attribute'=>'active',
     ],
     [

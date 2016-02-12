@@ -39,7 +39,7 @@ return [
         // 'attribute'=>'toury_type_transport_id',
     // ],
     // [
-        // 'class'=>'\kartik\grid\DataColumn',
+        // 'class'=>'\kartik\grid\BooleanColumn',
         // 'attribute'=>'active',
     // ],
     [

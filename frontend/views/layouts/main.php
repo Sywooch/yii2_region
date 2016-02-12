@@ -27,55 +27,85 @@ AppAsset::register($this);
     <div class="container main">
 
         <header>
-            <div class="logo">
+            <div class="logo col-md-6 col-lg-6 col-xs-12">
                 <a href="<?= Yii::$app->homeUrl ?>"><img class="logo-element" src="<?= Yii::$app->homeUrl ?>assets/img/logo.png" />
                 </a>
             </div>
-            <div>
-                <p>
-                    <span class="red">
+            <div class="col-xs-12 col-lg-6 col-md-6 pull-right">
+                <h1>
+                    <span class="color1">
                         Оператор
                     </span>
-                    <span class="blue">
+                    <span class="color2">
                         Вашего
                     </span>
-                    <span class="green">
+                    <span class="color3">
                         позитивного отдыха!
                     </span>
-                    <span class="yellow">
-                        8 (4752) 71-93-25
-                    </span>
-                </p>
+                </h1>
+                <h1>
+                    <strong>
+                        <span class="color4">
+                            8 (4752) 71-93-25
+                        </span>
+                    </strong>
+                </h1>
             </div>
-
+            <div class="clear"></div>
         </header>
         <div class="wrap">
             <?php
+            NavBar::begin([
+                'brandLabel' => 'Лайф Тур Вояж',
+                'brandUrl' => Yii::$app->homeUrl,
+                'options' => [
+                    'class' => 'navbar first-menu',
+                ],
+            ]);
+            $menuItems = [
+                ['label' => 'Контакты', 'url' => ['/site/contact']],
+                ['label' => 'Частным лицам', 'url' => ['/site/about']],
+                ['label' => 'Турагенствам', 'url' => ['/site/about']],
+            ];
+            if (Yii::$app->user->isGuest) {
+                $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
+                $menuItems[] = ['label' => 'Войти', 'url' => ['/site/login']];
+            } else {
+                $menuItems[] = [
+                    'label' => 'Выход (' . Yii::$app->user->identity->username . ')',
+                    'url' => ['/site/logout'],
+                    'linkOptions' => ['data-method' => 'post']
+                ];
+            }
+            echo Nav::widget([
+                'options' => ['class' => 'navbar-nav navbar-right'],
+                'items' => $menuItems,
+            ]);
+            NavBar::end();
+            ?>
+            <?php
                 NavBar::begin([
-                    'brandLabel' => 'My Company',
-                    'brandUrl' => Yii::$app->homeUrl,
                     'options' => [
                         'class' => 'navbar',
                     ],
                 ]);
                 $menuItems = [
-                    ['label' => 'Домашняя', 'url' => ['/site/index'],'options'=>['class' => 'menu_gory']],
-                    ['label' => Html::img(Yii::$app->homeUrl . 'assets/img/menu_autobus.png') . ' Автобусные туры',
+                    ['label' => 'Автобусные туры', 'url' => ['/site/index'],'options'=>['class' => 'menu_autobus']],
+                    ['label' => 'Школьные туры', 'url' => ['/site/index'],'options'=>['class' => 'menu_schkola']],
+                    ['label' => 'Пляжный отдых', 'url' => ['/site/index'],'options'=>['class' => 'menu_plyag']],
+                    ['label' => 'Горнолыжные туры', 'url' => ['/site/index'],'options'=>['class' => 'menu_gory']],
+                    ['label' => 'Отдых в России', 'url' => ['/site/index'],'options'=>['class' => 'menu_russia']],
+                    ['label' => 'Отдых за границей', 'url' => ['/site/index'],'options'=>['class' => 'menu_zarubeg']],
+                    ['label' => 'Горящие туры', 'url' => ['/site/index'],'options'=>['class' => 'menu_goryaschie']],
+                    ['label' => 'Паломнические поездки', 'url' => ['/site/index'],'options'=>['class' => 'menu_hram']],
+                    ['label' => 'Круизы', 'url' => ['/site/index'],'options'=>['class' => 'menu_kruiz']],
+
+                    /*['label' => 'Автобусные туры',
                         'url' => ['/site/about']],
-                    ['label' => 'Contact', 'url' => ['/site/contact']],
+                    ['label' => 'Contact', 'url' => ['/site/contact']],*/
                 ];
-                if (Yii::$app->user->isGuest) {
-                    $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
-                    $menuItems[] = ['label' => 'Войти', 'url' => ['/site/login']];
-                } else {
-                    $menuItems[] = [
-                        'label' => 'Выход (' . Yii::$app->user->identity->username . ')',
-                        'url' => ['/site/logout'],
-                        'linkOptions' => ['data-method' => 'post']
-                    ];
-                }
                 echo Nav::widget([
-                    'options' => ['class' => 'navbar-nav navbar-right'],
+                    'options' => ['class' => 'navbar-nav'],
                     'items' => $menuItems,
                 ]);
                 NavBar::end();

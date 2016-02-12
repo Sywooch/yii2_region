@@ -27,7 +27,7 @@ return [
         'attribute'=>'gps_point_p',
     ],
     [
-        'class'=>'\kartik\grid\DataColumn',
+        'class'=>'\kartik\grid\BooleanColumn',
         'attribute'=>'active',
     ],
     [

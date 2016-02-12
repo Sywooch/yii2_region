@@ -23,7 +23,7 @@ return [
         'attribute'=>'first_point',
     ],
     [
-        'class'=>'\kartik\grid\DataColumn',
+        'class'=>'\kartik\grid\BooleanColumn',
         'attribute'=>'end_point',
     ],
     [

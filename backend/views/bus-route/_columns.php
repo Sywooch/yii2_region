@@ -23,7 +23,7 @@ return [
         'attribute'=>'date',
     ],
     [
-        'class'=>'\kartik\grid\DataColumn',
+        'class'=>'\kartik\grid\BooleanColumn',
         'attribute'=>'date_begin',
     ],
     [

@@ -35,7 +35,7 @@ return [
         'attribute'=>'date_end',
     ],
     // [
-        // 'class'=>'\kartik\grid\DataColumn',
+        // 'class'=>'\kartik\grid\BooleanColumn',
         // 'attribute'=>'active',
     // ],
     // [
