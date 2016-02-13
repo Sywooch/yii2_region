@@ -10,4 +10,5 @@ return [
     'Password' => 'Пароль',
     'Create' => 'Создать',
     'Update' => 'Обновить',
+    'Bus Drivers' => 'Водители',
 ];
