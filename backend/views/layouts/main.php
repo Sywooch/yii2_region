@@ -43,6 +43,16 @@ AppAsset::register($this);
             'url' => ['/site/logout'],
             'linkOptions' => ['data-method' => 'post']
         ];
+
+        $menuItems[] = [
+            'label' => 'Заказы',
+            'items' => [
+                ['label' => 'Справочник "Статусы заказов"', 'url' => ['/sal-order-status']],
+                ['label' => 'Заказы','url'=>['/sal-order']],
+                ['label' => 'Корзины пользователей','url'=>['/salary-basket']]
+            ],
+        ];
+
         $menuItems[] = [
             'label' => 'Пользователи',
             'items' => [
@@ -93,12 +103,17 @@ AppAsset::register($this);
         $menuItems[] = [
             'label' => 'Автобусы',
             'items' => [
-                ['label' => 'Путевые точки', 'url' => ['/bus-route-point']],
-                ['label' => 'Маршруты', 'url' => ['/bus-route']],
+                ['label' => 'Справочник. Путевые точки.', 'url' => ['/bus-route-point']],
+                ['label' => 'Справочник. Маршруты', 'url' => ['/bus-route']],
                 ['label' => 'Список автобусов', 'url' => ['/bus-info']],
                 ['label' => 'Водители', 'url' => ['/bus-driver']],
                 ['label' => 'Путевой лист', 'url' => ['/bus-way']],
                 ['label' => 'Текущие маршруты', ['/bus-current']],
+                ['label' => 'Бронь', ['/bus-bron']],
+                ['label' => 'Маршрут + путевые точки', 'url' => ['/bus-route-has-bus-route-point']],
+                ['label' => 'Посадочные места',['/plan-seats']],
+                ['label' => 'Резервация посадочных мест', ['/res-seats']]
+
             ],
         ];
     }
@@ -113,7 +128,9 @@ AppAsset::register($this);
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
+        
         <?= $content ?>
+            
         </div>
     </div>
 

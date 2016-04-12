@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -13,26 +14,38 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'date')->widget(\kartik\datetime\DateTimePicker::classname(), [
-        //'language' => 'ru',
-        //'dateFormat' => 'yyyy-MM-dd',
-    ]) ?>
-    <?= $form->field($model, 'date_begin')->widget(\kartik\datetime\DateTimePicker::classname(), [
-        //'language' => 'ru',
-        //'dateFormat' => 'yyyy-MM-dd',
-    ]) ?>
-    <?= $form->field($model, 'date_end')->widget(\kartik\datetime\DateTimePicker::classname(), [
+    <?= $form->field($model, 'date')->widget(\kartik\datetime\DateTimePicker::className(), [
         //'language' => 'ru',
         //'dateFormat' => 'yyyy-MM-dd',
     ]) ?>
 
-  
-	<?php if (!Yii::$app->request->isAjax){ ?>
-	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-	    </div>
-	<?php } ?>
+    <?= $form->field($model, 'date_begin')->widget(\kartik\datetime\DateTimePicker::className(), [
+        //'language' => 'ru',
+        //'dateFormat' => 'yyyy-MM-dd',
+    ]) ?>
+
+    <?= $form->field($model, 'date_end')->widget(\kartik\datetime\DateTimePicker::className(), [
+        //'language' => 'ru',
+        //'dateFormat' => 'yyyy-MM-dd',
+    ]) ?>
+
+    <div class="tabs">
+        <?= $form->field($model, 'busRoutePoints')->checkboxList(\common\models\BusRoutePoint::listAll(),['multiple' => true]);/* checkboxList($busroute_model->getBusRoutePoints)*/; ?>
+        <?php
+        /*$ur_names = ArrayHelper::map(UserRole::find()->all(),'id','role_name');
+        echo $form->field($model, 'user_role_id')->dropDownList(
+            $ur_names,
+            ['prompt' => 'Выберите пользователя'] // текст, который отображается в качестве первого варианта
+        )->label('Роли пользователей');*/
+        ?>
+    </div>
+
+    
+    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    </div>
+    
 
     <?php ActiveForm::end(); ?>
-    
+
 </div>

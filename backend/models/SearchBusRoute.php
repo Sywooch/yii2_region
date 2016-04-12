@@ -43,6 +43,8 @@ class SearchBusRoute extends BusRoute
     {
         $query = BusRoute::find();
 
+        // add conditions that should always apply here
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -55,6 +57,7 @@ class SearchBusRoute extends BusRoute
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'date' => $this->date,

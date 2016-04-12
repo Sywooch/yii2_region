@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'date_add')->widget(\kartik\datetime\DateTimePicker::classname(), [
         //'language' => 'ru',
-        //'dateFormat' => 'yyyy-MM-dd',
+        //'dateFormat' => 'yyyy-MM-dd  HH:mm:ss',
     ]) ?>
 
     <?= $form->field($model, 'date_edit')->widget(\kartik\datetime\DateTimePicker::classname(), [

@@ -17,6 +17,11 @@ use Yii;
  */
 class BusRouteHasBusRoutePoint extends \yii\db\ActiveRecord
 {
+
+    const POINT_ACTIVE = 1;
+    const POINT_DISABLE = 1;
+
+
     /**
      * @inheritdoc
      */
@@ -32,7 +37,9 @@ class BusRouteHasBusRoutePoint extends \yii\db\ActiveRecord
     {
         return [
             [['bus_route_id', 'bus_route_point_id'], 'required'],
-            [['bus_route_id', 'bus_route_point_id', 'first_point', 'end_point'], 'integer']
+            [['bus_route_id', 'bus_route_point_id', 'first_point', 'end_point'], 'integer'],
+            [['bus_route_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusRoute::className(), 'targetAttribute' => ['bus_route_id' => 'id']],
+            [['bus_route_point_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusRoutePoint::className(), 'targetAttribute' => ['bus_route_point_id' => 'id']],
         ];
     }
 
@@ -63,14 +70,5 @@ class BusRouteHasBusRoutePoint extends \yii\db\ActiveRecord
     public function getBusRoutePoint()
     {
         return $this->hasOne(BusRoutePoint::className(), ['id' => 'bus_route_point_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return BusRouteHasBusRoutePointQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new BusRouteHasBusRoutePointQuery(get_called_class());
     }
 }

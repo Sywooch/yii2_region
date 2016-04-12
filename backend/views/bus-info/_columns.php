@@ -31,9 +31,13 @@ return [
         'attribute'=>'date',
     ],
     [
-        'class'=>'\kartik\grid\BooleanColumn',
+        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'active',
     ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'bus_scheme_seats_id',
+    // ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

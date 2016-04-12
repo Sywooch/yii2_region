@@ -19,7 +19,7 @@ class SearchUserinfo extends Userinfo
     {
         return [
             [['id', 'user_role_id'], 'integer'],
-            [['login', 'email', 'password', 'create_time', 'last_login', 'auth_key', 'password_reset_token'], 'safe'],
+            [['username', 'email', 'password', 'create_time', 'last_login', 'auth_key', 'password_reset_token'], 'safe'],
         ];
     }
 
@@ -62,7 +62,7 @@ class SearchUserinfo extends Userinfo
             'user_role_id' => $this->user_role_id,
         ]);
 
-        $query->andFilterWhere(['like', 'login', $this->login])
+        $query->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'password', $this->password])
             ->andFilterWhere(['like', 'auth_key', $this->auth_key])

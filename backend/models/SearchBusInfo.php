@@ -18,7 +18,7 @@ class SearchBusInfo extends BusInfo
     public function rules()
     {
         return [
-            [['id', 'seat', 'active'], 'integer'],
+            [['id', 'seat', 'active', 'bus_scheme_seats_id'], 'integer'],
             [['name', 'gos_number', 'date'], 'safe'],
         ];
     }
@@ -60,6 +60,7 @@ class SearchBusInfo extends BusInfo
             'seat' => $this->seat,
             'date' => $this->date,
             'active' => $this->active,
+            'bus_scheme_seats_id' => $this->bus_scheme_seats_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

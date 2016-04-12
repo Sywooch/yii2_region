@@ -68,7 +68,7 @@ return [
             'errorAction' => 'site/error',
         ],
     ],
-    /*'as access' => [
+    'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
             'site/*',
@@ -81,7 +81,7 @@ return [
             // add a lot of actions here until you finally completed setting up rbac,
             // otherwise you may not even take a first step.
         ]
-    ],*/
+    ],
 
     'params' => $params,
 ];

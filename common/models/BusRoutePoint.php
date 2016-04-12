@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "bus_route_point".
@@ -36,8 +37,8 @@ class BusRoutePoint extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['name', 'gps_point_m', 'gps_point_p', 'description'], 'string'],
-            [['active'], 'boolean'],
-            [['date'], 'safe']
+            [['active'], 'integer'],
+            [['date'], 'safe'],
         ];
     }
 
@@ -73,12 +74,14 @@ class BusRoutePoint extends \yii\db\ActiveRecord
         return $this->hasMany(BusRoute::className(), ['id' => 'bus_route_id'])->viaTable('bus_route_has_bus_route_point', ['bus_route_point_id' => 'id']);
     }
 
-    /**
-     * @inheritdoc
-     * @return BusRoutePointQuery the active query used by this AR class.
-     */
-    public static function find()
+    public static function listAll($keyField = 'id', $valueField = 'name', $asArray = true)
     {
-        return new BusRoutePointQuery(get_called_class());
+        $query = static::find();
+        if ($asArray) {
+            $query->select([$keyField, $valueField])->asArray();
+        }
+
+        return ArrayHelper::map($query->all(), $keyField, $valueField);
     }
+
 }

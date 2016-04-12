@@ -27,12 +27,12 @@ AppAsset::register($this);
     <div class="container main">
 
         <header>
-            <div class="logo col-md-6 col-lg-6 col-xs-12">
+            <div class="logo col-sm-6 col-md-6 col-lg-6 col-xs-12">
                 <a href="<?= Yii::$app->homeUrl ?>"><img class="logo-element" src="<?= Yii::$app->homeUrl ?>assets/img/logo.png" />
                 </a>
             </div>
-            <div class="col-xs-12 col-lg-6 col-md-6 pull-right">
-                <h1>
+            <div class="pull-right col-sm-6 col-md-6 col-lg-6 col-xs-12">
+                <p class="h1">
                     <span class="color1">
                         Оператор
                     </span>
@@ -42,14 +42,14 @@ AppAsset::register($this);
                     <span class="color3">
                         позитивного отдыха!
                     </span>
-                </h1>
-                <h1>
+                </p>
+                <p class="h1">
                     <strong>
                         <span class="color4">
                             8 (4752) 71-93-25
                         </span>
                     </strong>
-                </h1>
+                </p>
             </div>
             <div class="clear"></div>
         </header>

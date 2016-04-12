@@ -15,14 +15,14 @@ use yii\helpers\ArrayHelper;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'login')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'password_hash')->passwordInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'create_time')->widget(\kak\widgets\datetimepicker\DateTimePicker::classname(), [
-                'langauge' => 'ru-RU',
+                //'langauge' => 'ru-RU',
                 //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
             ]) ?>
 

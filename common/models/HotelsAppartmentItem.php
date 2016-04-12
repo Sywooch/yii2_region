@@ -34,7 +34,7 @@ class HotelsAppartmentItem extends \yii\db\ActiveRecord
             [['name'], 'string'],
             [['active'], 'boolean'],
             [['count_beds'], 'integer'],
-            [['date_add', 'date_edit'], 'date']
+            [['date_add', 'date_edit'], 'safe']
         ];
     }
 

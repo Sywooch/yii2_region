@@ -11,7 +11,7 @@ use yii\widgets\DetailView;
         'model' => $model,
         'attributes' => [
             'id',
-            'login',
+            'username',
             'email:email',
             'password',
             'create_time',

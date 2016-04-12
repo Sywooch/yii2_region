@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "bus_route".
@@ -19,6 +20,29 @@ use Yii;
  */
 class BusRoute extends \yii\db\ActiveRecord
 {
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => \voskobovich\behaviors\ManyToManyBehavior::className(),
+                'relations' => [
+                    'busRoutePoints' => [
+                        'busRoutePoints',
+                        'viaTableValues' => [
+                            'first_point' => \common\models\BusRouteHasBusRoutePoint::POINT_DISABLE,
+                            'end_point' => \common\models\BusRouteHasBusRoutePoint::POINT_DISABLE,
+                        ],
+                        'customDeleteCondition' => [
+                            'first_point' => \common\models\BusRouteHasBusRoutePoint::POINT_DISABLE,
+                            'end_point' => \common\models\BusRouteHasBusRoutePoint::POINT_DISABLE,
+                        ],
+                    ]
+                ]
+            ]
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -35,7 +59,8 @@ class BusRoute extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['name'], 'string'],
-            [['date', 'date_begin', 'date_end'], 'safe']
+            [['date', 'date_begin', 'date_end'], 'safe'],
+            [['busRoutePoints'], 'each', 'rule' => ['integer']],
         ];
     }
 
@@ -45,7 +70,7 @@ class BusRoute extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'Первичный ключ. В таблице хранятся все маршруты, которые могут проходить автобусы.'),
+            /*'id' => Yii::t('app', 'Первичный ключ. В таблице хранятся все маршруты, которые могут проходить автобусы.'),*/
             'name' => Yii::t('app', 'Name'),
             'date' => Yii::t('app', 'Date'),
             'date_begin' => Yii::t('app', 'Date Begin'),
@@ -77,12 +102,14 @@ class BusRoute extends \yii\db\ActiveRecord
         return $this->hasMany(BusWay::className(), ['bus_path_id' => 'id']);
     }
 
-    /**
-     * @inheritdoc
-     * @return BusRouteQuery the active query used by this AR class.
-     */
-    public static function find()
+    public static function listAll($keyField = 'id', $valueField = 'name', $asArray = true)
     {
-        return new BusRouteQuery(get_called_class());
+        $query = static::find();
+        if ($asArray) {
+            $query->select([$keyField, $valueField])->asArray();
+        }
+
+        return ArrayHelper::map($query->all(), $keyField, $valueField);
     }
+
 }

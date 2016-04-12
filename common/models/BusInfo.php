@@ -33,8 +33,8 @@ class BusInfo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'name'], 'required'],
-            [['id', 'seat', 'active'], 'integer'],
+            [['name', 'bus_scheme_seats_id'], 'required'],
+            [['seat', 'active', 'bus_scheme_seats_id'], 'integer'],
             [['name'], 'string'],
             [['date'], 'safe'],
             [['gos_number'], 'string', 'max' => 25]
@@ -47,7 +47,6 @@ class BusInfo extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'Первичный ключ. Данная схема содержит информацию об автобусах, их наличии на месте, состоянии, времени в пути, а также планированние поездок на автобусных турах.'),
             'name' => Yii::t('app', 'Name'),
             'gos_number' => Yii::t('app', 'Gos Number'),
             'seat' => Yii::t('app', 'Количество посадочных мест в автобусе'),

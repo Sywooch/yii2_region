@@ -16,16 +16,16 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'login',
+        'attribute'=>'username',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'email',
     ],
-    [
+    /*[
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'password',
-    ],
+    ],*/
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'create_time',

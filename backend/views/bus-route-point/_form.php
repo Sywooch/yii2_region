@@ -11,11 +11,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'name')->textInput() ?>
 
-    <?= $form->field($model, 'gps_point_m')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'gps_point_m')->textInput() ?>
 
-    <?= $form->field($model, 'gps_point_p')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'gps_point_p')->textInput() ?>
 
     <?= $form->field($model, 'active')->checkbox() ?>
 
@@ -25,6 +25,8 @@ use yii\widgets\ActiveForm;
         //'language' => 'ru',
         //'dateFormat' => 'yyyy-MM-dd',
     ]) ?>
+
+
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

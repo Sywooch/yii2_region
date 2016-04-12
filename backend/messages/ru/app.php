@@ -8,4 +8,5 @@
 
 return [
     'Password' => 'Пароль',
+    'Active' => 'Активный?',
 ];
