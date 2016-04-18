@@ -35,21 +35,20 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
     ];
+    $menuItems[] =
+        ['label' => 'Сайт', 'url' => Yii::$app->urlManagerFrontend->getBaseUrl()/*createUrl('/site/index')*/,
+        'linkOptions' => ['target' => '_blank']];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
-        $menuItems[] = [
-            'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-            'url' => ['/site/logout'],
-            'linkOptions' => ['data-method' => 'post']
-        ];
 
         $menuItems[] = [
             'label' => 'Заказы',
             'items' => [
                 ['label' => 'Справочник "Статусы заказов"', 'url' => ['/sal-order-status']],
                 ['label' => 'Заказы','url'=>['/sal-order']],
-                ['label' => 'Корзины пользователей','url'=>['/salary-basket']]
+                ['label' => 'Корзины пользователей','url'=>['/salary-basket']],
+                ['label' => 'Справочник Контрагенты (пассажиры, отдыхающие)','url'=>['/kontragent-persons']]
             ],
         ];
 
@@ -73,6 +72,7 @@ AppAsset::register($this);
                 ['label' => 'Название характеристик', 'url'=>['/hotels-character']],
                 ['label' => 'Описание характеристик', 'url'=>['/hotels-character-item']],
                 ['label' => 'Скидки', 'url'=>['/discount']],
+                ['label' => 'Стоимость проживания', ''],
                 ['label' => 'Формирование основных цен', 'url'=>['/hotels-pricing']],
                 ['label' => 'Формирование прочих цен', 'url'=>['/hotels-others-pricing']],
             ],
@@ -93,7 +93,7 @@ AppAsset::register($this);
         $menuItems[] = [
             'label' => 'Туры',
             'items' => [
-                ['label' => 'Справочник типов транспорта для туров', 'url' => ['/tour-type-transport']],
+                /*['label' => 'Справочник типов транспорта для туров', 'url' => ['/tour-type-transport']],*/
                 ['label' => 'Справочник типов тура', 'url' => ['/tour-type']],
                 ['label' => 'Конструктор тура', 'url' => ['/tour-info']]
             ],
@@ -111,11 +111,19 @@ AppAsset::register($this);
                 ['label' => 'Текущие маршруты', ['/bus-current']],
                 ['label' => 'Бронь', ['/bus-bron']],
                 ['label' => 'Маршрут + путевые точки', 'url' => ['/bus-route-has-bus-route-point']],
-                ['label' => 'Посадочные места',['/plan-seats']],
-                ['label' => 'Резервация посадочных мест', ['/res-seats']]
+                ['label' => 'Посадочные места','url' => ['/bus-scheme-seats']],
+                ['label' => 'Резервация посадочных мест', 'url' => ['/bus-reservation']]
 
             ],
         ];
+
+        $menuItems[] = [
+            'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+            'url' => ['/site/logout'],
+            'linkOptions' => ['data-method' => 'post']
+        ];
+
+
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],

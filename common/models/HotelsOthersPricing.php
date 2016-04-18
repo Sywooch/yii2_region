@@ -74,7 +74,7 @@ class HotelsOthersPricing extends \yii\db\ActiveRecord
      */
     public function getHotelsOthersPricingType()
     {
-        return $this->hasOne(Region-travelHotelsOthersPricingType::className(), ['id' => 'hotels_others_pricing_type_id']);
+        return $this->hasOne(HotelsOthersPricingType::className(), ['id' => 'hotels_others_pricing_type_id']);
     }
 
     /**

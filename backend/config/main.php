@@ -64,6 +64,13 @@ return [
                 ],
             ],
         ],
+        'urlManagerFrontend' => [
+            'class' => 'yii\web\urlManager',
+            'baseUrl' => 'http://work.loc/yii2/yii2_region/frontend/web/',
+            'enablePrettyUrl' => true,
+            'enableStrictParsing' => true,
+            'showScriptName' => false,
+        ],  
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],

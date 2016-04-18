@@ -8,6 +8,7 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
         'urlManager' => [
+            'class' => 'yii\web\urlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             /*'rules' => [

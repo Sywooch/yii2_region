@@ -9,12 +9,15 @@
 return [
     /*Description Forms*/
 
+    'New' => 'Создать',
     'Password' => 'Пароль',
     'Create' => 'Создать',
     'Update' => 'Обновить',
     'Active' => 'Активный',
     'Description' => 'Описание',
+    'Relations' => 'Связанные данные',
     'Date' => 'Дата',
+    'Date New' => 'Дата создания',
     'Date Create' => 'Дата создания',
     'Date Update' => 'Дата обновления',
     'Date Edit' => 'Дата изменения',
@@ -26,16 +29,43 @@ return [
 
     'Edit' => 'Редактировать',
     'Save' => 'Сохранить',
+    'Copy' => 'Копировать',
+
     'Close' => 'Закрыть',
+    'Cancel' => 'Закрыть',
+    'List' => 'Список',
+    'View' => 'Просмотр',
+    'Full list' => 'Полный список',
     'Update {modelClass} #{id}' => 'Изменение {modelClass} #{id}',
 
     /*/Description Forms*/
 
     'Bus Drivers' => 'Водители',
     'Bus Infos' => 'Информация о автобусах',
+    'Bus Info' => 'Информация о автобусах',
     'Bus Routes' => 'Маршруты',
     'Bus route' => 'Маршрут',
     'Bus route point' => 'Точка маршрута',
+    'Bus Reservation' => 'Резерв мест',
+    'BusReservation' => 'Резерв мест',
+    'Bus Reservations' => 'Резерв мест',
+    'BusReservations' => 'Резерв мест',
+    'Count seats' => 'Количество посадочных мест',
+    'Number Seat' => 'Номер места',
+    'BusSchemeSeats' => 'Посадочные места',
+    'Bus Scheme Seats ID' => 'Посадоные места',
+    'Bus Way ID' => 'Маршрут следования',
+    'Bus Info ID' => 'Автобус',
+    'Kontragent Persons ID' => 'Данные пассажира',
+    'Bus Scheme Seats Id' => 'Посадоные места',
+    'Bus Way Id' => 'Маршрут следования',
+    'Bus Info Id' => 'Автобус',
+    'Kontragent Persons Id' => 'Данные пассажира',
+    'KontragentPersons' => 'Данные контрагентов',
+    'Fname' => 'Имя',
+    'Lname' => 'Фамилия',
+    'Oname' => 'Отчество',
+
     'First point' => 'Точка отъезда',
     'End point' => 'Точка прибытия',
     'Bus Route Has Bus Route Points' => 'Путевые точки на маршруте автобуса',
@@ -66,4 +96,6 @@ return [
     'Trans Type Stations' => 'Справочник типы станций',
     'User Roles' => 'Роли пользователей',
     'Userinfos' => 'Информация о пользователях',
+    'Userinfo' => 'Информация о пользователе',
+    'Update Userinfo' => 'Изменение информации о пользователе',
 ];

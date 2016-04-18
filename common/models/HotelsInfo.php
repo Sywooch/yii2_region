@@ -60,6 +60,15 @@ class HotelsInfo extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getAliasModel($plural=false)
+    {
+        if($plural){
+            return Yii::t('app', 'Hotels Infos');
+        }else{
+            return Yii::t('app', 'Hotels Info');
+        }
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

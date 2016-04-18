@@ -40,7 +40,8 @@
         "voskobovich/yii2-many-many-behavior": "*",
         "arogachev/yii2-many-to-many": "^0.2.1",
         "kartik-v/yii2-detail-view": "*",
-        "voskobovich/yii2-setting-toolkit": "~3.0"
+        "voskobovich/yii2-setting-toolkit": "~3.0",
+        "mirocow/yii2-yandex-maps": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

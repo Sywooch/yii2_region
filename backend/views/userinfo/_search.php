@@ -21,15 +21,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'email') ?>
 
-    <?= $form->field($model, 'password') ?>
-
     <?= $form->field($model, 'create_time') ?>
 
     <?php // echo $form->field($model, 'last_login') ?>
 
     <?php // echo $form->field($model, 'auth_key') ?>
 
-    <?php // echo $form->field($model, 'user_role_id') ?>
+    <?php echo $form->field($model, 'user_role_id') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary']) ?>
