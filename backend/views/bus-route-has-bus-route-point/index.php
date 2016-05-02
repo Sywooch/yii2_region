@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'pager' => [
         'class' => yii\widgets\LinkPager::className(),
         'firstPageLabel' => Yii::t('app', 'First'),
-        'lastPageLabel' => Yii::t('app', 'Last')        ],
+        'lastPageLabel' => Yii::t('app', 'Last')],
                     'filterModel' => $searchModel,
                 'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
         'headerRowOptions' => ['class'=>'x'],
@@ -114,6 +114,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ],
 			'first_point',
 			'end_point',
+            'position',
         ],
         ]); ?>
     </div>

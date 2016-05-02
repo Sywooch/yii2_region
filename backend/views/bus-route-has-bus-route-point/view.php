@@ -69,6 +69,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View');
 ],
         'first_point',
         'end_point',
+        'position',
     ],
     ]); ?>
 

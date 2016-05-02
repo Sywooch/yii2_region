@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "trans_station".
@@ -47,7 +48,7 @@ class TransStation extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'Первичный ключ. Таблица содержит все станции назначения'),
+            'id' => Yii::t('app', 'Первичный ключ.'),
             'name' => Yii::t('app', 'Name'),
             'description' => Yii::t('app', 'Description'),
             'gps_parallel' => Yii::t('app', 'Gps Parallel'),
@@ -78,6 +79,31 @@ class TransStation extends \yii\db\ActiveRecord
      */
     public function getTransTypeStation()
     {
-        return $this->hasOne(Region-travelTransTypeStation::className(), ['id' => 'trans_type_station_id']);
+        return $this->hasOne(TransTypeStation::className(), ['id' => 'trans_type_station_id']);
+    }
+
+    public static function listAll($keyField = 'id', $valueField = 'name', $asArray = true)
+    {
+        $query = static::find();
+        if ($asArray) {
+            $query->select([$keyField, $valueField])->asArray();
+        }
+
+        return ArrayHelper::map($query->all(), $keyField, $valueField);
+    }
+
+    /**
+     * Получаем данные на основании связной таблицы
+     * @param array $id
+     * @param string $keyField
+     * @param bool $asArray
+     * @return array
+     */
+    public static function getTransStationRelationField($id = [],$keyField = 'name', $asArray = true)
+    {
+        $query = static::find()->innerJoin('trans_route_has_trans_station',
+            'trans_route_has_trans_station.trans_station_id = trans_station.id')
+            ->where(['trans_route_has_trans_station.trans_route_id' => $id]);
+        return ArrayHelper::map($query->all(),'id',$keyField);
     }
 }

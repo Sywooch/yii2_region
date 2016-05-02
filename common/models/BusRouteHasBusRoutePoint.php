@@ -19,7 +19,7 @@ class BusRouteHasBusRoutePoint extends \yii\db\ActiveRecord
 {
 
     const POINT_ACTIVE = 1;
-    const POINT_DISABLE = 1;
+    const POINT_DISABLE = 0;
 
 
     /**
@@ -37,7 +37,7 @@ class BusRouteHasBusRoutePoint extends \yii\db\ActiveRecord
     {
         return [
             [['bus_route_id', 'bus_route_point_id'], 'required'],
-            [['bus_route_id', 'bus_route_point_id', 'first_point', 'end_point'], 'integer'],
+            [['bus_route_id', 'bus_route_point_id', 'first_point', 'end_point', 'position'], 'integer'],
             [['bus_route_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusRoute::className(), 'targetAttribute' => ['bus_route_id' => 'id']],
             [['bus_route_point_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusRoutePoint::className(), 'targetAttribute' => ['bus_route_point_id' => 'id']],
         ];
@@ -49,10 +49,11 @@ class BusRouteHasBusRoutePoint extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'bus_route_id' => Yii::t('app', 'Часть составного первичного ключа. Таблица с отношением многие-ко-многим, объеденяющая название маршрута и путевые точки маршрута.'),
-            'bus_route_point_id' => Yii::t('app', 'Часть составного первичного ключа.'),
-            'first_point' => Yii::t('app', 'Признак того, что данная точка на маршруте является начальной (значение 1).'),
-            'end_point' => Yii::t('app', 'Признак того, что данная точка на маршруте является конечной (значение 1).'),
+            'bus_route_id' => Yii::t('app', 'Route'),
+            'bus_route_point_id' => Yii::t('app', 'Route point'),
+            'first_point' => Yii::t('app', 'First point'),
+            'end_point' => Yii::t('app', 'Last point'),
+            'position' => Yii::t('app', 'Position point'),
         ];
     }
 

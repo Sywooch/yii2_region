@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
+use kartik\widgets;
 
 /**
 * @var yii\web\View $this
@@ -40,6 +41,7 @@ $form->field($model, 'bus_route_point_id')->checkboxList(
 ); ?>
 			<?= $form->field($model, 'first_point')->checkbox() ?>
 			<?= $form->field($model, 'end_point')->checkbox() ?>
+            <?= $form->field($model, 'position')->textInput(); ?>
         </p>
         <?php $this->endBlock(); ?>
         

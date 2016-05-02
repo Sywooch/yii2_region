@@ -27,6 +27,10 @@ return [
         'attribute'=>'end_point',
     ],
     [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'position',
+    ],
+    [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign'=>'middle',

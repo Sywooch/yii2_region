@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -18,5 +19,8 @@ use yii\widgets\DetailView;
             'end_point:ntext',
         ],
     ]) ?>
+    <hr>
+    <p>Вокзалы следования (путь):</p>
+    <?= Html::ul(\common\models\TransStation::getTransStationRelationField($model->id),['label' => 'Trans Station']) ?>
 
 </div>

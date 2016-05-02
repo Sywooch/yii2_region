@@ -12,7 +12,7 @@
         "irc": "irc://irc.freenode.net/yii",
         "source": "https://github.com/yiisoft/yii2"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
         "yiisoft/yii2": ">=2.0.6",
@@ -21,7 +21,6 @@
         "voskobovich/yii2-admin-toolkit": "*",
         "voskobovich/yii2-admin-setting-toolkit": "*",
         "cornernote/yii2-dashboard": "*",
-        "janisto/yii2-ycm": "*",
         "johnitvn/yii2-ajaxcrud": "*",
         "kartik-v/yii2-widget-datepicker": "*",
         "kartik-v/yii2-field-range": "*",
@@ -32,8 +31,8 @@
         "fxp/composer-asset-plugin": "~1.1.1",
         "kak/datetimepicker": "*",
         "schmunk42/yii2-giiant": "@stable",
-        "kartik-v/yii2-export": "@dev",
-        "kartik-v/yii2-builder": "@dev",
+        "kartik-v/yii2-export": "@stable",
+        "kartik-v/yii2-builder": "@stable",
         "abhi1693/yii2-user": "*",
         "samdark/yii2-iconized-menu-widget": "*",
         "2amigos/yii2-translateable-behavior": "*",

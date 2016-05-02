@@ -21,11 +21,13 @@ use yii\widgets\ActiveForm;
         //'dateFormat' => 'yyyy-MM-dd',
     ]) ?>
 
-    <?= $form->field($model, 'active')->textInput() ?>
+    <?= $form->field($model, 'active')->checkbox() ?>
 
-    <?= $form->field($model, 'begin_point')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'begin_point')->textInput() ?>
 
-    <?= $form->field($model, 'end_point')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'end_point')->textInput() ?>
+
+    <?= $form->field($model, 'editableTransStation')->checkboxList(\common\models\TransStation::listAll(), ['multiple' => true]) ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

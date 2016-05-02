@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use arogachev\ManyToMany;
 
 /**
  * This is the model class for table "bus_route".
@@ -30,8 +31,8 @@ class BusRoute extends \yii\db\ActiveRecord
                     'busRoutePoints' => [
                         'busRoutePoints',
                         'viaTableValues' => [
-                            'first_point' => \common\models\BusRouteHasBusRoutePoint::POINT_DISABLE,
-                            'end_point' => \common\models\BusRouteHasBusRoutePoint::POINT_DISABLE,
+                            'first_point' => \common\models\BusRouteHasBusRoutePoint::POINT_ACTIVE,
+                            'end_point' => \common\models\BusRouteHasBusRoutePoint::POINT_ACTIVE,
                         ],
                         'customDeleteCondition' => [
                             'first_point' => \common\models\BusRouteHasBusRoutePoint::POINT_DISABLE,

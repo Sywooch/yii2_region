@@ -3,6 +3,9 @@
 namespace common\models;
 
 use Yii;
+use arogachev\ManyToMany\behaviors\ManyToManyBehavior;
+use arogachev\ManyToMany\validators\ManyToManyValidator;
+use yii2tech\ar\linkmany\LinkManyBehavior;
 
 /**
  * This is the model class for table "trans_route".
@@ -19,6 +22,43 @@ use Yii;
  */
 class TransRoute extends \yii\db\ActiveRecord
 {
+
+    /**
+     * @var array
+     */
+    public $editableTransStation = [];
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'editableTransStation' => [
+                'class' => LinkManyBehavior::className(),
+                'relation' => 'transStation',
+                'relationReferenceAttribute' => 'transStationIds',
+                'extraColumns' => [
+                    'type' => 'user-define',
+                    'position' => 'textInput'],
+            ],
+        ];
+        /*return [
+            [
+                'class' => ManyToManyBehavior::className(),
+                'relations' => [
+                    [
+                        'editableAttribute' => 'editableTransStation', // Editable attribute name
+                        'table' => 'trans_route_has_trans_station', // Name of the junction table
+                        'ownAttribute' => 'trans_route_id', // Name of the column in junction table that represents current model
+                        'relatedModel' => TransStation::className(), // Related model class
+                        'relatedAttribute' => 'trans_station_id', // Name of the column in junction table that represents related model
+                    ],
+                ],
+            ],
+        ];*/
+    }
+
     /**
      * @inheritdoc
      */
@@ -33,6 +73,7 @@ class TransRoute extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            ['editableTransStation', ManyToManyValidator::className()],
             [['date_add', 'date_edit'], 'safe'],
             [['active'], 'integer'],
             [['begin_point', 'end_point'], 'string']
@@ -45,7 +86,7 @@ class TransRoute extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'Первичный ключ. Таблица содержит информацию о маршрутных точках транспорта.'),
+            'id' => Yii::t('app', 'Первичный ключ.'),
             'date_add' => Yii::t('app', 'Date Add'),
             'date_edit' => Yii::t('app', 'Date Edit'),
             'active' => Yii::t('app', 'Active'),

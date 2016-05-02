@@ -1,5 +1,7 @@
 <?php
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
+use kartik\helpers\Html;
 
 return [
     [
@@ -33,6 +35,21 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'end_point',
+    ],
+    [
+        'attribute'=>'editableTransStation',
+        'vAlign' => 'middle',
+        'width'=>'180px',
+        'value'=>function ($model, $key, $index, $widget) {
+            return Html::ul(\common\models\TransStation::getTransStationRelationField($model->id));
+        },
+        'filterType'=>\kartik\grid\GridView::FILTER_SELECT2,
+        'filter'=>\common\models\TransStation::listAll(),
+        'filterWidgetOptions'=>[
+            'pluginOptions'=>['allowClear'=>true],
+        ],
+        'filterInputOptions'=>['placeholder'=>Yii::t('app','Any station')],
+        'format'=>'raw'
     ],
     [
         'class' => 'kartik\grid\ActionColumn',
