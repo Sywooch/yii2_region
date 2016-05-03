@@ -107,7 +107,7 @@ a.desc:after {
 }
 
 .main{
-    background-image: url(../assets/img/background.png);
+    background-image: url(../images/background.png);
     background-repeat: no-repeat;
     background-color: #fff;
     background-position: top;
@@ -144,55 +144,55 @@ a.desc:after {
 }
 
 .navbar-nav li.menu_gory a{
-    background-image: url(../assets/img/menu_gory.png);
+    background-image: url(../images/menu_gory.png);
     width: 120px;
     background-size: 120px auto;
 }
 
 .navbar-nav li.menu_autobus a{
-    background-image: url(../assets/img/menu_autobus.png);
+    background-image: url(../images/menu_autobus.png);
     width: 120px;
     background-size: 120px auto;
 }
 
 .navbar-nav li.menu_goryaschie a{
-    background-image: url(../assets/img/menu_goryaschie.png);
+    background-image: url(../images/menu_goryaschie.png);
     width: 120px;
 
 }
 
 .navbar-nav li.menu_hram a{
-    background-image: url(../assets/img/menu_hram.png);
+    background-image: url(../images/menu_hram.png);
     width: 120px;
 
 }
 
 .navbar-nav li.menu_kruiz a{
-    background-image: url(../assets/img/menu_kruiz.png);
+    background-image: url(../images/menu_kruiz.png);
     width: 120px;
     background-size: 120px;
 }
 
 .navbar-nav li.menu_plyag a{
-    background-image: url(../assets/img/menu_plyag.png);
+    background-image: url(../images/menu_plyag.png);
     width: 120px;
     background-size: 100px;
 }
 
 .navbar-nav li.menu_russia a{
-    background-image: url(../assets/img/menu_russia.png);
+    background-image: url(../images/menu_russia.png);
     width: 120px;
 
 }
 
 .navbar-nav li.menu_schkola a{
-    background-image: url(../assets/img/menu_schkola.png);
+    background-image: url(../images/menu_schkola.png);
     width: 120px;
 
 }
 
 .navbar-nav li.menu_zarubeg a{
-    background-image: url(../assets/img/menu_zarubeg.png);
+    background-image: url(../images/menu_zarubeg.png);
     width: 120px;
     background-size: 100px;
 }
