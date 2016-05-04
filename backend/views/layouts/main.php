@@ -95,6 +95,7 @@ AppAsset::register($this);
             'items' => [
                 /*['label' => 'Справочник типов транспорта для туров', 'url' => ['/tour-type-transport']],*/
                 ['label' => 'Справочник типов тура', 'url' => ['/tour-type']],
+                ['label' => 'Справочник стран','url'=>['/country']],
                 ['label' => 'Конструктор тура', 'url' => ['/tour-info']]
             ],
 

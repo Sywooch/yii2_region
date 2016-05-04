@@ -3,8 +3,8 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\HotelsInfo;
-use backend\models\SearchHotelsInfo;
+use common\models\Country;
+use backend\models\SearchCountry;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -12,9 +12,9 @@ use \yii\web\Response;
 use yii\helpers\Html;
 
 /**
- * HotelsInfoController implements the CRUD actions for HotelsInfo model.
+ * CountryController implements the CRUD actions for Country model.
  */
-class HotelsInfoController extends Controller
+class CountryController extends Controller
 {
     /**
      * @inheritdoc
@@ -33,12 +33,12 @@ class HotelsInfoController extends Controller
     }
 
     /**
-     * Lists all HotelsInfo models.
+     * Lists all Country models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new SearchHotelsInfo();
+        $searchModel = new SearchCountry();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -49,7 +49,7 @@ class HotelsInfoController extends Controller
 
 
     /**
-     * Displays a single HotelsInfo model.
+     * Displays a single Country model.
      * @param integer $id
      * @return mixed
      */
@@ -59,8 +59,8 @@ class HotelsInfoController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "HotelsInfo #".$id,
-                    'content'=>$this->renderPartial('view', [
+                    'title'=> "Country #".$id,
+                    'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -74,7 +74,7 @@ class HotelsInfoController extends Controller
     }
 
     /**
-     * Creates a new HotelsInfo model.
+     * Creates a new Country model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -82,7 +82,7 @@ class HotelsInfoController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new HotelsInfo();  
+        $model = new Country();  
 
         if($request->isAjax){
             /*
@@ -91,8 +91,8 @@ class HotelsInfoController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new HotelsInfo",
-                    'content'=>$this->renderPartial('create', [
+                    'title'=> "Create new Country",
+                    'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -101,17 +101,17 @@ class HotelsInfoController extends Controller
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'true',
-                    'title'=> Yii::t('app','Create new HotelsInfo'),
-                    'content'=>'<span class="text-success">' . Yii::t('app','Create HotelsInfo success') . '</span>',
+                    'forceReload'=>'#crud-datatable-pjax',
+                    'title'=> "Create new Country",
+                    'content'=>'<span class="text-success">Create Country success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new HotelsInfo",
-                    'content'=>$this->renderPartial('create', [
+                    'title'=> "Create new Country",
+                    'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -135,7 +135,7 @@ class HotelsInfoController extends Controller
     }
 
     /**
-     * Updates an existing HotelsInfo model.
+     * Updates an existing Country model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -153,28 +153,28 @@ class HotelsInfoController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update HotelsInfo #".$id,
-                    'content'=>$this->renderPartial('update', [
-                        'model' => $this->findModel($id),
+                    'title'=> "Update Country #".$id,
+                    'content'=>$this->renderAjax('update', [
+                        'model' => $model,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'true',
-                    'title'=> "HotelsInfo #".$id,
-                    'content'=>$this->renderPartial('view', [
-                        'model' => $this->findModel($id),
+                    'forceReload'=>'#crud-datatable-pjax',
+                    'title'=> "Country #".$id,
+                    'content'=>$this->renderAjax('view', [
+                        'model' => $model,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Update HotelsInfo #".$id,
-                    'content'=>$this->renderPartial('update', [
-                        'model' => $this->findModel($id),
+                    'title'=> "Update Country #".$id,
+                    'content'=>$this->renderAjax('update', [
+                        'model' => $model,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -195,7 +195,7 @@ class HotelsInfoController extends Controller
     }
 
     /**
-     * Delete an existing HotelsInfo model.
+     * Delete an existing Country model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -211,7 +211,7 @@ class HotelsInfoController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true];    
+            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
         }else{
             /*
             *   Process for non-ajax request
@@ -223,7 +223,7 @@ class HotelsInfoController extends Controller
     }
 
      /**
-     * Delete multiple existing HotelsInfo model.
+     * Delete multiple existing Country model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -232,18 +232,18 @@ class HotelsInfoController extends Controller
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
-        $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (HotelsInfo::findAll(json_decode($pks)) as $model) {
+        $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
+        foreach ( $pks as $pk ) {
+            $model = $this->findModel($pk);
             $model->delete();
         }
-        
 
         if($request->isAjax){
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true]; 
+            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
         }else{
             /*
             *   Process for non-ajax request
@@ -254,15 +254,15 @@ class HotelsInfoController extends Controller
     }
 
     /**
-     * Finds the HotelsInfo model based on its primary key value.
+     * Finds the Country model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return HotelsInfo the loaded model
+     * @return Country the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = HotelsInfo::findOne($id)) !== null) {
+        if (($model = Country::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

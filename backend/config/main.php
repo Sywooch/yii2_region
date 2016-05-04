@@ -36,7 +36,7 @@ return [
         ],*/
         'admin' => [
             'class' => 'mdm\admin\Module',
-            'layout' => 'left-menu',
+            /*'layout' => 'left-menu',*/
         ],
 
 
@@ -66,7 +66,7 @@ return [
         ],
         'urlManagerFrontend' => [
             'class' => 'yii\web\urlManager',
-            'baseUrl' => 'http://work.loc/yii2/yii2_region/frontend/web/',
+            'baseUrl' => 'http://турлайф.рф',
             'enablePrettyUrl' => true,
             'enableStrictParsing' => true,
             'showScriptName' => false,
@@ -80,11 +80,12 @@ return [
         ],
     ],
     'as access' => [
-        'class' => 'mdm\admin\components\AccessControl',
+        'class' => 'mdm\admin\classes\AccessControl',
         'allowActions' => [
             'site/*',
             'admin/*',
             'menu/*',
+            '*',
             'some-controller/some-action',
             // The actions listed here will be allowed to everyone including guests.
             // So, 'admin/*' should not appear here in the production, of course.

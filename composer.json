@@ -29,7 +29,6 @@
         "kartik-v/yii2-widgets": "*",
         "mdmsoft/yii2-admin": "*",
         "fxp/composer-asset-plugin": "~1.1.1",
-        "kak/datetimepicker": "*",
         "schmunk42/yii2-giiant": "@stable",
         "kartik-v/yii2-export": "@stable",
         "kartik-v/yii2-builder": "@stable",
@@ -40,7 +39,7 @@
         "arogachev/yii2-many-to-many": "^0.2.1",
         "kartik-v/yii2-detail-view": "*",
         "voskobovich/yii2-setting-toolkit": "~3.0",
-        "mirocow/yii2-yandex-maps": "*"
+        "mirocow/yii2-yandex-maps": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

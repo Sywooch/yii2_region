@@ -1,7 +1,7 @@
 <?php
 namespace common\models;
 
-use app\models\Userinfo;
+use common\models\User;
 use Yii;
 use yii\base\Model;
 
@@ -71,7 +71,7 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = Userinfo::findByUsername($this->username);
+            $this->_user = User::findByUsername($this->username);
         }
 
         return $this->_user;

@@ -16,10 +16,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="giiant-crud hotels-info-index">
 
+    <div class="col-md-4">
     <?php echo $this->render('_search', ['model' =>$searchModel]);
         ?>
-
+    </div>
     
+    <div class="col-md-8">
     <?=  ListView::widget([
     'dataProvider' => $dataProvider,
     'itemOptions' => ['class' => 'item'],
@@ -27,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
     return Html::a(Html::encode($model->name), ['view', 'id' => $model->id]);
     },
     ]); ?>
+    </div>
 
 
 

@@ -27,6 +27,8 @@ class FilterTour extends Widget
     {
         parent::init();
 
+        //Подключаема модели тура
+        
         //Формируем css
         $this->content = Html::tag('div', null, ['class' => 'filter',]);
         //Добавляем фильтр

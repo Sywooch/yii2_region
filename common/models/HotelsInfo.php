@@ -9,7 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
- * @property integer $address_id
+ * @property integer $address
  * @property integer $country
  * @property string $GPS
  * @property string $links_maps
@@ -38,9 +38,11 @@ class HotelsInfo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'address_id'], 'required'],
-            [['name', 'GPS', 'links_maps'], 'string'],
-            [['address_id', 'country', 'hotels_stars_id'], 'integer']
+            [['name', 'address'], 'required'],
+            [['address', 'country', 'name', 'GPS', 'links_maps'], 'string'],
+            [['hotels_stars_id'], 'integer'],
+            [['image'], 'file']
+
         ];
     }
 
@@ -50,9 +52,9 @@ class HotelsInfo extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
+
             'name' => Yii::t('app', 'Name'),
-            'address_id' => Yii::t('app', 'Address ID'),
+            'address' => Yii::t('app', 'Address'),
             'country' => Yii::t('app', 'Country'),
             'GPS' => Yii::t('app', 'Gps'),
             'links_maps' => Yii::t('app', 'Links Maps'),
@@ -124,5 +126,19 @@ class HotelsInfo extends \yii\db\ActiveRecord
     public static function find()
     {
         return new HotelsInfoQuery(get_called_class());
+    }
+
+    /**
+     * @param string $keyField
+     * @param string $valueField
+     * @param bool $asArray
+     * @return mixed
+     */
+    public static function listAll($keyField = 'id', $valueField = 'name', $asArray = true){
+        $query = static::find();
+        if ($asArray) {
+            $query->select([$keyField, $valueField])->asArray();
+        }
+        return ArrayHelper::map($query->all(), $keyField, $valueField);
     }
 }

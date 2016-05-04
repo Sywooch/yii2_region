@@ -25,6 +25,9 @@ return [
     'Date Begin' => 'Дата начала',
     'Date End' => 'Дата окончания',
     'Name' => 'Название',
+    'Full Name' => 'Полное наименование',
+    'Country' => 'Страна',
+    'Address' => 'Адрес',
     'GPS mer' =>'Меридиан GPS',
     'GPS par' =>'Паралель GPS',
 
@@ -38,6 +41,10 @@ return [
     'View' => 'Просмотр',
     'Full list' => 'Полный список',
     'Update {modelClass} #{id}' => 'Изменение {modelClass} #{id}',
+    
+    //Users messages
+    'Are you sure?'=> 'Вы уверены?',
+    'Are you sure want to delete this item'=>'Вы уверены, что хотите удалить этот элемент?',
 
     /*/Description Forms*/
 
@@ -86,6 +93,8 @@ return [
     'Hotels Stars '=> 'Звездность отелей',
     'Hotels Type Of Foods' => 'Типы питания',
     'Tour Infos' => 'Информация о туре',
+    'Tour Infos listing' => 'Список туров',
+    
     'Tour Types' => 'Типы тура',
     'Tour Type Transports' => 'Виды транспорта тура',
     'Trans Infos' => 'Информация о транспорте',
@@ -99,4 +108,6 @@ return [
     'Userinfos' => 'Информация о пользователях',
     'Userinfo' => 'Информация о пользователе',
     'Update Userinfo' => 'Изменение информации о пользователе',
+    'Create HotelsInfo success' => 'Новая гостиница успешно создана',
+    'Create new {modelClass}' => 'Создание нового параметра: {modelClass}',
 ];

@@ -10,14 +10,15 @@ use yii\widgets\DetailView;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+            
             'name:ntext',
-            'address_id',
+            'address',
             'country',
             'GPS:ntext',
             'links_maps:ntext',
             'hotels_stars_id',
         ],
     ]) ?>
+    <?= \yii\helpers\Html::img($model->image,['width'=>'150px']) ?>
 
 </div>

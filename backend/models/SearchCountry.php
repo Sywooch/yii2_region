@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\HotelsInfo;
+use common\models\Country;
 
 /**
- * SearchHotelsInfo represents the model behind the search form about `common\models\HotelsInfo`.
+ * SearchCountry represents the model behind the search form about `common\models\Country`.
  */
-class SearchHotelsInfo extends HotelsInfo
+class SearchCountry extends Country
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class SearchHotelsInfo extends HotelsInfo
     public function rules()
     {
         return [
-            [['id', 'address', 'country', 'hotels_stars_id'], 'integer'],
-            [['name', 'GPS', 'links_maps'], 'safe'],
+            [['id'], 'integer'],
+            [['name', 'full_name', 'code2', 'code3'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class SearchHotelsInfo extends HotelsInfo
      */
     public function search($params)
     {
-        $query = HotelsInfo::find();
+        $query = Country::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,14 +57,12 @@ class SearchHotelsInfo extends HotelsInfo
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'address' => $this->address,
-            'country' => $this->country,
-            'hotels_stars_id' => $this->hotels_stars_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'GPS', $this->GPS])
-            ->andFilterWhere(['like', 'links_maps', $this->links_maps]);
+            ->andFilterWhere(['like', 'full_name', $this->full_name])
+            ->andFilterWhere(['like', 'code2', $this->code2])
+            ->andFilterWhere(['like', 'code3', $this->code3]);
 
         return $dataProvider;
     }

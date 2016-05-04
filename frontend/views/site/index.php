@@ -14,9 +14,8 @@ $this->title = 'Лайв Тур Вояж';
                 <div class="col-md-4 col-xs-12">
                     <div class="filter find">
                         <?php
-                        $this->renderFile('@app/views/hotels-info/_form.php',[
-                            
-                        ]);
+                        $hic = \Yii::$app->createController('hotels-info');
+                        $r = $hic[0]->actionFilter();
                         ?>
                     </div>
                 </div>

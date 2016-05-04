@@ -20,7 +20,7 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'address_id',
+        'attribute'=>'address',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -51,8 +51,8 @@ return [
                           'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                           'data-request-method'=>'post',
                           'data-toggle'=>'tooltip',
-                          'data-confirm-title'=>'Are you sure?',
-                          'data-confirm-message'=>'Are you sure want to delete this item'], 
+                          'data-confirm-title'=>Yii::t('app','Are you sure?'),
+                          'data-confirm-message'=>Yii::t('app','Are you sure want to delete this item')], 
     ],
 
 ];   

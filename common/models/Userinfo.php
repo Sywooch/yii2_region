@@ -7,6 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "userinfo".
@@ -25,7 +26,7 @@ use yii\db\Expression;
  * @property LoginStatistic[] $loginStatistics
  * @property UserRole $userRole
  */
-class Userinfo extends \yii\db\ActiveRecord
+class Userinfo extends ActiveRecord implements IdentityInterface
 {
     const STATUS_BLOCKED = 0;
     const STATUS_ACTIVE = 1;

@@ -16,48 +16,20 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'hotels_appartment_id',
+        'attribute'=>'name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'hotels_appartment_hotels_info_id',
+        'attribute'=>'full_name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'hotels_others_pricing_id',
+        'attribute'=>'code2',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date',
+        'attribute'=>'code3',
     ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'full_price',
-    ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'discount_id',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'name',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'date_begin',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'date_end',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'active',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'hotels_type_of_food_id',
-    // ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
@@ -71,8 +43,8 @@ return [
                           'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                           'data-request-method'=>'post',
                           'data-toggle'=>'tooltip',
-                          'data-confirm-title'=>Yii::t('app','Are you sure?'),
-                          'data-confirm-message'=>Yii::t('app','Are you sure want to delete this item')], 
+                          'data-confirm-title'=>'Are you sure?',
+                          'data-confirm-message'=>'Are you sure want to delete this item'], 
     ],
 
 ];   

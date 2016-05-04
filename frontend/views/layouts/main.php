@@ -28,7 +28,7 @@ AppAsset::register($this);
 
         <header>
             <div class="logo col-sm-6 col-md-6 col-lg-6 col-xs-12">
-                <a href="<?= Yii::$app->homeUrl ?>"><img class="logo-element" src="<?= Yii::$app->homeUrl ?>assets/img/logo.png" />
+                <a href="<?= Yii::$app->homeUrl ?>"><img class="logo-element" src="<?= Yii::$app->homeUrl ?>images/logo.png" />
                 </a>
             </div>
             <div class="pull-right col-sm-6 col-md-6 col-lg-6 col-xs-12">

@@ -7,16 +7,16 @@ use johnitvn\ajaxcrud\CrudAsset;
 use johnitvn\ajaxcrud\BulkButtonWidget;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\SearchDiscount */
+/* @var $searchModel backend\models\SearchCountry */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Discounts');
+$this->title = Yii::t('app', 'Countries');
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
 
 ?>
-<div class="discount-index">
+<div class="country-index">
     <div id="ajaxCrudDatatable">
         <?=GridView::widget([
             'id'=>'crud-datatable',
@@ -27,7 +27,7 @@ CrudAsset::register($this);
             'toolbar'=> [
                 ['content'=>
                     Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
-                    ['role'=>'modal-remote','title'=> 'Create new Discounts','class'=>'btn btn-default']).
+                    ['role'=>'modal-remote','title'=> 'Create new Countries','class'=>'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                     '{toggleData}'.
@@ -39,7 +39,7 @@ CrudAsset::register($this);
             'responsive' => true,          
             'panel' => [
                 'type' => 'primary', 
-                'heading' => '<i class="glyphicon glyphicon-list"></i> Discounts listing',
+                'heading' => '<i class="glyphicon glyphicon-list"></i> Countries listing',
                 'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
@@ -49,8 +49,8 @@ CrudAsset::register($this);
                                     'role'=>'modal-remote-bulk',
                                     'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                                     'data-request-method'=>'post',
-                                    'data-confirm-title'=>Yii::t('app','Are you sure?'),
-                                    'data-confirm-message'=>Yii::t('app','Are you sure want to delete this item')
+                                    'data-confirm-title'=>'Are you sure?',
+                                    'data-confirm-message'=>'Are you sure want to delete this item'
                                 ]),
                         ]).                        
                         '<div class="clearfix"></div>',
@@ -59,7 +59,7 @@ CrudAsset::register($this);
     </div>
 </div>
 <?php Modal::begin([
-    "id"=>"ajaxCrubModal",
+    "id"=>"ajaxCrudModal",
     "footer"=>"",// always need it for jquery plugin
 ])?>
 <?php Modal::end(); ?>

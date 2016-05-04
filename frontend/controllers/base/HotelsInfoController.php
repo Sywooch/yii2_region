@@ -132,6 +132,22 @@ return $this->redirect($url);
 return $this->redirect(['index']);
 }
 }
+    
+    public function actionFilter()
+    {
+        $searchModel  = new SearchHotelsInfo;
+        $dataProvider = $searchModel->search($_GET);
+
+        Tabs::clearLocalStorage();
+
+        Url::remember();
+        \Yii::$app->session['__crudReturnUrl'] = null;
+
+        return $this->render('filter', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+        ]);
+    }
 
 /**
 * Finds the HotelsInfo model based on its primary key value.
