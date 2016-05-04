@@ -6,10 +6,7 @@ use frontend\controllers\HotelsInfoController;
 $this->title = 'Лайв Тур Вояж';
 ?>
 <div class="container site-index">
-
     <div class="body-content">
-
-        <div class="well">
             <div class="row">
                 <div class="col-md-4 col-xs-12">
                     <div class="filter find">
@@ -19,8 +16,11 @@ $this->title = 'Лайв Тур Вояж';
                         ?>
                     </div>
                 </div>
+                <div class="col-md-8">
+                    <?= Html::img('@web/images/banner.png',['style' => 'max-width:100%; max-height:380px']) ?>
+                </div>
             </div>
-        </div>
+
 
 
         <div class="row">

@@ -18,8 +18,9 @@ class SearchHotelsInfo extends HotelsInfo
 public function rules()
 {
 return [
-[['id', 'address_id', 'country', 'hotels_stars_id'], 'integer'],
-            [['name', 'GPS', 'links_maps'], 'safe'],
+    [['id', 'hotels_stars_id'], 'integer'],
+    [['address', 'country'], 'string'],
+    [['name', 'GPS', 'links_maps'], 'safe'],
 ];
 }
 
@@ -57,7 +58,7 @@ return $dataProvider;
 
 $query->andFilterWhere([
             'id' => $this->id,
-            'address_id' => $this->address_id,
+            'address' => $this->address,
             'country' => $this->country,
             'hotels_stars_id' => $this->hotels_stars_id,
         ]);

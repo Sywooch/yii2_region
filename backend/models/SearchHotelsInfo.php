@@ -18,7 +18,8 @@ class SearchHotelsInfo extends HotelsInfo
     public function rules()
     {
         return [
-            [['id', 'address', 'country', 'hotels_stars_id'], 'integer'],
+            [['id', 'hotels_stars_id'], 'integer'],
+            [['address', 'country'], 'string'],
             [['name', 'GPS', 'links_maps'], 'safe'],
         ];
     }

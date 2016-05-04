@@ -30,7 +30,7 @@ use \dmstr\bootstrap\Tabs;
             
 			<?= $form->field($model, 'id')->textInput() ?>
 			<?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
-			<?= $form->field($model, 'address_id')->textInput() ?>
+			<?= $form->field($model, 'address')->textInput() ?>
 			<?= $form->field($model, 'country')->textInput() ?>
 			<?= $form->field($model, 'GPS')->textarea(['rows' => 6]) ?>
 			<?= $form->field($model, 'links_maps')->textarea(['rows' => 6]) ?>
