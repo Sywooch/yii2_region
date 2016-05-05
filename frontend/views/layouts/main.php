@@ -67,7 +67,7 @@ AppAsset::register($this);
                 ['label' => 'Частным лицам', 'url' => ['/site/about']],
                 ['label' => 'Турагенствам', 'url' => ['/site/about']],
             ];
-            if (Yii::$app->user->isGuest) {
+            /*if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
                 $menuItems[] = ['label' => 'Войти', 'url' => ['/site/login']];
             } else {
@@ -76,7 +76,7 @@ AppAsset::register($this);
                     'url' => ['/site/logout'],
                     'linkOptions' => ['data-method' => 'post']
                 ];
-            }
+            }*/
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => $menuItems,
