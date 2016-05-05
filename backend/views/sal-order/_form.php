@@ -6,6 +6,7 @@ use common\models\Userinfo;
 use common\models\TransInfo;
 use common\models\TourInfo;
 use common\models\HotelsAppartment;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\SalOrder */
@@ -23,7 +24,7 @@ use common\models\HotelsAppartment;
 
     <?= $form->field($model, 'sal_order_status_id')->textInput() ?>
 
-    <?= $form->field($model, 'persons')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'persons')->textarea(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'child')->textInput() ?>
 
@@ -53,9 +54,9 @@ use common\models\HotelsAppartment;
     ?>
 
     <?php
-    $ur_names = ArrayHelper::map(Userinfo::find()->all(),'id','name');
+    $ur_names = ArrayHelper::map(Userinfo::find()->all(),'id','username');
 
-    echo $form->field($model, 'Userinfo_id')->dropDownList(
+    echo $form->field($model, 'userinfo_id')->dropDownList(
         $ur_names,
         ['prompt' => 'Выберите пользователя, оформляющего заказ'] // текст, который отображается в качестве первого варианта
     )->label('Список пользователей');

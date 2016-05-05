@@ -37,10 +37,10 @@ AppAsset::register($this);
                         Оператор
                     </span>
                     <span class="color2">
-                        Вашего
+                        позитивного
                     </span>
                     <span class="color3">
-                        позитивного отдыха!
+                        отдыха!
                     </span>
                 </p>
                 <p class="h1">
