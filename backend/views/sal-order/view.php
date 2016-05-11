@@ -27,7 +27,6 @@ use yii\widgets\DetailView;
             'userinfo_id',
             'tour_info_id',
             'hotels_appartment_id',
-            'hotels_appartment_hotels_info_id',
         ],
     ]) ?>
 

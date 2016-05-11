@@ -15,10 +15,16 @@ use Yii;
  * @property string $oname
  * @property string $date_new
  * @property string $date_edit
+ * @property string $passport_ser
+ * @property string $passport_num
+ * @property string $contacts
+ * @property string $other
  *
  * @property \common\models\BusReservation[] $busReservations
  * @property \common\models\MmKontragentPersonsHasKontragentOrg[] $mmKontragentPersonsHasKontragentOrgs
  * @property \common\models\KontragentOrg[] $kontragentOrgIdKontragentOrgs
+ * @property \common\models\TourInfoHasKontragentPersons[] $tourInfoHasKontragentPersons
+ * @property \common\models\TourInfo[] $tourInfos
  * @property string $aliasModel
  */
 abstract class KontragentPersons extends \yii\db\ActiveRecord
@@ -55,9 +61,12 @@ abstract class KontragentPersons extends \yii\db\ActiveRecord
     {
         return [
             [['fname', 'lname', 'date_new'], 'required'],
+            [['contacts', 'other'], 'string'],
             [['fname', 'lname'], 'string', 'max' => 150],
             [['oname'], 'string', 'max' => 155],
-            [['date_new', 'date_edit'], 'string', 'max' => 45]
+            [['date_new', 'date_edit'], 'string', 'max' => 45],
+            [['passport_ser'], 'string', 'max' => 10],
+            [['passport_num'], 'string', 'max' => 15]
         ];
     }
 
@@ -67,12 +76,16 @@ abstract class KontragentPersons extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            
-            'fname' => Yii::t('app', 'Fname'),
-            'lname' => Yii::t('app', 'Lname'),
-            'oname' => Yii::t('app', 'Oname'),
+            'id' => Yii::t('app', 'Первичный ключ. Информация о пользоателях, являющихся физическими лицами.'),
+            'fname' => Yii::t('app', 'Фамилия'),
+            'lname' => Yii::t('app', 'Имя'),
+            'oname' => Yii::t('app', 'Отчество, необязательно'),
             'date_new' => Yii::t('app', 'Date New'),
             'date_edit' => Yii::t('app', 'Date Edit'),
+            'passport_ser' => Yii::t('app', 'Passport Ser'),
+            'passport_num' => Yii::t('app', 'Passport Num'),
+            'contacts' => Yii::t('app', 'Contacts'),
+            'other' => Yii::t('app', 'Other'),
         ];
     }
 
@@ -84,12 +97,16 @@ abstract class KontragentPersons extends \yii\db\ActiveRecord
         return array_merge(
             parent::attributeHints(),
             [
-            
+            'id' => Yii::t('app', 'Первичный ключ. Информация о пользоателях, являющихся физическими лицами.'),
             'fname' => Yii::t('app', 'Фамилия'),
             'lname' => Yii::t('app', 'Имя'),
             'oname' => Yii::t('app', 'Отчество, необязательно'),
             'date_new' => Yii::t('app', 'Date New'),
             'date_edit' => Yii::t('app', 'Date Edit'),
+            'passport_ser' => Yii::t('app', 'Passport Ser'),
+            'passport_num' => Yii::t('app', 'Passport Num'),
+            'contacts' => Yii::t('app', 'Contacts'),
+            'other' => Yii::t('app', 'Other'),
             ]);
     }
 
@@ -106,7 +123,7 @@ abstract class KontragentPersons extends \yii\db\ActiveRecord
      */
     public function getMmKontragentPersonsHasKontragentOrgs()
     {
-        return $this->hasMany(\common\models\MmKontragentPersonsHasKontragentOrg::className(), ['kontragent_persons_id_kontragent-persons' => 'id']);
+        return $this->hasMany(\common\models\MmKontragentPersonsHasKontragentOrg::className(), ['kontragent_persons_id_kontragent_persons' => 'id']);
     }
 
     /**
@@ -114,7 +131,23 @@ abstract class KontragentPersons extends \yii\db\ActiveRecord
      */
     public function getKontragentOrgIdKontragentOrgs()
     {
-        return $this->hasMany(\common\models\KontragentOrg::className(), ['id' => 'kontragent_org_id_kontragent_org'])->viaTable('mm_kontragent_persons_has_kontragent_org', ['kontragent_persons_id_kontragent-persons' => 'id']);
+        return $this->hasMany(\common\models\KontragentOrg::className(), ['id' => 'kontragent_org_id_kontragent_org'])->viaTable('mm_kontragent_persons_has_kontragent_org', ['kontragent_persons_id_kontragent_persons' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTourInfoHasKontragentPersons()
+    {
+        return $this->hasMany(\common\models\TourInfoHasKontragentPersons::className(), ['kontragent_persons_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTourInfos()
+    {
+        return $this->hasMany(\common\models\TourInfo::className(), ['id' => 'tour_info_id'])->viaTable('tour_info_has_kontragent_persons', ['kontragent_persons_id' => 'id']);
     }
 
 

@@ -11,9 +11,9 @@ return [
             'class' => 'yii\web\urlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
+            /*'rules' => [
                 'login' => 'site/login',
-            ]
+            ],*/
         ],
         'i18n' => [
             'translations' => [

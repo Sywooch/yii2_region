@@ -31,7 +31,7 @@ class SalOrderStatus extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['name'], 'string'],
-            [['color'], 'string', 'max' => 6],
+            [['color'], 'string', 'max' => 10],
         ];
     }
 
@@ -41,7 +41,6 @@ class SalOrderStatus extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'Первичный ключ. Таблица содержит статусы заказов.'),
             'name' => Yii::t('app', 'Название статуса заказа.'),
             'color' => Yii::t('app', 'Цвет статуса заказа в формате RGB.'),
         ];

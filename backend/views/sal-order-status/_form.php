@@ -10,10 +10,12 @@ use yii\widgets\ActiveForm;
 <div class="sal-order-status-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
+	
     <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'color')->textInput(['maxlength' => true]) ?>
+	
+	<?= $form->field($model,'color')->widget(\kartik\widgets\ColorInput::className(),[
+		'options' => ['placeholder' => 'Выбирете цвет ...'],
+	]) ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

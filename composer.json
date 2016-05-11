@@ -39,7 +39,9 @@
         "arogachev/yii2-many-to-many": "^0.2.1",
         "kartik-v/yii2-detail-view": "*",
         "voskobovich/yii2-setting-toolkit": "~3.0",
-        "mirocow/yii2-yandex-maps": "@dev"
+        "mirocow/yii2-yandex-maps": "@dev",
+        "stronglab/yii2-dashboard": "@dev",
+        "bupy7/yii2-activerecord-history": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

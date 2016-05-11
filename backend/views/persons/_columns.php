@@ -16,67 +16,39 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date',
+        'attribute'=>'firstname',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'sal_order_status_id',
+        'attribute'=>'lastname',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'hotels_info',
+        'attribute'=>'secondname',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'transport_info',
+        'attribute'=>'date_new',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'persons',
+        'attribute'=>'date_edit',
     ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'child',
+        // 'attribute'=>'passport_ser',
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'date_begin',
+        // 'attribute'=>'passport_num',
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'date_end',
+        // 'attribute'=>'contacts',
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'enable',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'full_price',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'insurance_info',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'hotels_info_id',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'trans_info_id',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'userinfo_id',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'tour_info_id',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'hotels_appartment_id',
+        // 'attribute'=>'other',
     // ],
     [
         'class' => 'kartik\grid\ActionColumn',

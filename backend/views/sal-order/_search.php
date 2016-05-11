@@ -15,8 +15,6 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
-
     <?= $form->field($model, 'date') ?>
 
     <?= $form->field($model, 'sal_order_status_id') ?>
@@ -48,8 +46,6 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'tour_info_id') ?>
 
     <?php // echo $form->field($model, 'hotels_appartment_id') ?>
-
-    <?php // echo $form->field($model, 'hotels_appartment_hotels_info_id') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

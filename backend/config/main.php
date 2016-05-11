@@ -10,10 +10,10 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log','arhistory','admin'],
     'modules' => [
         /*Добавлено Lykira*/
-        'dashboard' => [
+        /*'dashboard' => [
             'class' => 'cornernote\dashboard\Module',
             'layouts' => [
                 'default' => 'cornernote\dashboard\layouts\DefaultLayout',
@@ -22,6 +22,18 @@ return [
             'panels' => [
                 'text' => 'cornernote\dashboard\panels\TextPanel',
                 'user' => 'cornernote\dashboard\panels\UserPanel'
+            ],
+        ],*/
+        'dashboard' => [
+            'class' => 'stronglab\dashboard\Module',
+            'roles' => ['@'], // необязатьельный параметр, по-умолчанию доступ всем гостям
+            'column' => 2, // необязательный параметр, количество столбцов в панели (возможные значения: 1-3)
+            'modules' => [
+                // список модулей, в которых будет производиться поиск файла dashboard.json
+                'user',
+                /*'moduleID' => [
+                    'jsonPath' => 'config/dashboard/myconf.json', // отдельный путь к файлу настроек панели, прописывается от директории приложения
+                ],*/
             ],
         ],
         'menu' => [
@@ -37,6 +49,46 @@ return [
         'admin' => [
             'class' => 'mdm\admin\Module',
             /*'layout' => 'left-menu',*/
+            'controllerMap' => [
+                'assignment' => [
+                    'class' => 'mdm\admin\controllers\AssignmentController',
+                    /* 'userClassName' => 'app\models\User', */
+                    'idField' => 'id',
+                    'usernameField' => 'username',
+                    /*'fullnameField' => 'profile.full_name',*/
+                    /*'extraColumns' => [
+                        [
+                            'attribute' => 'full_name',
+                            'label' => 'Full Name',
+                            'value' => function($model, $key, $index, $column) {
+                                return $model->profile->full_name;
+                            },
+                        ],
+                        [
+                            'attribute' => 'dept_name',
+                            'label' => 'Department',
+                            'value' => function($model, $key, $index, $column) {
+                                return $model->profile->dept->name;
+                            },
+                        ],
+                        [
+                            'attribute' => 'post_name',
+                            'label' => 'Post',
+                            'value' => function($model, $key, $index, $column) {
+                                return $model->profile->post->name;
+                            },
+                        ],
+                    ],*/
+                    'searchClass' => 'app\models\UserinfoSearch'
+                ],
+            ],
+        ],
+        'arhistory' => [
+            'class' => 'bupy7\activerecord\history\Module',
+            'tableName' => '{{%arhistory}}', // table name of saving changes of model
+            'storage' => 'bupy7\activerecord\history\storages\Database', // class name of storage for saving history of active record model
+            'db' => 'db', // database connection component config or name
+            'user' => 'user', // authentication component config or name
         ],
 
 

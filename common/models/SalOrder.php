@@ -50,13 +50,13 @@ class SalOrder extends \yii\db\ActiveRecord
     {
         return [
             [['date', 'date_begin', 'date_end'], 'safe'],
-            [['sal_order_status_id', 'hotels_info_id', 'trans_info_id', 'userinfo_id', 'tour_info_id', 'hotels_appartment_id', 'hotels_appartment_hotels_info_id'], 'required'],
-            [['sal_order_status_id', 'child', 'enable', 'hotels_info_id', 'trans_info_id', 'userinfo_id', 'tour_info_id', 'hotels_appartment_id', 'hotels_appartment_hotels_info_id'], 'integer'],
+            [['sal_order_status_id', 'hotels_info_id', 'trans_info_id', 'userinfo_id', 'tour_info_id', 'hotels_appartment_id'], 'required'],
+            [['sal_order_status_id', 'child', 'enable', 'hotels_info_id', 'trans_info_id', 'userinfo_id', 'tour_info_id', 'hotels_appartment_id'], 'integer'],
             [['full_price'], 'number'],
             [['insurance_info'], 'string'],
             [['hotels_info', 'transport_info', 'persons'], 'string', 'max' => 45],
             [['sal_order_status_id'], 'exist', 'skipOnError' => true, 'targetClass' => SalOrderStatus::className(), 'targetAttribute' => ['sal_order_status_id' => 'id']],
-            [['hotels_appartment_id', 'hotels_appartment_hotels_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsAppartment::className(), 'targetAttribute' => ['hotels_appartment_id' => 'id', 'hotels_appartment_hotels_info_id' => 'hotels_info_id']],
+            [['hotels_appartment_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsAppartment::className(), 'targetAttribute' => ['hotels_appartment_id' => 'id']],
             [['hotels_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsInfo::className(), 'targetAttribute' => ['hotels_info_id' => 'id']],
             [['tour_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => TourInfo::className(), 'targetAttribute' => ['tour_info_id' => 'id']],
             [['trans_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => TransInfo::className(), 'targetAttribute' => ['trans_info_id' => 'id']],
@@ -75,19 +75,18 @@ class SalOrder extends \yii\db\ActiveRecord
             'sal_order_status_id' => Yii::t('app', 'Статус заказа.'),
             'hotels_info' => Yii::t('app', 'Информация об отеле'),
             'transport_info' => Yii::t('app', 'Информация о транспорте.'),
-            'persons' => Yii::t('app', 'Информация о людях, которые отправляются в тур.'),
-            'child' => Yii::t('app', 'количество детей'),
+            'persons' => Yii::t('app', 'Отдыхающие.'),
+            'child' => Yii::t('app', 'Количество детей'),
             'date_begin' => Yii::t('app', 'Дата начала тура'),
             'date_end' => Yii::t('app', 'Дата окончания тура'),
-            'enable' => Yii::t('app', 'Признак того, что заказ закрыт и его невозможно отредактировать.'),
-            'full_price' => Yii::t('app', 'Полная цена тура.'),
-            'insurance_info' => Yii::t('app', 'Информация о страховке и страховой компании.'),
+            'enable' => Yii::t('app', 'Заказ закрыт'),
+            'full_price' => Yii::t('app', 'Полная цена тура'),
+            'insurance_info' => Yii::t('app', 'Информация о страховке и страховой компании'),
             'hotels_info_id' => Yii::t('app', 'Hotels Info ID'),
             'trans_info_id' => Yii::t('app', 'Trans Info ID'),
             'userinfo_id' => Yii::t('app', 'Userinfo ID'),
             'tour_info_id' => Yii::t('app', 'Tour Info ID'),
             'hotels_appartment_id' => Yii::t('app', 'Hotels Appartment ID'),
-            'hotels_appartment_hotels_info_id' => Yii::t('app', 'Hotels Appartment Hotels Info ID'),
         ];
     }
 
@@ -104,7 +103,7 @@ class SalOrder extends \yii\db\ActiveRecord
      */
     public function getHotelsAppartment()
     {
-        return $this->hasOne(HotelsAppartment::className(), ['id' => 'hotels_appartment_id', 'hotels_info_id' => 'hotels_appartment_hotels_info_id']);
+        return $this->hasOne(HotelsAppartment::className(), ['id' => 'hotels_appartment_id']);
     }
 
     /**

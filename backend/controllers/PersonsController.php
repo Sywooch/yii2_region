@@ -3,8 +3,8 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\SalOrderStatus;
-use backend\models\SearchSalOrderStatus;
+use common\models\Persons;
+use backend\models\SearchPersons;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -12,9 +12,9 @@ use \yii\web\Response;
 use yii\helpers\Html;
 
 /**
- * SalOrderStatusController implements the CRUD actions for SalOrderStatus model.
+ * PersonsController implements the CRUD actions for Persons model.
  */
-class SalOrderStatusController extends Controller
+class PersonsController extends Controller
 {
     /**
      * @inheritdoc
@@ -33,12 +33,12 @@ class SalOrderStatusController extends Controller
     }
 
     /**
-     * Lists all SalOrderStatus models.
+     * Lists all Persons models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new SearchSalOrderStatus();
+        $searchModel = new SearchPersons();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -49,8 +49,8 @@ class SalOrderStatusController extends Controller
 
 
     /**
-     * Displays a single SalOrderStatus model.
-     * @param integer $id
+     * Displays a single Persons model.
+     * @param string $id
      * @return mixed
      */
     public function actionView($id)
@@ -59,7 +59,7 @@ class SalOrderStatusController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> Yii::t('app', 'SalOrderStatus') . ' #' . $id,
+                    'title'=> Yii::t('app', 'Persons') . ' #' . $id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -74,7 +74,7 @@ class SalOrderStatusController extends Controller
     }
 
     /**
-     * Creates a new SalOrderStatus model.
+     * Creates a new Persons model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -82,7 +82,7 @@ class SalOrderStatusController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new SalOrderStatus();  
+        $model = new Persons();  
 
         if($request->isAjax){
             /*
@@ -91,7 +91,7 @@ class SalOrderStatusController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> Yii::t('app', 'Create new') . ' ' . Yii::t('app', 'SalOrderStatus'),
+                    'title'=> Yii::t('app', 'Create new') . ' ' . Yii::t('app', 'Persons'),
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -102,15 +102,15 @@ class SalOrderStatusController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> Yii::t('app', 'Create new')                        . ' ' . Yii::t('app', 'SalOrderStatus'),
-                    'content'=>'<span class="text-success">'.Yii::t('app', 'Create') . Yii::t('app', 'SalOrderStatus') . Yii::t('app', 'success'). '</span>',
+                    'title'=> Yii::t('app', 'Create new')                        . ' ' . Yii::t('app', 'Persons'),
+                    'content'=>'<span class="text-success">'.Yii::t('app', 'Create') . Yii::t('app', 'Persons') . Yii::t('app', 'success'). '</span>',
                     'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a(Yii::t('app', 'Create More'),['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> Yii::t('app', 'Create new') . ' ' . Yii::t('app', 'SalOrderStatus'),
+                    'title'=> Yii::t('app', 'Create new') . ' ' . Yii::t('app', 'Persons'),
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -135,10 +135,10 @@ class SalOrderStatusController extends Controller
     }
 
     /**
-     * Updates an existing SalOrderStatus model.
+     * Updates an existing Persons model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      */
     public function actionUpdate($id)
@@ -153,7 +153,7 @@ class SalOrderStatusController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> Yii::t('app', 'Update') . ' ' . Yii::t('app', 'SalOrderStatus') .' #' . $id,
+                    'title'=> Yii::t('app', 'Update') . ' ' . Yii::t('app', 'Persons') .' #' . $id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -163,7 +163,7 @@ class SalOrderStatusController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> Yii::t('app', 'SalOrderStatus') . ' #'.$id,
+                    'title'=> Yii::t('app', 'Persons') . ' #'.$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -172,7 +172,7 @@ class SalOrderStatusController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> Yii::t('app', 'Update') .' '. Yii::t('app', 'SalOrderStatus') . ' #'.$id,
+                    'title'=> Yii::t('app', 'Update') .' '. Yii::t('app', 'Persons') . ' #'.$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -195,10 +195,10 @@ class SalOrderStatusController extends Controller
     }
 
     /**
-     * Delete an existing SalOrderStatus model.
+     * Delete an existing Persons model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      */
     public function actionDelete($id)
@@ -223,10 +223,10 @@ class SalOrderStatusController extends Controller
     }
 
      /**
-     * Delete multiple existing SalOrderStatus model.
+     * Delete multiple existing Persons model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      */
     public function actionBulkDelete()
@@ -254,15 +254,15 @@ class SalOrderStatusController extends Controller
     }
 
     /**
-     * Finds the SalOrderStatus model based on its primary key value.
+     * Finds the Persons model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return SalOrderStatus the loaded model
+     * @param string $id
+     * @return Persons the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = SalOrderStatus::findOne($id)) !== null) {
+        if (($model = Persons::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

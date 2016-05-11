@@ -9,10 +9,13 @@
 return [
     /*Description Forms*/
 
-    'New' => 'Создать',
+    'New' => 'Новый',
     'Password' => 'Пароль',
     'Create' => 'Создать',
+    'Create new' => 'Создать новый',
     'Update' => 'Обновить',
+    'Delete' => 'Удалить',
+    
     'Active' => 'Активный',
     'Description' => 'Описание',
     'Relations' => 'Связанные данные',
@@ -38,6 +41,7 @@ return [
     'Close' => 'Закрыть',
     'Cancel' => 'Закрыть',
     'List' => 'Список',
+    'listing' => '. Список',
     'View' => 'Просмотр',
     'Full list' => 'Полный список',
     'Update {modelClass} #{id}' => 'Изменение {modelClass} #{id}',
@@ -45,6 +49,8 @@ return [
     //Users messages
     'Are you sure?'=> 'Вы уверены?',
     'Are you sure want to delete this item'=>'Вы уверены, что хотите удалить этот элемент?',
+    'Resize table columns just like a spreadsheet by dragging the column edges.' =>
+        'Изменение размера столбцов таблицы происходит так же, как таблицы - перетаскивая края столбцов.',
 
     /*/Description Forms*/
 
@@ -70,9 +76,18 @@ return [
     'Bus Info Id' => 'Автобус',
     'Kontragent Persons Id' => 'Данные пассажира',
     'KontragentPersons' => 'Данные контрагентов',
+    'Persons' => 'Туристы',
     'Fname' => 'Имя',
     'Lname' => 'Фамилия',
     'Oname' => 'Отчество',
+    'Firstname' => 'Имя',
+    'Lastname' => 'Фамилия',
+    'Secondname' => 'Отчество',
+    'Passport Ser' => 'Серия паспорта',
+    'Passport Num' => 'Номер паспорта',
+    'Other' => 'Прочее',
+    'Contacts' => 'Контакты',
+
 
     'First point' => 'Точка отъезда',
     'End point' => 'Точка прибытия',
@@ -109,5 +124,8 @@ return [
     'Userinfo' => 'Информация о пользователе',
     'Update Userinfo' => 'Изменение информации о пользователе',
     'Create HotelsInfo success' => 'Новая гостиница успешно создана',
+
+    'Sal Orders' => 'Заказ',
+
     'Create new {modelClass}' => 'Создание нового параметра: {modelClass}',
 ];

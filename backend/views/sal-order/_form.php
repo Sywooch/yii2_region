@@ -1,12 +1,14 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\SalOrderStatus;
 use common\models\HotelsInfo;
 use common\models\Userinfo;
 use common\models\TransInfo;
 use common\models\TourInfo;
 use common\models\HotelsAppartment;
 use yii\helpers\ArrayHelper;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\SalOrder */
@@ -21,10 +23,21 @@ use yii\helpers\ArrayHelper;
                 //'langauge' => 'ru',
                 //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
             ]) ?>
+    
+    <?php
+    $ur_names = ArrayHelper::map(SalOrderStatus::find()->all(),'id','name');
 
-    <?= $form->field($model, 'sal_order_status_id')->textInput() ?>
+    echo $form->field($model, 'sal_order_status_id')->dropDownList(
+        $ur_names,
+        ['prompt' => 'Выберите статус заказа'] // текст, который отображается в качестве первого варианта
+    )->label('Статус заказа');
+    ?>
 
     <?= $form->field($model, 'persons')->textarea(['maxlength' => true]) ?>
+    <div class="btn btn-default">
+        <?= 1/*$this->render('_persons',['model' => $model])*/ ?>
+
+    </div>
 
     <?= $form->field($model, 'child')->textInput() ?>
 
@@ -79,8 +92,6 @@ use yii\helpers\ArrayHelper;
         ['prompt' => 'Выберите номер и вид обслуживания для заказа'] // текст, который отображается в качестве первого варианта
     )->label('Список номеров и видов обслуживания');
     ?>
-
-    <?= $form->field($model, 'hotels_appartment_hotels_info_id')->textInput() ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

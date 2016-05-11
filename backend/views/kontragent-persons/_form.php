@@ -34,6 +34,7 @@ use \dmstr\bootstrap\Tabs;
 			<?= $form->field($model, 'oname')->textInput(['maxlength' => true]) ?>
 			<?= $form->field($model, 'date_new')->textInput(['maxlength' => true]) ?>
 			<?= $form->field($model, 'date_edit')->textInput(['maxlength' => true]) ?>
+            
         </p>
         <?php $this->endBlock(); ?>
         

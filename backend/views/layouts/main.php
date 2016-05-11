@@ -48,7 +48,7 @@ AppAsset::register($this);
                 ['label' => 'Справочник "Статусы заказов"', 'url' => ['/sal-order-status']],
                 ['label' => 'Заказы','url'=>['/sal-order']],
                 ['label' => 'Корзины пользователей','url'=>['/salary-basket']],
-                ['label' => 'Справочник Контрагенты (пассажиры, отдыхающие)','url'=>['/kontragent-persons']]
+                ['label' => 'Справочник туристы(пассажиры, отдыхающие)','url'=>['/persons']]
             ],
         ];
 
@@ -56,7 +56,8 @@ AppAsset::register($this);
             'label' => 'Пользователи',
             'items' => [
                 ['label' => 'Информация о пользователях', 'url' => ['/userinfo']],
-                ['label' => 'Права пользователей','url'=>['/user-role']]
+                ['label' => 'Права пользователей','url'=>['/user-role']],
+                ['label' => 'Справочник Контрагенты (организации)','url'=>['/kontragent-persons']]
             ],
         ];
         $menuItems[] = [
