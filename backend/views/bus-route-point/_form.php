@@ -13,6 +13,7 @@ use mirocow\yandexmaps\Canvas as YandexCanvas;
     <?php
     $map = new YandexMap('yandex_map', [
         'center' => [$model->gps_point_m, $model->gps_point_p],
+        
         'zoom' => 10,
         // Enable zoom with mouse scroll
         'behaviors' => array('default', 'scrollZoom'),
@@ -20,12 +21,21 @@ use mirocow\yandexmaps\Canvas as YandexCanvas;
     ],
         [
             // Permit zoom only fro 9 to 11
-            'minZoom' => 9,
-            'maxZoom' => 11,
+            'minZoom' => 4,
+            'maxZoom' => 18,
             'controls' => [
-                "new ymaps.control.SmallZoomControl()",
+                /*"new ymaps.control.SmallZoomControl()",*/
+                /*"\"smallZoomControl\"",*/
                 "new ymaps.control.TypeSelector(['yandex#map', 'yandex#satellite'])",
             ],
+            'events' => [
+                'click' => "function(e) {
+                var coords = e.get('coords'); 
+                $('#busroutepoint-gps_point_m').val(coords[0].toPrecision(6));
+                $('#busroutepoint-gps_point_p').val(coords[1].toPrecision(6));
+                }",
+
+            ]
         ]
     );
     ?>
