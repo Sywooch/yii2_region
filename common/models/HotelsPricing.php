@@ -55,7 +55,6 @@ class HotelsPricing extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'Первичный ключ. В таблице должно содержаться цены на проживание в гостиницах. Цена будет зависеть от характеристик номера и гостиницы'),
             'hotels_appartment_id' => Yii::t('app', 'Hotels Appartment ID'),
             'hotels_appartment_hotels_info_id' => Yii::t('app', 'Hotels Appartment Hotels Info ID'),
             'hotels_others_pricing_id' => Yii::t('app', 'Hotels Others Pricing ID'),

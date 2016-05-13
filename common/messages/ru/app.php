@@ -11,10 +11,11 @@ return [
 
     'New' => 'Новый',
     'Password' => 'Пароль',
-    'Create' => 'Создать',
+    'Create' => 'Создание',
     'Create new' => 'Создать новый',
     'Update' => 'Обновить',
     'Delete' => 'Удалить',
+    'success' => 'успешно заверешно',
     
     'Active' => 'Активный',
     'Description' => 'Описание',
@@ -123,7 +124,16 @@ return [
     'Userinfos' => 'Информация о пользователях',
     'Userinfo' => 'Информация о пользователе',
     'Update Userinfo' => 'Изменение информации о пользователе',
+
+    /*Begin Hotels*/
     'Create HotelsInfo success' => 'Новая гостиница успешно создана',
+    'HotelsTypeOfFood' => '"Тип питания"',
+    'Price Added' => 'Надбавка',
+    'Abbrev' => 'Аббревиатура',
+    'HotelsAppartmentItem'=>'"Тип номера в отеле"',
+    'HotelsOthersPricingType'=>'"Тип дополнительных услуг"',
+    'image' => 'Изображение',
+    /*End Hotels*/
 
     'Sal Orders' => 'Заказ',
 

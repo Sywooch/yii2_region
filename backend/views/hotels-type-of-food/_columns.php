@@ -27,8 +27,11 @@ return [
         'attribute'=>'price',
     ],
     [
-        'class'=>'\kartik\grid\DataColumn',
+        'class'=>'\kartik\grid\BooleanColumn',
         'attribute'=>'type_price',
+        'trueLabel'=>'Фиксированная сумма',
+        'falseLabel'=>'Процент от стоимости номера',
+
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

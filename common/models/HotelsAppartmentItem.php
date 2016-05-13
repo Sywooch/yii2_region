@@ -44,7 +44,7 @@ class HotelsAppartmentItem extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'Первичный ключ. Таблица-справочник, содержит информацию о названиях аппартаментов (номеров) в гостиницах.'),
+            //'id' => Yii::t('app', 'Первичный ключ. Таблица-справочник, содержит информацию о названиях аппартаментов (номеров) в гостиницах.'),
             'name' => Yii::t('app', 'Название типа номера'),
             'count_beds' => Yii::t('app', 'Количество спальных мест (по-умолчанию)'),
             'active' => Yii::t('app', 'Active'),

@@ -8,65 +8,65 @@ use yii\data\ActiveDataProvider;
 use common\models\HotelsInfo;
 
 /**
- * SearchHotelsInfo represents the model behind the search form about `common\models\HotelsInfo`.
- */
+* SearchHotelsInfo represents the model behind the search form about `common\models\HotelsInfo`.
+*/
 class SearchHotelsInfo extends HotelsInfo
 {
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['id', 'hotels_stars_id'], 'integer'],
-            [['address', 'country'], 'string'],
-            [['name', 'GPS', 'links_maps'], 'safe'],
-        ];
-    }
+/**
+* @inheritdoc
+*/
+public function rules()
+{
+return [
+[['id', 'country', 'hotels_stars_id'], 'integer'],
+            [['name', 'address', 'GPS', 'links_maps', 'image'], 'safe'],
+];
+}
 
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
+/**
+* @inheritdoc
+*/
+public function scenarios()
+{
+// bypass scenarios() implementation in the parent class
+return Model::scenarios();
+}
 
-    /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
-    public function search($params)
-    {
-        $query = HotelsInfo::find();
+/**
+* Creates data provider instance with search query applied
+*
+* @param array $params
+*
+* @return ActiveDataProvider
+*/
+public function search($params)
+{
+$query = HotelsInfo::find();
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
+$dataProvider = new ActiveDataProvider([
+'query' => $query,
+]);
 
-        $this->load($params);
+$this->load($params);
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
-        }
+if (!$this->validate()) {
+// uncomment the following line if you do not want to any records when validation fails
+// $query->where('0=1');
+return $dataProvider;
+}
 
-        $query->andFilterWhere([
+$query->andFilterWhere([
             'id' => $this->id,
-            'address' => $this->address,
             'country' => $this->country,
             'hotels_stars_id' => $this->hotels_stars_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'address', $this->address])
             ->andFilterWhere(['like', 'GPS', $this->GPS])
-            ->andFilterWhere(['like', 'links_maps', $this->links_maps]);
+            ->andFilterWhere(['like', 'links_maps', $this->links_maps])
+            ->andFilterWhere(['like', 'image', $this->image]);
 
-        return $dataProvider;
-    }
+return $dataProvider;
+}
 }

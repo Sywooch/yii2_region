@@ -46,11 +46,22 @@ class HotelsTypeOfFood extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'Первичный ключ. Таблица-справочник содержит тип питания в отеле.'),
+            
+            'name' => Yii::t('app', 'Name'),
+            'abbrev' => Yii::t('app', 'Abbrev'),
+            'price' => Yii::t('app', 'Price Added'),
+            'type_price' => Yii::t('app', 'Фиксированная сумма'),
+        ];
+    }
+
+    public function attributeHints()
+    {
+        return [
+
             'name' => Yii::t('app', 'Name'),
             'abbrev' => Yii::t('app', 'Abbrev'),
             'price' => Yii::t('app', 'Цена или надбавка к стоимости проживания в гостинице'),
-            'type_price' => Yii::t('app', 'Тип цены к проживанию в гостинице. Либо добавляется цена, либо прибавляется процент от исходной суммы номера.'),
+            'type_price' => Yii::t('app', 'Тип цены или надбавки. Если "галочка" установлена, то "надбавка" является фиксированной суммой, в ином случае, "надбавка" - это процент от основной суммы номера.'),
         ];
     }
 

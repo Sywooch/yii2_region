@@ -2,13 +2,29 @@
 
 use yii\helpers\Html;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\HotelsInfo */
-?>
-<div class="hotels-info-update">
+/**
+* @var yii\web\View $this
+* @var common\models\HotelsInfo $model
+*/
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+$this->title = $model->getAliasModel() . $model->name . ', ' . Yii::t('app', 'Edit');
+$this->params['breadcrumbs'][] = ['label' => $model->getAliasModel(true), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => (string)$model->name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'Edit');
+?>
+<div class="giiant-crud hotels-info-update">
+
+    <h1>
+        <?= $model->getAliasModel() ?>        <small>
+                        <?= $model->name ?>        </small>
+    </h1>
+
+    <div class="crud-navigation">
+        <?= Html::a('<span class="glyphicon glyphicon-eye-open"></span> ' . Yii::t('app', 'View'), ['view', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
+    </div>
+
+    <?php echo $this->render('_form', [
+    'model' => $model,
+    ]); ?>
 
 </div>

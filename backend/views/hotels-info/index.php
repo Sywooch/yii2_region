@@ -1,65 +1,146 @@
 <?php
-use yii\helpers\Url;
+
 use yii\helpers\Html;
-use yii\bootstrap\Modal;
-use kartik\grid\GridView;
-use johnitvn\ajaxcrud\CrudAsset; 
-use johnitvn\ajaxcrud\BulkButtonWidget;
+use yii\helpers\Url;
+use yii\grid\GridView;
 
-/* @var $this yii\web\View */
-/* @var $searchModel backend\models\SearchHotelsInfo */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/**
+* @var yii\web\View $this
+* @var yii\data\ActiveDataProvider $dataProvider
+    * @var backend\models\SearchHotelsInfo $searchModel
+*/
 
-$this->title = Yii::t('app', 'Hotels Infos');
+$this->title = $searchModel->getAliasModel(true);
 $this->params['breadcrumbs'][] = $this->title;
-
-CrudAsset::register($this);
-
 ?>
-<div class="hotels-info-index">
-    <div id="ajaxCrudDatatable">
-        <?=GridView::widget([
-            'id'=>'crud-datatable',
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'pjax'=>true,
-            'columns' => require(__DIR__.'/_columns.php'),
-            'toolbar'=> [
-                ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
-                    ['role'=>'modal-remote','title'=> 'Create new Hotels Infos','class'=>'btn btn-default']).
-                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
-                    '{toggleData}'.
-                    '{export}'
-                ],
-            ],          
-            'striped' => true,
-            'condensed' => true,
-            'responsive' => true,          
-            'panel' => [
-                'type' => 'primary', 
-                'heading' => '<i class="glyphicon glyphicon-list"></i> Hotels Infos listing',
-                'before'=>'<em>' . Yii::t('app','* Resize table columns just like a spreadsheet by dragging the column edges.') . '</em>',
-                'after'=>BulkButtonWidget::widget([
-                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; ' . Yii::t('app','Delete All'),
-                                ["bulk-delete"] ,
-                                [
-                                    "class"=>"btn btn-danger btn-xs",
-                                    'role'=>'modal-remote-bulk',
-                                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-                                    'data-request-method'=>'post',
-                                    'data-confirm-title'=>Yii::t('app','Are you sure?'),
-                                    'data-confirm-message'=>Yii::t('app','Are you sure want to delete this item')
-                                ]),
-                        ]).                        
-                        '<div class="clearfix"></div>',
+
+<div class="giiant-crud hotels-info-index">
+
+    <?php //             echo $this->render('_search', ['model' =>$searchModel]);
+        ?>
+
+    
+    <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
+
+    <h1>
+        <?= $searchModel->getAliasModel(true) ?>        <small>
+            List
+        </small>
+    </h1>
+    <div class="clearfix crud-navigation">
+        <div class="pull-left">
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('app', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
+        </div>
+
+        <div class="pull-right">
+
+                                                                                                                                                                                                                                                                                    
+            <?= 
+            \yii\bootstrap\ButtonDropdown::widget(
+            [
+            'id' => 'giiant-relations',
+            'encodeLabel' => false,
+            'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('app', 'Relations'),
+            'dropdown' => [
+            'options' => [
+            'class' => 'dropdown-menu-right'
+            ],
+            'encodeLabels' => false,
+            'items' => [            [
+                'url' => ['discount/index'],
+                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Discount') . '</i>',
+            ],            [
+                'url' => ['hotels-appartment/index'],
+                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Hotels Appartment') . '</i>',
+            ],            [
+                'url' => ['hotels-character/index'],
+                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Hotels Character') . '</i>',
+            ],            [
+                'url' => ['hotels-stars/index'],
+                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Hotels Stars') . '</i>',
+            ],            [
+                'url' => ['hotels-info-has-tour-info/index'],
+                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Hotels Info Has Tour Info') . '</i>',
+            ],            [
+                'url' => ['tour-info/index'],
+                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Tour Info') . '</i>',
+            ],            [
+                'url' => ['hotels-others-pricing/index'],
+                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Hotels Others Pricing') . '</i>',
+            ],            [
+                'url' => ['sal-basket/index'],
+                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Sal Basket') . '</i>',
+            ],            [
+                'url' => ['sal-order/index'],
+                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Sal Order') . '</i>',
+            ],]
+            ],
+            'options' => [
+            'class' => 'btn-default'
             ]
-        ])?>
+            ]
+            );
+            ?>        </div>
     </div>
+
+
+    <div class="table-responsive">
+        <?= GridView::widget([
+        'layout' => '{summary}{pager}{items}{pager}',
+        'dataProvider' => $dataProvider,
+        'pager' => [
+        'class' => yii\widgets\LinkPager::className(),
+        'firstPageLabel' => Yii::t('app', 'First'),
+        'lastPageLabel' => Yii::t('app', 'Last')        ],
+                    'filterModel' => $searchModel,
+                'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
+        'headerRowOptions' => ['class'=>'x'],
+        'columns' => [
+
+                [
+            'class' => 'yii\grid\ActionColumn',
+            'urlCreator' => function($action, $model, $key, $index) {
+                // using the column name as key, not mapping to 'id' like the standard generator
+                $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+                $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
+                return Url::toRoute($params);
+            },
+            'contentOptions' => ['nowrap'=>'nowrap']
+        ],
+			'name:ntext',
+			'address:ntext',
+			'GPS:ntext',
+			'links_maps:ntext',
+			'country',
+			
+[
+    'class' => yii\grid\DataColumn::className(),
+    'attribute' => 'hotels_stars_id',
+    'value' => function ($model) {
+        if ($rel = $model->getHotelsStars()->one()) {
+            return Html::a($rel->name, ['hotels-stars/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        } else {
+            return '';
+        }
+    },
+    'format' => 'raw',
+],
+            [
+                'attribute' => 'image',
+                'format' => 'html',
+                'value' => function($model)
+                {
+                    return Html::img($model->image, ['max-width' => '200px', 'max-height' => '200px']);
+                },
+            ],
+        ],
+        ]); ?>
+    </div>
+
 </div>
-<?php Modal::begin([
-    "id"=>"ajaxCrubModal",
-    "footer"=>"",// always need it for jquery plugin
-])?>
-<?php Modal::end(); ?>
+
+
+<?php \yii\widgets\Pjax::end() ?>
+
+
+

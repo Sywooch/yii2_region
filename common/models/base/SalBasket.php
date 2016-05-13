@@ -4,7 +4,6 @@
 
 namespace common\models\base;
 
-use common\models\HotelsInfo;
 use common\models\TourInfo;
 use common\models\TransInfo;
 use common\models\Userinfo;
