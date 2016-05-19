@@ -130,7 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'value' => function($model)
                 {
-                    return Html::img($model->image, ['max-width' => '200px', 'max-height' => '200px']);
+                    return Html::img('@web' . \common\models\base\HotelsInfo::IMAGE_PATH . $model->image, ['width' => '120px']);
                 },
             ],
         ],

@@ -41,7 +41,10 @@
         "voskobovich/yii2-setting-toolkit": "~3.0",
         "mirocow/yii2-yandex-maps": "@dev",
         "stronglab/yii2-dashboard": "@dev",
-        "bupy7/yii2-activerecord-history": "*"
+        "bupy7/yii2-activerecord-history": "*",
+        "vova07/yii2-fileapi-widget": "*",
+        "bupy7/yii2-pages": "*",
+        "costa-rico/yii2-images": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

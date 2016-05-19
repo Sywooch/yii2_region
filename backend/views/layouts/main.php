@@ -113,7 +113,7 @@ AppAsset::register($this);
                 ['label' => 'Путевой лист', 'url' => ['/bus-way']],
                 ['label' => 'Текущие маршруты', ['/bus-current']],
                 ['label' => 'Бронь', ['/bus-bron']],
-                ['label' => 'Маршрут + путевые точки', 'url' => ['/bus-route-has-bus-route-point']],
+                /*['label' => 'Маршрут + путевые точки', 'url' => ['/bus-route-has-bus-route-point']],*/
                 ['label' => 'Посадочные места','url' => ['/bus-scheme-seats']],
                 ['label' => 'Резервация посадочных мест', 'url' => ['/bus-reservation']]
 

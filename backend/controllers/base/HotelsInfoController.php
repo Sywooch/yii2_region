@@ -72,18 +72,21 @@ class HotelsInfoController extends Controller
         $model = new HotelsInfo;
 
         try {
-            if ($model->load($_POST) && $model->save()) {
+            if ($model->load($_POST)) {
                 $file = UploadedFile::getInstance($model, 'image');
                 if (isset($file))
                 {
                     $filename = uniqid() . '.' . $file->extension;
-                    $path = '/uploads/images/hotels/' . $filename;
+                    $path = \Yii::$app->getBasePath() . '/uploads/images/hotels/' . $filename;
+                   
                     if ($file->saveAs($path))
                     {
                         $model->image = $filename;
                     }
                 }
-                return $this->redirect(Url::previous());
+                if ($model->save()){
+                    return $this->redirect(Url::previous());
+                }
             } elseif (!\Yii::$app->request->isPost) {
                 $model->load($_GET);
             }
@@ -103,7 +106,7 @@ class HotelsInfoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $oldFile = '/uploads/images/hotels/' . $model->image;
+        $oldFile = \Yii::$app->getBasePath() . '/uploads/images/hotels/' . $model->image;
         $oldFileName = $model->image;
 
         if ($model->load($_POST) && $model->save()) {
@@ -112,7 +115,7 @@ class HotelsInfoController extends Controller
             {
                 if(file_exists($oldFile)) @unlink($oldFile);
                 $filename = uniqid() . '.' . $file->extension;
-                $path = '/uploads/images/hotels/' . $filename;
+                $path = \Yii::$app->getBasePath() . '/uploads/images/hotels/' . $filename;
                 if ($file->saveAs($path))
                 {
                     $model->image = $filename;
@@ -137,6 +140,7 @@ class HotelsInfoController extends Controller
     public function actionDelete($id)
     {
         try {
+
             $this->findModel($id)->delete();
         } catch (\Exception $e) {
             $msg = (isset($e->errorInfo[2])) ? $e->errorInfo[2] : $e->getMessage();

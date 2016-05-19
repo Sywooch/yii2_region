@@ -6,6 +6,7 @@ namespace common\models\base;
 
 use common\models\HotelsStars;
 use Yii;
+use yii\BaseYii;
 
 /**
  * This is the base-model class for table "hotels_info".
@@ -33,7 +34,7 @@ use Yii;
 abstract class HotelsInfo extends \yii\db\ActiveRecord
 {
 
-
+    const IMAGE_PATH = '/uploads/images/hotels/';
 
     /**
      * @inheritdoc
@@ -58,6 +59,18 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'image' => [
+                'class' => 'rico\yii2images\behaviors\ImageBehave',
+            ]
+        ];
+    }
+
+    /**
      * @inheritdoc
      */
     public function rules()
@@ -66,7 +79,7 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
             [['name', 'address'], 'required'],
             [['name', 'address', 'GPS', 'links_maps'], 'string'],
             [['country', 'hotels_stars_id'], 'integer'],
-            [['image'], 'file'],
+            [['image'], 'file', 'extensions' => 'png, jpg, gif', 'maxFiles' => 8],
             [['hotels_stars_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsStars::className(), 'targetAttribute' => ['hotels_stars_id' => 'id']]
         ];
     }

@@ -83,7 +83,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View');
 ],
         [
             'attribute' => 'image',
-            'value' => $model->image,
+            'value' => '@web' . \common\models\base\HotelsInfo::IMAGE_PATH . $model->image,
             'format' => ['image', ['max-width' => '200px', 'max-height' => '200px']],
         ]
     ],

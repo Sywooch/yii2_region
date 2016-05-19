@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
+use kartik\widgets\FileInput;
 
 /**
  * @var yii\web\View $this
@@ -34,7 +35,7 @@ use \dmstr\bootstrap\Tabs;
             <?= $form->field($model, 'country')->dropDownList(
                 \yii\helpers\ArrayHelper::map(common\models\Country::find()->all(), 'id', 'name'),
                 ['prompt' => Yii::t('app', 'Select')]
-            ); ?> ?>
+            ); ?>
             <?= $form->field($model, 'GPS')->textarea(['rows' => 6]) ?>
 
             <?= $form->field($model, 'links_maps')->textarea(['rows' => 6]) ?>
@@ -44,8 +45,16 @@ use \dmstr\bootstrap\Tabs;
                 ['prompt' => Yii::t('app', 'Select')]
             ); ?>
 
-            <?= $form->field($model, 'image')->fileInput() ?>
-            <?php echo ($model->image) ? Html::img('/uploads/images/hotels/' . $model->image, ['max-width' => '200px', 'max-height' => '200px']) : null ?>
+            <?= $form->field($model, 'image')->widget(FileInput::className(),[
+                'options' => ['multiple' => true, 'accept' => 'image/*'],
+                'pluginOptions' => [
+                    'allowedExtensions' => ['jpg','gif','png'],
+                    'showUpload' => false,
+                    'maxFileCount' => 8,
+                ],
+
+            ]); ?>
+            <?php /*echo ($model->image) ? Html::img('@web' . \common\models\base\HotelsInfo::IMAGE_PATH . $model->image, ['max-width' => '200px', 'max-height' => '200px']) : null*/ ?>
         </p>
         <?php $this->endBlock(); ?>
 
