@@ -31,6 +31,18 @@ return [
         'attribute'=>'type_price',
     ],
     [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'hotels_appartment_item_id',
+    ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'date_add',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'date_edit',
+    // ],
+    [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign'=>'middle',

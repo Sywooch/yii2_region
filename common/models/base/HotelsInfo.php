@@ -6,6 +6,7 @@ namespace common\models\base;
 
 use common\models\HotelsStars;
 use Yii;
+use yii\base\Exception;
 use yii\BaseYii;
 
 /**
@@ -36,6 +37,11 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
 
     const IMAGE_PATH = '/uploads/images/hotels/';
 
+    protected $imageFullPath;
+    public $imageFiles;
+    public $delImages;
+    public $mainImage;
+
     /**
      * @inheritdoc
      */
@@ -65,7 +71,7 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
     {
         return [
             'image' => [
-                'class' => 'rico\yii2images\behaviors\ImageBehave',
+                'class' => 'rico\yii2images\behaviors\ImageBehave'
             ]
         ];
     }
@@ -77,10 +83,11 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'address'], 'required'],
-            [['name', 'address', 'GPS', 'links_maps'], 'string'],
+            [['name', 'address', 'gps_point_m', 'gps_point_p', 'links_maps'], 'string'],
             [['country', 'hotels_stars_id'], 'integer'],
-            [['image'], 'file', 'extensions' => 'png, jpg, gif', 'maxFiles' => 8],
-            [['hotels_stars_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsStars::className(), 'targetAttribute' => ['hotels_stars_id' => 'id']]
+            [['imageFiles'], 'file', 'extensions' => 'png, jpg, gif', 'maxFiles' => 12],
+            [['hotels_stars_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsStars::className(), 'targetAttribute' => ['hotels_stars_id' => 'id']],
+            [['delImages','mainImage'],'boolean']
         ];
     }
 
@@ -94,10 +101,11 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
             'name' => Yii::t('app', 'Name'),
             'address' => Yii::t('app', 'Address'),
             'country' => Yii::t('app', 'Country'),
-            'GPS' => Yii::t('app', 'Gps'),
+            'gps_point_m' => Yii::t('app', 'GPS-координаты меридиана.'),
+            'gps_point_p' => Yii::t('app', 'GPS-координаты паралели.'),
             'links_maps' => Yii::t('app', 'Links Maps'),
             'hotels_stars_id' => Yii::t('app', 'Hotels Stars ID'),
-            'image' => Yii::t('app', 'Image'),
+            'imageFiles' => Yii::t('app', 'Image Files'),
         ];
     }
 
@@ -109,14 +117,15 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
         return array_merge(
             parent::attributeHints(),
             [
-            //'id' => Yii::t('app', 'Первичный ключ. Таблица содержит общую информацию об отелях, в частности их название.'),
-            'name' => Yii::t('app', 'Название отеля'),
-            'address' => Yii::t('app', 'Адрес'),
-            'country' => Yii::t('app', 'Страна'),
-            'GPS' => Yii::t('app', 'GPS-координаты'),
-            'links_maps' => Yii::t('app', 'Ссылка на интернет-карту местонахождения отеля'),
-            'hotels_stars_id' => Yii::t('app', 'Ссылка на звёздность'),
-            'image' => Yii::t('app', 'Изображение гостиницы'),
+                //'id' => Yii::t('app', 'Первичный ключ. Таблица содержит общую информацию об отелях, в частности их название.'),
+                'name' => Yii::t('app', 'Название отеля'),
+                'address' => Yii::t('app', 'Адрес'),
+                'country' => Yii::t('app', 'Страна'),
+                'gps_point_m' => Yii::t('app', 'GPS-координаты меридиана.'),
+                'gps_point_p' => Yii::t('app', 'GPS-координаты паралели.'),
+                'links_maps' => Yii::t('app', 'Ссылка на интернет-карту местонахождения отеля'),
+                'hotels_stars_id' => Yii::t('app', 'Ссылка на звёздность'),
+                'imageFiles' => Yii::t('app', 'Загрузите изображения'),
             ]);
     }
 
@@ -150,6 +159,14 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
     public function getHotelsStars()
     {
         return $this->hasOne(\common\models\HotelsStars::className(), ['id' => 'hotels_stars_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCountry()
+    {
+        return $this->hasOne(\common\models\Country::className(), ['id' => 'country']);
     }
 
     /**
@@ -190,6 +207,71 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
     public function getSalOrders()
     {
         return $this->hasMany(\common\models\SalOrder::className(), ['hotels_info_id' => 'id']);
+    }
+
+    public function upload(){
+
+        if ($this->validate('imageFiles')){
+            foreach($this->imageFiles as $file){
+                $filename = uniqid() . '.' . $file->extension;
+                $this->imageFullPath= \Yii::$app->getBasePath() . '/web/uploads/images/hotels/' . $filename;
+                $file->saveAs($this->imageFullPath);
+                $this->attachImage($this->imageFullPath);
+            }
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    public function getImage2amigos($modelViews=false){
+        $items = array();
+        $imageFiles = $this->getImages();
+        foreach ($imageFiles as $image){
+            if ($modelViews){
+                $items[] = [
+                    'url' => $image->getUrl(),
+                    'src' => $image->getUrl('120px'),
+                    'options' => ['title' => Yii::t('app', 'Photo hotels') . ' ' . $this->name],
+                ];
+            }
+            else{
+                $items[] = [
+                    'url' => $image->getUrl(),
+                    'src' => $image->getUrl('120px'),
+                    'options' => ['title' => Yii::t('app', 'Photo hotels') . ' ' . $this->name],
+                    'id'=>$image->urlAlias,
+                    'main' => $image->isMain,
+                ];
+            }
+
+        }
+        return $items;
+    }
+
+    /**
+     * Функция удаляет картинки по ее urlAlais
+     * @param array $imageAlias
+     * @return bool
+     */
+    public function imageDelete($imageAlias = array()){
+        //Получаем отмеченные изображения
+        try {
+            if (is_array($imageAlias) && count($imageAlias) > 0) {
+                foreach ($imageAlias as $idImage) {
+                    $image = $this->getImageByField('urlAlias', $idImage);
+                    $this->removeImage($image);
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
+        catch (\Exception $e){
+            $msg = (isset($e->errorInfo[2])) ? $e->errorInfo[2] : $e->getMessage();
+            $this->addError('_exception', $msg);
+        }
     }
 
 

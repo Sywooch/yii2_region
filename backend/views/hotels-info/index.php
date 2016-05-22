@@ -85,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <div class="table-responsive">
-        <?= GridView::widget([
+        <?= \kartik\grid\GridView::widget([
         'layout' => '{summary}{pager}{items}{pager}',
         'dataProvider' => $dataProvider,
         'pager' => [
@@ -95,7 +95,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'filterModel' => $searchModel,
                 'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
         'headerRowOptions' => ['class'=>'x'],
-        'columns' => [
+        'columns' => require(__DIR__.'/_columns.php'),
+            /*[
 
                 [
             'class' => 'yii\grid\ActionColumn',
@@ -109,9 +110,18 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
 			'name:ntext',
 			'address:ntext',
-			'GPS:ntext',
-			'links_maps:ntext',
-			'country',
+            [
+                'class' => yii\grid\DataColumn::className(),
+                'attribute' => 'country',
+                'value' => function ($model) {
+                    if ($rel = $model->getCountry()->one()) {
+                        return Html::a($rel->name, ['country/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+                    } else {
+                        return '';
+                    }
+                },
+                'format' => 'raw',
+            ],
 			
 [
     'class' => yii\grid\DataColumn::className(),
@@ -130,10 +140,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'value' => function($model)
                 {
-                    return Html::img('@web' . \common\models\base\HotelsInfo::IMAGE_PATH . $model->image, ['width' => '120px']);
+                    return Html::img($model->getImage()->getUrl('120x'));
                 },
             ],
-        ],
+        ],*/
         ]); ?>
     </div>
 

@@ -43,8 +43,11 @@
         "stronglab/yii2-dashboard": "@dev",
         "bupy7/yii2-activerecord-history": "*",
         "vova07/yii2-fileapi-widget": "*",
-        "bupy7/yii2-pages": "*",
-        "costa-rico/yii2-images": "dev-master"
+
+        "costa-rico/yii2-images": "dev-master",
+        "2amigos/yii2-gallery-widget": "~1.0",
+        "infoweb-internet-solutions/yii2-cms-pages": "*",
+        "infoweb-internet-solutions/yii2-cms-alias": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

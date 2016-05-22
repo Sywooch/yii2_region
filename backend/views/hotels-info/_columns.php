@@ -1,5 +1,8 @@
 <?php
 use yii\helpers\Url;
+use kartik\grid\GridView;
+use yii\helpers\ArrayHelper;
+use kartik\helpers\Html;
 
 return [
     [
@@ -17,27 +20,80 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'name',
+        'vAlign'=>'middle',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'address',
+        'vAlign'=>'middle',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'country',
+        'vAlign'=>'middle',
+        'width'=>'180px',
+        'value'=>/*function ($model, $key, $index, $widget) {
+            return Html::a($model->country->name,
+                '#',
+                ['title'=>'Просмотр детальной информации', 'onclick'=>'alert("This will open the author page.\n\nDisabled for this demo!")']);
+        },*/
+            function ($model) {
+                if ($rel = $model->getCountry()->one()) {
+                    return Html::a($rel->name, ['country/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+                } else {
+                    return '';
+                }
+            },
+        'filterType'=>GridView::FILTER_SELECT2,
+        'filter'=>ArrayHelper::map(\common\models\Country::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
+        'filterWidgetOptions'=>[
+            'pluginOptions'=>['allowClear'=>true],
+        ],
+        'filterInputOptions'=>['placeholder'=>'Любая страна'],
+        'format'=>'raw'
     ],
-    [
+    /*[
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'GPS',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'links_maps',
+    ],*/
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'hotels_stars_id',
+        'vAlign'=>'middle',
+        'width'=>'180px',
+        'value'=>/*function ($model, $key, $index, $widget) {
+            return Html::a($model->country->name,
+                '#',
+                ['title'=>'Просмотр детальной информации', 'onclick'=>'alert("This will open the author page.\n\nDisabled for this demo!")']);
+        },*/function ($model) {
+            if ($rel = $model->getHotelsStars()->one()) {
+                return Html::a($rel->name, ['hotels-stars/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+            } else {
+                return '';
+            }
+        },
+        'filterType'=>GridView::FILTER_SELECT2,
+        'filter'=>ArrayHelper::map(\common\models\HotelsStars::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
+        'filterWidgetOptions'=>[
+            'pluginOptions'=>['allowClear'=>true],
+        ],
+        'filterInputOptions'=>['placeholder'=>'Любые "звезды"'],
+        'format'=>'raw'
     ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'hotels_stars_id',
-    // ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute' => 'imageFiles',
+        'width'=>'130px',
+        'format' => 'html',
+        'value' => function($model)
+        {
+            return Html::img($model->getImage()->getUrl('120x'));
+        },
+    ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

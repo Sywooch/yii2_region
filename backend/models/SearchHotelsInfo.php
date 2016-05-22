@@ -19,7 +19,7 @@ public function rules()
 {
 return [
 [['id', 'country', 'hotels_stars_id'], 'integer'],
-            [['name', 'address', 'GPS', 'links_maps', 'image'], 'safe'],
+            [['name', 'address', 'gps_point_m','gps_point_p', 'links_maps', 'image'], 'safe'],
 ];
 }
 
@@ -63,7 +63,8 @@ $query->andFilterWhere([
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'address', $this->address])
-            ->andFilterWhere(['like', 'GPS', $this->GPS])
+            ->andFilterWhere(['like', 'gps_point_m', $this->gps_point_m])
+            ->andFilterWhere(['like', 'gps_point_p', $this->gps_point_p])
             ->andFilterWhere(['like', 'links_maps', $this->links_maps])
             ->andFilterWhere(['like', 'image', $this->image]);
 

@@ -24,7 +24,6 @@ class HotelsInfoController extends Controller
      */
     public $enableCsrfValidation = false;
 
-
     /**
      * Lists all HotelsInfo models.
      * @return mixed
@@ -73,18 +72,9 @@ class HotelsInfoController extends Controller
 
         try {
             if ($model->load($_POST)) {
-                $file = UploadedFile::getInstance($model, 'image');
-                if (isset($file))
-                {
-                    $filename = uniqid() . '.' . $file->extension;
-                    $path = \Yii::$app->getBasePath() . '/uploads/images/hotels/' . $filename;
-                   
-                    if ($file->saveAs($path))
-                    {
-                        $model->image = $filename;
-                    }
-                }
+                $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
                 if ($model->save()){
+                    $model->upload();
                     return $this->redirect(Url::previous());
                 }
             } elseif (!\Yii::$app->request->isPost) {
@@ -106,22 +96,29 @@ class HotelsInfoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $oldFile = \Yii::$app->getBasePath() . '/uploads/images/hotels/' . $model->image;
-        $oldFileName = $model->image;
 
         if ($model->load($_POST) && $model->save()) {
-            $file = UploadedFile::getInstance($model,'image');
-            if (isset($file))
-            {
-                if(file_exists($oldFile)) @unlink($oldFile);
-                $filename = uniqid() . '.' . $file->extension;
-                $path = \Yii::$app->getBasePath() . '/uploads/images/hotels/' . $filename;
-                if ($file->saveAs($path))
-                {
-                    $model->image = $filename;
-                }
+
+            if (isset($_POST['delImages'])){
+                $model->delImages = $_POST['delImages'];
             }
-            else $model->image = $oldFileName;
+            if (isset($_POST['mainImage'])){
+                $model->mainImage = $_POST['mainImage'];
+            }
+            //Устанавливаем изображение по умолчанию (если изменено или удалено)
+            /*
+             * TODO Сделать проверку на существование главной картинки
+             */
+            $model->setMainImage($model->getImageByField('urlAlias',$model->mainImage));
+            //Удаляем отмеченные изображения
+            $model->imageDelete($model->delImages);
+
+
+            //Загружаем новые изображения (Если они есть)
+            if (is_array($model->imageFiles) && count($model->imageFiles)>0){
+                $model->imageFiles = UploadedFile::getInstances($model,'imageFiles');
+                $model->upload();
+            }
             
             return $this->redirect(Url::previous());
         } else {
@@ -140,8 +137,12 @@ class HotelsInfoController extends Controller
     public function actionDelete($id)
     {
         try {
+            //Удаляем картинки вместе с записью
+            $model = $this->findModel($id);
+            $model->removeImages();
+            $model->delete();
 
-            $this->findModel($id)->delete();
+            //$this->findModel($id)->delete();
         } catch (\Exception $e) {
             $msg = (isset($e->errorInfo[2])) ? $e->errorInfo[2] : $e->getMessage();
             \Yii::$app->getSession()->addFlash('error', $msg);
@@ -178,4 +179,9 @@ class HotelsInfoController extends Controller
             throw new HttpException(404, 'The requested page does not exist.');
         }
     }
+
+    /*protected function imageUpdate($model){
+        //
+    }*/
+    
 }

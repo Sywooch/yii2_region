@@ -127,15 +127,22 @@ return [
 
     /*Begin Hotels*/
     'Create HotelsInfo success' => 'Новая гостиница успешно создана',
+    'HotelsInfos' => 'Гостиницы',
+    'HotelsInfos List' => 'Список гостиниц  ',
     'HotelsTypeOfFood' => '"Тип питания"',
     'Price Added' => 'Надбавка',
     'Abbrev' => 'Аббревиатура',
     'HotelsAppartmentItem'=>'"Тип номера в отеле"',
     'HotelsOthersPricingType'=>'"Тип дополнительных услуг"',
+    'Hotels Stars' => 'Звезды',
+    'Hotels Stars ID' => 'Звезды',
+    'Count Stars' => 'Количетво "звёзд"',
     'image' => 'Изображение',
     /*End Hotels*/
 
     'Sal Orders' => 'Заказ',
 
     'Create new {modelClass}' => 'Создание нового параметра: {modelClass}',
+
+    'Image Files' => 'Изображения',
 ];

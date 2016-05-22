@@ -90,7 +90,8 @@ return [
             'db' => 'db', // database connection component config or name
             'user' => 'user', // authentication component config or name
         ],
-        'pages' => [
+        
+        /*'pages' => [
             'class' => 'bupy7\pages\Module',
             'imperaviLanguage' => 'ru',
 
@@ -102,7 +103,7 @@ return [
                         'rules' => [
                             [
                                 'allow' => true,
-                                'roles' => ['superadmin'],
+                                'roles' => ['@'],
                             ],
                         ],
                     ],
@@ -119,12 +120,12 @@ return [
             'addFile' => true,
 
 
-        ],
+        ],*/
 
 
-        'main' => [
+        /*'main' => [
             'class' => 'app\modules\main\Module',
-        ],
+        ],*/
         'user' => [
             'class' => 'app\modules\user\Module',
         ],
@@ -136,7 +137,7 @@ return [
             'imagesStorePath' => 'uploads/images/store', //path to origin images
             'imagesCachePath' => 'uploads/images/cache', //path to resized copies
             'graphicsLibrary' => 'GD', //but really its better to use 'Imagick'
-            'placeHolderPath' => '@web/uploads/images/placeHolder.png', // if you want to get placeholder when image not exists, string will be processed by Yii::getAlias
+            'placeHolderPath' => 'uploads/images/placeHolder.png', // if you want to get placeholder when image not exists, string will be processed by Yii::getAlias
         ],
 
     ],
