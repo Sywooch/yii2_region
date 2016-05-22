@@ -11,23 +11,6 @@ use yii\grid\GridView;
 */
 
 
-
-/**
-* create action column template depending acces rights
-*/
-$actionColumnTemplates = [];
-
-if (\Yii::$app->user->can('backend_hotels-appartment_view')) { 
-    $actionColumnTemplates[] = '{view}';
-}
-
-if (\Yii::$app->user->can('backend_hotels-appartment_update')) {
-    $actionColumnTemplates[] = '{update}';
-}
-
-if (\Yii::$app->user->can('backend_hotels-appartment_delete')) {
-    $actionColumnTemplates[] = '{delete}';
-}
 if (isset($actionColumnTemplates)) {
 $actionColumnTemplate = implode(' ', $actionColumnTemplates);
     $actionColumnTemplateString = $actionColumnTemplate;
@@ -50,15 +33,10 @@ Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphic
         </small>
     </h1>
     <div class="clearfix crud-navigation">
-<?php
-if(\Yii::$app->user->can('backend_hotels-appartment_create')){
-?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('app', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
-<?php
-}
-?>
+
         <div class="pull-right">
 
                                                                                                                                                                                                 

@@ -1,6 +1,6 @@
 <?php
 
-namespace \api;
+namespace api;
 
 /**
 * This is the class for REST controller "BusReservationController".

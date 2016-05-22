@@ -5,7 +5,6 @@
 namespace common\models\base;
 
 use common\models\HotelsAppartmentItem;
-use common\models\HotelsInfo;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
@@ -31,6 +30,8 @@ use yii\behaviors\TimestampBehavior;
  */
 abstract class HotelsAppartment extends \yii\db\ActiveRecord
 {
+
+    public $country;
 
 
 
@@ -64,7 +65,7 @@ abstract class HotelsAppartment extends \yii\db\ActiveRecord
     {
         return [
             [['hotels_info_id', 'hotels_appartment_item_id'], 'required'],
-            [['hotels_info_id', 'type_price', 'hotels_appartment_item_id'], 'integer'],
+            [['hotels_info_id', 'type_price', 'hotels_appartment_item_id', 'country'], 'integer'],
             [['name'], 'string'],
             [['price'], 'number'],
             [['hotels_appartment_item_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsAppartmentItem::className(), 'targetAttribute' => ['hotels_appartment_item_id' => 'id']],

@@ -52,9 +52,9 @@ return [
             'controllerMap' => [
                 'assignment' => [
                     'class' => 'mdm\admin\controllers\AssignmentController',
-                    /* 'userClassName' => 'app\models\User', */
+                    /*'userClassName' => 'common\models\Userinfo',
                     'idField' => 'id',
-                    'usernameField' => 'username',
+                    'usernameField' => 'username',*/
                     /*'fullnameField' => 'profile.full_name',*/
                     /*'extraColumns' => [
                         [
@@ -79,7 +79,7 @@ return [
                             },
                         ],
                     ],*/
-                    'searchClass' => 'app\models\UserinfoSearch'
+                    /*'searchClass' => 'common\models\UserinfoSearch'*/
                 ],
             ],
         ],
@@ -90,38 +90,10 @@ return [
             'db' => 'db', // database connection component config or name
             'user' => 'user', // authentication component config or name
         ],
-        
-        /*'pages' => [
-            'class' => 'bupy7\pages\Module',
-            'imperaviLanguage' => 'ru',
 
-            'controllerMap' => [
-                'manager' => [
-                    'class' => 'bupy7\pages\controllers\ManagerController',
-                    'as access' => [
-                        'class' => \yii\filters\AccessControl::className(),
-                        'rules' => [
-                            [
-                                'allow' => true,
-                                'roles' => ['@'],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-
-            'pathToImages' => '@webroot/uploads/images',
-            'urlToImages' => '@web/uploads/images',
-            'pathToFiles' => '@webroot/uploads/files',
-            'urlToFiles' => '@web/uploads/files',
-            'uploadImage' => true,
-            'uploadFile' => true,
-            'addImage' => true,
-            'addFile' => true,
-
-
-        ],*/
-
+        'pages' => [
+            'class' => 'infoweb\pages\Module',
+        ],
 
         /*'main' => [
             'class' => 'app\modules\main\Module',
@@ -146,9 +118,12 @@ return [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
         ],
-        /*'authManager' => [
+        'authManager' => [
             'class' => 'yii\rbac\DbManager',
-        ],*/
+        ],
+        'page' => [
+            'class' => 'infoweb\pages\components\Page'
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -179,7 +154,7 @@ return [
             'site/*',
             'admin/*',
             'menu/*',
-            '*',
+            //'*',
             'some-controller/some-action',
             // The actions listed here will be allowed to everyone including guests.
             // So, 'admin/*' should not appear here in the production, of course.

@@ -1,6 +1,7 @@
 <?php
 
-namespace \api;
+namespace backend\controllers\api;
+
 
 /**
 * This is the class for REST controller "KontragentPersonsController".

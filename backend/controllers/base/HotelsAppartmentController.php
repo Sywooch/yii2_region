@@ -23,35 +23,6 @@ class HotelsAppartmentController extends Controller
 */
 public $enableCsrfValidation = false;
 
-    /**
-    * @inheritdoc
-    */
-    public function behaviors()
-    {
-    return [
-    'access' => [
-    'class' => AccessControl::className(),
-    'rules' => [
-    [
-    'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
-                        'roles' => ['SuperAdmin'],
-                    ],
-    [
-    'allow' => true,
-                        'actions' => ['index', 'view'],
-                        'roles' => ['BackendHotelsAppartmentView'],
-                    ],
-    [
-    'allow' => true,
-                        'actions' => ['update', 'create', 'delete'],
-                        'roles' => ['BackendHotelsAppartmentEdit'],
-                    ],
-    
-                ],
-            ],
-    ];
-    }
 
 /**
 * Lists all HotelsAppartment models.
