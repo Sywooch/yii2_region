@@ -27,9 +27,9 @@ CrudAsset::register($this);
             'toolbar'=> [
                 ['content'=>
                     Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
-                    ['role'=>'modal-remote','title'=> 'Create new Tour Types','class'=>'btn btn-default']).
+                    ['role'=>'modal-remote','title'=> Yii::t('app', 'Create new Tour Types'),'class'=>'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>Yii::t('app', 'Reset Grid')]).
                     '{toggleData}'.
                     '{export}'
                 ],
@@ -39,7 +39,7 @@ CrudAsset::register($this);
             'responsive' => true,          
             'panel' => [
                 'type' => 'primary', 
-                'heading' => '<i class="glyphicon glyphicon-list"></i> Tour Types listing',
+                'heading' => '<i class="glyphicon glyphicon-list"></i>' . Yii::t('app', 'Tour Types listing'),
                 'before'=>'<em>' . Yii::t('app','* Resize table columns just like a spreadsheet by dragging the column edges.') . '</em>',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; ' . Yii::t('app','Delete All'),

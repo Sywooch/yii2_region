@@ -12,12 +12,16 @@ return [
     'New' => 'Новый',
     'Password' => 'Пароль',
     'Create' => 'Создание',
-    'Create new' => 'Создать новый',
-    'Update' => 'Обновить',
+    'Create new' => 'Создать новый элемент:',
+    'Create More' => 'Создать новый',
+    'Create TourType succes' => 'Создание типа тура успешно завершено',
+    'Update' => 'Обновить:',
     'Delete' => 'Удалить',
     'success' => 'успешно заверешно',
     'Login' => 'Вход',
     'Logout' => 'Выход',
+    'Reset Grid' => 'Обновить таблицу',
+    'Delete All' => 'Удалить',
 
     'Active' => 'Активный',
     'Description' => 'Описание',
@@ -57,7 +61,10 @@ return [
     'Are you sure want to delete this item'=>'Вы уверены, что хотите удалить этот элемент?',
     'Resize table columns just like a spreadsheet by dragging the column edges.' =>
         'Изменение размера столбцов таблицы происходит так же, как таблицы - перетаскивая края столбцов.',
+    '* Resize table columns just like a spreadsheet by dragging the column edges.' =>
+        '* Изменение размера столбцов таблицы происходит так же, как таблицы - перетаскивая края столбцов.',
 
+    'With selected'=> 'действия с выделенными',
     /*/Description Forms*/
 
     'Bus Drivers' => 'Водители',
@@ -105,6 +112,7 @@ return [
     'Discounts' => 'Скидки',
     'Hotels Appartments' => 'Номера в отеле',
     'HotelsAppartment' => 'Номер в отеле',
+    'Hotels Appartment' => 'Номер в отеле',
     'Hotels Appartment Items' => 'Спарвочник номеров в отеле',
     'Hotels Characters' => 'Характеристики отеля',
     'Hotels Character Items' => 'Спарвочник характеристик отеля',
@@ -120,6 +128,7 @@ return [
     'Tour Infos listing' => 'Список туров',
     
     'Tour Types' => 'Типы тура',
+    'TourType' => 'Типы Тура',
     'Tour Type Transports' => 'Виды транспорта тура',
     'Trans Infos' => 'Информация о транспорте',
     'Trans Prices' => 'Цена за место',
@@ -132,6 +141,12 @@ return [
     'Userinfos' => 'Информация о пользователях',
     'Userinfo' => 'Информация о пользователе',
     'Update Userinfo' => 'Изменение информации о пользователе',
+    'Code2' => 'Двоичный буквенный код',
+    'Code3' => 'Троичный буквенный код',
+    'Countries listing'=> 'Список стран',
+    'Countries'=> 'Страны',
+    'Tour Types listing'=> 'Список типов тура',
+    'Create new Countries' => 'Создать новую Страну',
 
     /*Begin Hotels*/
     'Create HotelsInfo success' => 'Новая гостиница успешно создана',
@@ -152,6 +167,9 @@ return [
     'Sal Orders' => 'Заказ',
 
     'Create new {modelClass}' => 'Создание нового параметра: {modelClass}',
+    'Create new Tour Types' => 'Создание нового параметра: Тип тура',
+    'Create new TourType' => 'Создание нового параметра: Тип тура',
+   
 
     'Image Files' => 'Изображения',
     'Please fill out the following fields to login' => 'Пожалуйста, введите логин и пароль для входа в систему',
