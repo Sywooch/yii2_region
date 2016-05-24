@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
                 //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
             ]) ?>
 
-    <?= $form->field($model, 'active')->textInput() ?>
+    <?= $form->field($model, 'active')->checkbox() ?>
 
     <?= $form->field($model, 'begin_point')->textarea(['rows' => 6]) ?>
 

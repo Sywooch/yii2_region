@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
                 //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
             ]) ?>
 
-    <?= $form->field($model, 'active')->textInput() ?>
+    <?= $form->field($model, 'active')->checkbox() ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
