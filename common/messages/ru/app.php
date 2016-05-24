@@ -101,7 +101,6 @@ return [
     'Other' => 'Прочее',
     'Contacts' => 'Контакты',
     'Username' => 'Имя пользователя',
-    'Password' => 'Пароль',
     'Remember Me' => 'Запомнить',
 
     'First point' => 'Точка отъезда',
@@ -136,7 +135,8 @@ return [
     'Trans Routes' => 'Маршруты',
     'Trans Stations' => 'Места остановок',
     'Trans Types' => 'Типы транспорта',
-    'Trans Type Stations' => 'Справочник типы станций',
+    'Trans Type Stations' => 'Типы станций',
+    'Trans Type Station ID' => 'Справочник типы станций',
     'User Roles' => 'Роли пользователей',
     'Userinfos' => 'Информация о пользователях',
     'Userinfo' => 'Информация о пользователе',
@@ -152,6 +152,11 @@ return [
     'Create new Tour Infos' => 'Создать новый Тур',
     'Update TourInfo #' => 'Редактироваь Тур #',
     'TourInfo' => 'Тур',
+    'Tour Prices' => 'Цены на Туры',
+    'You must select item(s) to use this action' =>'Нет выбранных значений',
+    'No selection' => 'Ничего не выбранно',
+    'Trans Type Stations listing' =>'Типы станций. Список',
+    'Create new TransTypeStation' => 'Добавить новый тип станции',
 
     /*Begin Hotels*/
     'Create HotelsInfo success' => 'Новая гостиница успешно создана',
