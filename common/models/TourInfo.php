@@ -45,8 +45,7 @@ class TourInfo extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'Первичный ключ. Сводная информация о туре.'),
-            'name' => Yii::t('app', 'Name'),
+                       'name' => Yii::t('app', 'Name'),
             'date_begin' => Yii::t('app', 'Date Begin'),
             'date_end' => Yii::t('app', 'Date End'),
             'days' => Yii::t('app', 'Количество дней тура'),

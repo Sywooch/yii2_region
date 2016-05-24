@@ -91,31 +91,31 @@ class TourInfoController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new TourInfo",
+                    'title'=> Yii::t('app', 'Create new TourInfo'),
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button(Yii::t('app', 'Save'),['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Create new TourInfo",
-                    'content'=>'<span class="text-success">Create TourInfo success</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'title'=> Yii::t('app', 'Create new TourInfo'),
+                    'content'=>'<span class="text-success">'. Yii::t('app', 'Create TourInfo success').'</span>',
+                    'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a(Yii::t('app', 'Create More'),['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new TourInfo",
+                    'title'=> Yii::t('app', 'Create new TourInfo'),
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button(Yii::t('app', 'Save'),['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -153,17 +153,17 @@ class TourInfoController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update TourInfo #".$id,
+                    'title' => Yii::t('app', 'Update TourInfo #').$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button( Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button( Yii::t('app', 'Save'),['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "TourInfo #".$id,
+                    'title'=>  Yii::t('app', 'TourInfo #').$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -172,7 +172,7 @@ class TourInfoController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update TourInfo #".$id,
+                    'title' => Yii::t('app', 'Update TourInfo #').$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
                     ]),

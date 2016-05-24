@@ -1,6 +1,5 @@
 <?php
 
-use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -12,15 +11,12 @@ use yii\widgets\DetailView;
         'model' => $model,
         'attributes' => [
             'id',
-            'date_add',
-            'date_edit',
+            'date_begin',
+            'date_end',
             'active',
             'begin_point:ntext',
             'end_point:ntext',
         ],
     ]) ?>
-    <hr>
-    <p>Вокзалы следования (путь):</p>
-    <?= Html::ul(\common\models\TransStation::getTransStationRelationField($model->id),['label' => 'Trans Station']) ?>
 
 </div>

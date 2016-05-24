@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'trans_route_id')->textInput() ?>
 
-    <?= $form->field($model, 'trans_price_id')->textInput() ?>
+    <?= $form->field($model, 'seats')->textInput() ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

@@ -1,118 +1,64 @@
 <?php
-
-use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
+use yii\helpers\Html;
+use yii\bootstrap\Modal;
+use kartik\grid\GridView;
+use johnitvn\ajaxcrud\CrudAsset; 
+use johnitvn\ajaxcrud\BulkButtonWidget;
 
-/**
-* @var yii\web\View $this
-* @var yii\data\ActiveDataProvider $dataProvider
-    * @var backend\models\SearchTourPrice $searchModel
-*/
+/* @var $this yii\web\View */
+/* @var $searchModel backend\models\SearchTourPrice */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = $searchModel->getAliasModel(true);
+$this->title = Yii::t('app', 'Tour Prices');
 $this->params['breadcrumbs'][] = $this->title;
+
+CrudAsset::register($this);
+
 ?>
-
-<div class="giiant-crud tour-price-index">
-
-    <?php //             echo $this->render('_search', ['model' =>$searchModel]);
-        ?>
-
-    
-    <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
-
-    <h1>
-        <?= $searchModel->getAliasModel(true) ?>        <small>
-            List
-        </small>
-    </h1>
-    <div class="clearfix crud-navigation">
-        <div class="pull-left">
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('app', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
-        </div>
-
-        <div class="pull-right">
-
-                                                    
-            <?= 
-            \yii\bootstrap\ButtonDropdown::widget(
-            [
-            'id' => 'giiant-relations',
-            'encodeLabel' => false,
-            'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('app', 'Relations'),
-            'dropdown' => [
-            'options' => [
-            'class' => 'dropdown-menu-right'
-            ],
-            'encodeLabels' => false,
-            'items' => [            [
-                'url' => ['tour-info/index'],
-                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Tour Info') . '</i>',
-            ],]
-            ],
-            'options' => [
-            'class' => 'btn-default'
+<div class="tour-price-index">
+    <div id="ajaxCrudDatatable">
+        <?=GridView::widget([
+            'id'=>'crud-datatable',
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'pjax'=>true,
+            'columns' => require(__DIR__.'/_columns.php'),
+            'toolbar'=> [
+                ['content'=>
+                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
+                    ['role'=>'modal-remote','title'=> Yii::t('app', 'Create new') . Yii::t('app', 'Tour Prices'),'class'=>'btn btn-default']).
+                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>Yii::t('app', 'Reset Grid')]).
+                    '{toggleData}'.
+                    '{export}'
+                ],
+            ],          
+            'striped' => true,
+            'condensed' => true,
+            'responsive' => true,          
+            'panel' => [
+                'type' => 'primary', 
+                'heading' => '<i class="glyphicon glyphicon-list"></i> '. Yii::t('app', 'Tour Prices') . Yii::t('app', 'listing'),
+                'before'=>'<em>* ' . Yii::t('app', 'Resize table columns just like a spreadsheet by dragging the column edges.') . '</em>',
+                'after'=>BulkButtonWidget::widget([
+                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; ' . Yii::t('app', 'Delete All'),
+                                ["bulk-delete"] ,
+                                [
+                                    "class"=>"btn btn-danger btn-xs",
+                                    'role'=>'modal-remote-bulk',
+                                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                                    'data-request-method'=>'post',
+                                    'data-confirm-title'=>Yii::t('app', 'Are you sure?'),
+                                    'data-confirm-message'=>Yii::t('app', 'Are you sure want to delete this item')                                ]),
+                        ]).                        
+                        '<div class="clearfix"></div>',
             ]
-            ]
-            );
-            ?>        </div>
+        ])?>
     </div>
-
-
-    <div class="table-responsive">
-        <?= GridView::widget([
-        'layout' => '{summary}{pager}{items}{pager}',
-        'dataProvider' => $dataProvider,
-        'pager' => [
-        'class' => yii\widgets\LinkPager::className(),
-        'firstPageLabel' => Yii::t('app', 'First'),
-        'lastPageLabel' => Yii::t('app', 'Last')        ],
-                    'filterModel' => $searchModel,
-                'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
-        'headerRowOptions' => ['class'=>'x'],
-        'columns' => [
-
-                [
-            'class' => 'yii\grid\ActionColumn',
-            'urlCreator' => function($action, $model, $key, $index) {
-                // using the column name as key, not mapping to 'id' like the standard generator
-                $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
-                $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
-                return Url::toRoute($params);
-            },
-            'contentOptions' => ['nowrap'=>'nowrap']
-        ],
-			'id',
-			'price',
-			// generated by schmunk42\giiant\generators\crud\providers\RelationProvider::columnFormat
-[
-    'class' => yii\grid\DataColumn::className(),
-    'attribute' => 'tour_info_id',
-    'value' => function ($model) {
-        if ($rel = $model->getTourInfo()->one()) {
-            return Html::a($rel->name, ['tour-info/view', 'id' => $rel->id,], ['data-pjax' => 0]);
-        } else {
-            return '';
-        }
-    },
-    'format' => 'raw',
-],
-			'active',
-			'in_hotels',
-			'in_trans',
-			'in_food',
-			/*'date'*/
-			/*'date_begin'*/
-			/*'date_end'*/
-        ],
-        ]); ?>
-    </div>
-
 </div>
-
-
-<?php \yii\widgets\Pjax::end() ?>
-
-
-
+<?php Modal::begin([
+    "id"=>"ajaxCrudModal",
+    "footer"=>"",// always need it for jquery plugin
+])?>
+<?php Modal::end(); ?>

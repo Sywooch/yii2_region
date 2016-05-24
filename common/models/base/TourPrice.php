@@ -57,8 +57,8 @@ abstract class TourPrice extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'price', 'tour_info_id'], 'required'],
-            [['id', 'active', 'tour_info_id', 'in_hotels', 'in_trans', 'in_food'], 'integer'],
+            [[ 'price', 'tour_info_id'], 'required'],
+            [[ 'active', 'tour_info_id', 'in_hotels', 'in_trans', 'in_food'], 'integer'],
             [['price'], 'number'],
             [['date', 'date_begin', 'date_end'], 'safe'],
             [['tour_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => TourInfo::className(), 'targetAttribute' => ['tour_info_id' => 'id']]
@@ -71,7 +71,7 @@ abstract class TourPrice extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
+
             'price' => Yii::t('app', 'Price'),
             'date' => Yii::t('app', 'Date'),
             'active' => Yii::t('app', 'Active'),
@@ -92,7 +92,7 @@ abstract class TourPrice extends \yii\db\ActiveRecord
         return array_merge(
             parent::attributeHints(),
             [
-            'id' => Yii::t('app', 'id'),
+            
             'price' => Yii::t('app', 'Цена услуги/товара'),
             'date' => Yii::t('app', 'Дата создания цены товара'),
             'active' => Yii::t('app', 'Актуальна ли цена?'),

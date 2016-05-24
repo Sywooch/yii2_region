@@ -147,6 +147,11 @@ return [
     'Countries'=> 'Страны',
     'Tour Types listing'=> 'Список типов тура',
     'Create new Countries' => 'Создать новую Страну',
+    'Tour Type ID' => 'Типы Тура',
+    'Create new TourInfo' => 'Создать новый Тур',
+    'Create new Tour Infos' => 'Создать новый Тур',
+    'Update TourInfo #' => 'Редактироваь Тур #',
+    'TourInfo' => 'Тур',
 
     /*Begin Hotels*/
     'Create HotelsInfo success' => 'Новая гостиница успешно создана',

@@ -16,30 +16,46 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'name',
+        'attribute'=>'price',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'description',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date_add',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date_edit',
+        'attribute'=>'date',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'active',
     ],
     [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'date_begin',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'date_end',
+    ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'tour_info_id',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'in_hotels',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'in_trans',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'in_food',
+    // ],
+    [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign'=>'middle',
         'urlCreator' => function($action, $model, $key, $index) { 
-                return Url::to([$action,'id'=>$key]);
+                return Url::to([$action,'id, $tour_info_id'=>$key]);
         },
         'viewOptions'=>['role'=>'modal-remote','title'=>Yii::t('app','View'),'data-toggle'=>'tooltip'],
         'updateOptions'=>['role'=>'modal-remote','title'=>Yii::t('app','Update'), 'data-toggle'=>'tooltip'],

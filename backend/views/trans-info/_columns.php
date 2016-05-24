@@ -28,7 +28,7 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'trans_price_id',
+        'attribute'=>'seats',
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

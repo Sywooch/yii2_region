@@ -14,7 +14,7 @@ use yii\widgets\DetailView;
             'trans_type_id',
             'name:ntext',
             'trans_route_id',
-            'trans_price_id',
+            'seats',
         ],
     ]) ?>
 

@@ -11,23 +11,21 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'date_add')->widget(\kartik\datetime\DateTimePicker::classname(), [
-        //'language' => 'ru',
-        //'dateFormat' => 'yyyy-MM-dd',
-    ]) ?>
+    <?= $form->field($model, 'date_begin')->widget(\kartik\datetime\DateTimePicker::classname(), [
+                //'langauge' => 'ru',
+                //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
+            ]) ?>
 
-    <?= $form->field($model, 'date_edit')->widget(\kartik\datetime\DateTimePicker::classname(), [
-        //'language' => 'ru',
-        //'dateFormat' => 'yyyy-MM-dd',
-    ]) ?>
+    <?= $form->field($model, 'date_end')->widget(\kartik\datetime\DateTimePicker::classname(), [
+                //'langauge' => 'ru',
+                //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
+            ]) ?>
 
-    <?= $form->field($model, 'active')->checkbox() ?>
+    <?= $form->field($model, 'active')->textInput() ?>
 
-    <?= $form->field($model, 'begin_point')->textInput() ?>
+    <?= $form->field($model, 'begin_point')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'end_point')->textInput() ?>
-
-    <?= $form->field($model, 'editableTransStation')->checkboxList(\common\models\TransStation::listAll(), ['multiple' => true]) ?>
+    <?= $form->field($model, 'end_point')->textarea(['rows' => 6]) ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

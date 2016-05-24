@@ -4,9 +4,6 @@
 
 namespace common\models\base;
 
-use common\models\TourInfo;
-use common\models\TransInfo;
-use common\models\Userinfo;
 use Yii;
 
 /**
@@ -66,10 +63,10 @@ abstract class SalBasket extends \yii\db\ActiveRecord
             [['userinfo_id', 'tour_info_id', 'hotels_info_id', 'trans_info_id'], 'required'],
             [['userinfo_id', 'tour_info_id', 'hotels_info_id', 'trans_info_id', 'col_day', 'col_person', 'col_kids'], 'integer'],
             [['price'], 'number'],
-            [['hotels_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsInfo::className(), 'targetAttribute' => ['hotels_info_id' => 'id']],
-            [['tour_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => TourInfo::className(), 'targetAttribute' => ['tour_info_id' => 'id']],
-            [['trans_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => TransInfo::className(), 'targetAttribute' => ['trans_info_id' => 'id']],
-            [['userinfo_id'], 'exist', 'skipOnError' => true, 'targetClass' => Userinfo::className(), 'targetAttribute' => ['userinfo_id' => 'id']]
+            [['hotels_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\TransInfo::className(), 'targetAttribute' => ['hotels_info_id' => 'id']],
+            [['tour_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\TourInfo::className(), 'targetAttribute' => ['tour_info_id' => 'id']],
+            [['trans_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\TourInfo::className(), 'targetAttribute' => ['trans_info_id' => 'id']],
+            [['userinfo_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\Userinfo::className(), 'targetAttribute' => ['userinfo_id' => 'id']]
         ];
     }
 

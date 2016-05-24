@@ -19,7 +19,7 @@ class SearchTransRoute extends TransRoute
     {
         return [
             [['id', 'active'], 'integer'],
-            [['date_add', 'date_edit', 'begin_point', 'end_point'], 'safe'],
+            [['date_begin', 'date_end', 'begin_point', 'end_point'], 'safe'],
         ];
     }
 
@@ -57,8 +57,8 @@ class SearchTransRoute extends TransRoute
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'date_add' => $this->date_add,
-            'date_edit' => $this->date_edit,
+            'date_begin' => $this->date_begin,
+            'date_end' => $this->date_end,
             'active' => $this->active,
         ]);
 

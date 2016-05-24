@@ -18,7 +18,7 @@ class SearchTransInfo extends TransInfo
     public function rules()
     {
         return [
-            [['id', 'trans_type_id', 'trans_route_id', 'trans_price_id'], 'integer'],
+            [['id', 'trans_type_id', 'trans_route_id', 'seats'], 'integer'],
             [['name'], 'safe'],
         ];
     }
@@ -59,7 +59,7 @@ class SearchTransInfo extends TransInfo
             'id' => $this->id,
             'trans_type_id' => $this->trans_type_id,
             'trans_route_id' => $this->trans_route_id,
-            'trans_price_id' => $this->trans_price_id,
+            'seats' => $this->seats,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);
