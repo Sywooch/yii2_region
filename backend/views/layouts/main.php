@@ -73,7 +73,7 @@ AppAsset::register($this);
                 ['label' => 'Название характеристик', 'url'=>['/hotels-character']],
                 ['label' => 'Описание характеристик', 'url'=>['/hotels-character-item']],
                 ['label' => 'Скидки', 'url'=>['/discount']],
-                ['label' => 'Стоимость проживания', ''],
+                /*['label' => 'Стоимость проживания', ''],*/
                 ['label' => 'Формирование основных цен', 'url'=>['/hotels-pricing']],
                 ['label' => 'Формирование прочих цен', 'url'=>['/hotels-others-pricing']],
             ],
@@ -111,7 +111,7 @@ AppAsset::register($this);
                 ['label' => 'Список автобусов', 'url' => ['/bus-info']],
                 ['label' => 'Водители', 'url' => ['/bus-driver']],
                 ['label' => 'Путевой лист', 'url' => ['/bus-way']],
-                ['label' => 'Текущие маршруты', ['/bus-current']],
+                /*['label' => 'Текущие маршруты', ['/bus-current']],
                 ['label' => 'Бронь', ['/bus-bron']],
                 /*['label' => 'Маршрут + путевые точки', 'url' => ['/bus-route-has-bus-route-point']],*/
                 ['label' => 'Посадочные места','url' => ['/bus-scheme-seats']],

@@ -89,6 +89,7 @@ class Userinfo extends ActiveRecord implements IdentityInterface
             [['password_repeat'], 'compare', 'compareAttribute' => 'password'],*/
             /*[['auth_key'], 'string', 'max' => 250],*/
             [['username'], 'unique'],
+            [['status'], 'integer']
         ];
     }
 
@@ -107,6 +108,7 @@ class Userinfo extends ActiveRecord implements IdentityInterface
             'last_login' => 'Время последнего входа',
             'auth_key' => 'Ключ авторизации',
             'user_role_id' => 'User Role ID',
+            'status' => 'Active'
         ];
     }
 

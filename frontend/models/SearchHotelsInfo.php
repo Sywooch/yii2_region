@@ -18,9 +18,8 @@ class SearchHotelsInfo extends HotelsInfo
 public function rules()
 {
 return [
-    [['id', 'hotels_stars_id'], 'integer'],
-    [['address', 'country'], 'string'],
-    [['name', 'GPS', 'links_maps'], 'safe'],
+[['id', 'country', 'hotels_stars_id'], 'integer'],
+            [['name', 'address', 'gps_point_m', 'gps_point_p', 'links_maps', 'image', 'date_add', 'date_edit'], 'safe'],
 ];
 }
 
@@ -58,14 +57,18 @@ return $dataProvider;
 
 $query->andFilterWhere([
             'id' => $this->id,
-            'address' => $this->address,
             'country' => $this->country,
             'hotels_stars_id' => $this->hotels_stars_id,
+            'date_add' => $this->date_add,
+            'date_edit' => $this->date_edit,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'GPS', $this->GPS])
-            ->andFilterWhere(['like', 'links_maps', $this->links_maps]);
+            ->andFilterWhere(['like', 'address', $this->address])
+            ->andFilterWhere(['like', 'gps_point_m', $this->gps_point_m])
+            ->andFilterWhere(['like', 'gps_point_p', $this->gps_point_p])
+            ->andFilterWhere(['like', 'links_maps', $this->links_maps])
+            ->andFilterWhere(['like', 'image', $this->image]);
 
 return $dataProvider;
 }

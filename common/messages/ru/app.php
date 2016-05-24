@@ -16,7 +16,9 @@ return [
     'Update' => 'Обновить',
     'Delete' => 'Удалить',
     'success' => 'успешно заверешно',
-    
+    'Login' => 'Вход',
+    'Logout' => 'Выход',
+
     'Active' => 'Активный',
     'Description' => 'Описание',
     'Relations' => 'Связанные данные',
@@ -43,6 +45,8 @@ return [
     'Cancel' => 'Закрыть',
     'List' => 'Список',
     'Select' => 'Выберите значение',
+    'Begin Select Country' => 'Сначала Выберите страну',
+    'Error Download' => 'Ошибка загрузки данных',
     'listing' => '. Список',
     'View' => 'Просмотр',
     'Full list' => 'Полный список',
@@ -89,7 +93,9 @@ return [
     'Passport Num' => 'Номер паспорта',
     'Other' => 'Прочее',
     'Contacts' => 'Контакты',
-
+    'Username' => 'Имя пользователя',
+    'Password' => 'Пароль',
+    'Remember Me' => 'Запомнить',
 
     'First point' => 'Точка отъезда',
     'End point' => 'Точка прибытия',
@@ -98,6 +104,7 @@ return [
     'Bus Ways' => 'Маршрут Автобуса',
     'Discounts' => 'Скидки',
     'Hotels Appartments' => 'Номера в отеле',
+    'HotelsAppartment' => 'Номер в отеле',
     'Hotels Appartment Items' => 'Спарвочник номеров в отеле',
     'Hotels Characters' => 'Характеристики отеля',
     'Hotels Character Items' => 'Спарвочник характеристик отеля',
@@ -131,6 +138,7 @@ return [
     'HotelsInfos' => 'Гостиницы',
     'HotelsInfos List' => 'Список гостиниц  ',
     'HotelsTypeOfFood' => '"Тип питания"',
+    'Price' => 'Стоимость',
     'Price Added' => 'Надбавка',
     'Abbrev' => 'Аббревиатура',
     'HotelsAppartmentItem'=>'"Тип номера в отеле"',
@@ -146,4 +154,6 @@ return [
     'Create new {modelClass}' => 'Создание нового параметра: {modelClass}',
 
     'Image Files' => 'Изображения',
+    'Please fill out the following fields to login' => 'Пожалуйста, введите логин и пароль для входа в систему',
+    'Incorrect username or password.' => 'Неверное имя пользователя или пароль.',
 ];

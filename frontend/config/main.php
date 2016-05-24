@@ -12,10 +12,10 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
-        'user' => [
-            'identityClass' => 'common\models\User',
+        /*'user' => [
+            'identityClass' => 'common\models\Userinfo',
             'enableAutoLogin' => true,
-        ],
+        ],*/
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

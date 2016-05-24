@@ -274,6 +274,8 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
         }
     }
 
+    
+
 
 
 

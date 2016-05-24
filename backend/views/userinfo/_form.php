@@ -19,7 +19,9 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'password')->textInput(['maxlength' => true,'']) ?>
+    <?= $form->field($model, 'password')->textInput() ?>
+
+    <?= $form->field($model, 'status')->checkbox() ?>
 
     <?= $form->field($model, 'create_time')->widget(\kartik\datetime\DateTimePicker::classname(), [
                 //'langauge' => 'ru-RU',

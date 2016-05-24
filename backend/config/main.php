@@ -42,44 +42,12 @@ return [
 		'gridview' => [
 			'class' => 'kartik\grid\Module',
 		],
-
-        /*'admin' => [
-            'class' => 'app\modules\admin\Module',
-        ],*/
         'admin' => [
             'class' => 'mdm\admin\Module',
             /*'layout' => 'left-menu',*/
             'controllerMap' => [
                 'assignment' => [
                     'class' => 'mdm\admin\controllers\AssignmentController',
-                    /*'userClassName' => 'common\models\Userinfo',
-                    'idField' => 'id',
-                    'usernameField' => 'username',*/
-                    /*'fullnameField' => 'profile.full_name',*/
-                    /*'extraColumns' => [
-                        [
-                            'attribute' => 'full_name',
-                            'label' => 'Full Name',
-                            'value' => function($model, $key, $index, $column) {
-                                return $model->profile->full_name;
-                            },
-                        ],
-                        [
-                            'attribute' => 'dept_name',
-                            'label' => 'Department',
-                            'value' => function($model, $key, $index, $column) {
-                                return $model->profile->dept->name;
-                            },
-                        ],
-                        [
-                            'attribute' => 'post_name',
-                            'label' => 'Post',
-                            'value' => function($model, $key, $index, $column) {
-                                return $model->profile->post->name;
-                            },
-                        ],
-                    ],*/
-                    /*'searchClass' => 'common\models\UserinfoSearch'*/
                 ],
             ],
         ],
@@ -115,8 +83,9 @@ return [
     ],
     'components' => [
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'common\models\Userinfo',
             'enableAutoLogin' => true,
+
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
@@ -151,11 +120,14 @@ return [
     'as access' => [
         'class' => 'mdm\admin\classes\AccessControl',
         'allowActions' => [
-            'site/*',
-            'admin/*',
-            'menu/*',
+            'site/login',
+            'site/logout',
+            'login',
+            'logout',
+            //'admin/*',
+            //'menu/*',
             //'*',
-            'some-controller/some-action',
+            //'some-controller/some-action',
             // The actions listed here will be allowed to everyone including guests.
             // So, 'admin/*' should not appear here in the production, of course.
             // But in the earlier stages of your development, you may probably want to

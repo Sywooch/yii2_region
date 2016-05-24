@@ -72,7 +72,7 @@ $model = new HotelsInfo;
 
 try {
 if ($model->load($_POST) && $model->save()) {
-return $this->redirect(Url::previous());
+return $this->redirect(['view', 'id' => $model->id]);
 } elseif (!\Yii::$app->request->isPost) {
 $model->load($_GET);
 }
@@ -132,7 +132,7 @@ return $this->redirect($url);
 return $this->redirect(['index']);
 }
 }
-    
+
     public function actionFilter()
     {
         $searchModel  = new SearchHotelsInfo;
@@ -148,7 +148,7 @@ return $this->redirect(['index']);
             'searchModel' => $searchModel,
         ]);
     }
-
+    
 /**
 * Finds the HotelsInfo model based on its primary key value.
 * If the model is not found, a 404 HTTP exception will be thrown.

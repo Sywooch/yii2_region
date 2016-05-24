@@ -69,7 +69,7 @@ abstract class HotelsAppartment extends \yii\db\ActiveRecord
             [['name'], 'string'],
             [['price'], 'number'],
             [['hotels_appartment_item_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsAppartmentItem::className(), 'targetAttribute' => ['hotels_appartment_item_id' => 'id']],
-            [['hotels_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsInfo::className(), 'targetAttribute' => ['hotels_info_id' => 'id']]
+            [['hotels_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\HotelsInfo::className(), 'targetAttribute' => ['hotels_info_id' => 'id']]
         ];
     }
 
@@ -82,6 +82,7 @@ abstract class HotelsAppartment extends \yii\db\ActiveRecord
 
             'hotels_info_id' => Yii::t('app', 'Hotels Info ID'),
             'name' => Yii::t('app', 'Name'),
+            'country' => Yii::t('app', 'Country'),
             'price' => Yii::t('app', 'Price'),
             'type_price' => Yii::t('app', 'Type Price'),
             'hotels_appartment_item_id' => Yii::t('app', 'Hotels Appartment Item ID'),
@@ -97,6 +98,7 @@ abstract class HotelsAppartment extends \yii\db\ActiveRecord
             [
                 'hotels_info_id' => Yii::t('app', 'Выберите гостиницу'),
                 'name' => Yii::t('app', 'Name'),
+                'country' => Yii::t('app', 'Country'),
                 'price' => Yii::t('app', 'Price'),
                 'type_price' => Yii::t('app', 'Type Price'),
                 'hotels_appartment_item_id' => Yii::t('app', 'Hotels Appartment Item ID'),
@@ -119,6 +121,16 @@ abstract class HotelsAppartment extends \yii\db\ActiveRecord
     public function getHotelsInfo()
     {
         return $this->hasOne(\common\models\HotelsInfo::className(), ['id' => 'hotels_info_id']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getHotelsByCountry($idCountry)
+    {
+        $model = new \common\models\HotelsInfo();
+        //$model->find()->andFilterWhere(['country'=>$idCountry]);
+        return $model->findAll(['country'=>$idCountry]);
     }
 
     /**

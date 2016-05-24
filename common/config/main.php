@@ -13,6 +13,7 @@ return [
             'showScriptName' => false,
             'rules' => [
                 'login' => 'site/login',
+                'logout' => 'site/logout',
                 'pages/<page:[\w-]+>' => 'pages/default/index',
             ],
         ],
