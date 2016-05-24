@@ -59,12 +59,11 @@ return $dataProvider;
 $query->andFilterWhere([
             'id' => $this->id,
             'hotels_info_id' => $this->hotels_info_id,
-            'price' => $this->price,
-            'type_price' => $this->type_price,
+
             'hotels_appartment_item_id' => $this->hotels_appartment_item_id,
-            'date_add' => $this->date_add,
-            'date_edit' => $this->date_edit,
         ]);
+
+        $query->andFilterWhere(['<=','price',$this->price]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);
 

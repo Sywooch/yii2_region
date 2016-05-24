@@ -24,7 +24,7 @@ return [
                 'user' => 'cornernote\dashboard\panels\UserPanel'
             ],
         ],*/
-        'dashboard' => [
+        /*'dashboard' => [
             'class' => 'stronglab\dashboard\Module',
             'roles' => ['@'], // необязатьельный параметр, по-умолчанию доступ всем гостям
             'column' => 2, // необязательный параметр, количество столбцов в панели (возможные значения: 1-3)
@@ -33,9 +33,9 @@ return [
                 'user',
                 /*'moduleID' => [
                     'jsonPath' => 'config/dashboard/myconf.json', // отдельный путь к файлу настроек панели, прописывается от директории приложения
-                ],*/
+                ],*
             ],
-        ],
+        ],*/
         'menu' => [
             'class' => 'infoweb\menu\Module',
         ],
@@ -100,6 +100,16 @@ return [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+            ],
+        ],
+        'urlManager' => [
+            'class' => 'yii\web\urlManager',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+                'login' => 'site/login',
+                'logout' => 'site/logout',
+                'pages/<page:[\w-]+>' => 'pages/default/index',
             ],
         ],
         'urlManagerFrontend' => [

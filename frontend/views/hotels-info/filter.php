@@ -10,15 +10,18 @@ use yii\widgets\ListView;
     * @var frontend\models\SearchHotelsInfo $searchModel
 */
 
-$this->title = $searchModel->getAliasModel(true);
+/*$this->title = $searchModel->getAliasModel(true);*/
 ?>
 
 <div class="filter">
 
-    <div class="col-md-4">
-    <?php echo $this->render('_search', ['model' =>$searchModel]);
+
+
+    <?php
+
+    echo $this->render('_search', ['model' =>$searchModel]);
         ?>
-    </div>
+
 </div>
 
 

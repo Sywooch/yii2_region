@@ -12,7 +12,8 @@ $this->title = 'Лайв Тур Вояж';
                     <div class="filter find">
                         <?php
                         $hic = \Yii::$app->createController('hotels-info');
-                        $r = $hic[0]->actionFilter();
+                        echo $hic[0]->actionFilter();
+
                         ?>
                     </div>
                 </div>

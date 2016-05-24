@@ -40,7 +40,6 @@
         "kartik-v/yii2-detail-view": "*",
         "voskobovich/yii2-setting-toolkit": "~3.0",
         "mirocow/yii2-yandex-maps": "@dev",
-        "stronglab/yii2-dashboard": "@dev",
         "bupy7/yii2-activerecord-history": "*",
         "vova07/yii2-fileapi-widget": "*",
 

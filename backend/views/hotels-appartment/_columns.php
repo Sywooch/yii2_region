@@ -1,5 +1,8 @@
 <?php
 use yii\helpers\Url;
+use kartik\grid\GridView;
+use yii\helpers\ArrayHelper;
+use kartik\helpers\Html;
 
 return [
     [
@@ -10,29 +13,50 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'id',
-    // ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'hotels_info_id',
-    ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'name',
     ],
     [
+        'class' => \kartik\grid\DataColumn::className(),
+        'attribute' => 'hotels_info_id',
+        'value' => function ($model) {
+            if ($rel = $model->getHotelsInfo()->one()) {
+                return Html::a($rel->name, ['hotels-info/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+            } else {
+                return '';
+            }
+        },
+        'filterType'=>GridView::FILTER_SELECT2,
+        'filter'=>ArrayHelper::map(\common\models\HotelsInfo::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
+        'filterWidgetOptions'=>[
+            'pluginOptions'=>['allowClear'=>true],
+        ],
+        'filterInputOptions'=>['placeholder'=>'Все гостиницы'],
+        'format' => 'raw',
+    ],
+    [
+        'class' => \kartik\grid\DataColumn::className(),
+        'attribute' => 'hotels_appartment_item_id',
+        'value' => function ($model) {
+            if ($rel = $model->getHotelsAppartmentItem()->one()) {
+                return Html::a($rel->name, ['hotels-appartment-item/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+            } else {
+                return '';
+            }
+        },
+        'filterType'=>GridView::FILTER_SELECT2,
+        'filter'=>ArrayHelper::map(\common\models\HotelsAppartmentItem::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
+        'filterWidgetOptions'=>[
+            'pluginOptions'=>['allowClear'=>true],
+        ],
+        'filterInputOptions'=>['placeholder'=>'Все типы номеров'],
+        'format' => 'raw',
+    ],
+    [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'price',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'type_price',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'hotels_appartment_item_id',
+        'label' => Yii::t('app', 'Price to'),
     ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',

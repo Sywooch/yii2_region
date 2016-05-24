@@ -112,14 +112,14 @@ class HotelsInfoController extends Controller
             $model->setMainImage($model->getImageByField('urlAlias',$model->mainImage));
             //Удаляем отмеченные изображения
             $model->imageDelete($model->delImages);
-
-
             //Загружаем новые изображения (Если они есть)
             if (is_array($model->imageFiles) && count($model->imageFiles)>0){
                 $model->imageFiles = UploadedFile::getInstances($model,'imageFiles');
                 $model->upload();
             }
-            
+
+
+
             return $this->redirect(Url::previous());
         } else {
             return $this->render('update', [

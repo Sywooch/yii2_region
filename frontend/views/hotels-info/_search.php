@@ -13,11 +13,9 @@ use yii\widgets\ActiveForm;
 <div class="hotels-info-search">
 
     <?php $form = ActiveForm::begin([
-    'action' => ['index'],
-    'method' => 'get',
+    'action' => ['/hotels-info'],
+    'method' => 'POST',
     ]); ?>
-
-    		<?= $form->field($model, 'id') ?>
 
 		<?= $form->field($model, 'name') ?>
 

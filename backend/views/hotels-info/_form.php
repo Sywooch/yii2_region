@@ -91,6 +91,9 @@ if (Yii::$app->controller->action->id === 'update'){
                 ['prompt' => Yii::t('app', 'Select')]
             ); ?>
 
+
+            <?= $form->field($model, 'gps_point_m')->textInput() ?>
+            <?= $form->field($model, 'gps_point_p')->textInput() ?>
             <?= $form->field($model, 'imageFiles[]')->widget(FileInput::className(),[
                 'language' => 'ru',
                 'options' => ['multiple' => true, 'accept' => 'image/*',],
@@ -104,9 +107,6 @@ if (Yii::$app->controller->action->id === 'update'){
                 ],
 
             ]); ?>
-            <?= $form->field($model, 'gps_point_m')->textInput() ?>
-            <?= $form->field($model, 'gps_point_p')->textInput() ?>
-            <?= $form->field($model, 'links_maps')->textInput() ?>
 
             <?= YandexCanvas::widget([
                 'htmlOptions' => [

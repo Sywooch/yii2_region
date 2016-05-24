@@ -12,17 +12,11 @@ return [
     'New' => 'Новый',
     'Password' => 'Пароль',
     'Create' => 'Создание',
-    'Create new' => 'Создать новый элемент:',
-    'Create More' => 'Создать новый',
-    'Create TourType succes' => 'Создание типа тура успешно завершено',
-    'Update' => 'Обновить:',
+    'Create new' => 'Создать новый',
+    'Update' => 'Обновить',
     'Delete' => 'Удалить',
     'success' => 'успешно заверешно',
-    'Login' => 'Вход',
-    'Logout' => 'Выход',
-    'Reset Grid' => 'Обновить таблицу',
-    'Delete All' => 'Удалить',
-
+    
     'Active' => 'Активный',
     'Description' => 'Описание',
     'Relations' => 'Связанные данные',
@@ -174,9 +168,10 @@ return [
     'Create new {modelClass}' => 'Создание нового параметра: {modelClass}',
     'Create new Tour Types' => 'Создание нового параметра: Тип тура',
     'Create new TourType' => 'Создание нового параметра: Тип тура',
-   
+
 
     'Image Files' => 'Изображения',
+    'Price to' => 'Цена (в фильтре - цена до)',
     'Please fill out the following fields to login' => 'Пожалуйста, введите логин и пароль для входа в систему',
     'Incorrect username or password.' => 'Неверное имя пользователя или пароль.',
 ];

@@ -12,10 +12,20 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
-        /*'user' => [
+        'urlManager' => [
+            'class' => 'yii\web\urlManager',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            /*'rules' => [
+                'login' => 'site/login',
+                'logout' => 'site/logout',
+                'pages/<page:[\w-]+>' => 'pages/default/index',
+            ],*/
+        ],
+        'user' => [
             'identityClass' => 'common\models\Userinfo',
             'enableAutoLogin' => true,
-        ],*/
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

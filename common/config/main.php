@@ -7,7 +7,7 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'urlManager' => [
+        /*'urlManager' => [
             'class' => 'yii\web\urlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
@@ -16,7 +16,7 @@ return [
                 'logout' => 'site/logout',
                 'pages/<page:[\w-]+>' => 'pages/default/index',
             ],
-        ],
+        ],*/
         'i18n' => [
             'translations' => [
                 'app*' => [
@@ -29,8 +29,8 @@ return [
                 ],
             ],
         ],
-        'authManager' => [
+        /*'authManager' => [
             'class' => 'yii\rbac\DbManager',
-        ],
+        ],*/
     ],
 ];
