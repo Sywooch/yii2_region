@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View');
 [
     'format' => 'html',
     'attribute' => 'country',
-    'value' => ($model->getCountry0()->one() ? Html::a($model->getCountry0()->one()->name, ['country/view', 'id' => $model->getCountry0()->one()->id,]) : '<span class="label label-warning">?</span>'),
+    'value' => ($model->getCountry()->one() ? Html::a($model->getCountry()->one()->name, ['country/view', 'id' => $model->getCountry()->one()->id,]) : '<span class="label label-warning">?</span>'),
 ],
         'gps_point_m',
         'gps_point_p',

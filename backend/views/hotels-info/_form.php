@@ -114,7 +114,7 @@ if (Yii::$app->controller->action->id === 'update'){
 
             <?= YandexCanvas::widget([
                 'htmlOptions' => [
-                    'style' => 'height: 400px;',
+                    'style' => 'height: 400px; width: 90%;',
                 ],
                 'map' => $map,
             ])?>
