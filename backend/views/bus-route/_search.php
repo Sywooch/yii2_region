@@ -3,9 +3,11 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model backend\models\SearchBusRoute */
-/* @var $form yii\widgets\ActiveForm */
+/**
+ * @var yii\web\View $this
+ * @var backend\models\SearchBusRoute $model
+ * @var yii\widgets\ActiveForm $form
+ */
 ?>
 
 <div class="bus-route-search">

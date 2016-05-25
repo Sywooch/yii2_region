@@ -48,11 +48,10 @@ class BusRoutePoint extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'Первичный ключ. Таблица содержит путевые точки маршрута.'),
             'name' => Yii::t('app', 'Название путевой точки'),
             'gps_point_m' => Yii::t('app', 'GPS-координаты меридиана.'),
             'gps_point_p' => Yii::t('app', 'GPS-координаты паралели.'),
-            'active' => Yii::t('app', 'Флаг, указывающий активно ли в данный момент путевая точка.'),
+            'active' => Yii::t('app', 'Active'),
             'description' => Yii::t('app', 'Описание путевой точки.'),
             'date' => Yii::t('app', 'Дата создания'),
         ];

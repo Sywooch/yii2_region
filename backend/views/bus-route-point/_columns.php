@@ -18,14 +18,14 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'name',
     ],
-    [
+    /*[
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'gps_point_m',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'gps_point_p',
-    ],
+    ],*/
     [
         'class'=>'\kartik\grid\BooleanColumn',
         'attribute'=>'active',
@@ -34,10 +34,10 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'description',
     ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'date',
-    // ],
+    [
+         'class'=>'\kartik\grid\DataColumn',
+         'attribute'=>'date',
+    ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

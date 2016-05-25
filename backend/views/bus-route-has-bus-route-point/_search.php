@@ -25,7 +25,17 @@ use yii\widgets\ActiveForm;
 
 		<?= $form->field($model, 'end_point') ?>
 
-    <?= $form->field($model, 'posotion') ?>
+		<?= $form->field($model, 'position') ?>
+
+		<?php // echo $form->field($model, 'date_point_forward') ?>
+
+		<?php // echo $form->field($model, 'time_pause') ?>
+
+		<?php // echo $form->field($model, 'date_point_reverse') ?>
+
+		<?php // echo $form->field($model, 'date_add') ?>
+
+		<?php // echo $form->field($model, 'date_edit') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

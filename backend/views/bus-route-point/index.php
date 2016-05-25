@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 CrudAsset::register($this);
 
 ?>
+
 <div class="bus-route-point-index">
     <div id="ajaxCrudDatatable">
         <?=GridView::widget([
@@ -33,7 +34,8 @@ CrudAsset::register($this);
                     '{toggleData}'.
                     '{export}'
                 ],
-            ],          
+            ],
+            'bordered' => true,
             'striped' => true,
             'condensed' => true,
             'responsive' => true,          
@@ -54,10 +56,13 @@ CrudAsset::register($this);
                                 ]),
                         ]).                        
                         '<div class="clearfix"></div>',
-            ]
+            ],
+            'persistResize' => false,
+
         ])?>
     </div>
 </div>
+<script src="http://api-maps.yandex.ru/2.1-dev/?lang=ru-RU&amp;load=package.full"></script>
 <?php Modal::begin([
     "id"=>"ajaxCrudModal",
     "footer"=>"",// always need it for jquery plugin

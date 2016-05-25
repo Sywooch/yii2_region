@@ -26,7 +26,14 @@ AppAsset::register($this);
     <?php $this->beginBody() ?>
     <div class="container main">
 
+
         <header>
+            <div class="animation">
+                <img class="logo-element" src="<?= Yii::$app->homeUrl ?>images/tr.gif" style="max-width: 100%;
+        position: absolute;
+        display: block;
+        left: 0;"/>
+            </div>
             <div class="logo col-sm-6 col-md-6 col-lg-6 col-xs-12">
                 <a href="<?= Yii::$app->homeUrl ?>"><img class="logo-element" src="<?= Yii::$app->homeUrl ?>images/logo.png" />
                 </a>

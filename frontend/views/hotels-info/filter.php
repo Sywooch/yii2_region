@@ -13,15 +13,10 @@ use yii\widgets\ListView;
 /*$this->title = $searchModel->getAliasModel(true);*/
 ?>
 
-<div class="filter">
-
-
-
+<div class="filters ">
     <?php
-
     echo $this->render('_search', ['model' =>$searchModel]);
         ?>
-
 </div>
 
 

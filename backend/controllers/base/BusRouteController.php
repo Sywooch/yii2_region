@@ -4,20 +4,18 @@
 
 namespace backend\controllers\base;
 
-use common\models\HotelsAppartment;
-use common\models\HotelsInfo;
-use backend\models\SearchHotelsAppartemnt;
+use common\models\BusRoute;
+use backend\models\SearchBusRoute;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
-use yii\web\UploadedFile;
 
 /**
- * HotelsAppartmentController implements the CRUD actions for HotelsAppartment model.
+ * BusRouteController implements the CRUD actions for BusRoute model.
  */
-class HotelsAppartmentController extends Controller
+class BusRouteController extends Controller
 {
     /**
      * @var boolean whether to enable CSRF validation for the actions in this controller.
@@ -27,12 +25,12 @@ class HotelsAppartmentController extends Controller
 
 
     /**
-     * Lists all HotelsAppartment models.
+     * Lists all BusRoute models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new SearchHotelsAppartemnt;
+        $searchModel = new SearchBusRoute;
         $dataProvider = $searchModel->search($_GET);
 
         Tabs::clearLocalStorage();
@@ -47,9 +45,8 @@ class HotelsAppartmentController extends Controller
     }
 
     /**
-     * Displays a single HotelsAppartment model.
+     * Displays a single BusRoute model.
      * @param integer $id
-     * @param integer $hotels_info_id
      *
      * @return mixed
      */
@@ -65,21 +62,17 @@ class HotelsAppartmentController extends Controller
     }
 
     /**
-     * Creates a new HotelsAppartment model.
+     * Creates a new BusRoute model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new HotelsAppartment;
+        $model = new BusRoute;
 
         try {
-            if ($model->load($_POST)) {
-                $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
-                if ($model->save()){
-                    $model->upload();
-                    return $this->redirect(Url::previous());
-                }
+            if ($model->load($_POST) && $model->save()) {
+                return $this->redirect(Url::previous());
             } elseif (!\Yii::$app->request->isPost) {
                 $model->load($_GET);
             }
@@ -91,36 +84,20 @@ class HotelsAppartmentController extends Controller
     }
 
     /**
-     * Updates an existing HotelsAppartment model.
+     * Updates an existing BusRoute model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
-     * @param integer $hotels_info_id
      * @return mixed
      */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
-        if ($model->load($_POST)) {
-
-            //Çàãðóæàåì íîâûå èçîáðàæåíèÿ (Åñëè îíè åñòü)
-            if (is_array($model->imageFiles) && count($model->imageFiles)>0){
-                $model->imageFiles = UploadedFile::getInstances($model,'imageFiles');
-            }
-            if ($model->save()){
-                $model->upload();
-            }
-            if (isset($_POST['delImages'])){
-                $model->delImages = $_POST['delImages'];
-                $model->imageDelete($model->delImages);
-            }
-            if (isset($_POST['mainImage'])){
-                $model->mainImage = $_POST['mainImage'];
-                $model->setMainImage($model->getImageByField('urlAlias',$model->mainImage));
-            }
-            /*
-             * TODO Ñäåëàòü ïðîâåðêó íà ñóùåñòâîâàíèå ãëàâíîé êàðòèíêè
-             */
+        /**
+         * TODO Ð˜ÑÐ¿Ñ€Ð°Ð²Ð¸Ñ‚ÑŒ Ð¾ÑˆÐ¸Ð±ÐºÑƒ Ð¿Ñ€Ð¸ Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€Ð½Ð¾Ð¼ ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ð¸:
+         * ÐŸÑ€Ð¸ Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€Ð½Ð¾Ð¼ ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ð¸ Ð¼Ð°Ñ€ÑˆÑ€ÑƒÑ‚Ð° Ð²Ñ‹Ð´Ð°ÐµÑ‚ Ð¾ÑˆÐ¸Ð±ÐºÑƒ Ð¾ Ð½ÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ÑÑ‚Ð¸ Ð·Ð°Ð¿Ð¸ÑÐ¸ Ð² Ð¾Ð±ÑŠÐµÐ´Ð¸Ð½ÑÑŽÑ‰ÑƒÑŽ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñƒ
+         */
+        if ($model->load($_POST) && $model->save()) {
             return $this->redirect(Url::previous());
         } else {
             return $this->render('update', [
@@ -130,18 +107,15 @@ class HotelsAppartmentController extends Controller
     }
 
     /**
-     * Deletes an existing HotelsAppartment model.
+     * Deletes an existing BusRoute model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
-     * @param integer $hotels_info_id
      * @return mixed
      */
     public function actionDelete($id)
     {
         try {
-            $model = $this->findModel($id);
-            $model->removeImages();
-            $model->delete();
+            $this->findModel($id)->delete();
         } catch (\Exception $e) {
             $msg = (isset($e->errorInfo[2])) ? $e->errorInfo[2] : $e->getMessage();
             \Yii::$app->getSession()->addFlash('error', $msg);
@@ -163,36 +137,19 @@ class HotelsAppartmentController extends Controller
         }
     }
 
-    public function actionGethotelsinfo()
-    {
-        $model = new HotelsAppartment();
-        if ($model->load($_POST)){
-            $model->getHotelsByCountry($model->country);
-        }
-        else{
-            $model = '';
-        }
-        return $this->renderPartial('hotels',['model' => $model]);
-    }
-
     /**
-     * Finds the HotelsAppartment model based on its primary key value.
+     * Finds the BusRoute model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @param integer $hotels_info_id
-     * @return HotelsAppartment the loaded model
+     * @return BusRoute the loaded model
      * @throws HttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = HotelsAppartment::findOne(['id' => $id])) !== null) {
+        if (($model = BusRoute::findOne($id)) !== null) {
             return $model;
         } else {
             throw new HttpException(404, 'The requested page does not exist.');
         }
     }
-
-
-    
-    
 }

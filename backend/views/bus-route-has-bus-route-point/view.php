@@ -13,8 +13,8 @@ use dmstr\bootstrap\Tabs;
 */
 $copyParams = $model->attributes;
 
-$this->title = 'Bus Route Has Bus Route Point ' . $model->bus_route_id;
-$this->params['breadcrumbs'][] = ['label' => 'Bus Route Has Bus Route Points', 'url' => ['index']];
+$this->title = Yii::t('app', 'BusRouteHasBusRoutePoint');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BusRouteHasBusRoutePoints'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->bus_route_id, 'url' => ['view', 'bus_route_id' => $model->bus_route_id, 'bus_route_point_id' => $model->bus_route_point_id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'View');
 ?>
@@ -30,24 +30,39 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View');
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('app', 'Bus Route Has Bus Route Point') ?>        <small>
+        <?= Yii::t('app', 'BusRouteHasBusRoutePoint') ?>        <small>
             <?= $model->bus_route_id ?>        </small>
     </h1>
 
 
     <div class="clearfix crud-navigation">
+
         <!-- menu buttons -->
         <div class='pull-left'>
-            <?= Html::a('<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('app', 'Edit'), ['update', 'bus_route_id' => $model->bus_route_id, 'bus_route_point_id' => $model->bus_route_point_id],['class' => 'btn btn-info']) ?>
-            <?= Html::a('<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('app', 'Copy'), ['create', 'bus_route_id' => $model->bus_route_id, 'bus_route_point_id' => $model->bus_route_point_id, 'BusRouteHasBusRoutePoint            '=>$copyParams],['class' => 'btn btn-success']) ?>
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('app', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a(
+            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('app', 'Edit'),
+            [ 'update', 'bus_route_id' => $model->bus_route_id, 'bus_route_point_id' => $model->bus_route_point_id],
+            ['class' => 'btn btn-info']) ?>
+
+            <?= Html::a(
+            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('app', 'Copy'),
+            ['create', 'bus_route_id' => $model->bus_route_id, 'bus_route_point_id' => $model->bus_route_point_id, 'BusRouteHasBusRoutePoint'=>$copyParams],
+            ['class' => 'btn btn-success']) ?>
+
+            <?= Html::a(
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('app', 'New'),
+            ['create'],
+            ['class' => 'btn btn-success']) ?>
         </div>
+
         <div class="pull-right">
-            <?= Html::a('<span class="glyphicon glyphicon-list"></span> ' . Yii::t('app', 'List BusRouteHasBusRoutePoints'), ['index'], ['class'=>'btn btn-default']) ?>
+            <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
+            . Yii::t('app', 'Full list'), ['index'], ['class'=>'btn btn-default']) ?>
         </div>
 
     </div>
 
+    <hr />
 
     <?php $this->beginBlock('common\models\BusRouteHasBusRoutePoint'); ?>
 
@@ -70,6 +85,11 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View');
         'first_point',
         'end_point',
         'position',
+        'date_point_forward',
+        'time_pause:datetime',
+        'date_point_reverse',
+        'date_add',
+        'date_edit',
     ],
     ]); ?>
 

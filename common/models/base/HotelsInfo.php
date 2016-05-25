@@ -8,6 +8,7 @@ use common\models\HotelsStars;
 use Yii;
 use yii\base\Exception;
 use yii\BaseYii;
+use yii\helpers\VarDumper;
 
 /**
  * This is the base-model class for table "hotels_info".
@@ -87,7 +88,7 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
             [['country', 'hotels_stars_id'], 'integer'],
             [['imageFiles'], 'file', 'extensions' => 'png, jpg, gif', 'maxFiles' => 12],
             [['hotels_stars_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsStars::className(), 'targetAttribute' => ['hotels_stars_id' => 'id']],
-            [['delImages','mainImage'],'boolean']
+            [['delImages','mainImage','active'],'boolean']
         ];
     }
 
@@ -211,12 +212,15 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
 
     public function upload(){
 
-        if ($this->validate('imageFiles')){
+        if ($this->validate()){
             foreach($this->imageFiles as $file){
                 $filename = uniqid() . '.' . $file->extension;
                 $this->imageFullPath= \Yii::$app->getBasePath() . '/web/uploads/images/hotels/' . $filename;
+
                 $file->saveAs($this->imageFullPath);
+
                 $this->attachImage($this->imageFullPath);
+                
             }
             return true;
         }
@@ -257,12 +261,17 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
      */
     public function imageDelete($imageAlias = array()){
         //Получаем отмеченные изображения
+        
         try {
             if (is_array($imageAlias) && count($imageAlias) > 0) {
+
                 foreach ($imageAlias as $idImage) {
                     $image = $this->getImageByField('urlAlias', $idImage);
+                    
                     $this->removeImage($image);
+                    
                 }
+
                 return true;
             } else {
                 return false;

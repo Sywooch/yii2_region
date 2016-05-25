@@ -11,7 +11,7 @@ body {
 }
 
 .wrap > .container {
-    padding: 70px 15px 20px;
+    /*padding: 70px 15px 20px;*/
 }
 
 .footer {
@@ -111,6 +111,15 @@ a.desc:after {
     background-repeat: no-repeat;
     background-color: #fff;
     background-position: top;
+}
+
+.animation{
+    width:100%;
+
+    background: url(../images/tr.gif) no-repeat #fff;
+    background-position: left top;
+    background-size: 100% 183px;
+
 }
 
 .first-menu{
@@ -216,3 +225,21 @@ a.desc:after {
 }
 
 .row {margin-top: 7px;margin-bottom:7px;}
+
+
+/*Extends main bootstap framework*/
+.filters{
+    padding-bottom: 15px;
+}
+.filters .container-fluid .form-group{
+    margin-bottom: 10px;
+}
+.filters .form-group .form-control{
+    height: inherit;
+    padding: 2px 0;
+}
+
+.filters .form-group label{
+    margin: 0;
+
+}

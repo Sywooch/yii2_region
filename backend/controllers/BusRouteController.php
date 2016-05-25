@@ -83,11 +83,7 @@ class BusRouteController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        /**
-         * TODO Исправить ошибку при повторном сохранении:
-         * При повторном сохранении маршрута выдает ошибку о невозможности записи в объединяющую таблицу
-        */
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {

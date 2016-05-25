@@ -2,22 +2,32 @@
 
 use yii\helpers\Html;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\BusRoute */
+/**
+ * @var yii\web\View $this
+ * @var common\models\BusRoute $model
+ */
 
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
-    'modelClass' => 'Bus Route',
-]) . ' ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Bus Routes'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->title = Yii::t('app', 'BusRoute') . $model->name . ', ' . Yii::t('app', 'Edit');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', $model->getAliasModel(true)), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => (string)$model->name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'Edit');
 ?>
-<div class="bus-route-update">
+<div class="giiant-crud bus-route-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>
+        <?= Yii::t('app', 'BusRoute') ?>
+        <small>
+            <?= $model->name ?>        </small>
+    </h1>
 
-    <?= $this->render('_form', [
+    <div class="crud-navigation">
+        <?= Html::a('<span class="glyphicon glyphicon-eye-open"></span> ' . Yii::t('app', 'View'), ['view', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
+    </div>
+
+    <hr/>
+
+    <?php echo $this->render('_form', [
         'model' => $model,
-    ]) ?>
+    ]); ?>
 
 </div>

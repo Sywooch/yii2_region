@@ -14,14 +14,20 @@ $this->title = $searchModel->getAliasModel(true);
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="giiant-crud hotels-info-index">
+<div >
 
     <div class="col-md-4">
     <?php echo $this->render('_search', ['model' =>$searchModel]);
         ?>
     </div>
     
-    <div class="col-md-8">
+    <div class="col-md-8 panel panel-info">
+        <div class="container-fluid ">
+            <div class="row">
+                <?php
+                ?>
+            </div>
+        </div>
     <?=  ListView::widget([
     'dataProvider' => $dataProvider,
     'itemOptions' => ['class' => 'item'],

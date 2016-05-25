@@ -73,7 +73,7 @@ $model = new BusRouteHasBusRoutePoint;
 
 try {
 if ($model->load($_POST) && $model->save()) {
-return $this->redirect(Url::previous());
+return $this->redirect(['view', 'bus_route_id' => $model->bus_route_id, 'bus_route_point_id' => $model->bus_route_point_id]);
 } elseif (!\Yii::$app->request->isPost) {
 $model->load($_GET);
 }

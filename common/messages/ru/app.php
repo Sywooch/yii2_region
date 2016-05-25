@@ -65,8 +65,13 @@ return [
     'Bus Infos' => 'Информация о автобусах',
     'Bus Info' => 'Информация о автобусах',
     'Bus Routes' => 'Маршруты',
+    'BusRoutes' => 'Маршруты',
     'Bus route' => 'Маршрут',
+    'BusRoute' => 'Маршрут',
     'Bus route point' => 'Точка маршрута',
+    'BusRoutePoint' => 'Точки маршрута',
+    'Routepoint' => 'Точки маршрута',
+    'position' => 'Позиция',
     'Bus Reservation' => 'Резерв мест',
     'BusReservation' => 'Резерв мест',
     'Bus Reservations' => 'Резерв мест',
@@ -155,12 +160,14 @@ return [
     /*Begin Hotels*/
     'Create HotelsInfo success' => 'Новая гостиница успешно создана',
     'HotelsInfos' => 'Гостиницы',
+    'HotelsInfo' => 'Гостиница',
     'HotelsInfos List' => 'Список гостиниц  ',
     'HotelsTypeOfFood' => '"Тип питания"',
     'Price' => 'Стоимость',
     'Price Added' => 'Надбавка',
     'Abbrev' => 'Аббревиатура',
-    'HotelsAppartmentItem'=>'"Тип номера в отеле"',
+    'HotelsAppartmentItem'=>'"Тип номера в гостинице"',
+    'Hotels Appartment Item ID' => 'Тип номера',
     'HotelsOthersPricingType'=>'"Тип дополнительных услуг"',
     'Hotels Stars' => 'Звезды',
     'Hotels Stars ID' => 'Звезды',
@@ -179,4 +186,21 @@ return [
     'Price to' => 'Цена (в фильтре - цена до)',
     'Please fill out the following fields to login' => 'Пожалуйста, введите логин и пароль для входа в систему',
     'Incorrect username or password.' => 'Неверное имя пользователя или пароль.',
+
+
+    /**
+     * Filter
+     */
+
+    'Kurort' => 'Курорт',
+    'country' => 'Страна',
+    'Price from' => 'Цена от',
+    'Price to' =>'Цена до',
+    'Count tourist' => 'Всего туристов',
+    'Child' => 'из них детей',
+    'Date begin' => 'Дата заезда от',
+    'Date end' => 'до',
+    'Hotels Stars ID' => 'Количество звезд гостиниц',
+    'Search tour' => 'Подобрать тур',
+
 ];

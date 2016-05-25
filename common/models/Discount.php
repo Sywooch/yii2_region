@@ -35,10 +35,10 @@ class Discount extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'discount', 'hotels_info_id'], 'required'],
+            [['name', 'discount'], 'required'],
             [['name'], 'string'],
             [['discount'], 'number'],
-            [['type_price', 'active', 'hotels_info_id'], 'integer'],
+            [['type_price', 'active'], 'integer'],
             [['date_begin', 'date_end'], 'safe']
         ];
     }
@@ -49,13 +49,13 @@ class Discount extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'Первичный ключ. Таблица содержит информацию о скидках, действующих в отелях.'),
+
             'name' => Yii::t('app', 'Название скидки'),
-            'discount' => Yii::t('app', 'Стоимость скидки в процентном или денежном выражении (зависит от поля type_price)'),
-            'type_price' => Yii::t('app', 'Тип скидки: 0 - фиксированная скидка (цена скидки указывается в поле discount), 1 - процент от стоимости (процент указывается в коле discount)'),
-            'date_begin' => Yii::t('app', 'Дата начала действия скидки'),
-            'date_end' => Yii::t('app', 'Дата окончания действия скидки'),
-            'active' => Yii::t('app', 'Активна ли скидка? По-умолчанию: активна.'),
+            'discount' => Yii::t('app', 'Стоимость скидки'),
+            'type_price' => Yii::t('app', 'Скидка в процентах (иначе, в денежном выражении)'),
+            'date_begin' => Yii::t('app', 'Начало скидки'),
+            'date_end' => Yii::t('app', 'Окончане скидки'),
+            'active' => Yii::t('app', 'Активность'),
             'hotels_info_id' => Yii::t('app', 'Hotels Info ID'),
         ];
     }

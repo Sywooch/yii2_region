@@ -6,6 +6,7 @@ namespace backend\controllers\base;
 
 use common\models\HotelsInfo;
 use backend\models\SearchHotelsInfo;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
@@ -97,29 +98,26 @@ class HotelsInfoController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load($_POST) && $model->save()) {
+        if ($model->load($_POST)) {
 
-            if (isset($_POST['delImages'])){
-                $model->delImages = $_POST['delImages'];
-            }
-            if (isset($_POST['mainImage'])){
-                $model->mainImage = $_POST['mainImage'];
-            }
-            //Устанавливаем изображение по умолчанию (если изменено или удалено)
-            /*
-             * TODO Сделать проверку на существование главной картинки
-             */
-            $model->setMainImage($model->getImageByField('urlAlias',$model->mainImage));
-            //Удаляем отмеченные изображения
-            $model->imageDelete($model->delImages);
             //Загружаем новые изображения (Если они есть)
             if (is_array($model->imageFiles) && count($model->imageFiles)>0){
                 $model->imageFiles = UploadedFile::getInstances($model,'imageFiles');
+            }
+            if ($model->save()){
                 $model->upload();
             }
-
-
-
+            if (isset($_POST['delImages'])){
+                $model->delImages = $_POST['delImages'];
+                $model->imageDelete($model->delImages);
+            }
+            if (isset($_POST['mainImage'])){
+                $model->mainImage = $_POST['mainImage'];
+                $model->setMainImage($model->getImageByField('urlAlias',$model->mainImage));
+            }
+            /*
+             * TODO Сделать проверку на существование главной картинки
+             */
             return $this->redirect(Url::previous());
         } else {
             return $this->render('update', [

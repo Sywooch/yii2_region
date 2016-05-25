@@ -101,7 +101,7 @@ abstract class HotelsAppartmentHasHotelsTypeOfFood extends \yii\db\ActiveRecord
      */
     public static function find()
     {
-        return new \app\models\HotelsAppartmentHasHotelsTypeOfFoodQuery(get_called_class());
+        return new \common\models\HotelsAppartmentHasHotelsTypeOfFoodQuery(get_called_class());
     }
 
 

@@ -78,6 +78,7 @@ if (Yii::$app->controller->action->id === 'update'){
         <p>
 
             <?= $form->field($model, 'name')->textInput(['rows' => 6]) ?>
+            <?= $form->field($model, 'active')->checkbox() ?>
             <?= $form->field($model, 'address')->textarea(['rows' => 6]) ?>
             <?= $form->field($model, 'country')->dropDownList(
                 \yii\helpers\ArrayHelper::map(common\models\Country::find()->all(), 'id', 'name'),

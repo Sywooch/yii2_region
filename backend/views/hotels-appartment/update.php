@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Edit');
 <div class="giiant-crud hotels-appartment-update">
 
     <h1>
-        <?= Yii::t('<?= app ?>', 'HotelsAppartment') ?>        <small>
+        <?= Yii::t('app', 'HotelsAppartment') ?>        <small>
                         <?= $model->name ?>        </small>
     </h1>
 

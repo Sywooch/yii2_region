@@ -15,8 +15,10 @@ $copyParams = $model->attributes;
 
 $this->title = Yii::t('app', 'HotelsAppartment');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'HotelsAppartments'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => (string)$model->name, 'url' => ['view', 'id' => $model->id, 'hotels_info_id' => $model->hotels_info_id]];
+$this->params['breadcrumbs'][] = ['label' => (string)$model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'View');
+
+$items = $model->getImage2amigos(true);
 ?>
 <div class="giiant-crud hotels-appartment-view">
 
@@ -89,6 +91,11 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View');
         'date_add',
         'date_edit',
     ],
+    ]); ?>
+    <?= \dosamigos\gallery\Gallery::widget(['items' => $items,
+        'options' => [
+            'class' => 'row',
+        ],
     ]); ?>
 
     

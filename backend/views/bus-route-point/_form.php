@@ -43,7 +43,12 @@ use mirocow\yandexmaps\Canvas as YandexCanvas;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'name')->textInput() ?>
-
+    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'active')->checkbox() ?>
+    <?= $form->field($model, 'date')->widget(\kartik\datetime\DateTimePicker::classname(), [
+        //'language' => 'ru',
+        //'dateFormat' => 'yyyy-MM-dd',
+    ]) ?>
     <?= $form->field($model, 'gps_point_m')->textInput() ?>
 
     <?= $form->field($model, 'gps_point_p')->textInput() ?>
@@ -54,17 +59,6 @@ use mirocow\yandexmaps\Canvas as YandexCanvas;
         ],
         'map' => $map,
     ])?>
-
-    <?= $form->field($model, 'active')->checkbox() ?>
-
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'date')->widget(\kartik\datetime\DateTimePicker::classname(), [
-        //'language' => 'ru',
-        //'dateFormat' => 'yyyy-MM-dd',
-    ]) ?>
-
-
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

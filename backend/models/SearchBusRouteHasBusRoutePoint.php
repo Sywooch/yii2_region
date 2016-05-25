@@ -18,7 +18,8 @@ class SearchBusRouteHasBusRoutePoint extends BusRouteHasBusRoutePoint
 public function rules()
 {
 return [
-[['bus_route_id', 'bus_route_point_id', 'first_point', 'end_point'], 'integer'],
+[['bus_route_id', 'bus_route_point_id', 'first_point', 'end_point', 'position', 'time_pause'], 'integer'],
+            [['date_point_forward', 'date_point_reverse', 'date_add', 'date_edit'], 'safe'],
 ];
 }
 
@@ -59,6 +60,12 @@ $query->andFilterWhere([
             'bus_route_point_id' => $this->bus_route_point_id,
             'first_point' => $this->first_point,
             'end_point' => $this->end_point,
+            'position' => $this->position,
+            'date_point_forward' => $this->date_point_path,
+            'time_pause' => $this->time_pause,
+            'date_point_reverse' => $this->date_point_reverse,
+            'date_add' => $this->date_add,
+            'date_edit' => $this->date_edit,
         ]);
 
 return $dataProvider;
