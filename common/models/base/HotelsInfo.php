@@ -107,6 +107,8 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
             'links_maps' => Yii::t('app', 'Links Maps'),
             'hotels_stars_id' => Yii::t('app', 'Hotels Stars ID'),
             'imageFiles' => Yii::t('app', 'Image Files'),
+            'active' => Yii::t('app','Active'),
+            'top' => Yii::t('app','inMain' ),
         ];
     }
 
@@ -127,6 +129,8 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
                 'links_maps' => Yii::t('app', 'Ссылка на интернет-карту местонахождения отеля'),
                 'hotels_stars_id' => Yii::t('app', 'Ссылка на звёздность'),
                 'imageFiles' => Yii::t('app', 'Загрузите изображения'),
+                'active' => Yii::t('app','Active'),
+                'top' => Yii::t('app','inMain' ),
             ]);
     }
 

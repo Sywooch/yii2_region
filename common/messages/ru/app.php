@@ -173,6 +173,7 @@ return [
     'Hotels Stars ID' => 'Звезды',
     'Count Stars' => 'Количетво "звёзд"',
     'image' => 'Изображение',
+    'inMain' => 'На главной',
     /*End Hotels*/
 
     'Sal Orders' => 'Заказ',

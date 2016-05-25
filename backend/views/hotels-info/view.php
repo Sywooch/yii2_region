@@ -92,6 +92,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View');
         'date_add',
         'date_edit',
         'active',
+        'top'
     ],
     ]); ?>
 
