@@ -100,9 +100,13 @@ abstract class BusRoute extends \yii\db\ActiveRecord
             [['name'], 'required'],
             [['name'], 'string'],
             [['date_begin', 'date_end'], 'safe'],
-            /*[['routepoint'],'each','rule'=>['integer']],
+            ['date_end', 'compare', 'compareAttribute'=>'date_begin', 'operator' => '>'],
+            [['routepoint'],'each','rule'=>['integer']],
             [['first_point', 'end_point', 'time_pause'],'integer'],
-            [['date_point_forward', 'date_point_reverse'], 'string']*/
+            [['date_point_forward', 'date_point_reverse'], 'safe'],
+            ['date_point_reverse', 'compare', 'compareAttribute'=>'date_point_forward', 'operator' => '>'],
+            ['date_point_reverse', 'compare', 'compareAttribute'=>'date_end', 'operator' => '<'],
+            ['date_point_forward', 'compare', 'compareAttribute'=>'date_begin', 'operator' => '>'],
         ];
     }
 

@@ -62,6 +62,7 @@ abstract class BusWay extends \yii\db\ActiveRecord
             [['name'], 'string'],
             [['bus_info_id', 'active', 'ended', 'bus_path_id'], 'integer'],
             [['date_create', 'date_begin', 'date_end'], 'safe'],
+            ['date_end', 'compare', 'compareAttribute'=>'date_begin', 'operator' => '>'],
             [['path_time'], 'string', 'max' => 45],
             [['bus_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusInfo::className(), 'targetAttribute' => ['bus_info_id' => 'id']],
             [['bus_path_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusRoute::className(), 'targetAttribute' => ['bus_path_id' => 'id']]

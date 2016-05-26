@@ -43,6 +43,7 @@ abstract class TransRoute extends \yii\db\ActiveRecord
     {
         return [
             [['date_begin', 'date_end'], 'safe'],
+            ['date_end', 'compare', 'compareAttribute'=>'date_begin', 'operator' => '>'],
             [['active'], 'integer'],
             [['begin_point', 'end_point'], 'string']
         ];

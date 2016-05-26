@@ -45,6 +45,7 @@ abstract class TransReservation extends \yii\db\ActiveRecord
         return [
             [['name', 'trans_info_id'], 'required'],
             [['date_begin', 'date_end', 'date_add'], 'safe'],
+            ['date_end', 'compare', 'compareAttribute'=>'date_begin', 'operator' => '>'],
             [['number_seats', 'persons', 'status', 'trans_info_id'], 'integer'],
             [['name'], 'string', 'max' => 45],
             [['trans_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\TransInfo::className(), 'targetAttribute' => ['trans_info_id' => 'id']]

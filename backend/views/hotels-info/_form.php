@@ -34,8 +34,8 @@ $items = $model->getImage2amigos();
             'events' => [
                 'click' => "function(e) {
                 var coords = e.get('coords'); 
-                $('#hotelsinfo-gps_point_m').val(coords[0].toPrecision(6));
-                $('#hotelsinfo-gps_point_p').val(coords[1].toPrecision(6));
+                $('#hotelsinfo-gps_point_m').val(coords[0].toPrecision(8));
+                $('#hotelsinfo-gps_point_p').val(coords[1].toPrecision(8));
                 }",
 
             ]
@@ -77,11 +77,13 @@ if (Yii::$app->controller->action->id === 'update'){
 
         <p>
 
-            <?= $form->field($model, 'name')->textInput(['rows' => 6]) ?>
-            <div class="row">
-            <div class="col-md-4"><?= $form->field($model, 'active')->checkbox() ?></div>
-            <div class="col-md-4"><?= $form->field($model, 'top')->checkbox() ?></div>
-            </div>
+            <?= $form->field($model, 'name')->textInput() ?>
+
+            <?= $form->field($model, 'active')->checkbox() ?>
+            <?= $form->field($model, 'top')->checkbox() ?>
+
+            <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+
             <?= $form->field($model, 'address')->textarea(['rows' => 6]) ?>
             <?= $form->field($model, 'country')->dropDownList(
                 \yii\helpers\ArrayHelper::map(common\models\Country::find()->all(), 'id', 'name'),

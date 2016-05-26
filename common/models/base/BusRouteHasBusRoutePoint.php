@@ -64,6 +64,7 @@ abstract class BusRouteHasBusRoutePoint extends \yii\db\ActiveRecord
             [['bus_route_id', 'bus_route_point_id'], 'required'],
             [['bus_route_id', 'bus_route_point_id', 'first_point', 'end_point', 'position', 'time_pause'], 'integer'],
             [['date_point_forward', 'date_point_reverse'], 'safe'],
+            ['date_point_reverse', 'compare', 'compareAttribute'=>'date_point_forward', 'operator' => '>'],
             [['bus_route_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\BusRoute::className(), 'targetAttribute' => ['bus_route_id' => 'id']],
             [['bus_route_point_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\BusRoutePoint::className(), 'targetAttribute' => ['bus_route_point_id' => 'id']]
         ];

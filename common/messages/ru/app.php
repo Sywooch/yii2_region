@@ -174,6 +174,8 @@ return [
     'Count Stars' => 'Количетво "звёзд"',
     'image' => 'Изображение',
     'inMain' => 'На главной',
+    'Date Point Forward' => 'Дата прибытия на точку по пути',
+    'Date Point Reverse' => 'Дата прибытия на точку на обратном пути',
     /*End Hotels*/
 
     'Sal Orders' => 'Заказ',

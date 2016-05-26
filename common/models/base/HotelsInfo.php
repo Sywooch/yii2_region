@@ -84,7 +84,7 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'address'], 'required'],
-            [['name', 'address', 'gps_point_m', 'gps_point_p', 'links_maps'], 'string'],
+            [['name', 'address', 'description', 'gps_point_m', 'gps_point_p', 'links_maps'], 'string'],
             [['country', 'hotels_stars_id'], 'integer'],
             [['imageFiles'], 'file', 'extensions' => 'png, jpg, gif', 'maxFiles' => 12],
             [['hotels_stars_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsStars::className(), 'targetAttribute' => ['hotels_stars_id' => 'id']],
@@ -100,6 +100,7 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
         return [
             //'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
+            'description' => Yii::t('app', 'Description'),
             'address' => Yii::t('app', 'Address'),
             'country' => Yii::t('app', 'Country'),
             'gps_point_m' => Yii::t('app', 'GPS-координаты меридиана.'),
@@ -121,16 +122,17 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
             parent::attributeHints(),
             [
                 //'id' => Yii::t('app', 'Первичный ключ. Таблица содержит общую информацию об отелях, в частности их название.'),
-                'name' => Yii::t('app', 'Название отеля'),
-                'address' => Yii::t('app', 'Адрес'),
-                'country' => Yii::t('app', 'Страна'),
-                'gps_point_m' => Yii::t('app', 'GPS-координаты меридиана.'),
-                'gps_point_p' => Yii::t('app', 'GPS-координаты паралели.'),
+                'name' => Yii::t('app', 'Введите название гостиницы'),
+                'description' => Yii::t('app', 'Заполните описание гостиницы (при необходимости)'),
+                'address' => Yii::t('app', 'Укажите адрес гостиницы'),
+                'country' => Yii::t('app', 'Выберите страну'),
+                'gps_point_m' => Yii::t('app', 'Щелкните по карте для определения координат гостиницы'),
+                'gps_point_p' => Yii::t('app', 'Щелкните по карте для определения координат гостиницы'),
                 'links_maps' => Yii::t('app', 'Ссылка на интернет-карту местонахождения отеля'),
-                'hotels_stars_id' => Yii::t('app', 'Ссылка на звёздность'),
+                'hotels_stars_id' => Yii::t('app', 'Выберите количество звёзд гостиницы'),
                 'imageFiles' => Yii::t('app', 'Загрузите изображения'),
-                'active' => Yii::t('app','Active'),
-                'top' => Yii::t('app','inMain' ),
+                /*'active' => Yii::t('app','Active'),
+                'top' => Yii::t('app','inMain' ),*/
             ]);
     }
 

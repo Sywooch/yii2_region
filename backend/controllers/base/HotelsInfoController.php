@@ -85,6 +85,10 @@ class HotelsInfoController extends Controller
             $msg = (isset($e->errorInfo[2])) ? $e->errorInfo[2] : $e->getMessage();
             $model->addError('_exception', $msg);
         }
+        if (!isset($model->gps_point_m) && !isset($model->gps_point_p)){
+            $model->gps_point_m = '52.723043';
+            $model->gps_point_p = '41.449045';
+        }
         return $this->render('create', ['model' => $model]);
     }
 

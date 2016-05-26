@@ -61,6 +61,7 @@ abstract class TourPrice extends \yii\db\ActiveRecord
             [[ 'active', 'tour_info_id', 'in_hotels', 'in_trans', 'in_food'], 'integer'],
             [['price'], 'number'],
             [['date', 'date_begin', 'date_end'], 'safe'],
+            ['date_end', 'compare', 'compareAttribute'=>'date_begin', 'operator' => '>'],
             [['tour_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => TourInfo::className(), 'targetAttribute' => ['tour_info_id' => 'id']]
         ];
     }
