@@ -19,7 +19,7 @@ class SearchBusWay extends BusWay
     {
         return [
             [['id', 'bus_info_id', 'active', 'ended', 'bus_path_id'], 'integer'],
-            [['name', 'date_create', 'date_begin', 'date_end'], 'safe'],
+            [['name', 'date_create', 'date_begin', 'date_end', 'path_time'], 'safe'],
         ];
     }
 
@@ -66,7 +66,8 @@ class SearchBusWay extends BusWay
             'bus_path_id' => $this->bus_path_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'path_time', $this->path_time]);
 
         return $dataProvider;
     }

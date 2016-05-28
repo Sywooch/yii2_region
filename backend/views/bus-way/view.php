@@ -19,6 +19,7 @@ use yii\widgets\DetailView;
             'active',
             'ended',
             'bus_path_id',
+            'path_time',
         ],
     ]) ?>
 

@@ -15,12 +15,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'number_license')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'active')->checkbox() ?>
+    <?= $form->field($model, 'active')->textInput() ?>
 
     <?= $form->field($model, 'date')->widget(\kartik\datetime\DateTimePicker::classname(), [
-        //'language' => 'ru',
-        //'dateFormat' => 'yyyy-MM-dd',
-    ]) ?>
+                //'langauge' => 'ru',
+                //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
+            ]) ?>
 
     <?= $form->field($model, 'first')->textInput() ?>
 

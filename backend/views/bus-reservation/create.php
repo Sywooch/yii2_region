@@ -2,33 +2,13 @@
 
 use yii\helpers\Html;
 
-/**
-* @var yii\web\View $this
-* @var common\models\BusReservation $model
-*/
 
-$this->title = Yii::t('app', 'Create');
-$this->params['breadcrumbs'][] = ['label' => $model->getAliasModel(true), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+/* @var $this yii\web\View */
+/* @var $model common\models\BusReservation */
+
 ?>
-<div class="giiant-crud bus-reservation-create">
-
-    <h1>
-        <?= $model->getAliasModel() ?>        <small>
-                        <?= $model->name ?>        </small>
-    </h1>
-
-    <div class="clearfix crud-navigation">
-        <div class="pull-left">
-            <?=             Html::a(
-            Yii::t('app', 'Cancel'),
-            \yii\helpers\Url::previous(),
-            ['class' => 'btn btn-default']) ?>
-        </div>
-    </div>
-
+<div class="bus-reservation-create">
     <?= $this->render('_form', [
-    'model' => $model,
-    ]); ?>
-
+        'model' => $model,
+    ]) ?>
 </div>

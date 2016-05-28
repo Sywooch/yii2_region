@@ -1,68 +1,27 @@
 <?php
-
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
-use \dmstr\bootstrap\Tabs;
+use yii\widgets\ActiveForm;
 
-/**
-* @var yii\web\View $this
-* @var common\models\BusSchemeSeats $model
-* @var yii\widgets\ActiveForm $form
-*/
-
+/* @var $this yii\web\View */
+/* @var $model common\models\BusSchemeSeats */
+/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="bus-scheme-seats-form">
 
-    <?php $form = ActiveForm::begin([
-    'id' => 'BusSchemeSeats',
-    'layout' => 'horizontal',
-    'enableClientValidation' => true,
-    'errorSummaryCssClass' => 'error-summary alert alert-error'
-    ]
-    );
-    ?>
+    <?php $form = ActiveForm::begin(); ?>
 
-    <div class="">
-        <?php $this->beginBlock('main'); ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-        <p>
-            
-			
-			<?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-			<?= $form->field($model, 'count')->textInput() ?>
-        </p>
-        <?php $this->endBlock(); ?>
-        
-        <?=
-    Tabs::widget(
-                 [
-                   'encodeLabels' => false,
-                     'items' => [ [
-    'label'   => $model->getAliasModel(),
-    'content' => $this->blocks['main'],
-    'active'  => true,
-], ]
-                 ]
-    );
-    ?>
-        <hr/>
+    <?= $form->field($model, 'count')->textInput() ?>
 
-        <?php echo $form->errorSummary($model); ?>
+  
+	<?php if (!Yii::$app->request->isAjax){ ?>
+	  	<div class="form-group">
+	        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+	    </div>
+	<?php } ?>
 
-        <?= Html::submitButton(
-        '<span class="glyphicon glyphicon-check"></span> ' .
-        ($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save')),
-        [
-        'id' => 'save-' . $model->formName(),
-        'class' => 'btn btn-success'
-        ]
-        );
-        ?>
-
-        <?php ActiveForm::end(); ?>
-
-    </div>
-
+    <?php ActiveForm::end(); ?>
+    
 </div>
-

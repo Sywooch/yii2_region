@@ -23,7 +23,7 @@ return [
         'attribute'=>'number_license',
     ],
     [
-        'class'=>'\kartik\grid\BooleanColumn',
+        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'active',
     ],
     [

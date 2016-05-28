@@ -1,9 +1,6 @@
 <?php
 use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
-use common\models\BusInfo;
-use common\models\BusRoute;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\BusWay */
@@ -16,14 +13,7 @@ use common\models\BusRoute;
 
     <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
 
-    <?php
-        $ur_names = ArrayHelper::map(BusInfo::find()->all(),'id','name');
-
-        echo $form->field($model, 'bus_info_id')->dropDownList(
-            $ur_names,
-            ['prompt' => 'Выберите автобус'] // текст, который отображается в качестве первого варианта
-        )->label('Автобусы');
-    ?>
+    <?= $form->field($model, 'bus_info_id')->textInput() ?>
 
     <?= $form->field($model, 'date_create')->widget(\kartik\datetime\DateTimePicker::classname(), [
                 //'langauge' => 'ru',
@@ -42,16 +32,12 @@ use common\models\BusRoute;
 
     <?= $form->field($model, 'active')->textInput() ?>
 
-    <?= $form->field($model, 'ended')->checkbox() ?>
+    <?= $form->field($model, 'ended')->textInput() ?>
 
-    <?php
-        $ur_names = ArrayHelper::map(BusRoute::find()->all(),'id','name');
+    <?= $form->field($model, 'bus_path_id')->textInput() ?>
 
-        echo $form->field($model, 'bus_path_id')->dropDownList(
-        $ur_names,
-        ['prompt' => 'Выберите маршрут'] // текст, который отображается в качестве первого варианта
-        )->label('Маршрут');
-    ?>
+    <?= $form->field($model, 'path_time')->textInput(['maxlength' => true]) ?>
+
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">

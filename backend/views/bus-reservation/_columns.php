@@ -24,38 +24,34 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date_create',
+        'attribute'=>'bus_way_id',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date_begin',
+        'attribute'=>'number_seat',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date_end',
+        'attribute'=>'date',
     ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'status',
+    // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'active',
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'ended',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'bus_path_id',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'path_time',
+        // 'attribute'=>'persons_id',
     // ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign'=>'middle',
         'urlCreator' => function($action, $model, $key, $index) { 
-                return Url::to([$action,'id'=>$key]);
+                return Url::to([$action,'id, $bus_info_id, $bus_way_id'=>$key]);
         },
         'viewOptions'=>['role'=>'modal-remote','title'=>Yii::t('app','View'),'data-toggle'=>'tooltip'],
         'updateOptions'=>['role'=>'modal-remote','title'=>Yii::t('app','Update'), 'data-toggle'=>'tooltip'],

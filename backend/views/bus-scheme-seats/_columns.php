@@ -20,36 +20,8 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'bus_info_id',
+        'attribute'=>'count',
     ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date_create',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date_begin',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date_end',
-    ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'active',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'ended',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'bus_path_id',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'path_time',
-    // ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
