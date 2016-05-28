@@ -62,8 +62,10 @@ return [
     /*/Description Forms*/
 
     'Bus Drivers' => 'Водители',
+    'BusDriver' => 'Водитель',
     'Bus Infos' => 'Информация о автобусах',
     'Bus Info' => 'Информация о автобусах',
+    'BusInfo' => 'Автобус',
     'Bus Routes' => 'Маршруты',
     'BusRoutes' => 'Маршруты',
     'Bus route' => 'Маршрут',
