@@ -91,7 +91,7 @@ class BusInfoController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> Yii::t('app', 'Create new') .  Yii::t('app', 'BusInfo'),
+                    'title'=> Yii::t('app', 'Create new') . ' ' . Yii::t('app', 'BusInfo'),
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -110,7 +110,7 @@ class BusInfoController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> Yii::t('app', 'Create new') . Yii::t('app', 'BusInfo'),
+                    'title'=> Yii::t('app', 'Create new') . ' ' . Yii::t('app', 'BusInfo'),
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -153,7 +153,7 @@ class BusInfoController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> Yii::t('app', 'Update') . Yii::t('app', 'BusInfo') . ' #'.$id,
+                    'title'=> Yii::t('app', 'Update') . ' ' . Yii::t('app', 'BusInfo') . ' #'.$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -172,7 +172,7 @@ class BusInfoController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> Yii::t('app', 'Update') . Yii::t('app', 'BusInfo') . ' #'.$id,
+                    'title'=> Yii::t('app', 'Update') . ' ' . Yii::t('app', 'BusInfo') . ' #'.$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

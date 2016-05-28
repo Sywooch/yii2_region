@@ -74,7 +74,7 @@ class HotelsInfoController extends Controller
         try {
             if ($model->load($_POST)) {
                 $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
-                if ($model->save()){
+                if ($model->save()) {
                     $model->upload();
                     return $this->redirect(Url::previous());
                 }
@@ -85,7 +85,7 @@ class HotelsInfoController extends Controller
             $msg = (isset($e->errorInfo[2])) ? $e->errorInfo[2] : $e->getMessage();
             $model->addError('_exception', $msg);
         }
-        if (!isset($model->gps_point_m) && !isset($model->gps_point_p)){
+        if (!isset($model->gps_point_m) && !isset($model->gps_point_p)) {
             $model->gps_point_m = '52.723043';
             $model->gps_point_p = '41.449045';
         }
@@ -105,19 +105,19 @@ class HotelsInfoController extends Controller
         if ($model->load($_POST)) {
 
             //Загружаем новые изображения (Если они есть)
-            if (is_array($model->imageFiles) && count($model->imageFiles)>0){
-                $model->imageFiles = UploadedFile::getInstances($model,'imageFiles');
+            if (is_array($model->imageFiles) && count($model->imageFiles) > 0) {
+                $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
             }
-            if ($model->save()){
+            if ($model->save()) {
                 $model->upload();
             }
-            if (isset($_POST['delImages'])){
+            if (isset($_POST['delImages'])) {
                 $model->delImages = $_POST['delImages'];
                 $model->imageDelete($model->delImages);
             }
-            if (isset($_POST['mainImage'])){
+            if (isset($_POST['mainImage'])) {
                 $model->mainImage = $_POST['mainImage'];
-                $model->setMainImage($model->getImageByField('urlAlias',$model->mainImage));
+                $model->setMainImage($model->getImageByField('urlAlias', $model->mainImage));
             }
             /*
              * TODO Сделать проверку на существование главной картинки
@@ -185,5 +185,5 @@ class HotelsInfoController extends Controller
     /*protected function imageUpdate($model){
         //
     }*/
-    
+
 }

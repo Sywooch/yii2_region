@@ -102,7 +102,7 @@ class CountryController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> Yii::t('app', 'Create new')                        . ' ' . Yii::t('app', 'Country'),
+                    'title'=> Yii::t('app', 'Create new') . ' ' . Yii::t('app', 'Country'),
                     'content'=>'<span class="text-success">'.Yii::t('app', 'Create ') . Yii::t('app', 'Country') . Yii::t('app', ' success'). '</span>',
                     'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a(Yii::t('app', 'Create More'),['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -153,7 +153,7 @@ class CountryController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> Yii::t('app', 'Update') . ' ' . Yii::t('app', 'Country') .' #' . $id,
+                    'title'=> Yii::t('app', 'Update') . ' ' . Yii::t('app', 'Country') . ' #' . $id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

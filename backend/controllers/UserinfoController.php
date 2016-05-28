@@ -91,7 +91,7 @@ class UserinfoController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> Yii::t('app','Create new User'),
+                    'title'=> Yii::t('app', 'Create new') . ' ' . Yii::t('app', 'User'),
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -102,7 +102,7 @@ class UserinfoController extends Controller
             }else if($model->load($request->post()) && /*$model->save()*/$this->createUser($model)){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> Yii::t('app','Create new User'),
+                    'title'=> Yii::t('app','Create new') . ' ' . Yii::t('app', 'User'),
                     'content'=>'<span class="text-success">Create Userinfo success</span>',
                     'footer'=> Html::button(Yii::t('app','Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a(Yii::t('app','Create More'),['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -110,7 +110,7 @@ class UserinfoController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> Yii::t('app','Create new User'),
+                    'title'=> Yii::t('app','Create new') . ' ' . Yii::t('app', 'User'),
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -153,7 +153,7 @@ class UserinfoController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> Yii::t('app', 'Update Userinfo').' #'.$id,
+                    'title'=> Yii::t('app', 'Update') . ' ' . Yii::t('app', 'Userinfo').' #'.$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -172,7 +172,7 @@ class UserinfoController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> Yii::t('app', 'Update Userinfo').' #'.$id,
+                    'title'=> Yii::t('app', 'Update') . ' ' . Yii::t('app', 'Userinfo').' #'.$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

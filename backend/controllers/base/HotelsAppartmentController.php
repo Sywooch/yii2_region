@@ -76,7 +76,7 @@ class HotelsAppartmentController extends Controller
         try {
             if ($model->load($_POST)) {
                 $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
-                if ($model->save()){
+                if ($model->save()) {
                     $model->upload();
                     return $this->redirect(Url::previous());
                 }
@@ -103,23 +103,23 @@ class HotelsAppartmentController extends Controller
 
         if ($model->load($_POST)) {
 
-            //Загружаем новые изображения (Если они есть)
-            if (is_array($model->imageFiles) && count($model->imageFiles)>0){
-                $model->imageFiles = UploadedFile::getInstances($model,'imageFiles');
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ)
+            if (is_array($model->imageFiles) && count($model->imageFiles) > 0) {
+                $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
             }
-            if ($model->save()){
+            if ($model->save()) {
                 $model->upload();
             }
-            if (isset($_POST['delImages'])){
+            if (isset($_POST['delImages'])) {
                 $model->delImages = $_POST['delImages'];
                 $model->imageDelete($model->delImages);
             }
-            if (isset($_POST['mainImage'])){
+            if (isset($_POST['mainImage'])) {
                 $model->mainImage = $_POST['mainImage'];
-                $model->setMainImage($model->getImageByField('urlAlias',$model->mainImage));
+                $model->setMainImage($model->getImageByField('urlAlias', $model->mainImage));
             }
             /*
-             * TODO Сделать проверку на существование главной картинки
+             * TODO пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
              */
             return $this->redirect(Url::previous());
         } else {
@@ -166,13 +166,12 @@ class HotelsAppartmentController extends Controller
     public function actionGethotelsinfo()
     {
         $model = new HotelsAppartment();
-        if ($model->load($_POST)){
+        if ($model->load($_POST)) {
             $model->getHotelsByCountry($model->country);
-        }
-        else{
+        } else {
             $model = '';
         }
-        return $this->renderPartial('hotels',['model' => $model]);
+        return $this->renderPartial('hotels', ['model' => $model]);
     }
 
     /**
@@ -193,6 +192,4 @@ class HotelsAppartmentController extends Controller
     }
 
 
-    
-    
 }
