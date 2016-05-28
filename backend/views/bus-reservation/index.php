@@ -27,7 +27,7 @@ CrudAsset::register($this);
             'toolbar'=> [
                 ['content'=>
                     Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
-                    ['role'=>'modal-remote','title'=> Yii::t('app', 'Create new') . Yii::t('app', 'Bus Reservations'),'class'=>'btn btn-default']).
+                    ['role'=>'modal-remote','title'=> Yii::t('app', 'Create new') .  ' ' . Yii::t('app', 'Bus Reservations'),'class'=>'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>Yii::t('app', 'Reset Grid')]).
                     '{toggleData}'.
