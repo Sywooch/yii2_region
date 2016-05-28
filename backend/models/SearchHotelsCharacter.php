@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\HotelsCharacterItem;
+use common\models\HotelsCharacter;
 
 /**
- * SearchHotelsCharacterItem represents the model behind the search form about `common\models\HotelsCharacterItem`.
+ * SearchHotelsCharacter represents the model behind the search form about `common\models\HotelsCharacter`.
  */
-class SearchHotelsCharacterItem extends HotelsCharacterItem
+class SearchHotelsCharacter extends HotelsCharacter
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class SearchHotelsCharacterItem extends HotelsCharacterItem
     public function rules()
     {
         return [
-            [['id', 'hotels_character_id', 'hotels_info_id', 'active'], 'integer'],
-            [['value', 'type', 'metrics', 'date_add', 'date_edit'], 'safe'],
+            [['id', 'parent_id', 'num_hierar','active'], 'integer'],
+            [['name', 'date_add', 'date_edit'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class SearchHotelsCharacterItem extends HotelsCharacterItem
      */
     public function search($params)
     {
-        $query = HotelsCharacterItem::find();
+        $query = HotelsCharacter::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,16 +57,14 @@ class SearchHotelsCharacterItem extends HotelsCharacterItem
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'hotels_character_id' => $this->hotels_character_id,
-            'hotels_info_id' => $this->hotels_info_id,
+            'parent_id' => $this->parent_id,
+            'num_hierar' => $this->num_hierar,
             'date_add' => $this->date_add,
             'date_edit' => $this->date_edit,
             'active' => $this->active,
         ]);
 
-        $query->andFilterWhere(['like', 'value', $this->value])
-            ->andFilterWhere(['like', 'type', $this->type])
-            ->andFilterWhere(['like', 'metrics', $this->metrics]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

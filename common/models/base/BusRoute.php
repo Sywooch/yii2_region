@@ -26,6 +26,7 @@ use yii\behaviors\TimestampBehavior;
 abstract class BusRoute extends \yii\db\ActiveRecord
 {
 
+    public $routepoint;
     public $first_point;
     public $end_point;
     public $position;

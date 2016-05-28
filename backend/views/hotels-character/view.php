@@ -14,7 +14,9 @@ use yii\widgets\DetailView;
             'name:ntext',
             'parent_id',
             'num_hierar',
-            'hotels_info_id',
+            'date_add',
+            'date_edit',
+            'active',
         ],
     ]) ?>
 

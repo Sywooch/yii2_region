@@ -11,13 +11,14 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'name')->textInput() ?>
+    <?= $form->field($model, 'active')->checkbox() ?>
 
-    <?= $form->field($model, 'parent_id')->textInput() ?>
-
-    <?= $form->field($model, 'num_hierar')->textInput() ?>
-
-    <?= $form->field($model, 'hotels_info_id')->textInput() ?>
+    <?= $form->field($model, 'parent_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(\common\models\HotelsCharacter::find()->andFilterWhere(['active'=>1])
+            ->andFilterWhere(['!=','parent_id',$model->id]) ->asArray()->all(), 'id', 'name'),
+        ['prompt'=>'Выберите родительскую характеристику']
+    ) ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

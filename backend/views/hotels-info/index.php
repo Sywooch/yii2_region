@@ -53,8 +53,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'url' => ['hotels-appartment/index'],
                 'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Hotels Appartment') . '</i>',
             ],            [
-                'url' => ['hotels-character/index'],
-                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Hotels Character') . '</i>',
+                'url' => ['hotels-character-item/index'],
+                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Hotels Character Item') . '</i>',
             ],            [
                 'url' => ['hotels-stars/index'],
                 'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Hotels Stars') . '</i>',

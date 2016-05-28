@@ -1,5 +1,8 @@
 <?php
 use yii\helpers\Url;
+use kartik\grid\GridView;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 return [
     [
@@ -15,20 +18,61 @@ return [
         // 'attribute'=>'id',
     // ],
     [
+        'class' => \kartik\grid\DataColumn::className(),
+        'attribute' => 'hotels_character_id',
+        'value' => function ($model) {
+            if ($rel = $model->getHotelsCharacter()->one()) {
+                return Html::a($rel->name, ['hotels-character/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+            } else {
+                return '';
+            }
+        },
+        'filterType'=>GridView::FILTER_SELECT2,
+        'filter'=>ArrayHelper::map(\common\models\HotelsCharacter::find()
+            ->orderBy('name')->asArray()->all(), 'id', 'name'),
+        'filterWidgetOptions'=>[
+            'pluginOptions'=>['allowClear'=>true],
+        ],
+        'filterInputOptions'=>['placeholder'=>'Все характеристики'],
+        'format' => 'raw',
+    ],
+    [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'value',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'type',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'hotels_character_id',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'metrics',
+    ],
+    [
+        'class' => \kartik\grid\DataColumn::className(),
+        'attribute' => 'hotels_info_id',
+        'value' => function ($model) {
+            if ($rel = $model->getHotelsInfo()->one()) {
+                return Html::a($rel->name, ['hotels-info/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+            } else {
+                return '';
+            }
+        },
+        'filterType'=>GridView::FILTER_SELECT2,
+        'filter'=>ArrayHelper::map(\common\models\HotelsInfo::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
+        'filterWidgetOptions'=>[
+            'pluginOptions'=>['allowClear'=>true],
+        ],
+        'filterInputOptions'=>['placeholder'=>'Все гостиницы'],
+        'format' => 'raw',
+    ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'date_add',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'date_edit',
+    // ],
+    [
+        'class'=>'\kartik\grid\BooleanColumn',
+        'attribute'=>'active',
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

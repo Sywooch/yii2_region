@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "hotels_character".
@@ -11,7 +12,6 @@ use Yii;
  * @property string $name
  * @property integer $parent_id
  * @property integer $num_hierar
- * @property integer $hotels_info_id
  *
  * @property HotelsInfo $hotelsInfo
  * @property HotelsCharacterItem[] $hotelsCharacterItems
@@ -25,6 +25,17 @@ class HotelsCharacter extends \yii\db\ActiveRecord
     {
         return 'hotels_character';
     }
+    
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'date_add',
+                'updatedAtAttribute' => 'date_edit',
+            ],
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -32,9 +43,13 @@ class HotelsCharacter extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'hotels_info_id'], 'required'],
+            [['name'], 'required'],
             [['name'], 'string'],
-            [['parent_id', 'num_hierar', 'hotels_info_id'], 'integer']
+            [['parent_id', /*'num_hierar',*/], 'integer'],
+            ['parent_id','default', 'value'=>0],
+            [['date_add','date_edit'], 'date'],
+            [['active'], 'boolean'],
+            
         ];
     }
 
@@ -46,18 +61,12 @@ class HotelsCharacter extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Название характеристики'),
-            'parent_id' => Yii::t('app', 'Родитель характеристики (из этой же таблицы)'),
-            'num_hierar' => Yii::t('app', 'Номер уровеня в иерархии характеристик'),
-            'hotels_info_id' => Yii::t('app', 'Hotels Info ID'),
+            'parent_id' => Yii::t('app', 'Родительская характеристика'),
+            //'num_hierar' => Yii::t('app', 'Номер уровеня в иерархии характеристик'),
+            'date_add' => Yii::t('app', 'Date Add'),
+            'date_edit' => Yii::t('app','Date Edit'),
+            'active' => Yii::t('app', 'Active'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getHotelsInfo()
-    {
-        return $this->hasOne(HotelsInfo::className(), ['id' => 'hotels_info_id']);
     }
 
     /**
@@ -66,5 +75,18 @@ class HotelsCharacter extends \yii\db\ActiveRecord
     public function getHotelsCharacterItems()
     {
         return $this->hasMany(HotelsCharacterItem::className(), ['hotels_character_id' => 'id']);
+    }
+
+    /**
+     *
+     */
+    public function listAll($active = true) {
+        if ($active === true) {
+            return $this->findAll(['active' => 1]);
+        }
+        else{
+            return false;
+        }
+
     }
 }

@@ -219,22 +219,22 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View');
 <?php $this->endBlock() ?>
 
 
-<?php $this->beginBlock('HotelsCharacters'); ?>
+<?php $this->beginBlock('HotelsCharacterItems'); ?>
 <div style='position: relative'><div style='position:absolute; right: 0px; top: 0px;'>
   <?= Html::a(
-            '<span class="glyphicon glyphicon-list"></span> ' . Yii::t('app', 'List All') . ' Hotels Characters',
-            ['hotels-character/index'],
+            '<span class="glyphicon glyphicon-list"></span> ' . Yii::t('app', 'List All') . ' Hotels Character Items',
+            ['hotels-character-item/index'],
             ['class'=>'btn text-muted btn-xs']
         ) ?>
   <?= Html::a(
-            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('app', 'New') . ' Hotels Character',
-            ['hotels-character/create', 'HotelsCharacter' => ['hotels_info_id' => $model->id]],
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('app', 'New') . ' Hotels Character Item',
+            ['hotels-character-item/create', 'HotelsCharacterItem' => ['hotels_info_id' => $model->id]],
             ['class'=>'btn btn-success btn-xs']
         ); ?>
-</div></div><?php Pjax::begin(['id'=>'pjax-HotelsCharacters', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-HotelsCharacters ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
+</div></div><?php Pjax::begin(['id'=>'pjax-HotelsCharacterItems', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-HotelsCharacterItems ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 <?= '<div class="table-responsive">' . \yii\grid\GridView::widget([
     'layout' => '{summary}{pager}<br/>{items}{pager}',
-    'dataProvider' => new \yii\data\ActiveDataProvider(['query' => $model->getHotelsCharacters(), 'pagination' => ['pageSize' => 20, 'pageParam'=>'page-hotelscharacters']]),
+    'dataProvider' => new \yii\data\ActiveDataProvider(['query' => $model->getHotelsCharacterItems(), 'pagination' => ['pageSize' => 20, 'pageParam'=>'page-hotelscharacteritems']]),
     'pager'        => [
         'class'          => yii\widgets\LinkPager::className(),
         'firstPageLabel' => Yii::t('app', 'First'),
@@ -247,13 +247,13 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View');
     'urlCreator' => function ($action, $model, $key, $index) {
         // using the column name as key, not mapping to 'id' like the standard generator
         $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
-        $params[0] = 'hotels-character' . '/' . $action;
+        $params[0] = 'hotels-character-item' . '/' . $action;
         return $params;
     },
     'buttons'    => [
         
     ],
-    'controller' => 'hotels-character'
+    'controller' => 'hotels-character-item'
 ],
         'id',
         'name:ntext',

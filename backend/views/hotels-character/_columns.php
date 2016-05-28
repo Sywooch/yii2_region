@@ -1,5 +1,7 @@
 <?php
 use yii\helpers\Url;
+use kartik\grid\GridView;
+use yii\helpers\ArrayHelper;
 
 return [
     [
@@ -21,15 +23,29 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'parent_id',
+        'value' => function ($model){
+            if ($rel = $model->findOne(['id' => $model->parent_id])) {
+                return \yii\helpers\Html::a($rel->name, ['hotels-character/view', 'parent_id' => $rel->parent_id,], ['data-pjax' => 1]);
+            }
+
+        },
+        'filterType' => GridView::FILTER_SELECT2,
+        'filter' => ArrayHelper::map(\common\models\HotelsCharacter::find()->orderBy('num_hierar','name')->asArray()->all(), 'id', 'name'),
+        'filterWidgetOptions'=>[
+            'pluginOptions'=>['allowClear'=>true],
+        ],
+        'filterInputOptions'=>['placeholder'=>'Все характеристики'],
+        'format' => 'raw',
     ],
     [
+        'class' => \kartik\grid\BooleanColumn::className(),
+        'attribute' => 'active',
+    ],
+    /*[
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'num_hierar',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'hotels_info_id',
-    ],
+    ],*/
+    
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

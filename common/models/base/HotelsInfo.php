@@ -155,9 +155,9 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getHotelsCharacters()
+    public function getHotelsCharacterItems()
     {
-        return $this->hasMany(\common\models\HotelsCharacter::className(), ['hotels_info_id' => 'id']);
+        return $this->hasMany(\common\models\HotelsCharacterItem::className(), ['hotels_info_id' => 'id']);
     }
 
     /**

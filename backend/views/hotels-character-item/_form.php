@@ -13,11 +13,19 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'value')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'type')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'hotels_character_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(\common\models\HotelsCharacter::find()->andWhere(['active'=>1])->all(),'id', 'name'),
+        ['prompt' => 'Выберите характеристику']
+    ) ?>
 
-    <?= $form->field($model, 'hotels_character_id')->textInput() ?>
+    <?= $form->field($model, 'metrics')->textInput() ?>
 
-    <?= $form->field($model, 'metrics')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'hotels_info_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(\common\models\HotelsInfo::findAll(['active'=>1],'id', 'name')),
+        ['prompt' => 'Выберите гостиницу']
+    ) ?>
+
+    <?= $form->field($model, 'active')->checkbox() ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
