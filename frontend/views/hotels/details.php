@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View');
             'attributes' => [
                 [
                     'format'=>'html',
-                    'attribute' => 'fileImages',
+                    'attribute' => 'Изображение',
                     'value'=> Html::img($model->getImage()->getUrl('120x'),['alt' => $model->name])
                 ],
                 'name:ntext',
