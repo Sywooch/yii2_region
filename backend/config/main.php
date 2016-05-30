@@ -38,6 +38,7 @@ return [
         ],*/
         'menu' => [
             'class' => 'infoweb\menu\Module',
+            'enablePrivateMenuItems' => true,
         ],
 		'gridview' => [
 			'class' => 'kartik\grid\Module',
@@ -78,9 +79,6 @@ return [
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
-        ],
-        'page' => [
-            'class' => 'infoweb\pages\components\Page'
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

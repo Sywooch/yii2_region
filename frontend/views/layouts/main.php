@@ -11,7 +11,7 @@ use frontend\widgets\Alert;
 /* @var $content string */
 
 AppAsset::register($this);
-$this->registerJs('jQuery(div.animation)')
+//$this->registerJs('jQuery("div.animation")')
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -41,15 +41,15 @@ $this->registerJs('jQuery(div.animation)')
                 </a>
             </div>
             <div class="pull-right col-sm-6 col-md-6 col-lg-6 col-xs-12">
-                <p class="h1">
+                <p class="h1 text-right">
                     <span class="color1">
-                        Оператор
+                        <strong>Оператор</strong>
                     </span>
                     <span class="color2">
-                        позитивного
+                        <strong>позитивного</strong>
                     </span>
                     <span class="color3">
-                        отдыха!
+                        <strong>отдыха!</strong>
                     </span>
                 </p>
                 <p class="h1">
@@ -121,7 +121,7 @@ $this->registerJs('jQuery(div.animation)')
                 NavBar::end();
             ?>
 
-            <div class="breadcrumbs">
+            <div class="container">
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>

@@ -38,6 +38,9 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'page' => [
+            'class' => 'infoweb\pages\components\Page'
+        ]
     ],
     'params' => $params,
 ];
