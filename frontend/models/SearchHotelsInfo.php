@@ -107,4 +107,30 @@ class SearchHotelsInfo extends HotelsInfo
 
         return $dataProvider;
     }
+
+    public function searchTop(){
+        $query = HotelsInfo::find();
+        $query->andFilterWhere([
+            'active' => 1,
+            'top' => 1,
+        ]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 3,
+            ],
+        ]);
+
+        /*$this->load($params);
+
+        if (!$this->validate()) {*/
+// uncomment the following line if you do not want to any records when validation fails
+// $query->where('0=1');
+            return $dataProvider;
+        //}
+
+
+        return $dataProvider;
+    }
 }

@@ -12,7 +12,7 @@ $this->title = Yii::t('app', 'Гостиницы');
             'options'=>[
                 'class' => 'pagination',
             ],
-
-        ]
+        ],
+        'summary' => '',
     ]) ?>
 </div>

@@ -44,5 +44,18 @@ class HotelsController extends \yii\web\Controller
             'searchModel' => $searchModel,
         ]);
     }
+    
+    public function actionTop(){
+        $searchModel = new SearchHotelsInfo();
+        $dataProvider = $searchModel->searchTop();
+
+        Url::remember();
+        \Yii::$app->session['__crudReturnUrl'] = null;
+
+        return $this->renderPartial('index', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+        ]);
+    }
 
 }

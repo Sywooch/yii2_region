@@ -25,33 +25,9 @@ $this->title = 'Лайв Тур Вояж';
 
 
         <div class="row">
-
-            <?php  ?>
-            <div class="col-lg-3">
-                <?= Html::img('@web/images/hotels.png',['width' => '100px']) ?>
-
-
-                <p>Информация о гостинице</p>
-            </div>
-            <div class="col-lg-3">
-
-                <?= Html::img('@web/images/hotels.png',['width' => '100px']) ?>
-
-
-                <p>Информация о гостинице</p>
-            </div>
-            <div class="col-lg-3">
-                <?= Html::img('@web/images/hotels.png',['width' => '100px']) ?>
-
-
-                <p>Информация о гостинице</p>
-            </div>
-            <div class="col-lg-3">
-                <?= Html::img('@web/images/hotels.png',['width' => '100px']) ?>
-
-
-                <p>Информация о гостинице</p>
-            </div>
+            <?php
+                echo $hic[0]->actionTop();
+            ?>
         </div>
 
     </div>

@@ -88,7 +88,7 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
             [['country', 'hotels_stars_id'], 'integer'],
             [['imageFiles'], 'file', 'extensions' => 'png, jpg, gif', 'maxFiles' => 12],
             [['hotels_stars_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsStars::className(), 'targetAttribute' => ['hotels_stars_id' => 'id']],
-            [['delImages','mainImage','active'],'boolean']
+            [['delImages','mainImage','active', 'top'],'boolean']
         ];
     }
 
