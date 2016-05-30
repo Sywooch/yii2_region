@@ -18,7 +18,7 @@ class SearchHotelsCharacter extends HotelsCharacter
     public function rules()
     {
         return [
-            [['id', 'parent_id', 'num_hierar','active'], 'integer'],
+            [['id', 'parent_id', 'num_hierar', 'active'], 'integer'],
             [['name', 'date_add', 'date_edit'], 'safe'],
         ];
     }

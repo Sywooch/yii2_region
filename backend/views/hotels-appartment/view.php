@@ -15,7 +15,7 @@ $copyParams = $model->attributes;
 
 $this->title = Yii::t('app', 'HotelsAppartment');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'HotelsAppartments'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => (string)$model->name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => (string)$model->name, 'url' => ['view', 'id' => $model->id, 'hotels_info_id' => $model->hotels_info_id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'View');
 
 $items = $model->getImage2amigos(true);
@@ -43,12 +43,12 @@ $items = $model->getImage2amigos(true);
         <div class='pull-left'>
             <?= Html::a(
             '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('app', 'Edit'),
-            [ 'update', 'id' => $model->id],
+            [ 'update', 'id' => $model->id, 'hotels_info_id' => $model->hotels_info_id],
             ['class' => 'btn btn-info']) ?>
 
             <?= Html::a(
             '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('app', 'Copy'),
-            ['create', 'id' => $model->id, 'HotelsAppartment'=>$copyParams],
+            ['create', 'id' => $model->id, 'hotels_info_id' => $model->hotels_info_id, 'HotelsAppartment'=>$copyParams],
             ['class' => 'btn btn-success']) ?>
 
             <?= Html::a(
@@ -101,7 +101,7 @@ $items = $model->getImage2amigos(true);
     
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('app', 'Delete'), ['delete', 'id' => $model->id],
+    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('app', 'Delete'), ['delete', 'id' => $model->id, 'hotels_info_id' => $model->hotels_info_id],
     [
     'class' => 'btn btn-danger',
     'data-confirm' => '' . Yii::t('app', 'Are you sure to delete this item?') . '',

@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div >
 
     <div class="col-md-4">
+        <?= Html::img($model->getImage()->getUrl('120x'),['alt' => $model->name])?>
     <?php echo $this->render('_search', ['model' =>$searchModel]);
         ?>
     </div>

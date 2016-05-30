@@ -203,6 +203,10 @@ abstract class HotelsAppartment extends \yii\db\ActiveRecord
         }
     }
     
+    public function getMinPrice($hotels_id){
+        
+    }
+    
     public function getImage2amigos($modelViews=false){
         $items = array();
         $imageFiles = $this->getImages();

@@ -13,10 +13,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput() ?>
     <?= $form->field($model, 'active')->checkbox() ?>
-
-    <?= $form->field($model, 'parent_id')->dropDownList(
+        <?= $form->field($model, 'parent_id')->dropDownList(
         \yii\helpers\ArrayHelper::map(\common\models\HotelsCharacter::find()->andFilterWhere(['active'=>1])
-            ->andFilterWhere(['!=','parent_id',$model->id]) ->asArray()->all(), 'id', 'name'),
+            ->andFilterWhere(['!=','id',$model->id])->all(), 'id', 'name'),
         ['prompt'=>'Выберите родительскую характеристику']
     ) ?>
 

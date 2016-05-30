@@ -70,9 +70,15 @@ return [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign'=>'middle',
-        'urlCreator' => function($action, $model, $key, $index) { 
-                return Url::to([$action,'id'=>$key]);
+        'urlCreator' => function($action, $model, $key, $index) {
+            // using the column name as key, not mapping to 'id' like the standard generator
+            $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+            $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
+            return Url::toRoute($params);
         },
+        /*'urlCreator' => function($action, $model, $key, $index) {
+                return Url::to([$action,'id'=>$key]);
+        },*/
         'viewOptions'=>['role'=>'modal-remote','title'=>Yii::t('app','View'),'data-toggle'=>'tooltip'],
         'updateOptions'=>['role'=>'modal-remote','title'=>Yii::t('app','Update'), 'data-toggle'=>'tooltip'],
         'deleteOptions'=>['role'=>'modal-remote','title'=>Yii::t('app','Delete'), 

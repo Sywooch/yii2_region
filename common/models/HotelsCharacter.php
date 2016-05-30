@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "hotels_character".
@@ -29,11 +30,15 @@ class HotelsCharacter extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            [
+            'timestamp' => [
                 'class' => TimestampBehavior::className(),
-                'createdAtAttribute' => 'date_add',
-                'updatedAtAttribute' => 'date_edit',
-            ],
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'date_add',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'date_edit',
+                ],
+                'value' => function() { return date('Y-m-d H:i:s'); // unix timestamp
+                },
+            ]
         ];
     }
 
@@ -47,9 +52,8 @@ class HotelsCharacter extends \yii\db\ActiveRecord
             [['name'], 'string'],
             [['parent_id', /*'num_hierar',*/], 'integer'],
             ['parent_id','default', 'value'=>0],
-            [['date_add','date_edit'], 'date'],
+            [['date_add','date_edit'], 'safe'],
             [['active'], 'boolean'],
-            
         ];
     }
 

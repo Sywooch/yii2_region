@@ -243,3 +243,16 @@ a.desc:after {
     margin: 0;
 
 }
+
+.link {
+    color: #fff;
+    text-decoration: none;
+}
+a.link:hover{
+    color: #fff;
+    text-decoration: none;
+}
+.pagination{
+    clear: both;
+    display: block;
+}

@@ -81,8 +81,12 @@ return [
         'filterWidgetOptions'=>[
             'pluginOptions'=>['allowClear'=>true],
         ],
-        'filterInputOptions'=>['placeholder'=>'Любые "звезды"'],
+        'filterInputOptions'=>['placeholder'=>'Все варианты'],
         'format'=>'raw'
+    ],
+    [
+        'class'=>'\kartik\grid\BooleanColumn',
+        'attribute' => 'active',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

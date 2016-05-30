@@ -11,6 +11,7 @@ use frontend\widgets\Alert;
 /* @var $content string */
 
 AppAsset::register($this);
+$this->registerJs('jQuery(div.animation)')
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -24,7 +25,8 @@ AppAsset::register($this);
 </head>
 <body>
     <?php $this->beginBody() ?>
-    <div class="container main">
+    <div class="main">
+    <div class="container">
 
 
         <header>
@@ -60,6 +62,7 @@ AppAsset::register($this);
             </div>
             <div class="clear"></div>
         </header>
+        </div>
         <div class="wrap">
             <?php
             NavBar::begin([
@@ -118,7 +121,7 @@ AppAsset::register($this);
                 NavBar::end();
             ?>
 
-            <div class="container">
+            <div class="breadcrumbs">
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
@@ -128,9 +131,9 @@ AppAsset::register($this);
         </div>
 
         <footer class="footer">
-            <div class="container">
+            
             <p class="pull-left">&copy; Life Tour Voyage <?= date('Y') ?></p>
-            </div>
+            
         </footer>
 
     </div>

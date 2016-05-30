@@ -19,6 +19,7 @@ class SearchHotelsInfo extends HotelsInfo
     public $child;
     public $date_beg;
     public $date_end;
+
     /**
      * @inheritdoc
      */
@@ -72,6 +73,9 @@ class SearchHotelsInfo extends HotelsInfo
     public function search($params)
     {
         $query = HotelsInfo::find();
+        $query->andFilterWhere([
+            'active' => 1,
+        ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -100,9 +104,6 @@ class SearchHotelsInfo extends HotelsInfo
             ->andFilterWhere(['like', 'gps_point_p', $this->gps_point_p]);*/
 
         //Формируем запрос по поиску направлений и гостиниц (туров)
-        
-
-
 
         return $dataProvider;
     }

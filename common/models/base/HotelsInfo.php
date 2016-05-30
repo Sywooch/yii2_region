@@ -259,6 +259,11 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
         }
         return $items;
     }
+    static public function getImageOne($id){
+        $model = \common\models\HotelsInfo::findOne($id);
+        $image = $model->getImage();
+        return $image->getUrl('120x');
+    }
 
     /**
      * Функция удаляет картинки по ее urlAlais

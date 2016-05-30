@@ -53,14 +53,14 @@ class HotelsAppartmentController extends Controller
      *
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView($id,$hotels_info_id)
     {
         \Yii::$app->session['__crudReturnUrl'] = Url::previous();
         Url::remember();
         Tabs::rememberActiveState();
 
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($id, $hotels_info_id),
         ]);
     }
 
@@ -97,9 +97,9 @@ class HotelsAppartmentController extends Controller
      * @param integer $hotels_info_id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $hotels_info_id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, $hotels_info_id);
 
         if ($model->load($_POST)) {
 
@@ -136,10 +136,10 @@ class HotelsAppartmentController extends Controller
      * @param integer $hotels_info_id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $hotels_info_id)
     {
         try {
-            $model = $this->findModel($id);
+            $model = $this->findModel($id, $hotels_info_id);
             $model->removeImages();
             $model->delete();
         } catch (\Exception $e) {
@@ -182,9 +182,9 @@ class HotelsAppartmentController extends Controller
      * @return HotelsAppartment the loaded model
      * @throws HttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($id, $hotels_info_id)
     {
-        if (($model = HotelsAppartment::findOne(['id' => $id])) !== null) {
+        if (($model = HotelsAppartment::findOne(['id' => $id, 'hotels_info_id' => $hotels_info_id])) !== null) {
             return $model;
         } else {
             throw new HttpException(404, 'The requested page does not exist.');
