@@ -13,7 +13,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'bus_info_id')->textInput() ?>
+    <?= $form->field($model, 'bus_info_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(common\models\BusInfo::find()->all(), 'id', 'name'),
+        ['prompt' => Yii::t('app', 'Select')]
+    ) ?>
 
     <?= $form->field($model, 'date_create')->widget(\kartik\datetime\DateTimePicker::classname(), [
                 //'langauge' => 'ru',
@@ -30,11 +33,14 @@ use yii\widgets\ActiveForm;
                 //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
             ]) ?>
 
-    <?= $form->field($model, 'active')->textInput() ?>
+    <?= $form->field($model, 'active')->checkbox() ?>
 
-    <?= $form->field($model, 'ended')->textInput() ?>
+    <?= $form->field($model, 'ended')->checkbox() ?>
 
-    <?= $form->field($model, 'bus_path_id')->textInput() ?>
+    <?= $form->field($model, 'bus_path_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(common\models\BusRoute::find()->all(), 'id', 'name'),
+        ['prompt' => Yii::t('app', 'Select')]
+    ) ?>
 
     <?= $form->field($model, 'path_time')->textInput(['maxlength' => true]) ?>
 

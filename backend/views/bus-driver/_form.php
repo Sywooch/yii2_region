@@ -15,16 +15,19 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'number_license')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'active')->textInput() ?>
+    <?= $form->field($model, 'active')->checkbox() ?>
 
     <?= $form->field($model, 'date')->widget(\kartik\datetime\DateTimePicker::classname(), [
                 //'langauge' => 'ru',
                 //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
             ]) ?>
 
-    <?= $form->field($model, 'first')->textInput() ?>
+    <?= $form->field($model, 'first')->checkbox() ?>
 
-    <?= $form->field($model, 'bus_info_id')->textInput() ?>
+    <?= $form->field($model, 'bus_info_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(common\models\BusInfo::find()->all(), 'id', 'name'),
+        ['prompt' => Yii::t('app', 'Select')]
+    ) ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

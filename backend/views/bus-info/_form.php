@@ -24,7 +24,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'active')->checkbox() ?>
 
-    <?= $form->field($model, 'bus_scheme_seats_id')->textInput() ?>
+    <?= $form->field($model, 'bus_scheme_seats_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(common\models\BusSchemeSeats::find()->all(), 'id', 'name'),
+        ['prompt' => Yii::t('app', 'Select')]
+    ) ?>
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">

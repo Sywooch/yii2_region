@@ -68,6 +68,29 @@ $items = $model->getImage2amigos(true);
                 ],
             ],
         ]); ?>
+        <div class="characters table">
+            <label>Подробные характеристики</label>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        Характеристика
+                    </th>
+                    <th>
+                        Значение
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <?= \yii\widgets\ListView::widget([
+                    'dataProvider' => $dateProviderCharacters,
+                    'itemView' => '_details_character',
+                    'summary' => '',
+                ]); ?>
+                </tbody>
+            </table>
+        </div>
 
 
         

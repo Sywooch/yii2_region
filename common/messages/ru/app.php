@@ -223,6 +223,10 @@ return [
     'Please fill out the following fields to login' => 'Пожалуйста, введите логин и пароль для входа в систему',
     'Incorrect username or password.' => 'Неверное имя пользователя или пароль.',
 
+    'Seat' => 'Посадочные места',
+    'Gos Number' => 'Гос. рег. знак',
+    'Bus Path ID' => 'Маршрут',
+    'Path Time' => 'Время в пути',
 
     /**
      * Filter
