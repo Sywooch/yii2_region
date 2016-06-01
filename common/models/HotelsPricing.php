@@ -84,7 +84,14 @@ class HotelsPricing extends \yii\db\ActiveRecord
     {
         return $this->hasOne(HotelsAppartment::className(), ['id' => 'hotels_appartment_id', 'hotels_info_id' => 'hotels_appartment_hotels_info_id']);
     }
-
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHotelsInfo()
+    {
+        return $this->hasOne(HotelsInfo::className(), ['id' => 'hotels_appartment_hotels_info_id']);
+    }
     /**
      * @return \yii\db\ActiveQuery
      */

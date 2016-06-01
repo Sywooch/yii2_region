@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use common\models\HotelsCharacterItem;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -131,6 +132,24 @@ class SearchHotelsInfo extends HotelsInfo
         //}
 
 
+        return $dataProvider;
+    }
+
+    public function searchCharacters($id){
+        $model = HotelsCharacterItem::find();
+        $model->select('hotels_character.name name, hotels_character_item.value value');
+        $model->innerJoin('hotels_character', 'hotels_character.id = `hotels_character_item`.`hotels_character_id`');
+        $model->andFilterWhere([
+            'hotels_info_id'=>$id,
+            'hotels_character.active'=>1,
+            'hotels_character_item.active'=>1,
+        ]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $model,
+            'pagination'=>[
+                'pageSize'=>0,
+            ]
+        ]);
         return $dataProvider;
     }
 }

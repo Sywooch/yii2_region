@@ -29,7 +29,7 @@ use yii\helpers\Html;
         <div class="row">
             <div class="col-md-12">
                 <div class="description">
-                    <?= \yii\helpers\StringHelper::truncate($model->description,90) ?>
+                    <?= \yii\helpers\StringHelper::truncate($model->description,150) ?>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@ use yii\helpers\Html;
             <div class="pull-right">
                 <div class="btn btn-primary">
                     <?=
-                    Html::a(Yii::t('app', 'Details'), ['details', 'id' => $model->id],['class'=>'link'])
+                    Html::a(Yii::t('app', 'Details'), ['hotels/details', 'id' => $model->id],['class'=>'link'])
                      ?>
                 </div>
             </div>

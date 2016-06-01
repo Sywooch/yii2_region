@@ -42,6 +42,7 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
     public $imageFiles;
     public $delImages;
     public $mainImage;
+    public $hotels_character_id;
 
     /**
      * @inheritdoc
@@ -152,6 +153,17 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
         return $this->hasMany(\common\models\HotelsAppartment::className(), ['hotels_info_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHotelsCharacters()
+    {
+        $model = $this->getHotelsCharacterItems();
+        $this->hotels_character_id = $model->one()->hotels_character_id;
+        return \common\models\HotelsCharacter::findOne(['id' => $this->hotels_character_id]);
+        
+    }
+    
     /**
      * @return \yii\db\ActiveQuery
      */

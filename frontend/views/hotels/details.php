@@ -17,6 +17,7 @@ $this->title = $model->getAliasModel() . $model->name;
 $this->params['breadcrumbs'][] = ['label' => $model->getAliasModel(true), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'View');
+$items = $model->getImage2amigos(true);
 ?>
 <div class="giiant-crud hotels-info-view panel panel-info">
 
@@ -41,12 +42,16 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View');
         <?= DetailView::widget([
             'model' => $model,
             'attributes' => [
-                [
+                /*[
                     'format'=>'html',
                     'attribute' => 'Изображение',
                     'value'=> Html::img($model->getImage()->getUrl('120x'),['alt' => $model->name])
-                ],
+                ],*/
                 'name:ntext',
+                [
+                    'format'=> 'html',
+                    'attribute'=>'description',
+                ],
                 'address',
                 [
                     'format' => 'html',
@@ -61,6 +66,14 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View');
                     'attribute' => 'hotels_stars_id',
                     'value' => ($model->getHotelsStars()->one() ? Html::tag('div', $model->getHotelsStars()->one()->name) : '<span class="label label-warning">?</span>'),
                 ],
+            ],
+        ]); ?>
+
+
+        
+        <?= \dosamigos\gallery\Gallery::widget(['items' => $items,
+            'options' => [
+                'class' => 'row',
             ],
         ]); ?>
 

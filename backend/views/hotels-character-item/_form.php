@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'metrics')->textInput() ?>
 
     <?= $form->field($model, 'hotels_info_id')->dropDownList(
-        \yii\helpers\ArrayHelper::map(\common\models\HotelsInfo::findAll(['active'=>1],'id', 'name')),
+        \yii\helpers\ArrayHelper::map(\common\models\HotelsInfo::findAll(['active'=>1]),'id', 'name'),
         ['prompt' => 'Выберите гостиницу']
     ) ?>
 

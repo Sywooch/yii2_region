@@ -135,6 +135,16 @@ abstract class HotelsAppartment extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCountry()
+    {
+        $model = $this->getHotelsInfo();
+        $this->country = $model->one()->country;
+        return \common\models\Country::findOne(['id' => $this->country]);
+    }
+
+    /**
      * @return string
      */
     public function getHotelsByCountry($idCountry)

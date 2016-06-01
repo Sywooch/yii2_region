@@ -32,4 +32,6 @@ class HotelsInfoQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+    
+    
 }

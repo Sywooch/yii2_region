@@ -13,7 +13,6 @@ $this->title = 'Лайв Тур Вояж';
                         <?php
                         $hic = \Yii::$app->createController('hotels');
                         echo $hic[0]->actionFilter();
-
                         ?>
                     </div>
                 </div>
@@ -21,9 +20,6 @@ $this->title = 'Лайв Тур Вояж';
                     <?= Html::img('@web/images/banner.png',['style' => 'max-width:100%; max-height:380px']) ?>
                 </div>
             </div>
-
-
-
         <div class="row">
             <?php
                 echo $hic[0]->actionTop();

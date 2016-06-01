@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\HotelsCharacterItem;
 use common\models\HotelsInfo;
 use frontend\models\SearchHotelsInfo;
 use yii\helpers\Url;
@@ -12,9 +13,13 @@ class HotelsController extends \yii\web\Controller
     public function actionDetails($id)
     {
         $model = HotelsInfo::findOne(['id' => $id]);
+        $searchModel= new SearchHotelsInfo();
+        $dpCharacters = $searchModel->searchCharacters($id);
         return $this->render('details',[
             'model' => $model,
+            'dateProviderCharacters' => $dpCharacters,
         ]);
+
     }
 
     public function actionIndex()
@@ -56,6 +61,12 @@ class HotelsController extends \yii\web\Controller
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
         ]);
+    }
+
+    static public function getCharacters($id){
+        $searchModel = new SearchHotelsInfo();
+        $dataProvider = $searchModel->searchCharacters($id);
+        return $dataProvider;
     }
 
 }

@@ -6,6 +6,8 @@ use \dmstr\bootstrap\Tabs;
 use kartik\widgets\FileInput;
 use mirocow\yandexmaps\Map as YandexMap;
 use mirocow\yandexmaps\Canvas as YandexCanvas;
+use skeeks\yii2\ckeditor\CKEditorWidget;
+use skeeks\yii2\ckeditor\CKEditorPresets;
 
 /**
  * @var yii\web\View $this
@@ -82,7 +84,10 @@ if (Yii::$app->controller->action->id === 'update'){
             <?= $form->field($model, 'active')->checkbox() ?>
             <?= $form->field($model, 'top')->checkbox() ?>
 
-            <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+            <?= $form->field($model, 'description')->widget(CKEditorWidget::className(), [
+                'options' => ['rows' => 6],
+                'preset' => CKEditorPresets::FULL,
+            ]) ?>
 
             <?= $form->field($model, 'address')->textarea(['rows' => 6]) ?>
             <?= $form->field($model, 'country')->dropDownList(

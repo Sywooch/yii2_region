@@ -59,11 +59,6 @@ return [
             'db' => 'db', // database connection component config or name
             'user' => 'user', // authentication component config or name
         ],
-
-        'pages' => [
-            'class' => 'infoweb\pages\Module',
-        ],
-
         /*'main' => [
             'class' => 'app\modules\main\Module',
         ],*/
@@ -96,7 +91,7 @@ return [
             'rules' => [
                 'login' => 'site/login',
                 'logout' => 'site/logout',
-                'pages/<page:[\w-]+>' => 'pages/default/index',
+                //'pages/<page:[\w-]+>' => 'pages/default/index',
             ],
         ],
         'urlManagerFrontend' => [

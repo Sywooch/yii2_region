@@ -103,7 +103,7 @@ class HotelsPricingController extends Controller
                 return [
                     'forceReload'=>'true',
                     'title'=> Yii::t('app', 'Create new') . ' ' . Yii::t('app', 'HotelsPricing'),
-                    'content'=>'<span class="text-success">Create HotelsPricing success</span>',
+                    'content'=>'<span class="text-success">' . Yii::t('app', 'Create HotelsPricing success') . '</span>',
                     'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a(Yii::t('app', 'Create More'),['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         

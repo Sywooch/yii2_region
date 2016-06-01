@@ -86,7 +86,7 @@ return [
     ],
     [
         'class'=>'\kartik\grid\BooleanColumn',
-        'attribute' => 'active',
+        'attribute'=>'active',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

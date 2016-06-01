@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1>
         <?= $searchModel->getAliasModel(true) ?>        <small>
-            List
+            <?= Yii::t('app', 'List') ?>
         </small>
     </h1>
     <div class="clearfix crud-navigation">

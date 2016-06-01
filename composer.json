@@ -42,11 +42,9 @@
         "mirocow/yii2-yandex-maps": "@dev",
         "bupy7/yii2-activerecord-history": "*",
         "vova07/yii2-fileapi-widget": "*",
-
         "costa-rico/yii2-images": "dev-master",
         "2amigos/yii2-gallery-widget": "~1.0",
-        "infoweb-internet-solutions/yii2-cms-pages": "*",
-        "infoweb-internet-solutions/yii2-cms-alias": "*"
+        "skeeks/yii2-ckeditor" : "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

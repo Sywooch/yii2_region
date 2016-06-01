@@ -11,9 +11,14 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'hotels_appartment_id')->textInput() ?>
-
     <?= $form->field($model, 'hotels_appartment_hotels_info_id')->textInput() ?>
+    
+    <?= $form->field($model, 'hotels_appartment_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(common\models\Country::find()->all(), 'id', 'name'),
+        ['prompt' => Yii::t('app', 'Select')]
+    ) ?>
+
+
 
     <?= $form->field($model, 'hotels_others_pricing_id')->textInput() ?>
 
