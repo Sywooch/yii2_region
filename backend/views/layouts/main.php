@@ -116,7 +116,13 @@ AppAsset::register($this);
                 /*['label' => 'Маршрут + путевые точки', 'url' => ['/bus-route-has-bus-route-point']],*/
                 ['label' => 'Посадочные места','url' => ['/bus-scheme-seats']],
                 ['label' => 'Резервация посадочных мест', 'url' => ['/bus-reservation']]
+            ],
+        ];
 
+        $menuItems[] = [
+            'label' => 'Настройки',
+            'items' => [
+                ['label' => 'Статические страницы', 'url' => ['/pages/manager/index']],
             ],
         ];
 
