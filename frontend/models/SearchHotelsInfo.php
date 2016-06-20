@@ -7,6 +7,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\HotelsInfo;
+use yii\db\Query;
 
 /**
  * SearchHotelsInfo represents the model behind the search form about `common\models\HotelsInfo`.
@@ -20,6 +21,7 @@ class SearchHotelsInfo extends HotelsInfo
     public $child;
     public $date_beg;
     public $date_end;
+    public $tour_type;
 
     /**
      * @inheritdoc
@@ -28,7 +30,8 @@ class SearchHotelsInfo extends HotelsInfo
     {
         return [
             [['country', 'hotels_stars_id'], 'integer'],
-            [['name', 'address', 'gps_point_m', 'gps_point_p', 'links_maps', 'image', 'date_add', 'date_edit'], 'safe'],
+            [['name', 'address', 'gps_point_m', 'gps_point_p', 'links_maps', 'image', 'date_add', 'date_edit','tour_type'], 'safe'],
+            
         ];
     }
 
@@ -51,6 +54,7 @@ class SearchHotelsInfo extends HotelsInfo
     {
         return [
             'name' => Yii::t('app', 'Name hotels'),
+            'tour_type' => Yii::t('app','Tour type'),
             'address' => Yii::t('app', 'Kurort'),
             'country' => Yii::t('app', 'Country'),
             'price_from' => Yii::t('app', 'Price from'),
@@ -59,7 +63,7 @@ class SearchHotelsInfo extends HotelsInfo
             'child' => Yii::t('app', 'Child'),
             'date_beg' => Yii::t('app', 'Date begin'),
             'date_end' => Yii::t('app', 'Date end'),
-            'hotels_stars_id' => Yii::t('app','Hotels Stars ID'),
+            'hotels_stars_id' => Yii::t('app','Hotels Stars'),
         ];
     }
 
@@ -119,7 +123,7 @@ class SearchHotelsInfo extends HotelsInfo
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 3,
+                'pageSize' => 12,
             ],
         ]);
 
@@ -135,10 +139,13 @@ class SearchHotelsInfo extends HotelsInfo
         return $dataProvider;
     }
 
-    public function searchCharacters($id){
-        $model = HotelsCharacterItem::find();
+    public static function getCharacters($id){
+        //$model = HotelsCharacterItem::find();
+        $model = new Query();
         $model->select('hotels_character.name name, hotels_character_item.value value');
-        $model->innerJoin('hotels_character', 'hotels_character.id = `hotels_character_item`.`hotels_character_id`');
+        $model->from(['hotels_character','hotels_character_item']);
+        $model->innerJoin('hotels_character','`hotels_character`.`id`=`hotels_character_item`.`hotels_character_id`');
+
         $model->andFilterWhere([
             'hotels_info_id'=>$id,
             'hotels_character.active'=>1,

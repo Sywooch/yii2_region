@@ -65,6 +65,8 @@ return [
         'user' => [
             'class' => 'app\modules\user\Module',
         ],
+
+        
     ],
     'components' => [
         'user' => [
@@ -91,6 +93,7 @@ return [
             'rules' => [
                 'login' => 'site/login',
                 'logout' => 'site/logout',
+                //'pages/<page:[\w-]+>' => 'pages/default/index',
                 //'pages/<page:[\w-]+>' => 'pages/default/index',
             ],
         ],

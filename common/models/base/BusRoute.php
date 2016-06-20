@@ -105,9 +105,11 @@ abstract class BusRoute extends \yii\db\ActiveRecord
             [['routepoint'],'each','rule'=>['integer']],
             [['first_point', 'end_point', 'time_pause'],'integer'],
             [['date_point_forward', 'date_point_reverse'], 'safe'],
-            ['date_point_reverse', 'compare', 'compareAttribute'=>'date_point_forward', 'operator' => '>'],
-            ['date_point_reverse', 'compare', 'compareAttribute'=>'date_end', 'operator' => '<'],
-            ['date_point_forward', 'compare', 'compareAttribute'=>'date_begin', 'operator' => '>'],
+            ['date_point_reverse', 'compare', 'compareAttribute'=>'date_point_forward', 'operator' => '<='],
+            /*[['date_point_forward', 'date_point_reverse'], 'date', 'format' => 'Y-m-d H:m'],
+            ['date_point_reverse', 'compare', 'compareAttribute'=>'date_point_forward', 'operator' => '>'],*/
+            /*['date_point_reverse', 'compare', 'compareAttribute'=>'date_end', 'operator' => '<='],
+            ['date_point_forward', 'compare', 'compareAttribute'=>'date_begin', 'operator' => '>='],*/
         ];
     }
 
@@ -122,6 +124,12 @@ abstract class BusRoute extends \yii\db\ActiveRecord
             'date' => Yii::t('app', 'Date'),
             'date_begin' => Yii::t('app', 'Date Begin'),
             'date_end' => Yii::t('app', 'Date End'),
+            'first_point' => Yii::t('app', 'First Point'),
+            'end_point' => Yii::t('app', 'End Point'),
+            'position' => Yii::t('app', 'Position'),
+            'date_point_forward' => Yii::t('app', 'Date Point Forward'),
+            'time_pause' => Yii::t('app', 'Time Pause'),
+            'date_point_reverse' => Yii::t('app', 'Date Point Reverse'),
         ];
     }
 

@@ -13,12 +13,30 @@ return [
             'graphicsLibrary' => 'GD', //but really its better to use 'Imagick'
             'placeHolderPath' => 'uploads/images/placeHolder.png', // if you want to get placeholder when image not exists, string will be processed by Yii::getAlias
         ],
+        'pages' => [
+            'class' => 'bupy7\pages\Module',
+
+            'controllerMap' => [
+                'manager' => [
+                    'class' => 'bupy7\pages\controllers\ManagerController',
+                    'as access' => [
+                        'class' => \yii\filters\AccessControl::className(),
+                        'rules' => [
+                            [
+                                'allow' => true,
+                                'roles' => ['Super Admin'],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
     ],
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        /*'urlManager' => [
+        'urlManager' => [
             'class' => 'yii\web\urlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
@@ -27,7 +45,7 @@ return [
                 'logout' => 'site/logout',
                 'pages/<page:[\w-]+>' => 'pages/default/index',
             ],
-        ],*/
+        ],
         'i18n' => [
             'translations' => [
                 'app*' => [

@@ -17,8 +17,9 @@ use yii\helpers\Html;
 
                 </div>
                 <div class="stars">
-                    <strong><?= Yii::t('app', 'HotelsStar') ?>:</strong>
-                    <?= \yii\helpers\ArrayHelper::getValue(\common\models\HotelsStars::findOne(['id'=> $model->hotels_stars_id]), 'name') ?>
+                    <strong>
+                        <?= \yii\helpers\ArrayHelper::getValue(\common\models\HotelsStars::findOne(['id'=> $model->hotels_stars_id]), 'name') ?>
+                    </strong>
                 </div>
                 <div class="country">
                     <strong><?= Yii::t('app','Country') ?>:</strong>

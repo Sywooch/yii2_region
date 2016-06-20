@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use kartik\form\ActiveForm;
 use \dmstr\bootstrap\Tabs;
 
 /**
@@ -9,15 +9,16 @@ use \dmstr\bootstrap\Tabs;
  * @var common\models\BusRoute $model
  * @var yii\widgets\ActiveForm $form
  */
-
+/**
+ * TODO Исправить отображение input`ов точек маршрута - найти и заменить col-sm-6 на col-sm-9
+ */
 ?>
 
 <div class="bus-route-form">
 
     <?php $form = ActiveForm::begin([
             'id' => 'BusRoute',
-            
-            'layout' => 'horizontal',
+            //'layout' => 'horizontal',
             'enableClientValidation' => true,
             'errorSummaryCssClass' => 'error-summary alert alert-error'
         ]
@@ -49,41 +50,40 @@ use \dmstr\bootstrap\Tabs;
 
 
         <?php $this->beginBlock('busroutepoint'); ?>
+        <div class="row">
 
-        <p>
+
             <?php
             $i = 0;
             foreach (\yii\helpers\ArrayHelper::toArray(
-                common\models\BusRoutePoint::findAll(['active' => 1])) as $elem){
-            $i++;
+                common\models\BusRoutePoint::findAll(['active' => 1])) as $elem) {
+                $i++;
+                ?>
+                <div class="col-md-3 panel panel-primary" id="routepoint_<?= $i ?>">
+                    <h1 class="element">№<?= $i ?></h1>
+                    <?= $form->field($model, "routepoint[" . $elem['id'] . "]")->checkboxList(
+                        \yii\helpers\ArrayHelper::map(common\models\BusRoutePoint::findAll(['id' => $elem['id']]), 'id', 'name'),
+                        ['prompt' => Yii::t('app', 'Select')]
+                    ); ?>
+                    <?= $form->field($model, "first_point[" . $elem['id'] . "]")->radio() ?>
+
+                    <?= $form->field($model, "end_point[" . $elem['id'] . "]")->radio() ?>
+                    <?= $form->field($model, "position[" . $elem['id'] . "]")->textInput() ?>
+                    <?= $form->field($model, "date_point_forward[" . $elem['id'] . "]")->widget(\kartik\datetime\DateTimePicker::classname(), [
+                        //'language' => 'ru',
+                        //'dateFormat' => 'yyyy-MM-dd',
+                    ]) ?>
+                    <?= $form->field($model, "time_pause[" . $elem['id'] . "]")->textInput() ?>
+                    <?= $form->field($model, "date_point_reverse[" . $elem['id'] . "]")->widget(\kartik\datetime\DateTimePicker::classname(), [
+                        //'language' => 'ru',
+                        //'dateFormat' => 'yyyy-MM-dd',
+                    ]) ?>
+
+                </div>
+                <?php
+            }
             ?>
-        <div class="row panel panel-primary" id="routepoint_<?= $i ?>">
-        <h1 class="element">№<?= $i ?></h1>
-            <?= $form->field($model, "routepoint[".$elem['id']."]")->checkboxList(
-                \yii\helpers\ArrayHelper::map(common\models\BusRoutePoint::findAll(['id' => $elem['id']]), 'id', 'name'),
-                ['prompt' => Yii::t('app', 'Select')]
-            ); ?>
-            <?= $form->field($model, "first_point[".$elem['id']."]")->radio() ?>
-
-        <?= $form->field($model, "end_point[".$elem['id']."]")->radio() ?>
-        <?= $form->field($model, "position[".$elem['id']."]")->textInput() ?>
-        <?= $form->field($model, "date_point_forward[".$elem['id']."]")->widget(\kartik\datetime\DateTimePicker::classname(), [
-            //'language' => 'ru',
-            //'dateFormat' => 'yyyy-MM-dd',
-        ]) ?>
-        <?= $form->field($model, "time_pause[".$elem['id']."]")->textInput() ?>
-        <?= $form->field($model, "date_point_reverse[".$elem['id']."]")->widget(\kartik\datetime\DateTimePicker::classname(), [
-            //'language' => 'ru',
-            //'dateFormat' => 'yyyy-MM-dd',
-        ]) ?>
-
         </div>
-    <?php
-    }
-
-    ?>
-
-        </p>
         <?php $this->endBlock(); ?>
 
         <?=

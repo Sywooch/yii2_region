@@ -73,9 +73,10 @@ AppAsset::register($this);
                 ],
             ]);
             $menuItems = [
+                ['label' => 'Способы оплаты', 'url' => ['/pages/payment_methods']],
                 ['label' => 'Контакты', 'url' => ['/site/contact']],
-                ['label' => 'Частным лицам', 'url' => ['/site/about']],
-                ['label' => 'Турагенствам', 'url' => ['/site/about']],
+                ['label' => 'Частным лицам', 'url' => ['/pages/individual']],
+                ['label' => 'Турагенствам', 'url' => ['/pages/touragent']],
             ];
             /*if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
@@ -104,11 +105,12 @@ AppAsset::register($this);
                     ['label' => 'Школьные туры', 'url' => ['/site/index'],'options'=>['class' => 'menu_schkola']],
                     ['label' => 'Пляжный отдых', 'url' => ['/site/index'],'options'=>['class' => 'menu_plyag']],
                     ['label' => 'Горнолыжные туры', 'url' => ['/site/index'],'options'=>['class' => 'menu_gory']],
-                    ['label' => 'Отдых в России', 'url' => ['/site/index'],'options'=>['class' => 'menu_russia']],
+                    ['label' => 'Экскурсионные туры', 'url' => ['/site/index'],'options'=>['class' => 'menu_russia']],
                     ['label' => 'Отдых за границей', 'url' => ['/site/index'],'options'=>['class' => 'menu_zarubeg']],
                     ['label' => 'Горящие туры', 'url' => ['/site/index'],'options'=>['class' => 'menu_goryaschie']],
                     ['label' => 'Паломнические поездки', 'url' => ['/site/index'],'options'=>['class' => 'menu_hram']],
                     ['label' => 'Круизы', 'url' => ['/site/index'],'options'=>['class' => 'menu_kruiz']],
+                    ['label' => 'Продажа автобусных билетов', 'url'=>['/'],'options'=>['class'=>'menu_sale']],
 
                     /*['label' => 'Автобусные туры',
                         'url' => ['/site/about']],
@@ -131,13 +133,104 @@ AppAsset::register($this);
         </div>
 
         <footer class="footer">
-            
-            <p class="pull-left">&copy; Life Tour Voyage <?= date('Y') ?></p>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <p class="pull-left">&copy; Life Tour Voyage <?= date('Y') ?></p>
+                    </div>
+                    <div class="col-lg-6">
+                        <!-- ShareButtons -->
+                        <div class="pull-left social-icon">
+                            <a href="http://www.ok.ru/turyna7dn7" target="_blank"
+                            title="Лайф Тур Вояж. ОТДЫХ НА МОРЕ, АВТОБУСНЫЕ ТУРЫ,ЭКСКУРСИИ,КРУИЗЫ">
+                                <img src="<?= Yii::$app->homeUrl ?>images/social/ok.png"
+                                alt="Лайф Тур Вояж. ОТДЫХ НА МОРЕ, АВТОБУСНЫЕ ТУРЫ,ЭКСКУРСИИ,КРУИЗЫ"/>
+                            </a>
+                        </div>
+                        <div class="pull-left social-icon">
+                            <a href="https://plus.google.com/b/105714513864315239027/105714513864315239027" target="_blank"
+                               title="Лайф Тур Вояж. Оператор позитивного отдыха">
+                                <img src="<?= Yii::$app->homeUrl ?>images/social/google_plus.png" alt="Лайф Тур Вояж. Оператор позитивного отдыха"/>
+                            </a>
+                        </div>
+
+                        <div class="pull-left social-icon">
+                            <a href="https://vk.com/id205834588" target="_blank"
+                            title="Лайф Тур Вояж. ВЕСЬ СПЕКТР ПЛЯЖНОГО И ЭКСКУРСИОННОГО ОТДЫХА! АВТОБУСНЫЕ ТУРЫ К МОРЮ ИЗ ТАМБОВА, ВОРОНЕЖА, ЛИПЕЦКА 8-953-729-00-33">
+                                <img src="<?= Yii::$app->homeUrl ?>images/social/vk.png"
+                                alt="Лайф Тур Вояж. ВЕСЬ СПЕКТР ПЛЯЖНОГО И ЭКСКУРСИОННОГО ОТДЫХА! АВТОБУСНЫЕ ТУРЫ К МОРЮ ИЗ ТАМБОВА, ВОРОНЕЖА, ЛИПЕЦКА 8-953-729-00-33"/>
+                            </a>
+                        </div>
+                        <div class="pull-left social-icon">
+                            <a href="https://www.youtube.com/channel/UCQndO27YFHsh3QEzwcJNw2w" target="_blank"
+                            title="Лайф Тур Вояж. Видеоблог туроператора.">
+                                <img src="<?= Yii::$app->homeUrl ?>images/social/youtube.png"
+                                alt="Лайф Тур Вояж. Видеоблог туроператора."/>
+                            </a>
+                        </div>
+                        <div class="pull-left social-icon">
+                            <a href="https://www.instagram.com/laiftur/" target="_blank"
+                               title="Лайф Тур Вояж. Оператор позитивного отдыха.">
+                                <img src="<?= Yii::$app->homeUrl ?>images/social/instagram.png"
+                                     alt="Лайф Тур Вояж. Оператор позитивного отдыха."/>
+                            </a>
+                        </div>
+                        <div class="pull-left social-icon">
+                            <a href="https://www.facebook.com/trevel.petersburg" target="_blank"
+                               title="Лайф Тур Вояж. Путешествие Санкт-Петербург.">
+                                <img src="<?= Yii::$app->homeUrl ?>images/social/facebook.png"
+                                     alt="Лайф Тур Вояж. Путешествие Санкт-Петербург."/>
+                            </a>
+                        </div>
+
+                        <div class="pull-left social-icon">
+                            <a href="https://twitter.com/LifeTourVoyage" target="_blank"
+                               title="Лайф Тур Вояж. Оператор позитивного отдыха.">
+                                <img src="<?= Yii::$app->homeUrl ?>images/social/twitter.png"
+                                     alt="Лайф Тур Вояж. Оператор позитивного отдыха."/>
+                            </a>
+                        </div>
+
+                        <div class="pull-left social-icon">
+                            <a href="https://plus.google.com/u/0/b/102778400857945943850/102778400857945943850" target="_blank"
+                               title="Лайф Тур Вояж. Оператор позитивного отдыха.">
+                                <img src="<?= Yii::$app->homeUrl ?>images/social/google_plus.png"
+                                     alt="Лайф Тур Вояж. Оператор позитивного отдыха."/>
+                            </a>
+                        </div>
+                        <div class="pull-left social-icon">
+                            <a href="http://www.ok.ru/group57545282158634" target="_blank" title="Одноклассники. Паломничество"
+                               title='Лайф Тур Вояж. ПАЛОМНИЧЕСКИЙ РЕГИОН.ЦЕНТР "ТАМБОВСКИЙ ПАЛОМНИК"' >
+                                <img src="<?= Yii::$app->homeUrl ?>images/social/ok.png"
+                                     alt='Лайф Тур Вояж. ПАЛОМНИЧЕСКИЙ РЕГИОН.ЦЕНТР "ТАМБОВСКИЙ ПАЛОМНИК"'/>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                        <!-- Contacts -->
+                        <p><strong>Лайф Тур Вояж</strong>. Оператор позитивного отдыха.</p>
+                        <p><strong>Отдых в Тамбове.</strong><strong>Туры к морю.</strong><strong>Отдых на море</strong></p>
+                        <p><strong>4(4752) 71-93-25</strong></p>
+                    </div>
+                </div>
+
+            </div>
+
+
             
         </footer>
 
     </div>
     <?php $this->endBody() ?>
+    <?= \yii\widgets\YandexMetrikaCounter::widget(
+        [
+            'counterId' => 37814910,
+            'webvisor' => true,
+            'trackLinks' => true,
+            'type'=>'informer',
+        ]
+    ) ?>
 </body>
 </html>
 <?php $this->endPage() ?>

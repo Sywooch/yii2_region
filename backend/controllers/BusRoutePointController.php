@@ -104,7 +104,7 @@ class BusRoutePointController extends Controller
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> Yii::t('app', 'Create new') . ' ' . Yii::t('app', 'BusRoutePoint'),
-                    'content'=>'<span class="text-success">Create BusRoutePoint success</span>',
+                    'content'=>'<span class="text-success">' . Yii::t('app', 'Create BusRoutePoint success') . '</span>',
                     'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a(Yii::t('app', 'Create More'),['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         

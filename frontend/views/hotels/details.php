@@ -68,15 +68,34 @@ $items = $model->getImage2amigos(true);
                 ],
             ],
         ]); ?>
-        
 
+        <div class="characters table">
+            <label>Подробные характеристики</label>
+            <table class="table table-striped table-bordered table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th>
+                        Характеристика
+                    </th>
+                    <th>
+                        Значение
+                    </th>
+                </tr>
+                </thead>
 
-        
+                <tbody>
+                <?= \yii\widgets\ListView::widget([
+                    'dataProvider' => $dateProviderCharacters,
+                    'itemView' => '_details_character',
+                    'summary' => '',
+                ]); ?>
+                </tbody>
+            </table>
+        </div>
+
         <?= \dosamigos\gallery\Gallery::widget(['items' => $items,
             'options' => [
                 'class' => 'row',
             ],
         ]); ?>
-
-
     </div>

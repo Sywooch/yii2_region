@@ -11,16 +11,20 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'hotels_appartment_hotels_info_id')->textInput() ?>
+    <?= $form->field($model, 'hotels_appartment_hotels_info_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(common\models\HotelsInfo::findAll(['active'=>1]), 'id', 'name'),
+        ['prompt' => Yii::t('app', 'Select')]
+    ) ?>
     
     <?= $form->field($model, 'hotels_appartment_id')->dropDownList(
-        \yii\helpers\ArrayHelper::map(common\models\Country::find()->all(), 'id', 'name'),
+        \yii\helpers\ArrayHelper::map(common\models\Country::findAll(['active'=>1]), 'id', 'name'),
         ['prompt' => Yii::t('app', 'Select')]
     ) ?>
 
-
-
-    <?= $form->field($model, 'hotels_others_pricing_id')->textInput() ?>
+    <?= $form->field($model, 'hotels_others_pricing_id')->checkboxList(
+        \yii\helpers\ArrayHelper::map(common\models\HotelsOthersPricing::find()->all(), 'id', 'name'),
+        ['prompt' => Yii::t('app', 'Select')]
+    ) ?>
 
     <?= $form->field($model, 'date')->widget(\kartik\datetime\DateTimePicker::classname(), [
         //'language' => 'ru',
@@ -29,7 +33,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'full_price')->textInput() ?>
 
-    <?= $form->field($model, 'discount_id')->textInput() ?>
+    <?= $form->field($model, 'discount_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(common\models\Discount::find()->all(), 'id', 'name'),
+        ['prompt' => Yii::t('app', 'Select')]
+    ) ?>
 
     <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
 
@@ -43,9 +50,12 @@ use yii\widgets\ActiveForm;
         //'dateFormat' => 'yyyy-MM-dd',
     ]) ?>
 
-    <?= $form->field($model, 'active')->textInput() ?>
+    <?= $form->field($model, 'active')->checkbox() ?>
 
-    <?= $form->field($model, 'hotels_type_of_food_id')->textInput() ?>
+    <?= $form->field($model, 'hotels_type_of_food_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(common\models\HotelsTypeOfFood::find()->all(), 'id', 'name'),
+        ['prompt' => Yii::t('app', 'Select')]
+    ) ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

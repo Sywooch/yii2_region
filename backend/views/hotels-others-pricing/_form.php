@@ -11,13 +11,16 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'hotels_info_id')->textInput() ?>
+    <?= $form->field($model, 'hotels_info_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(common\models\HotelsInfo::find()->all(), 'id', 'name'),
+        ['prompt' => Yii::t('app', 'Select')]
+    ) ?>
 
     <?= $form->field($model, 'price')->textInput() ?>
 
-    <?= $form->field($model, 'type_price')->textInput() ?>
+    <?= $form->field($model, 'type_price')->checkbox() ?>
 
-    <?= $form->field($model, 'active')->textInput() ?>
+    <?= $form->field($model, 'active')->checkbox() ?>
 
     <?= $form->field($model, 'date_begin')->widget(\kartik\datetime\DateTimePicker::classname(), [
         //'language' => 'ru',
@@ -29,7 +32,10 @@ use yii\widgets\ActiveForm;
         //'dateFormat' => 'yyyy-MM-dd',
     ]) ?>
 
-    <?= $form->field($model, 'hotels_others_pricing_type_id')->textInput() ?>
+    <?= $form->field($model, 'hotels_others_pricing_type_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(common\models\HotelsOthersPricingType::find()->all(), 'id', 'name'),
+        ['prompt' => Yii::t('app', 'Select')]
+    ) ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
