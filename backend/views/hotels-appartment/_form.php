@@ -14,7 +14,7 @@ $items = $model->getImage2amigos();
 
 $this->registerJs('
 $("#hotelsappartment-country").on("change", function() {
-$.pjax.reload("#hotelsappartement-gethotelsinfo div div.col-sm-6", {
+$.pjax.reload("#hotelsappartement-gethotelsinfo div", {
 history: false,
 data: $(this).serialize(),
 type: \'POST\',
@@ -45,12 +45,20 @@ url: \'gethotelsinfo\',
 
         <p>
 
+            <?php
+            if ($model->getCountry()){
+                $countryId = $model->getCountry()->id;
+            }
+            else{
+                $countryId = 0;
+            }
+            ?>
             <?=
             $form->field($model, 'country')->dropDownList(
                 \yii\helpers\ArrayHelper::map(common\models\Country::find()->all(), 'id', 'name'),
                 [
                     'prompt' => Yii::t('app', 'Select'),
-                    'options' =>[$model->getCountry()->id => ['selected'=>true]]
+                    'options' =>[$countryId => ['selected'=>true]]
                 ]
             ); ?>
 

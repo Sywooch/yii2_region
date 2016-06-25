@@ -47,7 +47,8 @@
         "skeeks/yii2-ckeditor" : "*",
         "p0vidl0/yii2-yandex-metrika-widget": "*",
         "dmstr/yii2-pages-module": "*",
-        "bupy7/yii2-pages": "*"
+        "bupy7/yii2-pages": "*",
+        "ekaragodin/yii-maintenance-mode": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

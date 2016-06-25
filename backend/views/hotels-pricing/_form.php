@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
     ) ?>
     
     <?= $form->field($model, 'hotels_appartment_id')->dropDownList(
-        \yii\helpers\ArrayHelper::map(common\models\Country::findAll(['active'=>1]), 'id', 'name'),
+        \yii\helpers\ArrayHelper::map(common\models\Country::find(), 'id', 'name'),
         ['prompt' => Yii::t('app', 'Select')]
     ) ?>
 
@@ -32,11 +32,6 @@ use yii\widgets\ActiveForm;
     ]) ?>
 
     <?= $form->field($model, 'full_price')->textInput() ?>
-
-    <?= $form->field($model, 'discount_id')->dropDownList(
-        \yii\helpers\ArrayHelper::map(common\models\Discount::find()->all(), 'id', 'name'),
-        ['prompt' => Yii::t('app', 'Select')]
-    ) ?>
 
     <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
 

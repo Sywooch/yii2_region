@@ -27,6 +27,7 @@ use Yii;
  */
 class HotelsPricing extends \yii\db\ActiveRecord
 {
+    public $country;
     /**
      * @inheritdoc
      */
@@ -41,8 +42,8 @@ class HotelsPricing extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['hotels_appartment_id', 'hotels_appartment_hotels_info_id', 'hotels_others_pricing_id', 'date', 'discount_id', 'hotels_type_of_food_id'], 'required'],
-            [['hotels_appartment_id', 'hotels_appartment_hotels_info_id', 'hotels_others_pricing_id', 'discount_id', 'active', 'hotels_type_of_food_id'], 'integer'],
+            [['hotels_appartment_id', 'hotels_appartment_hotels_info_id', 'hotels_others_pricing_id', 'date', 'hotels_type_of_food_id'], 'required'],
+            [['hotels_appartment_id', 'hotels_appartment_hotels_info_id', 'hotels_others_pricing_id', 'active', 'hotels_type_of_food_id','country'], 'integer'],
             [['date', 'date_begin', 'date_end'], 'safe'],
             [['full_price'], 'number'],
             [['name'], 'string']
@@ -60,22 +61,15 @@ class HotelsPricing extends \yii\db\ActiveRecord
             'hotels_others_pricing_id' => Yii::t('app', 'Hotels Others Pricing ID'),
             'date' => Yii::t('app', 'Date'),
             'full_price' => Yii::t('app', 'Full Price'),
-            'discount_id' => Yii::t('app', 'Discount ID'),
             'name' => Yii::t('app', 'Name'),
             'date_begin' => Yii::t('app', 'Date Begin'),
             'date_end' => Yii::t('app', 'Date End'),
             'active' => Yii::t('app', 'Active'),
+            'country' => Yii::t('app','Country'),
             'hotels_type_of_food_id' => Yii::t('app', 'Hotels Type Of Food ID'),
         ];
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDiscount()
-    {
-        return $this->hasOne(Discount::className(), ['id' => 'discount_id']);
-    }
+    
 
     /**
      * @return \yii\db\ActiveQuery

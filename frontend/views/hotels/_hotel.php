@@ -5,7 +5,7 @@ use yii\helpers\Html;
 
 <div class="col-md-4 panel panel-primary">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row hotel-vhead">
             <div class="col-md-5">
                 <div class="image">
                     <?= Html::img($model->getImage()->getUrl('120x'),['alt' => $model->name])?>
@@ -27,14 +27,14 @@ use yii\helpers\Html;
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row hotel-vdesc">
             <div class="col-md-12">
                 <div class="description">
                     <?= \yii\helpers\StringHelper::truncate($model->description,150) ?>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row hotel-vbut">
             <div class="col-md-8">
                 <strong><?= Yii::t('app', 'Prices appartment from') ?>:</strong>
                 <div class="price">
