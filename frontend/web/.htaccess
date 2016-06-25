@@ -9,6 +9,6 @@ RewriteEngine on
 #RewriteRule . index.php
 
 #Заглушка
-RewriteRule .*.(gif|jpg|png|css|js)$ [L]
+#RewriteRule .*.(gif|jpg|png|css|js)$ [L]
 RewriteCond %{REQUEST_URI} !^/close.html
-RewriteRule ^.*$ close.html
+RewriteRule . close.html
