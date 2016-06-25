@@ -24,7 +24,7 @@ class ContactForm extends Model
     {
         return [
             // name, email, subject and body are required
-            [[/*'name',*/ 'email', 'subject', 'body'], 'required'],
+            [[/*'name',*/ 'email', 'subject', 'body', 'phone'], 'required'],
             // email has to be a valid email address
             ['email', 'email'],
             // verifyCode needs to be entered correctly
@@ -55,7 +55,8 @@ class ContactForm extends Model
     public function sendEmail($email)
     {
         $phone_text = Yii::t('app','My phone number is: ') . $this->phone;
-        $this->body .= $phone_text;
+        $this->subject = Yii::t('app','Mail from site турлайф.рф. ') . $this->subject;
+        $this->body .= "<br />".$phone_text;
         return Yii::$app->mailer->compose()
             ->setTo($email)
             ->setFrom($this->email)

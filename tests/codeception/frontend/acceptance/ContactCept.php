@@ -53,4 +53,4 @@ $contactPage->submit([
 if (method_exists($I, 'wait')) {
     $I->wait(3); // only for selenium
 }
-$I->see('Thank you for contacting us. We will respond to you as soon as possible.');
+$I->see(Yii::t('app','Thank you for contacting us. We will respond to you as soon as possible.'));

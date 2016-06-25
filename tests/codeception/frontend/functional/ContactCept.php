@@ -44,4 +44,4 @@ $contactPage->submit([
     'body' => 'test content',
     'verifyCode' => 'testme',
 ]);
-$I->see('Thank you for contacting us. We will respond to you as soon as possible.');
+$I->see(Yii::t('app','Thank you for contacting us. We will respond to you as soon as possible.'));

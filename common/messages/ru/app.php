@@ -258,6 +258,10 @@ return [
     'Contacts' => 'Контакты',
     'Phone' => 'Телефон',
     'My phone number is: ' => 'Мой контактный номер телефона: ',
+    'Mail from site турлайф.рф. ' => 'Письмо с сайта турлайф.рф. ',
+    'Thank you for contacting us. We will respond to you as soon as possible.' =>
+        'Благодарим Вас за обращение к нам. Мы ответим вам в ближайшее время.',
+    'There was an error sending email.' => 'При отправке сообщения возникли ошибки, повторите запрос позже.',
     'New password was saved.' => 'Новый пароль успешно сохранен.',
     'success' => 'Успешное действие',
     
