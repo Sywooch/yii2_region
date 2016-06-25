@@ -21,6 +21,11 @@ body {
     padding-top: 20px;
 }
 
+div.required label:after {
+    content: " *";
+    color: red;
+}
+
 .jumbotron {
     text-align: center;
     background-color: transparent;
