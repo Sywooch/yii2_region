@@ -1,6 +1,6 @@
 RewriteEngine on
 #Запрещаем просмотр содержимого папки
-Options All —Indexes
+#Options All —Indexes
 # if a directory or a file exists, use it directly
 #RewriteCond %{REQUEST_FILENAME} !-f
 #RewriteCond %{REQUEST_FILENAME} !-d
@@ -9,8 +9,6 @@ Options All —Indexes
 #RewriteRule . index.php
 
 #Заглушка
-
-
-#RewriteRule .*.(gif|jpg|png|css|js)$ [L]
+RewriteRule .*.(gif|jpg|png|css|js)$ [L]
 RewriteCond %{REQUEST_URI} !^/close.html
 RewriteRule ^.*$ close.html
