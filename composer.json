@@ -1,68 +1,78 @@
 {
-    "name": "yiisoft/yii2-app-advanced",
-    "description": "Yii 2 Advanced Project Template",
-    "keywords": ["yii2", "framework", "advanced", "project template"],
-    "homepage": "http://www.yiiframework.com/",
-    "type": "project",
-    "license": "BSD-3-Clause",
-    "support": {
-        "issues": "https://github.com/yiisoft/yii2/issues?state=open",
-        "forum": "http://www.yiiframework.com/forum/",
-        "wiki": "http://www.yiiframework.com/wiki/",
-        "irc": "irc://irc.freenode.net/yii",
-        "source": "https://github.com/yiisoft/yii2"
-    },
-    "minimum-stability": "stable",
-    "require": {
-        "php": ">=5.4.0",
-        "yiisoft/yii2": ">=2.0.6",
-        "yiisoft/yii2-bootstrap": "*",
-        "yiisoft/yii2-swiftmailer": "*",
-        "voskobovich/yii2-admin-toolkit": "*",
-        "voskobovich/yii2-admin-setting-toolkit": "*",
-        "cornernote/yii2-dashboard": "*",
-        "johnitvn/yii2-ajaxcrud": "*",
-        "kartik-v/yii2-widget-datepicker": "*",
-        "kartik-v/yii2-field-range": "*",
-        "infoweb-internet-solutions/yii2-cms-menu": "*",
-        "kartik-v/yii2-widget-datetimepicker": "*",
-        "kartik-v/yii2-widgets": "*",
-        "mdmsoft/yii2-admin": "*",
-        "fxp/composer-asset-plugin": "~1.1.1",
-        "schmunk42/yii2-giiant": "@stable",
-        "kartik-v/yii2-export": "@stable",
-        "kartik-v/yii2-builder": "@stable",
-        "abhi1693/yii2-user": "*",
-        "samdark/yii2-iconized-menu-widget": "*",
-        "2amigos/yii2-translateable-behavior": "*",
-        "voskobovich/yii2-many-many-behavior": "*",
-        "arogachev/yii2-many-to-many": "^0.2.1",
-        "kartik-v/yii2-detail-view": "*",
-        "voskobovich/yii2-setting-toolkit": "~3.0",
-        "mirocow/yii2-yandex-maps": "@dev",
-        "bupy7/yii2-activerecord-history": "*",
-        "vova07/yii2-fileapi-widget": "*",
-        "costa-rico/yii2-images": "dev-master",
-        "2amigos/yii2-gallery-widget": "~1.0",
-        "skeeks/yii2-ckeditor" : "*",
-        "p0vidl0/yii2-yandex-metrika-widget": "*",
-        "dmstr/yii2-pages-module": "*",
-        "bupy7/yii2-pages": "*",
-        "ekaragodin/yii-maintenance-mode": "dev-master"
-    },
-    "require-dev": {
-        "yiisoft/yii2-codeception": "*",
-        "yiisoft/yii2-debug": "*",
-        "yiisoft/yii2-gii": "*",
-        "yiisoft/yii2-faker": "*"
-    },
-    "config": {
-        "process-timeout": 1800
-    },
-    "extra": {
-        "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower"
-        }
+  "name": "yiisoft/yii2-app-advanced",
+  "description": "Yii 2 Advanced Project Template",
+  "keywords": [
+    "yii2",
+    "framework",
+    "advanced",
+    "project template"
+  ],
+  "homepage": "http://www.yiiframework.com/",
+  "type": "project",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://github.com/yiisoft/yii2/issues?state=open",
+    "forum": "http://www.yiiframework.com/forum/",
+    "wiki": "http://www.yiiframework.com/wiki/",
+    "irc": "irc://irc.freenode.net/yii",
+    "source": "https://github.com/yiisoft/yii2"
+  },
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=5.4.0",
+    "yiisoft/yii2": ">=2.0.6",
+    "yiisoft/yii2-bootstrap": "*",
+    "yiisoft/yii2-swiftmailer": "*",
+    "voskobovich/yii2-admin-toolkit": "*",
+    "voskobovich/yii2-admin-setting-toolkit": "*",
+    "cornernote/yii2-dashboard": "*",
+    "johnitvn/yii2-ajaxcrud": "*",
+    "kartik-v/yii2-widget-datepicker": "*",
+    "kartik-v/yii2-field-range": "*",
+    "infoweb-internet-solutions/yii2-cms-menu": "*",
+    "kartik-v/yii2-widget-datetimepicker": "*",
+    "kartik-v/yii2-widgets": "*",
+    "mdmsoft/yii2-admin": "*",
+    "fxp/composer-asset-plugin": "~1.1.1",
+    "schmunk42/yii2-giiant": "@stable",
+    "kartik-v/yii2-export": "@stable",
+    "kartik-v/yii2-builder": "@stable",
+    "abhi1693/yii2-user": "*",
+    "samdark/yii2-iconized-menu-widget": "*",
+    "2amigos/yii2-translateable-behavior": "*",
+    "voskobovich/yii2-many-many-behavior": "*",
+    "arogachev/yii2-many-to-many": "^0.2.1",
+    "kartik-v/yii2-detail-view": "*",
+    "voskobovich/yii2-setting-toolkit": "~3.0",
+    "mirocow/yii2-yandex-maps": "@dev",
+    "bupy7/yii2-activerecord-history": "*",
+    "vova07/yii2-fileapi-widget": "*",
+    "costa-rico/yii2-images": "dev-master",
+    "2amigos/yii2-gallery-widget": "~1.0",
+    "skeeks/yii2-ckeditor": "*",
+    "p0vidl0/yii2-yandex-metrika-widget": "*",
+    "dmstr/yii2-pages-module": "*",
+    "bupy7/yii2-pages": "*",
+    "ekaragodin/yii-maintenance-mode": "dev-master",
+    "miloschuman/yii2-highcharts-widget": "*",
+    "kartik-v/yii2-markdown": "dev-master",
+    "michelf/php-smartypants": "1.6-beta1",
+    "cinghie/yii2-articles": "*",
+    "dektrium/yii2-user": "0.9.*@dev"
+  },
+  "require-dev": {
+    "yiisoft/yii2-codeception": "*",
+    "yiisoft/yii2-debug": "*",
+    "yiisoft/yii2-gii": "*",
+    "yiisoft/yii2-faker": "*"
+  },
+  "config": {
+    "process-timeout": 1800
+  },
+  "extra": {
+    "asset-installer-paths": {
+      "npm-asset-library": "vendor/npm",
+      "bower-asset-library": "vendor/bower"
     }
+  }
 }

@@ -24,6 +24,31 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'city_id',
+        'vAlign'=>'middle',
+        'width'=>'180px',
+        'value'=>/*function ($model, $key, $index, $widget) {
+            return Html::a($model->country->name,
+                '#',
+                ['title'=>'Просмотр детальной информации', 'onclick'=>'alert("This will open the author page.\n\nDisabled for this demo!")']);
+        },*/
+            function ($model) {
+                if ($rel = $model->getCity()->one()) {
+                    return Html::a($rel->name, ['city/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+                } else {
+                    return '';
+                }
+            },
+        'filterType'=>GridView::FILTER_SELECT2,
+        'filter'=>ArrayHelper::map(\common\models\City::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
+        'filterWidgetOptions'=>[
+            'pluginOptions'=>['allowClear'=>true],
+        ],
+        'filterInputOptions'=>['placeholder'=>'Любой город'],
+        'format'=>'raw'
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'address',
         'vAlign'=>'middle',
     ],

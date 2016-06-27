@@ -11,6 +11,33 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'modules' => [
+
+        // Yii2 Articles
+        'articles' => [
+            // Select Path To Upload Category Image
+            'categoryImagePath' => '@webroot/images/articles/categories/',
+            // Select URL To Upload Category Image
+            'categoryImageURL' => '@web/images/articles/categories/',
+            // Select Path To Upload Category Thumb
+            'categoryThumbPath' => '@webroot/images/articles/categories/thumb/',
+            // Select URL To Upload Category Image
+            'categoryThumbURL' => '@web/images/articles/categories/thumb/',
+
+            // Select Path To Upload Item Image
+            'itemImagePath' => '@webroot/images/articles/items/',
+            // Select URL To Upload Item Image
+            'itemImageURL' => '@web/images/articles/items/',
+            // Select Path To Upload Item Thumb
+            'itemThumbPath' => '@webroot/images/articles/items/thumb/',
+            // Select URL To Upload Item Thumb
+            'itemThumbURL' => '@web/images/articles/items/thumb/',
+
+            // Show Titles in the views, 
+            'showTitles' => true,
+        ],
+
+    ],
     'components' => [
         'urlManager' => [
             'class' => 'yii\web\urlManager',

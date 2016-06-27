@@ -31,6 +31,7 @@ use yii\helpers\VarDumper;
  * @property \common\models\HotelsOthersPricing[] $hotelsOthersPricings
  * @property \common\models\SalBasket[] $salBaskets
  * @property \common\models\SalOrder[] $salOrders
+ * @property \common\models\City[] $city
  * @property string $aliasModel
  */
 abstract class HotelsInfo extends \yii\db\ActiveRecord
@@ -84,9 +85,9 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'address'], 'required'],
+            [['name', 'address','city_id'], 'required'],
             [['name', 'address', 'description', 'gps_point_m', 'gps_point_p', 'links_maps'], 'string'],
-            [['country', 'hotels_stars_id'], 'integer'],
+            [['country', 'hotels_stars_id','city_id'], 'integer'],
             [['imageFiles'], 'file', 'extensions' => 'png, jpg, gif', 'maxFiles' => 12],
             [['hotels_stars_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsStars::className(), 'targetAttribute' => ['hotels_stars_id' => 'id']],
             [['delImages','mainImage','active', 'top'],'boolean']
@@ -102,6 +103,7 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
             //'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
             'description' => Yii::t('app', 'Description'),
+            'city_id' => Yii::t('app','City'),
             'address' => Yii::t('app', 'Address'),
             'country' => Yii::t('app', 'Country'),
             'gps_point_m' => Yii::t('app', 'GPS-координаты меридиана.'),
@@ -125,6 +127,7 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
                 //'id' => Yii::t('app', 'Первичный ключ. Таблица содержит общую информацию об отелях, в частности их название.'),
                 'name' => Yii::t('app', 'Введите название гостиницы'),
                 'description' => Yii::t('app', 'Заполните описание гостиницы (при необходимости)'),
+                'city_id' => Yii::t('app','Выберите город-курорт, в котором находится гостиница'),
                 'address' => Yii::t('app', 'Укажите адрес гостиницы'),
                 'country' => Yii::t('app', 'Выберите страну'),
                 'gps_point_m' => Yii::t('app', 'Щелкните по карте для определения координат гостиницы'),
@@ -228,6 +231,14 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
         return $this->hasMany(\common\models\SalOrder::className(), ['hotels_info_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCity()
+    {
+        return $this->hasOne(\common\models\City::className(), ['id' => 'city_id']);
+    }
+    
     public function upload(){
 
         if ($this->validate()){

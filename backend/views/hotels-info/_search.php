@@ -24,6 +24,7 @@ use yii\widgets\ActiveForm;
 		<?= $form->field($model, 'address') ?>
 
 		<?= $form->field($model, 'country') ?>
+	<?= $form->field($model, 'city_id') ?>
 
 		<?= $form->field($model, 'GPS') ?>
 

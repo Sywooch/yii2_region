@@ -16,14 +16,24 @@ use yii\helpers\Html;
                     <strong><?= Html::tag('p',$model->name) ?></strong>
 
                 </div>
-                <div class="stars">
-                    <strong>
-                        <?= \yii\helpers\ArrayHelper::getValue(\common\models\HotelsStars::findOne(['id'=> $model->hotels_stars_id]), 'name') ?>
-                    </strong>
+                <div id="reviewStars">
+                    <?php
+                    $count_star = \yii\helpers\ArrayHelper::getValue(\common\models\HotelsStars::findOne(['id'=> $model->hotels_stars_id]), 'count_stars');
+                    for ($i = 0; $i < $count_star; $i++){
+                        ?>
+                        <label id="star-<?= $i ?>" ></label>
+                    <?php
+                    }
+                    ?>
+
                 </div>
                 <div class="country">
                     <strong><?= Yii::t('app','Country') ?>:</strong>
                     <?= \yii\helpers\ArrayHelper::getValue(\common\models\Country::findOne(['id'=> $model->country]),'name') ?>
+                </div>
+                <div class="city">
+                    <strong><?= Yii::t('app','City') ?>:</strong>
+                    <?= \yii\helpers\ArrayHelper::getValue(\common\models\City::findOne(['id'=> $model->city_id]),'name') ?>
                 </div>
             </div>
         </div>

@@ -44,7 +44,9 @@ return [
     'Cancel' => 'Закрыть',
     'List' => 'Список',
     'Select' => 'Выберите значение',
-    'Begin Select Country' => 'Сначала Выберите страну',
+    'Begin Select Country' => 'Сначала выберите страну',
+    'Begin Select Hotels' => 'Сначала выберите гостиницу',
+    'Select Country' => 'Выберите гостиницу',
     'Error Download' => 'Ошибка загрузки данных',
     'listing' => '. Список',
     'View' => 'Просмотр',
@@ -61,6 +63,7 @@ return [
 
     'With selected'=> 'действия с выделенными',
     /*/Description Forms*/
+
 
     'Bus Drivers' => 'Водители',
     'BusDriver' => 'Водитель',
@@ -118,6 +121,10 @@ return [
     'Hotels Appartments' => 'Номера в отеле',
     'HotelsAppartment' => 'Номер в отеле',
     'Hotels Appartment' => 'Номер в отеле',
+    'Hotels Appartment ID' => 'Номера в отеле',
+    'Hotels Appartment Hotels Info ID' => 'Гостиница',
+    'Hotels Others Pricing ID' => 'Дополнительные цены',
+    'Hotels Type Of Food ID' => 'Тип питания',
     'Hotels Appartment Items' => 'Спарвочник номеров в отеле',
     'Hotels Characters' => 'Характеристики отеля',
     'Hotels Character Items' => 'Спарвочник характеристик отеля',
@@ -167,6 +174,7 @@ return [
     'Code3' => 'Троичный буквенный код',
     'Countries listing'=> 'Список стран',
     'Countries'=> 'Страны',
+    'City' => 'Город',
     'Tour Types listing'=> 'Список типов тура',
     'Create new Countries' => 'Создать новую Страну',
     'Create More' => 'Создать ещё',
@@ -207,6 +215,9 @@ return [
     'inMain' => 'На главной',
     'Date Point Forward' => 'Дата прибытия на точку по пути',
     'Date Point Reverse' => 'Дата прибытия на точку на обратном пути',
+
+    'HotelsPayPeriod' => 'Периоды заездов в гостиницы',
+    'HotelsPricings' => 'Основные цены на гостиницы',
     /*End Hotels*/
 
     'Sal Orders' => 'Заказы',

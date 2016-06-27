@@ -43,6 +43,34 @@ return [
 		'gridview' => [
 			'class' => 'kartik\grid\Module',
 		],
+        // Yii2 Articles
+        'articles' => [
+            // Select Path To Upload Category Image
+            'categoryImagePath' => '@frontend/web/images/articles/categories/',
+            // Select URL To Upload Category Image
+            'categoryImageURL'  => '/images/articles/categories/',
+            // Select Path To Upload Category Thumb
+            'categoryThumbPath' => '@frontend/web/images/articles/categories/thumb/',
+            // Select URL To Upload Category Image
+            'categoryThumbURL'  => '/images/articles/categories/thumb/',
+
+            // Select Path To Upload Item Image
+            'itemImagePath' => '@frontend/web/images/articles/items/',
+            // Select URL To Upload Item Image
+            'itemImageURL'  => '/images/articles/items/',
+            // Select Path To Upload Item Thumb
+            'itemThumbPath' => '@frontend/web/images/articles/items/thumb/',
+            // Select URL To Upload Item Thumb
+            'itemThumbURL'  => '/images/articles/items/thumb/',
+
+            // Select Path To Upload Attachments
+            'attachPath' => '@frontend/web/uploads/articles/',
+            // Select URL To Upload Attachment
+            'attachURL' => '@frontend/web/uploads/articles/',
+
+            // Show Titles in the views,
+            'showTitles' => false,
+        ],
         'admin' => [
             'class' => 'mdm\admin\Module',
             /*'layout' => 'left-menu',*/

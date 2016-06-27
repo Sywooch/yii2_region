@@ -63,9 +63,10 @@ AppAsset::register($this);
         $menuItems[] = [
             'label' => 'Гостиницы',
             'items' => [
-                ['label' => 'Звёзды','url'=>['/hotels-stars']],
-                ['label' => 'Тип питания', 'url'=>['/hotels-type-of-food']],
-                ['label' => 'Типы номеров', 'url'=>['/hotels-appartment-item']],
+                ['label' => 'Справочник. Звёзды','url'=>['/hotels-stars']],
+                ['label' => 'Справочник. Города','url'=>['/city']],
+                ['label' => 'Справочник. Тип питания', 'url'=>['/hotels-type-of-food']],
+                ['label' => 'Справочник. Типы номеров', 'url'=>['/hotels-appartment-item']],
                 ['label' => 'Справочник прочих цен', 'url'=>['/hotels-others-pricing-type']],
                 ['label' => ''],
                 ['label' => 'Информация о гостиницах', 'url' => ['/hotels-info']],

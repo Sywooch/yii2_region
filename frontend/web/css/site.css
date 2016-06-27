@@ -253,3 +253,67 @@ a.link:hover{
 .h1{
     font-size: 34px;
 }
+
+
+/*sprite with stars*/
+#reviewStars label {
+    background: url('../uploads/star24.png') no-repeat;
+}
+
+#reviewStars {
+
+    /*fix floating problems*/
+    overflow: hidden;
+    *zoom: 1;
+    /*end of fix floating problems*/
+
+    position: relative;
+    //float: left;
+}
+
+
+#reviewStars label {
+    background-position: 0 -21px;
+    height: 21px;
+    width: 22px;
+    float: left;
+    cursor: pointer;
+    margin-right: 1px;
+    z-index: 1;
+    display:block;
+}
+
+#reviewStars-input #star-0 {
+    left: 0px;
+}
+#reviewStars-input #star-1 {
+    left: 31px;
+}
+#reviewStars-input #star-2 {
+    left: 62px;
+}
+#reviewStars-input #star-3 {
+    left: 93px;
+}
+#reviewStars-input #star-4 {
+    left: 124px;
+}
+#reviewStars-input #star-5 {
+    left: 155px;
+}
+
+/*Высота шапки для гостиниц*/
+.hotel-vhead{
+    height: 120px;
+    clear:both;
+}
+
+.hotel-vdesc{
+    height: 70px;
+    clear:both;
+}
+
+.hotel-vbut{
+    height: 50px;
+    clear:both;
+}

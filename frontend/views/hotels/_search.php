@@ -16,7 +16,6 @@ use yii\widgets\ActiveForm;
     'action' => ['/hotels'],
     'method' => 'POST',
     ]); ?>
-
         <div class="row">
             <div class="col-md-6">
                 <?= $form->field($model, 'tour_type')->dropDownList(

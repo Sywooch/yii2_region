@@ -29,7 +29,7 @@ class SearchHotelsInfo extends HotelsInfo
     public function rules()
     {
         return [
-            [['country', 'hotels_stars_id'], 'integer'],
+            [['country', 'city_id', 'hotels_stars_id'], 'integer'],
             [['name', 'address', 'gps_point_m', 'gps_point_p', 'links_maps', 'image', 'date_add', 'date_edit','tour_type'], 'safe'],
             
         ];
@@ -55,8 +55,9 @@ class SearchHotelsInfo extends HotelsInfo
         return [
             'name' => Yii::t('app', 'Name hotels'),
             'tour_type' => Yii::t('app','Tour type'),
-            'address' => Yii::t('app', 'Kurort'),
+            'address' => Yii::t('app', 'Address'),
             'country' => Yii::t('app', 'Country'),
+            'city_id' => Yii::t('app', 'City'),
             'price_from' => Yii::t('app', 'Price from'),
             'price_to' => Yii::t('app', 'Price to'),
             'count_tourist' => Yii::t('app', 'Count tourist'),
@@ -82,6 +83,8 @@ class SearchHotelsInfo extends HotelsInfo
             'active' => 1,
         ]);
 
+
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -98,6 +101,7 @@ class SearchHotelsInfo extends HotelsInfo
         $query->andFilterWhere([
             'id' => $this->id,
             'country' => $this->country,
+            'city_id' => $this->city_id,
             'hotels_stars_id' => $this->hotels_stars_id,
         ]);
         $query->andFilterWhere(['<=','date_begin',$this->date_beg]);
@@ -139,11 +143,11 @@ class SearchHotelsInfo extends HotelsInfo
         //$model = HotelsCharacterItem::find();
         $model = new Query();
         $model->select('hotels_character.name name, hotels_character_item.value value');
-        $model->from(['hotels_character','hotels_character_item']);
+        $model->from(['hotels_character_item']);
         $model->innerJoin('hotels_character','`hotels_character`.`id`=`hotels_character_item`.`hotels_character_id`');
 
         $model->andFilterWhere([
-            'hotels_info_id'=>$id,
+            'hotels_character_item.hotels_info_id'=>$id,
             'hotels_character.active'=>1,
             'hotels_character_item.active'=>1,
         ]);

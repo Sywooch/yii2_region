@@ -21,15 +21,6 @@ $items = $model->getImage2amigos(true);
 ?>
 <div class="giiant-crud hotels-info-view panel panel-info">
 
-    <!-- flash message -->
-    <?php if (\Yii::$app->session->getFlash('deleteError') !== null) : ?>
-        <span class="alert alert-info alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-            <?= \Yii::$app->session->getFlash('deleteError') ?>
-        </span>
-    <?php endif; ?>
-
     <h1>
         <?= $model->getAliasModel() ?>
         <strong>
@@ -42,11 +33,11 @@ $items = $model->getImage2amigos(true);
         <?= DetailView::widget([
             'model' => $model,
             'attributes' => [
-                /*[
+                [
                     'format'=>'html',
                     'attribute' => 'Изображение',
                     'value'=> Html::img($model->getImage()->getUrl('120x'),['alt' => $model->name])
-                ],*/
+                ],
                 'name:ntext',
                 [
                     'format'=> 'html',

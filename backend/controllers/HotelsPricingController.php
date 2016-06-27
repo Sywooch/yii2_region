@@ -2,24 +2,25 @@
 
 namespace backend\controllers;
 
-use Yii;
+/*use Yii;
 use common\models\HotelsPricing;
 use backend\models\SearchHotelsPricing;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
-use yii\helpers\Html;
+use yii\helpers\Html;*/
+use backend\models\SearchHotelsPricing;
 
 /**
  * HotelsPricingController implements the CRUD actions for HotelsPricing model.
  */
-class HotelsPricingController extends Controller
+class HotelsPricingController extends \backend\controllers\base\HotelsPricingController
 {
     /**
      * @inheritdoc
      */
-    public function behaviors()
+    /*public function behaviors()
     {
         return [
             'verbs' => [
@@ -30,22 +31,22 @@ class HotelsPricingController extends Controller
                 ],
             ],
         ];
-    }
+    }*/
 
     /**
      * Lists all HotelsPricing models.
      * @return mixed
      */
-    public function actionIndex()
+    /*public function actionIndex()
     {    
         $searchModel = new SearchHotelsPricing();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-    }
+    }*/
 
 
     /**
@@ -53,7 +54,7 @@ class HotelsPricingController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
+    /*public function actionView($id)
     {   
         $request = Yii::$app->request;
         if($request->isAjax){
@@ -71,7 +72,7 @@ class HotelsPricingController extends Controller
                 'model' => $this->findModel($id),
             ]);
         }
-    }
+    }*/
 
     /**
      * Creates a new HotelsPricing model.
@@ -79,15 +80,13 @@ class HotelsPricingController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    /*public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new HotelsPricing();  
+        $model = new HotelsPricing();
 
         if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
+
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
@@ -120,9 +119,7 @@ class HotelsPricingController extends Controller
                 ];         
             }
         }else{
-            /*
-            *   Process for non-ajax request
-            */
+
             if ($model->load($request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
@@ -132,7 +129,7 @@ class HotelsPricingController extends Controller
             }
         }
        
-    }
+    }*/
 
     /**
      * Updates an existing HotelsPricing model.
@@ -141,15 +138,13 @@ class HotelsPricingController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    /*public function actionUpdate($id)
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);       
 
         if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
+
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
@@ -181,9 +176,7 @@ class HotelsPricingController extends Controller
                 ];        
             }
         }else{
-            /*
-            *   Process for non-ajax request
-            */
+
             if ($model->load($request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
@@ -192,7 +185,7 @@ class HotelsPricingController extends Controller
                 ]);
             }
         }
-    }
+    }*/
 
     /**
      * Delete an existing HotelsPricing model.
@@ -201,26 +194,20 @@ class HotelsPricingController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    /*public function actionDelete($id)
     {
         $request = Yii::$app->request;
         $this->findModel($id)->delete();
 
         if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ['forceClose'=>true,'forceReload'=>true];    
         }else{
-            /*
-            *   Process for non-ajax request
-            */
             return $this->redirect(['index']);
         }
 
 
-    }
+    }*/
 
      /**
      * Delete multiple existing HotelsPricing model.
@@ -229,7 +216,7 @@ class HotelsPricingController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionBulkDelete()
+    /*public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
         $pks = $request->post('pks'); // Array or selected records primary keys
@@ -239,19 +226,13 @@ class HotelsPricingController extends Controller
         
 
         if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ['forceClose'=>true,'forceReload'=>true]; 
         }else{
-            /*
-            *   Process for non-ajax request
-            */
             return $this->redirect(['index']);
         }
        
-    }
+    }*/
 
     /**
      * Finds the HotelsPricing model based on its primary key value.
@@ -260,12 +241,12 @@ class HotelsPricingController extends Controller
      * @return HotelsPricing the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    /*protected function findModel($id)
     {
         if (($model = HotelsPricing::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
+    }*/
 }

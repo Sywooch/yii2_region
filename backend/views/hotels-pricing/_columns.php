@@ -2,6 +2,7 @@
 use yii\helpers\Url;
 use kartik\grid\GridView;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 return [
     [
@@ -71,39 +72,10 @@ return [
         'filterInputOptions'=>['placeholder'=>'Любая гостиница'],
         'format'=>'raw'
     ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'hotels_others_pricing_id',
-        'vAlign'=>'middle',
-        'width'=>'180px',
-        'value'=>/*function ($model, $key, $index, $widget) {
-            return Html::a($model->country->name,
-                '#',
-                ['title'=>'Просмотр детальной информации', 'onclick'=>'alert("This will open the author page.\n\nDisabled for this demo!")']);
-        },*/
-            function ($model) {
-                if ($rel = $model->getHotelsOthersPricing()->one()) {
-                    return Html::a($rel->name, ['hotels-others-pricing/view', 'id' => $rel->id,], ['data-pjax' => 0]);
-                } else {
-                    return '';
-                }
-            },
-        'filterType'=>GridView::FILTER_SELECT2,
-        'filter'=>ArrayHelper::map(\common\models\HotelsOthersPricing::find()->andWhere(['active'=>1])->orderBy('price')->asArray()->all(), 'id', 'price'),
-        'filterWidgetOptions'=>[
-            'pluginOptions'=>['allowClear'=>true],
-        ],
-        'filterInputOptions'=>['placeholder'=>'Любые доп. цены'],
-        'format'=>'raw'
-    ],
     //[
         //'class'=>'\kartik\grid\DataColumn',
         //'attribute'=>'date',
     //],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'full_price',
-    ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'discount_id',
@@ -137,6 +109,10 @@ return [
         'filterInputOptions'=>['placeholder'=>'Любой тип питания'],
         'format'=>'raw'
     ],
+    /*[
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'price',
+    ],*/
     [
         'class'=>'\kartik\grid\BooleanColumn',
         'attribute'=>'active',

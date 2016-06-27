@@ -13,26 +13,22 @@ class HotelsController extends \yii\web\Controller
     public function actionDetails($id)
     {
         $model = HotelsInfo::findOne(['id' => $id]);
-
         $dpCharacters = SearchHotelsInfo::getCharacters($id);
         return $this->render('details',[
             'model' => $model,
             'dateProviderCharacters' => $dpCharacters,
         ]);
-
     }
 
     public function actionIndex()
     {
         $searchModel = new SearchHotelsInfo();
         $dataProvider = $searchModel->search($_GET);
-        $model = new HotelsInfo();
-
-        
+        //$model = new HotelsInfo();
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'model' => $model,
+            //'model' => $model,
         ]);
     }
 

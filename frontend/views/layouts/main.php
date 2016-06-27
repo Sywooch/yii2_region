@@ -73,6 +73,7 @@ AppAsset::register($this);
                 ],
             ]);
             $menuItems = [
+                ['label' => 'Точки продаж', 'url' => ['/pages/pay_points']],
                 ['label' => 'Способы оплаты', 'url' => ['/pages/payment_methods']],
                 ['label' => 'Контакты', 'url' => ['/site/contact']],
                 ['label' => 'Частным лицам', 'url' => ['/pages/individual']],
