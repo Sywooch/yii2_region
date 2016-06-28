@@ -111,7 +111,7 @@ AppAsset::register($this);
                     ['label' => 'Горящие туры', 'url' => ['/site/index'],'options'=>['class' => 'menu_goryaschie']],
                     ['label' => 'Паломнические поездки', 'url' => ['/site/index'],'options'=>['class' => 'menu_hram']],
                     ['label' => 'Круизы', 'url' => ['/site/index'],'options'=>['class' => 'menu_kruiz']],
-                    ['label' => 'Продажа автобусных билетов', 'url'=>['/'],'options'=>['class'=>'menu_sale']],
+                    ['label' => 'Продажа автобусных билетов', 'url'=>['/'],'options'=>['class'=>'menu_ticket']],
 
                     /*['label' => 'Автобусные туры',
                         'url' => ['/site/about']],
