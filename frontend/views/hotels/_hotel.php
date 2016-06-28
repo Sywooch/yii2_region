@@ -40,7 +40,7 @@ use yii\helpers\Html;
         <div class="row hotel-vdesc">
             <div class="col-md-12">
                 <div class="description">
-                    <?= \yii\helpers\StringHelper::truncate($model->description,150) ?>
+                    <?= \yii\helpers\StringHelper::truncate(strip_tags($model->description),150) ?>
                 </div>
             </div>
         </div>

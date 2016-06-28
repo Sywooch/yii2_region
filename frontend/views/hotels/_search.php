@@ -24,7 +24,10 @@ use yii\widgets\ActiveForm;
                 ); ?>
             </div>
             <div class="col-md-6">
-                <?= $form->field($model, 'country') ?>
+                <?= $form->field($model, 'country')->dropDownList(
+                    \yii\helpers\ArrayHelper::map(common\models\Country::find()->all(), 'id', 'name'),
+                    ['prompt' => Yii::t('app', 'Select')]
+                ); ?>
             </div>
         </div>
         <div class="row">
