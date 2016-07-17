@@ -23,8 +23,63 @@ url: \'gethotelsinfo\',
 });
 ');
 
-?>
+if (!$model->isNewRecord) {
+    $this->registerJs('
+        $("#hotelspricing-hotels_appartment_hotels_info_id").on("change", function() {
+        $.pjax.reload("#pjax-hotelspricing-hotelsinfo div div.col-sm-6", {
+        history: false,
+        data: $(this).serialize(),
+        type: \'POST\',
+        url: \'getappartment\',
+        
+        });
+        });'
+    );
 
+    $this->registerJs('
+    $(function(){
+    $(document).on(\'click\', \'[data-toggle=reroute]\', function(e) {
+        e.preventDefault();
+        var action = $(this).attr(\'href\');
+        $.pjax.reload(\'#pjax-hotels-pay-period\', {
+                history: false,
+                data: $(\'#hotels-pay-period_UpdatePjax input, select\').serialize(),
+                type: \'POST\',
+                url: action,
+                success: function(data){
+                    $(\'.result\').html(data);
+                },
+                error: function(xhr, str){
+                    alert(\'Возникла ошибка: \' + xhr.responseCode);
+                  }
+            });
+    });
+});
+    ');
+
+    $this->registerJs("
+    
+        function pay_update(){
+            $.pjax.reload('#pjax-hotels-pay-period', {
+                history: false,
+                data: $('#hotels-pay-period_UpdatePjax input, select').serialize(),
+                type: 'POST',
+                url: '". \yii\helpers\Url::toRoute(['hotels-pay-period/update', 'hotels_pricing_id' => $model->id]) ."',
+                success: function(data){
+                    $('.result').html(data);
+                },
+                error: function(xhr, str){
+                    alert('Возникла ошибка: ' + xhr.responseCode);
+                  }
+            });
+        };
+    ", yii\web\View::POS_END);
+}
+
+?>
+<?php
+\yii\widgets\Pjax::begin()
+?>
 <div class="hotels-pricing-form">
 
     <?php $form = ActiveForm::begin([
@@ -72,7 +127,11 @@ url: \'gethotelsinfo\',
                 );
             } else {
                 echo $form->field($model, 'hotels_appartment_hotels_info_id')->dropDownList(
-                    \yii\helpers\ArrayHelper::map(common\models\HotelsInfo::find()->all(), 'id', 'name'),
+                    \yii\helpers\ArrayHelper::map(common\models\HotelsInfo::find()
+                        ->andFilterWhere([
+                            'active' => 1,
+                            'country' => $model->country,
+                        ])->orderBy('name')->all(), 'id', 'name'),
                     ['prompt' => Yii::t('app', 'Begin Select Country')]
                 );
             }
@@ -90,12 +149,14 @@ url: \'gethotelsinfo\',
         if ($model->isNewRecord) {
             $params = ['prompt' => Yii::t('app', 'Begin Select Hotels'),
                 'disabled' => ''];
-        }
-        else{
+        } else {
             $params = ['prompt' => Yii::t('app', 'Select Hotels')];
         }
         echo $form->field($model, 'hotels_appartment_id')->dropDownList(
-            \yii\helpers\ArrayHelper::map(common\models\HotelsAppartment::find()->all(), 'id', 'name'),
+            \yii\helpers\ArrayHelper::map(common\models\HotelsAppartment::find()
+                ->andFilterWhere([
+                    'hotels_info_id' => $model->hotels_appartment_hotels_info_id,
+                ])->orderBy('name')->all(), 'id', 'name'),
             $params
         ); ?>
         <?php
@@ -117,8 +178,19 @@ url: \'gethotelsinfo\',
         <?php $this->endBlock(); ?>
 
         <?php $this->beginBlock('payperiod'); ?>
-        <?php \yii\widgets\Pjax::begin(['enablePushState' => false]); ?>
-
+        <?php \yii\widgets\Pjax::begin(['enablePushState' => false, 'id' => 'pjax-hotels-pay-period']); ?>
+        <?php
+        if ($model->isNewRecord) {
+            ?>
+            <p>&nbsp;</p>
+            <p class="text-success">
+                Перед заполнением сохраните все данные.
+            </p>
+            <?php
+        } else {
+            echo $this->renderAjax('_payperiod', ['model' => $model]);
+        }
+        ?>
         <?php \yii\widgets\Pjax::end(); ?>
         <?php $this->endBlock(); ?>
 
@@ -126,11 +198,12 @@ url: \'gethotelsinfo\',
         Tabs::widget(
             [
                 'encodeLabels' => false,
-                'items' => [[
-                    'label' => Yii::t('app', StringHelper::basename('common\models\HotelsPricing')),
-                    'content' => $this->blocks['main'],
-                    'active' => true,
-                ],
+                'items' => [
+                    [
+                        'label' => Yii::t('app', StringHelper::basename('common\models\HotelsPricing')),
+                        'content' => $this->blocks['main'],
+                        'active' => true,
+                    ],
                     [
                         'label' => Yii::t('app', StringHelper::basename('common\models\HotelsPayPeriod')),
                         'content' => $this->blocks['payperiod'],
@@ -159,3 +232,6 @@ url: \'gethotelsinfo\',
 
 </div>
 
+<?php
+\yii\widgets\Pjax::end();
+?>

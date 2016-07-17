@@ -18,7 +18,7 @@ class SearchHotelsPayPeriod extends HotelsPayPeriod
 public function rules()
 {
 return [
-[['id', 'hotels_pricing_id', 'active'], 'integer'],
+[['hotels_pricing_id', 'active'], 'integer'],
             [['date_begin', 'date_end', 'date_add', 'date_edit'], 'safe'],
             [['price'], 'number'],
 ];

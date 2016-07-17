@@ -3,11 +3,11 @@
 namespace common\models;
 
 /**
- * This is the ActiveQuery class for [[TourInfo]].
+ * This is the ActiveQuery class for [[TourInfoHasTourType]].
  *
- * @see TourInfo
+ * @see TourInfoHasTourType
  */
-class TourInfoQuery extends \yii\db\ActiveQuery
+class TourInfoHasTourTypeQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -17,7 +17,7 @@ class TourInfoQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return TourInfo[]|array
+     * @return TourInfoHasTourType[]|array
      */
     public function all($db = null)
     {
@@ -26,7 +26,7 @@ class TourInfoQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return TourInfo|array|null
+     * @return TourInfoHasTourType|array|null
      */
     public function one($db = null)
     {

@@ -13,11 +13,49 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $model common\models\SalOrder */
 /* @var $form yii\widgets\ActiveForm */
+
+
 ?>
 
 <div class="sal-order-form">
 
     <?php $form = ActiveForm::begin(); ?>
+
+    <?php
+    $ur_names = ArrayHelper::map(TourInfo::find()->all(),'id','name');
+
+    echo $form->field($model, 'tour_info_id')->dropDownList(
+        $ur_names,
+        ['prompt' => 'Выберите тур для заказа'] // текст, который отображается в качестве первого варианта
+    )->label('Список туров');
+    ?>
+
+    <?php
+    $ur_names = ArrayHelper::map(HotelsAppartment::find()->all(),'id','name');
+
+    echo $form->field($model, 'hotels_appartment_id')->dropDownList(
+        $ur_names,
+        ['prompt' => 'Выберите номер и вид обслуживания для заказа'] // текст, который отображается в качестве первого варианта
+    )->label('Список номеров и видов обслуживания');
+    ?>
+
+    <?php
+    $ur_names = ArrayHelper::map(\common\models\TourTypeTransport::find()->all(),'id','name');
+
+    echo $form->field($model, 'trans_info_id')->dropDownList(
+        $ur_names,
+        ['prompt' => 'Выберите транспорт для заказа'] // текст, который отображается в качестве первого варианта
+    )->label('Список транспорта');
+    ?>
+
+    <?php
+    $ur_names = ArrayHelper::map(Userinfo::find()->andFilterWhere(['id' => Yii::$app->user->id])->all(),'id','username');
+
+    echo $form->field($model, 'userinfo_id')->dropDownList(
+        $ur_names,
+        ['prompt' => 'Выберите пользователя, оформляющего заказ'] // текст, который отображается в качестве первого варианта
+    )->label('Список пользователей');
+    ?>
 
     <?= $form->field($model, 'date')->widget(\kartik\datetime\DateTimePicker::classname(), [
                 //'langauge' => 'ru',
@@ -34,10 +72,10 @@ use yii\widgets\Pjax;
     ?>
 
     <?= $form->field($model, 'persons')->textarea(['maxlength' => true]) ?>
-    <div class="btn btn-default">
-        <?= 1/*$this->render('_persons',['model' => $model])*/ ?>
+    <!--<div class="btn btn-default">
+        <?php /*echo $this->render('_persons',['model' => $model])*/ ?>
 
-    </div>
+    </div>-->
 
     <?= $form->field($model, 'child')->textInput() ?>
 
@@ -57,41 +95,7 @@ use yii\widgets\Pjax;
 
     <?= $form->field($model, 'insurance_info')->textarea(['rows' => 6]) ?>
 
-    <?php
-    $ur_names = ArrayHelper::map(TransInfo::find()->all(),'id','name');
 
-    echo $form->field($model, 'trans_info_id')->dropDownList(
-        $ur_names,
-        ['prompt' => 'Выберите транспорт для заказа'] // текст, который отображается в качестве первого варианта
-    )->label('Список транспорта');
-    ?>
-
-    <?php
-    $ur_names = ArrayHelper::map(Userinfo::find()->all(),'id','username');
-
-    echo $form->field($model, 'userinfo_id')->dropDownList(
-        $ur_names,
-        ['prompt' => 'Выберите пользователя, оформляющего заказ'] // текст, который отображается в качестве первого варианта
-    )->label('Список пользователей');
-    ?>
-
-    <?php
-    $ur_names = ArrayHelper::map(TourInfo::find()->all(),'id','name');
-
-    echo $form->field($model, 'tour_info_id')->dropDownList(
-        $ur_names,
-        ['prompt' => 'Выберите тур для заказа'] // текст, который отображается в качестве первого варианта
-    )->label('Список туров');
-    ?>
-
-    <?php
-    $ur_names = ArrayHelper::map(HotelsAppartment::find()->all(),'id','name');
-
-    echo $form->field($model, 'hotels_appartment_id')->dropDownList(
-        $ur_names,
-        ['prompt' => 'Выберите номер и вид обслуживания для заказа'] // текст, который отображается в качестве первого варианта
-    )->label('Список номеров и видов обслуживания');
-    ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

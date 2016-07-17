@@ -43,7 +43,7 @@ abstract class HotelsPricing extends \yii\db\ActiveRecord
     {
         return [
             [['hotels_appartment_id', 'hotels_appartment_hotels_info_id', 'hotels_type_of_food_id', 'active', 'country'], 'integer'],
-            [['date', 'hotels_appartment_id', 'hotels_appartment_hotels_info_id', 'active'], 'required'],
+            [['date', 'hotels_appartment_id', 'hotels_appartment_hotels_info_id', 'active', 'country'], 'required'],
             [['date'], 'safe'],
             [['name'], 'string'],
             [['hotels_appartment_id', 'hotels_appartment_hotels_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsAppartment::className(), 'targetAttribute' => ['hotels_appartment_id' => 'id', 'hotels_appartment_hotels_info_id' => 'hotels_info_id']],
@@ -107,7 +107,7 @@ abstract class HotelsPricing extends \yii\db\ActiveRecord
     {
         $model = new \common\models\HotelsInfo();
         //$model->find()->andFilterWhere(['country'=>$idCountry]);
-        return $model->findAll(['country' => $idCountry]);
+        return $model->findAll(['country' => $idCountry,'active'=>1]);
     }
 
     public function getAppertmentsByHotel($idHotel)
@@ -133,6 +133,10 @@ abstract class HotelsPricing extends \yii\db\ActiveRecord
     public static function find()
     {
         return new \common\models\HotelsPricingQuery(get_called_class());
+    }
+
+    public function getHotelsPayPeriod(){
+        return $this->hasMany(\common\models\HotelsPayPeriod::className(), ['hotels_pricing_id'=>'id']);
     }
 
 

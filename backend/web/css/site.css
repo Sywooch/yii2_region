@@ -94,3 +94,14 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+.pay-period div{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.vcenter {
+    display: inline-block;
+    margin-top: 32px;
+    vertical-align: middle;
+}
+
+

@@ -142,7 +142,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View');
     ],
     'controller' => 'hotels-pay-period'
 ],
-        'id',
+        
         'date_begin',
         'date_end',
         'active',
@@ -165,7 +165,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View');
     'active'  => true,
 ],[
     'content' => $this->blocks['HotelsPayPeriods'],
-    'label'   => '<small>Hotels Pay Periods <span class="badge badge-default">'.count($model->getHotelsPayPeriods()->asArray()->all()).'</span></small>',
+    'label'   => '<small>' . Yii::t('app','Hotels Pay Periods') .' <span class="badge badge-default">'.count($model->getHotelsPayPeriods()->asArray()->all()).'</span></small>',
     'active'  => false,
 ], ]
                  ]

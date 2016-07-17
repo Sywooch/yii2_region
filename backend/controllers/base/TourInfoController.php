@@ -4,11 +4,8 @@
 
 namespace backend\controllers\base;
 
-use Yii;
-use common\models\HotelsPayPeriod;
-use backend\models\SearchHotelsPayPeriod;
-use common\models\HotelsPricing;
-use yii\base\Model;
+use common\models\TourInfo;
+use backend\models\SearchTourInfo;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
@@ -16,11 +13,10 @@ use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
 
 /**
- * HotelsPayPeriodController implements the CRUD actions for HotelsPayPeriod model.
+ * TourInfoController implements the CRUD actions for TourInfo model.
  */
-class HotelsPayPeriodController extends Controller
+class TourInfoController extends Controller
 {
-
     /**
      * @var boolean whether to enable CSRF validation for the actions in this controller.
      * CSRF validation is enabled only when both this property and [[Request::enableCsrfValidation]] are true.
@@ -29,12 +25,12 @@ class HotelsPayPeriodController extends Controller
 
 
     /**
-     * Lists all HotelsPayPeriod models.
+     * Lists all TourInfo models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new SearchHotelsPayPeriod;
+        $searchModel = new SearchTourInfo;
         $dataProvider = $searchModel->search($_GET);
 
         Tabs::clearLocalStorage();
@@ -49,7 +45,7 @@ class HotelsPayPeriodController extends Controller
     }
 
     /**
-     * Displays a single HotelsPayPeriod model.
+     * Displays a single TourInfo model.
      * @param integer $id
      *
      * @return mixed
@@ -66,13 +62,13 @@ class HotelsPayPeriodController extends Controller
     }
 
     /**
-     * Creates a new HotelsPayPeriod model.
+     * Creates a new TourInfo model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    /*public function actionCreate()
+    public function actionCreate()
     {
-        $model = new HotelsPayPeriod;
+        $model = new TourInfo;
 
         try {
             if ($model->load($_POST) && $model->save()) {
@@ -85,26 +81,15 @@ class HotelsPayPeriodController extends Controller
             $model->addError('_exception', $msg);
         }
         return $this->render('create', ['model' => $model]);
-    }*/
-
-    public function actionCreate($hotels_pricing_id)
-    {
-        $pricing = $this->findPricing($hotels_pricing_id);
-        $this->batchUpdate($pricing->hotelsPayPeriods);
-        $model = new HotelsPayPeriod();
-        $model->addOne();
-        $pricing->link('hotelsPayPeriod',$model);
-        $pricing = $this->findPricing($hotels_pricing_id);
-        return $this->renderAjax('_payperiod',['model'=>$pricing]);
     }
 
     /**
-     * Updates an existing HotelsPayPeriod model.
+     * Updates an existing TourInfo model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      */
-    /*public function actionUpdate($id)
+    public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
@@ -115,15 +100,15 @@ class HotelsPayPeriodController extends Controller
                 'model' => $model,
             ]);
         }
-    }*/
+    }
 
     /**
-     * Deletes an existing HotelsPayPeriod model.
+     * Deletes an existing TourInfo model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
-    /*public function actionDelete($id)
+    public function actionDelete($id)
     {
         try {
             $this->findModel($id)->delete();
@@ -146,78 +131,44 @@ class HotelsPayPeriodController extends Controller
         } else {
             return $this->redirect(['index']);
         }
-    }*/
-
-    public function actionDelete($id)
-    {
-        $model = $this->findModel($id);
-        $pricingId = $model->hotels_pricing_id;
-        $pricing = $this->findPricing($pricingId);
-        $this->batchUpdate($pricing->hotelsPayPeriods);
-        $model->delete();
-        $pricing = $this->findPricing($pricingId);
-        return $this->renderAjax('_payperiod', ['model' => $pricing]);
     }
 
     /**
-     * Finds the HotelsPayPeriod model based on its primary key value.
+     * Finds the TourInfo model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return HotelsPayPeriod the loaded model
+     * @return TourInfo the loaded model
      * @throws HttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = HotelsPayPeriod::findOne($id)) !== null) {
+        if (($model = TourInfo::findOne($id)) !== null) {
             return $model;
         } else {
             throw new HttpException(404, 'The requested page does not exist.');
         }
     }
 
-
-    public function actionUpdate($hotels_pricing_id)
+    public function actionGethotelsinfo()
     {
-        /*var_dump($_POST);
-
-        return "Все отлично!";*/
-        $pricing = $this->findPricing($hotels_pricing_id);
-        $this->batchUpdate($pricing->hotelsPayPeriods);
-        return $this->renderAjax('_payperiod', ['model' => $pricing]);
-    }
-
-
-    /**
-     * Обновляет все цены
-     * @param $items
-     * @return nothing
-     */
-    protected function batchUpdate($items)
-    {
-        if (Model::loadMultiple($items, Yii::$app->request->post()) &&
-            Model::validateMultiple($items)
-        ) {
-            foreach ($items as $key => $item) {
-                $item->save();
-            }
-        }
-    }
-
-    /**
-     * Finds the HotelsAppartment model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return HotelsPricing the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findPricing($id)
-    {
-        if (($model = HotelsPricing::findOne($id)) !== null) {
-            return $model;
+        $model = new TourInfo();
+        if ($model->load($_POST)) {
+            $model->getHotelsByCountry($model->country);
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            $model = '';
         }
+        return $this->renderPartial('hotels', ['model' => $model]);
     }
 
-
+    public function actionGetappartment()
+    {
+        $model = new TourInfo();
+        if ($model->load($_POST)) {
+            $model->getAppertmentsByHotel($model->hotels_info_id);
+        } else {
+            $model = '';
+        }
+        return $this->renderPartial('appartment', ['model' => $model]);
+    }
+    
 }

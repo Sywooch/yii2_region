@@ -2,13 +2,35 @@
 
 use yii\helpers\Html;
 
+/**
+* @var yii\web\View $this
+* @var common\models\TourInfo $model
+*/
 
-/* @var $this yii\web\View */
-/* @var $model common\models\TourInfo */
-
+$this->title = Yii::t('app', 'Create');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'TourInfos'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="tour-info-create">
+<div class="giiant-crud tour-info-create">
+
+    <h1>
+        <?= Yii::t('app', 'TourInfo') ?>        <small>
+                        <?= $model->name ?>        </small>
+    </h1>
+
+    <div class="clearfix crud-navigation">
+        <div class="pull-left">
+            <?=             Html::a(
+            Yii::t('app', 'Cancel'),
+            \yii\helpers\Url::previous(),
+            ['class' => 'btn btn-default']) ?>
+        </div>
+    </div>
+
+    <hr />
+
     <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    'model' => $model,
+    ]); ?>
+
 </div>

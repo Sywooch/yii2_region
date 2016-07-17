@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 use yii\bootstrap\ActiveForm;
 
 $this->registerJs('
-$this->registerJs(\'$("#hotelspricing-hotels_appartment_hotels_info_id").on("change", function() {
+$("#hotelspricing-hotels_appartment_hotels_info_id").on("change", function() {
 $.pjax.reload("#pjax-hotelspricing-hotelsinfo div div.col-sm-6", {
 history: false,
 data: $(this).serialize(),
@@ -17,7 +17,7 @@ url: \'getappartment\',
 
 });
 });
-\');');
+');
 ?>
 
 <?php
@@ -25,7 +25,7 @@ url: \'getappartment\',
 if (isset($model->country)){
     echo Html::dropDownList('HotelsPricing[hotels_appartment_hotels_info_id]',
         0,
-        \yii\helpers\ArrayHelper::map(\common\models\HotelsInfo::findAll(['country'=>$model->country]),'id' ,'name' ),
+        \yii\helpers\ArrayHelper::map(\common\models\HotelsInfo::findAll(['country'=>$model->country, 'active' => 1]),'id' ,'name' ),
         ['prompt' => Yii::t('app', 'Select'),
             'id' => 'hotelspricing-hotels_appartment_hotels_info_id',
             'class' => 'form-control',

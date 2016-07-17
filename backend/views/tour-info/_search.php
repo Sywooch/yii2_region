@@ -5,31 +5,31 @@ use yii\widgets\ActiveForm;
 
 /**
 * @var yii\web\View $this
-* @var backend\models\SearchHotelsPricing $model
+* @var backend\models\SearchTourInfo $model
 * @var yii\widgets\ActiveForm $form
 */
 ?>
 
-<div class="hotels-pricing-search">
+<div class="tour-info-search">
 
     <?php $form = ActiveForm::begin([
     'action' => ['index'],
     'method' => 'get',
     ]); ?>
 
-    		
+    		<?= $form->field($model, 'id') ?>
 
-		<?= $form->field($model, 'hotels_appartment_id') ?>
+		<?= $form->field($model, 'name') ?>
 
-		<?= $form->field($model, 'hotels_appartment_hotels_info_id') ?>
+		<?= $form->field($model, 'date_begin') ?>
 
-		<?= $form->field($model, 'hotels_type_of_food_id') ?>
+		<?= $form->field($model, 'date_end') ?>
 
-		<?= $form->field($model, 'date') ?>
-
-		<?php // echo $form->field($model, 'name') ?>
+		<?= $form->field($model, 'days') ?>
 
 		<?php // echo $form->field($model, 'active') ?>
+
+		<?php // echo $form->field($model, 'hotels_info_id') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

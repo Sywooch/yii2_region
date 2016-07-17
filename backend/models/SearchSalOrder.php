@@ -18,7 +18,7 @@ class SearchSalOrder extends SalOrder
     public function rules()
     {
         return [
-            [['id', 'sal_order_status_id', 'child', 'enable', 'hotels_info_id', 'trans_info_id', 'userinfo_id', 'tour_info_id', 'hotels_appartment_id', 'hotels_appartment_hotels_info_id'], 'integer'],
+            [['id', 'sal_order_status_id', 'child', 'enable', 'hotels_info_id', 'trans_info_id', 'userinfo_id', 'tour_info_id', 'hotels_appartment_id'], 'integer'],
             [['date', 'hotels_info', 'transport_info', 'persons', 'date_begin', 'date_end', 'insurance_info'], 'safe'],
             [['full_price'], 'number'],
         ];
@@ -70,7 +70,7 @@ class SearchSalOrder extends SalOrder
             'userinfo_id' => $this->userinfo_id,
             'tour_info_id' => $this->tour_info_id,
             'hotels_appartment_id' => $this->hotels_appartment_id,
-            'hotels_appartment_hotels_info_id' => $this->hotels_appartment_hotels_info_id,
+            
         ]);
 
         $query->andFilterWhere(['like', 'hotels_info', $this->hotels_info])

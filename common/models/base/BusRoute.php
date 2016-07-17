@@ -70,7 +70,7 @@ abstract class BusRoute extends \yii\db\ActiveRecord
                 'updatedAtAttribute' => false,
             ],
             [
-                'class' => ManyToManyBehavior::className(),
+                'class' => \common\components\vosmtm\ManyToManyBehavior::className(),
                 'relations'=>[
                     'routepoint' =>[
                         'busRoutePoints',
@@ -88,7 +88,14 @@ abstract class BusRoute extends \yii\db\ActiveRecord
                         ]
                     ]
                 ]
-            ]
+            ],
+            /*[
+                'class' => \common\components\behaviors\ManyHasManyBehavior::className(),
+                'relations' => [
+                    'busRoutePoints' => 'busroutepoint_list',
+                    //'tourTypeTransports' => 'tourtypetransport_list',
+                ],
+            ],*/
         ];
     }
 
@@ -100,7 +107,7 @@ abstract class BusRoute extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['name'], 'string'],
-            [['date_begin', 'date_end'], 'safe'],
+            [['date_begin', 'date_end', /*'busroutepoint_list'*/], 'safe'],
             ['date_end', 'compare', 'compareAttribute'=>'date_begin', 'operator' => '>'],
             [['routepoint'],'each','rule'=>['integer']],
             [['first_point', 'end_point', 'time_pause'],'integer'],
@@ -130,6 +137,7 @@ abstract class BusRoute extends \yii\db\ActiveRecord
             'date_point_forward' => Yii::t('app', 'Date Point Forward'),
             'time_pause' => Yii::t('app', 'Time Pause'),
             'date_point_reverse' => Yii::t('app', 'Date Point Reverse'),
+            /*'busroutepoint_list' => Yii::t('app', 'BusRoutePoint List'),*/
         ];
     }
 

@@ -3,9 +3,46 @@
 namespace frontend\controllers;
 
 use cinghie\articles\models\ItemsSearch;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\web\ForbiddenHttpException;
 
 class NewsController extends \cinghie\articles\controllers\ItemsController
 {
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index','create','update','delete','deleteimage','deletemultiple','changestate','activemultiple','deactivemultiple'],
+                        'roles' => ['@']
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view'],
+                        'roles' => ['?', '@']
+                    ],
+                ],
+                'denyCallback' => function () {
+                    throw new \Exception('You are not allowed to access this page');
+                }
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'changestate' => ['post'],
+                    'delete' => ['post'],
+                    'deleteImage' => ['post'],
+                    'deletemultiple' => ['post'],
+                ],
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
         // Check RBAC Permission

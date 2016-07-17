@@ -76,7 +76,7 @@ class HotelsInfoController extends Controller
                 $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
                 if ($model->save()) {
                     $model->upload();
-                    return $this->redirect(Url::previous());
+                    return $this->render('update', ['model' => $model]);
                 }
             } elseif (!\Yii::$app->request->isPost) {
                 $model->load($_GET);
@@ -122,7 +122,7 @@ class HotelsInfoController extends Controller
             /*
              * TODO Сделать проверку на существование главной картинки
              */
-            return $this->redirect(Url::previous());
+            return $this->render('update', ['model' => $model]);
         } else {
             return $this->render('update', [
                 'model' => $model,

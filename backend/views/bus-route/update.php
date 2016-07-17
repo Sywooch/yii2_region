@@ -7,7 +7,7 @@ use yii\helpers\Html;
  * @var common\models\BusRoute $model
  */
 
-$this->title = Yii::t('app', 'BusRoute') . $model->name . ', ' . Yii::t('app', 'Edit');
+$this->title = Yii::t('app', 'BusRoute ') . $model->name . ', ' . Yii::t('app', 'Edit');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', $model->getAliasModel(true)), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Edit');

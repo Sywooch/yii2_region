@@ -5,7 +5,6 @@
 namespace common\models\base;
 
 use Yii;
-use common\models\TourInfo;
 
 /**
  * This is the base-model class for table "tour_price".
@@ -62,7 +61,7 @@ abstract class TourPrice extends \yii\db\ActiveRecord
             [['price'], 'number'],
             [['date', 'date_begin', 'date_end'], 'safe'],
             ['date_end', 'compare', 'compareAttribute'=>'date_begin', 'operator' => '>'],
-            [['tour_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => TourInfo::className(), 'targetAttribute' => ['tour_info_id' => 'id']]
+            [['tour_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\TourInfo::className(), 'targetAttribute' => ['tour_info_id' => 'id']]
         ];
     }
 
@@ -111,7 +110,7 @@ abstract class TourPrice extends \yii\db\ActiveRecord
      */
     public function getTourInfo()
     {
-        return $this->hasOne(TourInfo::className(), ['id' => 'tour_info_id']);
+        return $this->hasOne(\common\models\TourInfo::className(), ['id' => 'tour_info_id']);
     }
 
 

@@ -6,6 +6,8 @@ namespace common\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
 
 /**
  * This is the base-model class for table "hotels_pay_period".
@@ -43,10 +45,13 @@ abstract class HotelsPayPeriod extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            [
+            'timestamp' => [
                 'class' => TimestampBehavior::className(),
-                'createdAtAttribute' => 'date_add',
-                'updatedAtAttribute' => 'date_edit',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['date_add', 'date_begin', 'date_end'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['date_edit'],
+                ],
+                'value' => new Expression('NOW()'),
             ],
         ];
     }
@@ -59,8 +64,9 @@ abstract class HotelsPayPeriod extends \yii\db\ActiveRecord
         return [
             [['hotels_pricing_id'], 'required'],
             [['hotels_pricing_id', 'active'], 'integer'],
-            [['date_begin', 'date_end'], 'safe'],
+            [['date_begin', 'date_end'], 'date', 'format' => 'Y-m-d'],
             [['price'], 'number'],
+            ['date_begin', 'compare', 'compareAttribute' => 'date_end', 'operator' => '<='],
             [['hotels_pricing_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\HotelsPricing::className(), 'targetAttribute' => ['hotels_pricing_id' => 'id']]
         ];
     }
@@ -71,7 +77,6 @@ abstract class HotelsPayPeriod extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'Первичный ключ. Таблица содержит информацию о периодах заездов и ценах в эти периоды'),
             'hotels_pricing_id' => Yii::t('app', 'Hotels Pricing ID'),
             'date_begin' => Yii::t('app', 'Date Begin'),
             'date_end' => Yii::t('app', 'Date End'),
@@ -91,7 +96,6 @@ abstract class HotelsPayPeriod extends \yii\db\ActiveRecord
     }
 
 
-    
     /**
      * @inheritdoc
      * @return HotelsPayPeriodQuery the active query used by this AR class.
@@ -104,9 +108,37 @@ abstract class HotelsPayPeriod extends \yii\db\ActiveRecord
     public function addOne()
     {
         $this->date_begin = date('DD-MM-YY');
-        $this->date_end = date('DD-MM-YY')+1;
+        $this->date_end = date('DD-MM-YY') + 1;
         $this->active = self::DEFAULT_ACTIVE;
         $this->price = self::DEFAULT_PRICE;
+    }
+
+    /**
+     * Функция отдает минимальную цену на все гостиницы или только на одну
+     * @param int $hotels_pricing_id
+     * @return mixed
+     */
+    public function getMinPrice($hotels_pricing_id = 0)
+    {
+        $model = $this->find();
+        if (is_integer($hotels_pricing_id) && ($hotels_pricing_id > 0)){
+            $model->andFilterWhere(['hotels_pricing_id'=>$hotels_pricing_id]);
+        }
+        return $model->orderBy('price')->one();
+    }
+
+    /**
+     * Функция отдает максимальную цену на все гостиницы или только на одну
+     * @param int $hotels_pricing_id
+     * @return mixed
+     */
+    public function getMaxPrice($hotels_pricing_id = 0)
+    {
+        $model = $this->find();
+        if (is_integer($hotels_pricing_id) && ($hotels_pricing_id > 0)){
+            $model->andFilterWhere(['hotels_pricing_id'=>$hotels_pricing_id]);
+        }
+        return $model->orderBy('price DESC')->one();
     }
 
 }

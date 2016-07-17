@@ -68,15 +68,16 @@ AppAsset::register($this);
                 ['label' => 'Справочник. Тип питания', 'url'=>['/hotels-type-of-food']],
                 ['label' => 'Справочник. Типы номеров', 'url'=>['/hotels-appartment-item']],
                 ['label' => 'Справочник прочих цен', 'url'=>['/hotels-others-pricing-type']],
+                ['label' => 'Справочник. Характеристики гостиниц', 'url'=>['/hotels-character']],
                 ['label' => ''],
                 ['label' => 'Информация о гостиницах', 'url' => ['/hotels-info']],
                 ['label' => 'Номера','url'=>['/hotels-appartment']],
-                ['label' => 'Название характеристик', 'url'=>['/hotels-character']],
-                ['label' => 'Описание характеристик', 'url'=>['/hotels-character-item']],
+
+                ['label' => 'Инфраструктура гостиниц', 'url'=>['/hotels-character-item']],
                 ['label' => 'Скидки', 'url'=>['/discount']],
                 /*['label' => 'Стоимость проживания', ''],*/
-                ['label' => 'Формирование основных цен', 'url'=>['/hotels-pricing']],
-                ['label' => 'Формирование прочих цен', 'url'=>['/hotels-others-pricing']],
+                ['label' => 'Гостиничные цены', 'url'=>['/hotels-pricing']],
+                ['label' => 'Дополнительные цены', 'url'=>['/hotels-others-pricing']],
             ],
         ];
         $menuItems[] = [
@@ -88,7 +89,7 @@ AppAsset::register($this);
                 ['label' => ''],
                 ['label' => 'Вокзалы (аэропорты)', 'url' => ['/trans-station']],
                 ['label' => 'Маршруты','url'=>['/trans-route']],
-                ['label' => 'Цены?', 'url'=>['/trans-price']],
+                ['label' => 'Цены', 'url'=>['/trans-price']],
                 ['label' => 'Сводная информация', 'url'=>['/trans-info']],
             ],
         ];
@@ -99,7 +100,7 @@ AppAsset::register($this);
                 ['label' => 'Справочник типов тура', 'url' => ['/tour-type']],
                 ['label' => 'Справочник стран','url'=>['/country']],
                 ['label' => 'Конструктор тура', 'url' => ['/tour-info']],
-                ['label' => 'Цены тура', 'url' => ['/tour-price']]
+                /*['label' => 'Цены тура', 'url' => ['/tour-price']]*/
             ],
 
         ];
@@ -124,6 +125,7 @@ AppAsset::register($this);
             'label' => 'Настройки',
             'items' => [
                 ['label' => 'Статические страницы', 'url' => ['/pages/manager/index']],
+                ['label' => 'Новости', 'url' => ['/articles/items/index']],
             ],
         ];
 

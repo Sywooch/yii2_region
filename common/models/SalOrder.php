@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "sal_order".
@@ -54,13 +55,27 @@ class SalOrder extends \yii\db\ActiveRecord
             [['sal_order_status_id', 'child', 'enable', 'hotels_info_id', 'trans_info_id', 'userinfo_id', 'tour_info_id', 'hotels_appartment_id'], 'integer'],
             [['full_price'], 'number'],
             [['insurance_info'], 'string'],
-            [['hotels_info', 'transport_info', 'persons'], 'string', 'max' => 45],
+            [['hotels_info', 'transport_info', 'persons'], 'string'],
             [['sal_order_status_id'], 'exist', 'skipOnError' => true, 'targetClass' => SalOrderStatus::className(), 'targetAttribute' => ['sal_order_status_id' => 'id']],
             [['hotels_appartment_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsAppartment::className(), 'targetAttribute' => ['hotels_appartment_id' => 'id']],
             [['hotels_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsInfo::className(), 'targetAttribute' => ['hotels_info_id' => 'id']],
             [['tour_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => TourInfo::className(), 'targetAttribute' => ['tour_info_id' => 'id']],
-            [['trans_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => TransInfo::className(), 'targetAttribute' => ['trans_info_id' => 'id']],
+            /*[['trans_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => TransInfo::className(), 'targetAttribute' => ['trans_info_id' => 'id']],*/
             [['userinfo_id'], 'exist', 'skipOnError' => true, 'targetClass' => Userinfo::className(), 'targetAttribute' => ['userinfo_id' => 'id']],
+            ['date_begin', 'compare', 'compareAttribute' => 'date_end', 'operator' => '<='],
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    \yii\db\ActiveRecord::EVENT_BEFORE_INSERT => ['date', 'date_begin', 'date_end'],
+                ],
+                'value' => new \yii\db\Expression('NOW()'),
+            ],
         ];
     }
 

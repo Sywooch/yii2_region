@@ -87,7 +87,7 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
         return [
             [['name', 'address','city_id'], 'required'],
             [['name', 'address', 'description', 'gps_point_m', 'gps_point_p', 'links_maps'], 'string'],
-            [['country', 'hotels_stars_id','city_id'], 'integer'],
+            [['country', 'hotels_stars_id','city_id', 'period_day'], 'integer'],
             [['imageFiles'], 'file', 'extensions' => 'png, jpg, gif', 'maxFiles' => 12],
             [['hotels_stars_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsStars::className(), 'targetAttribute' => ['hotels_stars_id' => 'id']],
             [['delImages','mainImage','active', 'top'],'boolean']
@@ -113,6 +113,7 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
             'imageFiles' => Yii::t('app', 'Image Files'),
             'active' => Yii::t('app','Active'),
             'top' => Yii::t('app','inMain' ),
+            'period_day' => Yii::t('app', 'Day Period'),
         ];
     }
 
@@ -137,6 +138,7 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
                 'imageFiles' => Yii::t('app', 'Загрузите изображения'),
                 /*'active' => Yii::t('app','Active'),
                 'top' => Yii::t('app','inMain' ),*/
+                'period_day' => Yii::t('app', 'Периодичность заезда в гостиницу'),
             ]);
     }
 
@@ -194,17 +196,9 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getHotelsInfoHasTourInfos()
-    {
-        return $this->hasMany(\common\models\HotelsInfoHasTourInfo::className(), ['hotels_info_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getTourInfos()
     {
-        return $this->hasMany(\common\models\TourInfo::className(), ['id' => 'tour_info_id'])->viaTable('hotels_info_has_tour_info', ['hotels_info_id' => 'id']);
+        return $this->hasMany(\common\models\TourInfo::className(), ['hotels_info_id' => 'id'])->inverseOf('hotelsInfo');
     }
 
     /**
