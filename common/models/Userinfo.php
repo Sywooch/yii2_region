@@ -135,6 +135,16 @@ class Userinfo extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Creates a new SalOrder model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function getSalOrders()
+    {
+        return $this->hasMany(\common\models\SalOrder::className(), ['trans_info_id' => 'id']);
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getLoginHistories()

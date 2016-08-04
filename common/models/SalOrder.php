@@ -3,162 +3,52 @@
 namespace common\models;
 
 use Yii;
-use yii\behaviors\TimestampBehavior;
+use \common\models\base\SalOrder as BaseSalOrder;
 
 /**
  * This is the model class for table "sal_order".
- *
- * @property integer $id
- * @property string $date
- * @property integer $sal_order_status_id
- * @property string $hotels_info
- * @property string $transport_info
- * @property string $persons
- * @property integer $child
- * @property string $date_begin
- * @property string $date_end
- * @property integer $enable
- * @property double $full_price
- * @property string $insurance_info
- * @property integer $hotels_info_id
- * @property integer $trans_info_id
- * @property integer $userinfo_id
- * @property integer $tour_info_id
- * @property integer $hotels_appartment_id
- * @property integer $hotels_appartment_hotels_info_id
- *
- * @property SalOrderStatus $salOrderStatus
- * @property HotelsAppartment $hotelsAppartment
- * @property HotelsInfo $hotelsInfo
- * @property TourInfo $tourInfo
- * @property TransInfo $transInfo
- * @property Userinfo $userinfo
  */
-class SalOrder extends \yii\db\ActiveRecord
+class SalOrder extends BaseSalOrder
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'sal_order';
-    }
-
     /**
      * @inheritdoc
      */
     public function rules()
     {
-        return [
-            [['date', 'date_begin', 'date_end'], 'safe'],
-            [['sal_order_status_id', 'hotels_info_id', 'trans_info_id', 'userinfo_id', 'tour_info_id', 'hotels_appartment_id'], 'required'],
-            [['sal_order_status_id', 'child', 'enable', 'hotels_info_id', 'trans_info_id', 'userinfo_id', 'tour_info_id', 'hotels_appartment_id'], 'integer'],
+        return array_replace_recursive(parent::rules(),
+            [
+                [['date', 'date_begin', 'date_end', 'date_add', 'date_edit'], 'safe'],
+                [['sal_order_status_id', 'userinfo_id', 'tour_info_id'], 'required'],
+                [['sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id', 'trans_info_id', 'userinfo_id', 'tour_info_id', 'created_by', 'updated_by', 'lock'], 'integer'],
             [['full_price'], 'number'],
             [['insurance_info'], 'string'],
-            [['hotels_info', 'transport_info', 'persons'], 'string'],
-            [['sal_order_status_id'], 'exist', 'skipOnError' => true, 'targetClass' => SalOrderStatus::className(), 'targetAttribute' => ['sal_order_status_id' => 'id']],
-            [['hotels_appartment_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsAppartment::className(), 'targetAttribute' => ['hotels_appartment_id' => 'id']],
-            [['hotels_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsInfo::className(), 'targetAttribute' => ['hotels_info_id' => 'id']],
-            [['tour_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => TourInfo::className(), 'targetAttribute' => ['tour_info_id' => 'id']],
-            /*[['trans_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => TransInfo::className(), 'targetAttribute' => ['trans_info_id' => 'id']],*/
-            [['userinfo_id'], 'exist', 'skipOnError' => true, 'targetClass' => Userinfo::className(), 'targetAttribute' => ['userinfo_id' => 'id']],
-            ['date_begin', 'compare', 'compareAttribute' => 'date_end', 'operator' => '<='],
-        ];
-    }
-
-    public function behaviors()
-    {
-        return [
-            'timestamp' => [
-                'class' => TimestampBehavior::className(),
-                'attributes' => [
-                    \yii\db\ActiveRecord::EVENT_BEFORE_INSERT => ['date', 'date_begin', 'date_end'],
-                ],
-                'value' => new \yii\db\Expression('NOW()'),
-            ],
-        ];
+                [['lock'], 'default', 'value' => '0'],
+                [['lock'], 'mootensai\components\OptimisticLockValidator']
+            ]);
     }
 
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
+    public function attributeHints()
     {
         return [
-            'id' => Yii::t('app', 'Первичный ключ. Таблица содержит полную информацию о заказе. Таблица декомпозирована.'),
-            'date' => Yii::t('app', 'Дата создания заказа'),
-            'sal_order_status_id' => Yii::t('app', 'Статус заказа.'),
-            'hotels_info' => Yii::t('app', 'Информация об отеле'),
-            'transport_info' => Yii::t('app', 'Информация о транспорте.'),
-            'persons' => Yii::t('app', 'Отдыхающие.'),
-            'child' => Yii::t('app', 'Количество детей'),
-            'date_begin' => Yii::t('app', 'Дата начала тура'),
-            'date_end' => Yii::t('app', 'Дата окончания тура'),
-            'enable' => Yii::t('app', 'Заказ закрыт'),
-            'full_price' => Yii::t('app', 'Полная цена тура'),
-            'insurance_info' => Yii::t('app', 'Информация о страховке и страховой компании'),
+            'id' => Yii::t('app', 'ID'),
+            'date' => Yii::t('app', 'Date'),
+            'sal_order_status_id' => Yii::t('app', 'Sal Order Status ID'),
+            'date_begin' => Yii::t('app', 'Date Begin'),
+            'date_end' => Yii::t('app', 'Date End'),
+            'enable' => Yii::t('app', 'Enable'),
             'hotels_info_id' => Yii::t('app', 'Hotels Info ID'),
+            'hotels_appartment_id' => Yii::t('app', 'Hotels Appartment ID'),
             'trans_info_id' => Yii::t('app', 'Trans Info ID'),
             'userinfo_id' => Yii::t('app', 'Userinfo ID'),
             'tour_info_id' => Yii::t('app', 'Tour Info ID'),
-            'hotels_appartment_id' => Yii::t('app', 'Hotels Appartment ID'),
+            'full_price' => Yii::t('app', 'Full Price'),
+            'insurance_info' => Yii::t('app', 'Insurance Info'),
+            'date_add' => Yii::t('app', 'Date Add'),
+            'date_edit' => Yii::t('app', 'Date Edit'),
+            'lock' => Yii::t('app', 'Lock'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getSalOrderStatus()
-    {
-        return $this->hasOne(SalOrderStatus::className(), ['id' => 'sal_order_status_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getHotelsAppartment()
-    {
-        return $this->hasOne(HotelsAppartment::className(), ['id' => 'hotels_appartment_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getHotelsInfo()
-    {
-        return $this->hasOne(HotelsInfo::className(), ['id' => 'hotels_info_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTourInfo()
-    {
-        return $this->hasOne(TourInfo::className(), ['id' => 'tour_info_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTransInfo()
-    {
-        return $this->hasOne(TransInfo::className(), ['id' => 'trans_info_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUserinfo()
-    {
-        return $this->hasOne(Userinfo::className(), ['id' => 'userinfo_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return SalOrderQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new SalOrderQuery(get_called_class());
     }
 }

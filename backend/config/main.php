@@ -40,9 +40,6 @@ return [
             'class' => 'infoweb\menu\Module',
             'enablePrivateMenuItems' => true,
         ],
-		'gridview' => [
-			'class' => 'kartik\grid\Module',
-		],
         // Yii2 Articles
         'articles' => [
             // Select Path To Upload Category Image

@@ -26,7 +26,7 @@ use yii\behaviors\TimestampBehavior;
 abstract class BusRoute extends \yii\db\ActiveRecord
 {
 
-    public $routepoint;
+    /*public $routepoint;*/
     public $first_point;
     public $end_point;
     public $position;
@@ -64,28 +64,19 @@ abstract class BusRoute extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            [
+            /*[
                 'class' => TimestampBehavior::className(),
                 'createdAtAttribute' => 'date',
                 'updatedAtAttribute' => false,
-            ],
+            ],*/
             [
                 'class' => \common\components\vosmtm\ManyToManyBehavior::className(),
                 'relations'=>[
                     'routepoint' =>[
                         'busRoutePoints',
-                        'viaTableValues' =>[
-                            'first_point' => \common\models\BusRouteHasBusRoutePoint::STATUS_DEACTIVE,
-                            'end_point' => \common\models\BusRouteHasBusRoutePoint::STATUS_DEACTIVE,
-                            'position'=> 1,
-                            'date_point_forward' => function() {
-                                return new \yii\db\Expression('NOW()');
-                            },
-                            'time_pause' => 0,
-                            'date_point_reverse' => function() {
-                                return new \yii\db\Expression('NOW()');
-                            },
-                        ]
+                        /*'viaTableValues' =>[
+                            'first_point'
+                        ]*/
                     ]
                 ]
             ],
@@ -110,7 +101,7 @@ abstract class BusRoute extends \yii\db\ActiveRecord
             [['date_begin', 'date_end', /*'busroutepoint_list'*/], 'safe'],
             ['date_end', 'compare', 'compareAttribute'=>'date_begin', 'operator' => '>'],
             [['routepoint'],'each','rule'=>['integer']],
-            [['first_point', 'end_point', 'time_pause'],'integer'],
+            /*[['first_point', 'end_point', 'time_pause'],'integer'],
             [['date_point_forward', 'date_point_reverse'], 'safe'],
             ['date_point_reverse', 'compare', 'compareAttribute'=>'date_point_forward', 'operator' => '<='],
             /*[['date_point_forward', 'date_point_reverse'], 'date', 'format' => 'Y-m-d H:m'],

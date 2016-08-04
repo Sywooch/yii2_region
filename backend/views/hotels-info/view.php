@@ -582,8 +582,6 @@ $items = $model->getImage2amigos(true);
                 },
                 'format' => 'raw',
             ],
-            'hotels_info',
-            'transport_info',
             'persons',
             'child',
             'date_begin',

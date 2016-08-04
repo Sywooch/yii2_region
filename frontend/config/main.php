@@ -36,6 +36,10 @@ return [
             // Show Titles in the views, 
             'showTitles' => true,
         ],
+        /**Личный кабинет турагенства*/
+        'lk' => [
+            'class' => 'frontend\components\lk\Module',
+        ],
 
     ],
     'components' => [
@@ -67,7 +71,8 @@ return [
         ],
         'page' => [
             'class' => 'infoweb\pages\components\Page'
-        ]
+        ],
+
     ],
     'params' => $params,
 ];

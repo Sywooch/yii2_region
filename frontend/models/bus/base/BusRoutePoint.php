@@ -1,0 +1,134 @@
+<?php
+
+namespace frontend\models\bus\base;
+
+use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
+use mootensai\behaviors\UUIDBehavior;
+
+/**
+ * This is the base model class for table "bus_route_point".
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $gps_point_m
+ * @property string $gps_point_p
+ * @property integer $active
+ * @property string $description
+ * @property string $date
+ * @property string $date_add
+ * @property string $date_edit
+ * @property integer $created_by
+ * @property integer $updated_by
+ *
+ * @property \frontend\models\bus\BusRouteHasBusRoutePoint[] $busRouteHasBusRoutePoints
+ * @property \frontend\models\bus\BusRoute[] $busRoutes
+ */
+class BusRoutePoint extends \yii\db\ActiveRecord
+{
+    use \mootensai\relation\RelationTrait;
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['name'], 'required'],
+            [['name', 'gps_point_m', 'gps_point_p', 'description'], 'string'],
+            [['active', 'created_by', 'updated_by'], 'integer'],
+            [['date', 'date_add', 'date_edit'], 'safe'],
+            [['lock'], 'default', 'value' => '0'],
+            [['lock'], 'mootensai\components\OptimisticLockValidator']
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'bus_route_point';
+    }
+
+    /**
+     *
+     * @return string
+     * overwrite function optimisticLock
+     * return string name of field are used to stored optimistic lock
+     *
+     */
+    public function optimisticLock()
+    {
+        return 'lock';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'name' => Yii::t('app', 'Name'),
+            'gps_point_m' => Yii::t('app', 'Gps Point M'),
+            'gps_point_p' => Yii::t('app', 'Gps Point P'),
+            'active' => Yii::t('app', 'Active'),
+            'description' => Yii::t('app', 'Description'),
+            'date' => Yii::t('app', 'Date'),
+            'date_add' => Yii::t('app', 'Date Add'),
+            'date_edit' => Yii::t('app', 'Date Edit'),
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBusRouteHasBusRoutePoints()
+    {
+        return $this->hasMany(\frontend\models\bus\BusRouteHasBusRoutePoint::className(), ['bus_route_point_id' => 'id'])->inverseOf('busRoutePoint');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBusRoutes()
+    {
+        return $this->hasMany(\frontend\models\bus\BusRoute::className(), ['id' => 'bus_route_id'])->viaTable('bus_route_has_bus_route_point', ['bus_route_point_id' => 'id']);
+    }
+
+    /**
+     * @inheritdoc
+     * @return type mixed
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'date_add',
+                'updatedAtAttribute' => 'date_edit',
+                'value' => new \yii\db\Expression('NOW()'),
+            ],
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
+            ],
+            'uuid' => [
+                'class' => UUIDBehavior::className(),
+                'column' => 'id',
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     * @return \frontend\models\bus\BusRoutePointQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new \frontend\models\bus\BusRoutePointQuery(get_called_class());
+    }
+}

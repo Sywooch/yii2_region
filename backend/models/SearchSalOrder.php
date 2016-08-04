@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use common\models\SalOrder;
 
 /**
- * SearchSalOrder represents the model behind the search form about `common\models\SalOrder`.
+ * backend\models\SearchSalOrder represents the model behind the search form about `common\models\SalOrder`.
  */
 class SearchSalOrder extends SalOrder
 {
@@ -18,8 +18,8 @@ class SearchSalOrder extends SalOrder
     public function rules()
     {
         return [
-            [['id', 'sal_order_status_id', 'child', 'enable', 'hotels_info_id', 'trans_info_id', 'userinfo_id', 'tour_info_id', 'hotels_appartment_id'], 'integer'],
-            [['date', 'hotels_info', 'transport_info', 'persons', 'date_begin', 'date_end', 'insurance_info'], 'safe'],
+            [['id', 'sal_order_status_id', 'child', 'enable', 'hotels_info_id', 'trans_info_id', 'userinfo_id', 'tour_info_id', 'hotels_appartment_id', 'created_by', 'updated_by', 'lock'], 'integer'],
+            [['date', 'persons', 'date_begin', 'date_end', 'insurance_info', 'date_add', 'date_edit'], 'safe'],
             [['full_price'], 'number'],
         ];
     }
@@ -70,12 +70,14 @@ class SearchSalOrder extends SalOrder
             'userinfo_id' => $this->userinfo_id,
             'tour_info_id' => $this->tour_info_id,
             'hotels_appartment_id' => $this->hotels_appartment_id,
-            
+            'date_add' => $this->date_add,
+            'date_edit' => $this->date_edit,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
+            'lock' => $this->lock,
         ]);
 
-        $query->andFilterWhere(['like', 'hotels_info', $this->hotels_info])
-            ->andFilterWhere(['like', 'transport_info', $this->transport_info])
-            ->andFilterWhere(['like', 'persons', $this->persons])
+        $query->andFilterWhere(['like', 'persons', $this->persons])
             ->andFilterWhere(['like', 'insurance_info', $this->insurance_info]);
 
         return $dataProvider;

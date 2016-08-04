@@ -29,6 +29,7 @@
     "johnitvn/yii2-ajaxcrud": "*",
     "kartik-v/yii2-widget-datepicker": "*",
     "kartik-v/yii2-field-range": "*",
+    "kartik-v/yii2-date-range": "dev-master",
     "infoweb-internet-solutions/yii2-cms-menu": "*",
     "kartik-v/yii2-widget-datetimepicker": "*",
     "kartik-v/yii2-widgets": "*",
@@ -58,7 +59,12 @@
     "kartik-v/yii2-markdown": "dev-master",
     "michelf/php-smartypants": "1.6-beta1",
     "cinghie/yii2-articles": "*",
-    "dektrium/yii2-user": "0.9.*@dev"
+    "dektrium/yii2-user": "0.9.*@dev",
+    "mootensai/yii2-enhanced-gii": "dev-master",
+    "kartik-v/yii2-mpdf": "dev-master",
+    "kartik-v/yii2-tree-manager": "dev-master",
+    "yii2tech/ar-linkmany": "dev-master",
+    "kartik-v/yii2-datecontrol": "@dev"
   },
   "require-dev": {
     "yiisoft/yii2-codeception": "*",

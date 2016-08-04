@@ -61,13 +61,19 @@ return [
                 ],
             ],
         ],
+        'datecontrol' => [
+            'class' => '\kartik\datecontrol\Module'
+        ],
+        'gridview' => [
+            'class' => 'kartik\grid\Module',
+        ],
     ],
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'urlManager' => [
-            'class' => 'yii\web\urlManager',
+            'class' => \yii\web\UrlManager::className(),
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             
@@ -104,11 +110,18 @@ return [
                         'essentials' => 'essentials.php',
                     ],
                 ],
+                'mtrelt*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@vendor/mootensai/yii2-relation-trait/messages',
+                    'fileMap' => [
+                        'mtrelt' => 'mtrelt.php',
+                    ],
+                ],
             ],
         ],
 
-        /*'authManager' => [
+        'authManager' => [
             'class' => 'yii\rbac\DbManager',
-        ],*/
+        ],
     ],
 ];

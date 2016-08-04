@@ -46,6 +46,10 @@ use \dmstr\bootstrap\Tabs;
                 //'dateFormat' => 'yyyy-MM-dd',
             ]) ?>
         </p>
+        <?= $form->field($model, "routepoint")->checkboxList(
+            \yii\helpers\ArrayHelper::map(common\models\BusRoutePoint::findAll(['active' => 1]), 'id', 'name'),
+            ['prompt' => Yii::t('app', 'Select')]
+        ); ?>
         <?php $this->endBlock(); ?>
 
 
@@ -61,20 +65,17 @@ use \dmstr\bootstrap\Tabs;
                 ?>
                 <div class="col-md-3 panel panel-primary" id="routepoint_<?= $i ?>">
                     <h1 class="element">№<?= $i ?></h1>
-                    <?= $form->field($model, "routepoint[" . $elem['id'] . "]")->checkboxList(
-                        \yii\helpers\ArrayHelper::map(common\models\BusRoutePoint::findAll(['id' => $elem['id']]), 'id', 'name'),
-                        ['prompt' => Yii::t('app', 'Select')]
-                    ); ?>
-                    <?= $form->field($model, "first_point[" . $elem['id'] . "]")->radio() ?>
 
-                    <?= $form->field($model, "end_point[" . $elem['id'] . "]")->radio() ?>
-                    <?= $form->field($model, "position[" . $elem['id'] . "]")->textInput() ?>
-                    <?= $form->field($model, "date_point_forward[" . $elem['id'] . "]")->widget(\kartik\datetime\DateTimePicker::classname(), [
+                    <?= $form->field($model, "first_point")->radio() ?>
+
+                    <?= $form->field($model, "end_point")->radio() ?>
+                    <?= $form->field($model, "position")->textInput() ?>
+                    <?= $form->field($model, "date_point_forward")->widget(\kartik\datetime\DateTimePicker::classname(), [
                         //'language' => 'ru',
                         //'dateFormat' => 'yyyy-MM-dd',
                     ]) ?>
-                    <?= $form->field($model, "time_pause[" . $elem['id'] . "]")->textInput() ?>
-                    <?= $form->field($model, "date_point_reverse[" . $elem['id'] . "]")->widget(\kartik\datetime\DateTimePicker::classname(), [
+                    <?= $form->field($model, "time_pause")->textInput() ?>
+                    <?= $form->field($model, "date_point_reverse")->widget(\kartik\datetime\DateTimePicker::classname(), [
                         //'language' => 'ru',
                         //'dateFormat' => 'yyyy-MM-dd',
                     ]) ?>

@@ -3,41 +3,32 @@
 namespace common\models;
 
 use Yii;
+use \common\models\base\TourTypeTransport as BaseTourTypeTransport;
 
 /**
  * This is the model class for table "tour_type_transport".
- *
- * @property integer $id
- * @property string $name
  */
-class TourTypeTransport extends \yii\db\ActiveRecord
+class TourTypeTransport extends BaseTourTypeTransport
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'tour_type_transport';
-    }
-
     /**
      * @inheritdoc
      */
     public function rules()
     {
-        return [
+        return array_replace_recursive(parent::rules(),
+            [
             [['name'], 'string']
-        ];
+            ]);
     }
 
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
+    public function attributeHints()
     {
         return [
-            'id' => Yii::t('app', 'Первичный ключ. Исходный, неизменяемый справочник с типами транспорта: Собственный транспорт, Автобус, Поезд, Самолет.'),
-            'name' => Yii::t('app', 'Наименование типа тура. Справочник.'),
+            'id' => Yii::t('app', 'ID'),
+            'name' => Yii::t('app', 'Name'),
         ];
     }
 }
