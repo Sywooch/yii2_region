@@ -2,7 +2,6 @@
 
 namespace frontend\controllers;
 
-use common\models\HotelsCharacterItem;
 use common\models\HotelsInfo;
 use frontend\models\SearchHotelsInfo;
 use yii\helpers\Url;

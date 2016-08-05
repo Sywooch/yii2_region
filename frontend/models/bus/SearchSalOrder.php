@@ -2,10 +2,8 @@
 
 namespace frontend\models\bus;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\bus\SalOrder;
 
 /**
  * frontend\models\bus\SearchSalOrder represents the model behind the search form about `frontend\models\bus\SalOrder`.

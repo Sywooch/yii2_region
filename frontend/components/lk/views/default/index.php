@@ -4,13 +4,10 @@
 /* @var $searchModel frontend\models\bus\SearchSalOrder */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-use yii\helpers\Html;
+use johnitvn\ajaxcrud\CrudAsset;
 use kartik\export\ExportMenu;
 use kartik\grid\GridView;
-use johnitvn\ajaxcrud\CrudAsset;
-use yii\helpers\Url;
-use yii\bootstrap\Modal;
-use johnitvn\ajaxcrud\BulkButtonWidget;
+use yii\helpers\Html;
 
 
 $this->title = Yii::t('app', 'Sal Orders');

@@ -2,10 +2,8 @@
 
 namespace frontend\models\bus;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\bus\BusRoute;
 
 /**
  * frontend\models\bus\SearchBusRoute represents the model behind the search form about `frontend\models\bus\BusRoute`.

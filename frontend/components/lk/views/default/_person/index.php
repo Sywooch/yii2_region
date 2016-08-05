@@ -1,10 +1,9 @@
 <?php
-use yii\helpers\Url;
-use yii\helpers\Html;
-use yii\bootstrap\Modal;
-use kartik\grid\GridView;
-use johnitvn\ajaxcrud\CrudAsset;
 use johnitvn\ajaxcrud\BulkButtonWidget;
+use johnitvn\ajaxcrud\CrudAsset;
+use kartik\grid\GridView;
+use yii\bootstrap\Modal;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\SearchPerson */

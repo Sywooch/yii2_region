@@ -2,14 +2,14 @@
 
 namespace frontend\controllers;
 
-use Yii;
 use common\models\Person;
 use frontend\models\SearchPerson;
+use Yii;
+use yii\filters\VerbFilter;
+use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use \yii\web\Response;
-use yii\helpers\Html;
+use yii\web\Response;
 
 /**
  * PersonController implements the CRUD actions for Person model.

@@ -2,12 +2,12 @@
 
 namespace frontend\controllers\bus;
 
-use Yii;
 use frontend\models\bus\SalOrder;
 use frontend\models\bus\SearchSalOrder;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * SalOrderController implements the CRUD actions for SalOrder model.

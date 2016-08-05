@@ -5,12 +5,11 @@
 namespace frontend\controllers\base;
 
 use common\models\HotelsInfo;
+use dmstr\bootstrap\Tabs;
 use frontend\models\SearchHotelsInfo;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\HttpException;
-use yii\helpers\Url;
-use yii\filters\AccessControl;
-use dmstr\bootstrap\Tabs;
 
 /**
  * HotelsInfoController implements the CRUD actions for HotelsInfo model.

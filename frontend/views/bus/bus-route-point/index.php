@@ -4,9 +4,9 @@
 /* @var $searchModel frontend\models\bus\SearchBusRoutePoint */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-use yii\helpers\Html;
 use kartik\export\ExportMenu;
 use kartik\grid\GridView;
+use yii\helpers\Html;
 
 $this->title = Yii::t('app', 'Bus Route Points');
 $this->params['breadcrumbs'][] = $this->title;

@@ -2,12 +2,12 @@
 
 namespace frontend\controllers\bus;
 
-use Yii;
 use frontend\models\bus\BusRoute;
 use frontend\models\bus\SearchBusRoute;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * BusRouteController implements the CRUD actions for BusRoute model.

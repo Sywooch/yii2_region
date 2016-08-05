@@ -2,10 +2,10 @@
 
 namespace common\models\base;
 
-use Yii;
-use yii\behaviors\TimestampBehavior;
-use yii\behaviors\BlameableBehavior;
 use mootensai\behaviors\UUIDBehavior;
+use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the base model class for table "sal_order".

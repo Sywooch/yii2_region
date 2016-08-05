@@ -2,12 +2,12 @@
 
 namespace frontend\controllers\bus;
 
-use Yii;
 use frontend\models\bus\Person;
 use frontend\models\bus\SearchPerson;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * PersonController implements the CRUD actions for Person model.

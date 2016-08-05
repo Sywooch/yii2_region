@@ -4,9 +4,9 @@
 /* @var $searchModel frontend\models\bus\SearchSalOrder */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-use yii\helpers\Html;
 use kartik\export\ExportMenu;
 use kartik\grid\GridView;
+use yii\helpers\Html;
 
 $this->title = Yii::t('app', 'Sal Orders');
 $this->params['breadcrumbs'][] = $this->title;

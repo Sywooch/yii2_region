@@ -1,10 +1,9 @@
 <div class="form-group" id="add-bus-route-has-bus-route-point">
     <?php
-    use kartik\grid\GridView;
     use kartik\builder\TabularForm;
+    use kartik\grid\GridView;
     use yii\data\ArrayDataProvider;
     use yii\helpers\Html;
-    use yii\widgets\Pjax;
 
     $dataProvider = new ArrayDataProvider([
         'allModels' => $row,

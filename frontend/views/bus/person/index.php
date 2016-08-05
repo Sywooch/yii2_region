@@ -4,9 +4,9 @@
 /* @var $searchModel frontend\models\bus\SearchPerson */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-use yii\helpers\Html;
 use kartik\export\ExportMenu;
 use kartik\grid\GridView;
+use yii\helpers\Html;
 
 $this->title = Yii::t('app', 'People');
 $this->params['breadcrumbs'][] = $this->title;

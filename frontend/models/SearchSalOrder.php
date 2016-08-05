@@ -2,11 +2,10 @@
 
 namespace frontend\models;
 
+use common\models\SalOrder;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\SalOrder;
-use yii\web\User;
 
 /**
  * frontend\models\SearchSalOrder represents the model behind the search form about `common\models\SalOrder`.
