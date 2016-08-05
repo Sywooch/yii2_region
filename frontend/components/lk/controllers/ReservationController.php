@@ -9,20 +9,18 @@
 namespace frontend\components\lk\controllers;
 
 use common\models\Person;
-use common\models\SalOrder;
+use frontend\components\lk\models\Reservation;
 use frontend\models\bus\SalOrderHasPerson;
-use frontend\models\SearchPerson;
 use frontend\models\SearchSalOrder;
 use Yii;
 use yii\web\Controller;
-use frontend\components\lk\models\Reservation;
 
 
 class ReservationController extends Controller
 {
     public function actionIndex()
     {
-        $this->actionChooseTour();
+        return $this->actionChooseTour();
     }
 
     public function actionChooseTour()
@@ -42,6 +40,9 @@ class ReservationController extends Controller
         $order->load($request->post());
 
         if (isset($request->post()->bron) && $order->load($request->post())) {
+            if (isset($order->hotels_appartment_id)) {
+                //Заполняем (перезаполняем) делаем запрос к БД для
+            }
             if ($order->save()) {
                 $person = new Person();
                 $person_has_order = new SalOrderHasPerson();
