@@ -3,10 +3,11 @@
 namespace common\models;
 
 use Yii;
-use yii\helpers\ArrayHelper;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 
 /**
- * This is the model class for table "bus_route_point".
+ * This is the base model class for table "bus_route_point".
  *
  * @property integer $id
  * @property string $name
@@ -15,19 +16,17 @@ use yii\helpers\ArrayHelper;
  * @property integer $active
  * @property string $description
  * @property string $date
+ * @property string $date_add
+ * @property string $date_edit
+ * @property integer $created_by
+ * @property integer $updated_by
  *
- * @property BusRouteHasBusRoutePoint[] $busRouteHasBusRoutePoints
- * @property BusRoute[] $busRoutes
+ * @property \common\models\BusRouteHasBusRoutePoint[] $busRouteHasBusRoutePoints
+ * @property \common\models\BusRoute[] $busRoutes
  */
 class BusRoutePoint extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'bus_route_point';
-    }
+    use \mootensai\relation\RelationTrait;
 
     /**
      * @inheritdoc
@@ -37,9 +36,31 @@ class BusRoutePoint extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['name', 'gps_point_m', 'gps_point_p', 'description'], 'string'],
-            [['active'], 'integer'],
-            [['date'], 'safe'],
+            [['active', 'created_by', 'updated_by'], 'integer'],
+            [['date', 'date_add', 'date_edit'], 'safe'],
+            [['lock'], 'default', 'value' => '0'],
+            [['lock'], 'mootensai\components\OptimisticLockValidator']
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'bus_route_point';
+    }
+
+    /**
+     *
+     * @return string
+     * overwrite function optimisticLock
+     * return string name of field are used to stored optimistic lock
+     *
+     */
+    public function optimisticLock()
+    {
+        return 'lock';
     }
 
     /**
@@ -54,6 +75,8 @@ class BusRoutePoint extends \yii\db\ActiveRecord
             'active' => Yii::t('app', 'Active'),
             'description' => Yii::t('app', 'Описание путевой точки.'),
             'date' => Yii::t('app', 'Дата создания'),
+            'date_add' => Yii::t('app', 'Date Add'),
+            'date_edit' => Yii::t('app', 'Date Edit'),
         ];
     }
 
@@ -62,7 +85,7 @@ class BusRoutePoint extends \yii\db\ActiveRecord
      */
     public function getBusRouteHasBusRoutePoints()
     {
-        return $this->hasMany(BusRouteHasBusRoutePoint::className(), ['bus_route_point_id' => 'id']);
+        return $this->hasMany(\common\models\BusRouteHasBusRoutePoint::className(), ['bus_route_point_id' => 'id'])->inverseOf('busRoutePoint');
     }
 
     /**
@@ -70,7 +93,7 @@ class BusRoutePoint extends \yii\db\ActiveRecord
      */
     public function getBusRoutes()
     {
-        return $this->hasMany(BusRoute::className(), ['id' => 'bus_route_id'])->viaTable('bus_route_has_bus_route_point', ['bus_route_point_id' => 'id']);
+        return $this->hasMany(\common\models\BusRoute::className(), ['id' => 'bus_route_id'])->viaTable('bus_route_has_bus_route_point', ['bus_route_point_id' => 'id']);
     }
 
     public static function listAll($keyField = 'id', $valueField = 'name', $asArray = true)
@@ -83,4 +106,37 @@ class BusRoutePoint extends \yii\db\ActiveRecord
         return ArrayHelper::map($query->all(), $keyField, $valueField);
     }
 
+    /**
+     * @inheritdoc
+     * @return type mixed
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'date_add',
+                'updatedAtAttribute' => 'date_edit',
+                'value' => new \yii\db\Expression('NOW()'),
+            ],
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
+            ],
+            /*'uuid' => [
+                'class' => UUIDBehavior::className(),
+                'column' => 'id',
+            ],*/
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     * @return \common\models\BusRoutePointQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new \common\models\BusRoutePointQuery(get_called_class());
+    }
 }

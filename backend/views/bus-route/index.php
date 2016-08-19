@@ -1,110 +1,93 @@
 <?php
 
-use yii\helpers\Html;
-use yii\helpers\Url;
+/* @var $this yii\web\View */
+/* @var $searchModel frontend\models\bus\SearchBusRoute */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+use kartik\export\ExportMenu;
 use kartik\grid\GridView;
+use yii\helpers\Html;
 
-/**
- * @var yii\web\View $this
- * @var yii\data\ActiveDataProvider $dataProvider
- * @var backend\models\SearchBusRoute $searchModel
- */
-
-
-if (isset($actionColumnTemplates)) {
-    $actionColumnTemplate = implode(' ', $actionColumnTemplates);
-    $actionColumnTemplateString = $actionColumnTemplate;
-} else {
-    Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('app', 'New'), ['create'], ['class' => 'btn btn-success']);
-    $actionColumnTemplateString = "'{view} {update} {delete}'";
-}
+$this->title = Yii::t('app', 'Bus Routes');
+$this->params['breadcrumbs'][] = $this->title;
+$search = "$('.search-button').click(function(){
+	$('.search-form').toggle(1000);
+	return false;
+});";
+$this->registerJs($search);
 ?>
-<div class="giiant-crud bus-route-index">
+<div class="bus-route-index">
 
-    <?php //             echo $this->render('_search', ['model' =>$searchModel]);
-    ?>
+    <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-
-    <?php \yii\widgets\Pjax::begin(['id' => 'pjax-main', 'enableReplaceState' => false, 'linkSelector' => '#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success' => 'function(){alert("yo")}']]) ?>
-    
-
-    <div class="table-responsive">
-        <?= GridView::widget([
-            'layout' => '{summary}{pager}{items}{pager}',
-            'dataProvider' => $dataProvider,
-            'pager' => [
-                'class' => yii\widgets\LinkPager::className(),
-                'firstPageLabel' => Yii::t('app', 'First'),
-                'lastPageLabel' => Yii::t('app', 'Last')],
-            'filterModel' => $searchModel,
-            'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
-            'headerRowOptions' => ['class' => 'x'],
-            'columns' => require(__DIR__.'/_columns.php'),
-            'toolbar'=> [
-                ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
-                        ['role'=>'modal-remote','title'=> 'Создать новый маршрут','class'=>'btn btn-default']).
-                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
-                        ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Сброс таблицы']).
-                    '{toggleData}'.
-                    '{export}'.
-                    \yii\bootstrap\ButtonDropdown::widget(
-                        [
-                            'id' => 'giiant-relations',
-                            'encodeLabel' => false,
-                            'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('app', 'Relations'),
-                            'dropdown' => [
-                                'options' => [
-                                    'class' => 'dropdown-menu-right'
-                                ],
-                                'encodeLabels' => false,
-                                'items' => [[
-                                    'url' => ['bus-route-has-bus-route-point/index'],
-                                    'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Bus Route Has Bus Route Point') . '</i>',
-                                ], [
-                                    'url' => ['bus-route-point/index'],
-                                    'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Bus Route Point') . '</i>',
-                                ], [
-                                    'url' => ['bus-way/index'],
-                                    'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Bus Way') . '</i>',
-                                ],]
-                            ],
-                            'options' => [
-                                'class' => 'btn-default'
-                            ]
-                        ]
-                    )
-                ],
-            ],
-            'bordered' => true,
-            'striped' => true,
-            'condensed' => true,
-            'responsive' => true,
-            'panel' => [
-                'type' => 'primary',
-                'heading' => '<i class="glyphicon glyphicon-list"></i> '. Yii::t('app', 'BusRoutes') . Yii::t('app', 'listing'),
-                'before'=>'<em>' . Yii::t('app','* Resize table columns just like a spreadsheet by dragging the column edges.') . '</em>',
-                'after'=>\johnitvn\ajaxcrud\BulkButtonWidget::widget([
-                        'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Удалить всё',
-                            ["bulk-delete"] ,
-                            [
-                                "class"=>"btn btn-danger btn-xs",
-                                'role'=>'modal-remote-bulk',
-                                'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-                                'data-request-method'=>'post',
-                                'data-confirm-title'=>Yii::t('app','Are you sure?'),
-                                'data-confirm-message'=>Yii::t('app','Are you sure want to delete this item')
-                            ]),
-                    ]).
-                    '<div class="clearfix"></div>',
-            ],
-            'persistResize' => false,
-        ]); ?>
+    <p>
+        <?= Html::a(Yii::t('app', 'Create Bus Route'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Advance Search'), '#', ['class' => 'btn btn-info search-button']) ?>
+    </p>
+    <div class="search-form" style="display:none">
+        <?= $this->render('_search', ['model' => $searchModel]); ?>
     </div>
+    <?php
+    $gridColumn = [
+        ['class' => 'yii\grid\SerialColumn'],
+        [
+            'class' => 'kartik\grid\ExpandRowColumn',
+            'width' => '50px',
+            'value' => function ($model, $key, $index, $column) {
+                return GridView::ROW_COLLAPSED;
+            },
+            'detail' => function ($model, $key, $index, $column) {
+                return Yii::$app->controller->renderPartial('_expand', ['model' => $model]);
+            },
+            'headerOptions' => ['class' => 'kartik-sheet-style'],
+            'expandOneOnly' => true
+        ],
+        ['attribute' => 'id', 'hidden' => true],
+        'name:ntext',
+        'date',
+        'date_begin',
+        'date_end',
+        'date_add',
+        'date_edit',
+        [
+            'class' => 'yii\grid\ActionColumn',
+            'template' => '{save-as-new} {view} {update} {delete}',
+            'buttons' => [
+                'save-as-new' => function ($url) {
+                    return Html::a('<span class="glyphicon glyphicon-copy"></span>', $url, ['title' => 'Save As New']);
+                },
+            ],
+        ],
+    ];
+    ?>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => $gridColumn,
+        'pjax' => true,
+        'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-bus-route']],
+        'panel' => [
+            'type' => GridView::TYPE_PRIMARY,
+            'heading' => '<span class="glyphicon glyphicon-book"></span>  ' . Html::encode($this->title),
+        ],
+        // your toolbar can include the additional full export menu
+        'toolbar' => [
+            '{export}',
+            ExportMenu::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => $gridColumn,
+                'target' => ExportMenu::TARGET_BLANK,
+                'fontAwesome' => true,
+                'dropdownOptions' => [
+                    'label' => 'Full',
+                    'class' => 'btn btn-default',
+                    'itemsBefore' => [
+                        '<li class="dropdown-header">Export All Data</li>',
+                    ],
+                ],
+            ]),
+        ],
+    ]); ?>
 
 </div>
-
-
-<?php \yii\widgets\Pjax::end() ?>
-
-

@@ -4,9 +4,9 @@
 /* @var $searchModel backend\models\SearchSalOrder */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-use yii\helpers\Html;
 use kartik\export\ExportMenu;
 use kartik\grid\GridView;
+use yii\helpers\Html;
 
 $this->title = Yii::t('app', 'Sal Orders');
 $this->params['breadcrumbs'][] = $this->title;
@@ -28,7 +28,7 @@ $this->registerJs($search);
     <div class="search-form" style="display:none">
         <?= $this->render('_search', ['model' => $searchModel]); ?>
     </div>
-    <?php
+    <?php 
     $gridColumn = [
         ['class' => 'yii\grid\SerialColumn'],
         [
@@ -43,7 +43,7 @@ $this->registerJs($search);
             'headerOptions' => ['class' => 'kartik-sheet-style'],
             'expandOneOnly' => true
         ],
-        ['attribute' => 'id', 'hidden' => true],
+        ['attribute' => 'id', 'visible' => false],
         'date',
         [
             'attribute' => 'sal_order_status_id',
@@ -57,14 +57,10 @@ $this->registerJs($search);
                 'pluginOptions' => ['allowClear' => true],
             ],
             'filterInputOptions' => ['placeholder' => 'Sal order status', 'id' => 'grid-search-sal-order-sal_order_status_id']
-        ],
-        'persons:ntext',
-        'child',
+            ],
         'date_begin',
         'date_end',
         'enable',
-        'full_price',
-        'insurance_info:ntext',
         [
             'attribute' => 'hotels_info_id',
             'label' => Yii::t('app', 'Hotels Info'),
@@ -77,12 +73,28 @@ $this->registerJs($search);
                 'pluginOptions' => ['allowClear' => true],
             ],
             'filterInputOptions' => ['placeholder' => 'Hotels info', 'id' => 'grid-search-sal-order-hotels_info_id']
-        ],
+            ],
+        [
+            'attribute' => 'hotels_appartment_id',
+            'label' => Yii::t('app', 'Hotels Appartment'),
+            'value' => function ($model) {
+                return $model->hotelsAppartment->name;
+            },
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => \yii\helpers\ArrayHelper::map(\common\models\HotelsAppartment::find()->asArray()->all(), 'id', 'name'),
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['placeholder' => 'Hotels appartment', 'id' => 'grid-search-sal-order-hotels_appartment_id']
+            ],
         [
             'attribute' => 'trans_info_id',
             'label' => Yii::t('app', 'Trans Info'),
             'value' => function ($model) {
-                return $model->transInfo->name;
+                if (isset($model->transInfo->name)) {
+                    return $model->transInfo->name;
+                }
+                return false;
             },
             'filterType' => GridView::FILTER_SELECT2,
             'filter' => \yii\helpers\ArrayHelper::map(\common\models\TourTypeTransport::find()->asArray()->all(), 'id', 'name'),
@@ -90,7 +102,20 @@ $this->registerJs($search);
                 'pluginOptions' => ['allowClear' => true],
             ],
             'filterInputOptions' => ['placeholder' => 'Tour type transport', 'id' => 'grid-search-sal-order-trans_info_id']
-        ],
+            ],
+        [
+            'attribute' => 'hotels_type_of_food_id',
+            'label' => Yii::t('app', 'Hotels Type Of Food'),
+            'value' => function ($model) {
+                return $model->hotelsTypeOfFood->name;
+            },
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => \yii\helpers\ArrayHelper::map(\common\models\HotelsTypeOfFood::find()->asArray()->all(), 'id', 'name'),
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['placeholder' => 'Hotels type of food', 'id' => 'grid-search-sal-order-hotels_type_of_food_id']
+            ],
         [
             'attribute' => 'userinfo_id',
             'label' => Yii::t('app', 'Userinfo'),
@@ -103,7 +128,7 @@ $this->registerJs($search);
                 'pluginOptions' => ['allowClear' => true],
             ],
             'filterInputOptions' => ['placeholder' => 'Userinfo', 'id' => 'grid-search-sal-order-userinfo_id']
-        ],
+            ],
         [
             'attribute' => 'tour_info_id',
             'label' => Yii::t('app', 'Tour Info'),
@@ -117,22 +142,9 @@ $this->registerJs($search);
             ],
             'filterInputOptions' => ['placeholder' => 'Tour info', 'id' => 'grid-search-sal-order-tour_info_id']
         ],
-        [
-            'attribute' => 'hotels_appartment_id',
-            'label' => Yii::t('app', 'Hotels Appartment'),
-            'value' => function ($model) {
-                return $model->hotelsAppartment->name;
-            },
-            'filterType' => GridView::FILTER_SELECT2,
-            'filter' => \yii\helpers\ArrayHelper::map(\common\models\HotelsAppartment::find()->asArray()->all(), 'id', 'name'),
-            'filterWidgetOptions' => [
-                'pluginOptions' => ['allowClear' => true],
-            ],
-            'filterInputOptions' => ['placeholder' => 'Hotels appartment', 'id' => 'grid-search-sal-order-hotels_appartment_id']
-        ],
-        'date_add',
-        'date_edit',
-        ['attribute' => 'lock', 'hidden' => true],
+        'full_price',
+        'insurance_info:ntext',
+        ['attribute' => 'lock', 'visible' => false],
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{save-as-new} {view} {update} {delete}',
@@ -142,7 +154,7 @@ $this->registerJs($search);
                 },
             ],
         ],
-    ];
+    ]; 
     ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

@@ -5,14 +5,37 @@ $this->title = Yii::t('app', 'Гостиницы');
 ?>
 
 <div class="container-fluid">
-    <?= \yii\widgets\ListView::widget([
-        'dataProvider' => $dataProvider,
-        'itemView' => '_hotel',
-        'pager'=>[
-            'options'=>[
-                'class' => 'pagination',
-            ],
-        ],
-        'summary' => '',
-    ]) ?>
+    <?php
+    if ((Yii::$app->getRequest()->getPathInfo() == 'hotels') or
+        (Yii::$app->getRequest()->getPathInfo() == 'hotels/index')
+    ) {
+        ?>
+        <div class="col-md-3 col-xs-12 panel panel-primary">
+            <div class="filters-hotels">
+                <?php
+                echo $this->render('_search_page_hotels', ['model' => $searchModel]);
+                ?>
+            </div>
+        </div>
+        <?php
+    }
+    ?>
+
+    <div class="row">
+
+        <div class="hotels">
+            <?= \yii\widgets\ListView::widget([
+                'dataProvider' => $dataProvider,
+                'itemView' => '_hotel',
+                'pager' => [
+                    'options' => [
+                        'class' => 'pagination',
+                    ],
+                ],
+                'summary' => '',
+            ]) ?>
+        </div>
+    </div>
+
+
 </div>

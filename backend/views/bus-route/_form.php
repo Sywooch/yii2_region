@@ -1,127 +1,136 @@
 <?php
 
 use yii\helpers\Html;
-use kartik\form\ActiveForm;
-use \dmstr\bootstrap\Tabs;
+use yii\widgets\ActiveForm;
 
-/**
- * @var yii\web\View $this
- * @var common\models\BusRoute $model
- * @var yii\widgets\ActiveForm $form
- */
-/**
- * TODO Исправить отображение input`ов точек маршрута - найти и заменить col-sm-6 на col-sm-9
- */
+/* @var $this yii\web\View */
+/* @var $model frontend\models\bus\BusRoute */
+/* @var $form yii\widgets\ActiveForm */
+
+\mootensai\components\JsBlock::widget(['viewFile' => '_script', 'pos' => \yii\web\View::POS_END,
+    'viewParams' => [
+        'class' => 'BusRouteHasBusRoutePoint',
+        'relID' => 'bus-route-has-bus-route-point',
+        'value' => \yii\helpers\Json::encode($model->busRouteHasBusRoutePoints),
+        'isNewRecord' => ($model->isNewRecord) ? 1 : 0
+    ]
+]);
+\mootensai\components\JsBlock::widget(['viewFile' => '_script', 'pos' => \yii\web\View::POS_END,
+    'viewParams' => [
+        'class' => 'BusWay',
+        'relID' => 'bus-way',
+        'value' => \yii\helpers\Json::encode($model->busWays),
+        'isNewRecord' => ($model->isNewRecord) ? 1 : 0
+    ]
+]);
 ?>
 
 <div class="bus-route-form">
 
-    <?php $form = ActiveForm::begin([
-            'id' => 'BusRoute',
-            //'layout' => 'horizontal',
-            'enableClientValidation' => true,
-            'errorSummaryCssClass' => 'error-summary alert alert-error'
-        ]
-    );
+    <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form->errorSummary($model); ?>
+
+    <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
+
+    <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
+
+    <?= $form->field($model, 'date')->widget(\kartik\datecontrol\DateControl::classname(), [
+        'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
+        'saveFormat' => 'php:Y-m-d H:i:s',
+        'ajaxConversion' => true,
+        'options' => [
+            'pluginOptions' => [
+                'placeholder' => Yii::t('app', 'Choose Date'),
+                'autoclose' => true,
+            ]
+        ],
+    ]); ?>
+
+    <?= $form->field($model, 'date_begin')->widget(\kartik\datecontrol\DateControl::classname(), [
+        'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
+        'saveFormat' => 'php:Y-m-d H:i:s',
+        'ajaxConversion' => true,
+        'options' => [
+            'pluginOptions' => [
+                'placeholder' => Yii::t('app', 'Choose Date Begin'),
+                'autoclose' => true,
+            ]
+        ],
+    ]); ?>
+
+    <?= $form->field($model, 'date_end')->widget(\kartik\datecontrol\DateControl::classname(), [
+        'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
+        'saveFormat' => 'php:Y-m-d H:i:s',
+        'ajaxConversion' => true,
+        'options' => [
+            'pluginOptions' => [
+                'placeholder' => Yii::t('app', 'Choose Date End'),
+                'autoclose' => true,
+            ]
+        ],
+    ]); ?>
+
+    <?= $form->field($model, 'date_add')->widget(\kartik\datecontrol\DateControl::classname(), [
+        'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
+        'saveFormat' => 'php:Y-m-d H:i:s',
+        'ajaxConversion' => true,
+        'options' => [
+            'pluginOptions' => [
+                'placeholder' => Yii::t('app', 'Choose Date Add'),
+                'autoclose' => true,
+            ]
+        ],
+    ]); ?>
+
+    <?= $form->field($model, 'date_edit')->widget(\kartik\datecontrol\DateControl::classname(), [
+        'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
+        'saveFormat' => 'php:Y-m-d H:i:s',
+        'ajaxConversion' => true,
+        'options' => [
+            'pluginOptions' => [
+                'placeholder' => Yii::t('app', 'Choose Date Edit'),
+                'autoclose' => true,
+            ]
+        ],
+    ]); ?>
+
+    <?php
+    $forms = [
+        [
+            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode(Yii::t('app', 'BusRouteHasBusRoutePoint')),
+            'content' => $this->render('_formBusRouteHasBusRoutePoint', [
+                'row' => \yii\helpers\ArrayHelper::toArray($model->busRouteHasBusRoutePoints),
+            ]),
+        ],
+        [
+            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode(Yii::t('app', 'BusWay')),
+            'content' => $this->render('_formBusWay', [
+                'row' => \yii\helpers\ArrayHelper::toArray($model->busWays),
+            ]),
+        ],
+    ];
+    echo kartik\tabs\TabsX::widget([
+        'items' => $forms,
+        'position' => kartik\tabs\TabsX::POS_ABOVE,
+        'encodeLabels' => false,
+        'pluginOptions' => [
+            'bordered' => true,
+            'sideways' => true,
+            'enableCache' => false,
+        ],
+    ]);
     ?>
-
-    <div class="">
-        <?php $this->beginBlock('main'); ?>
-
-        <p>
-            <?= $form->field($model, 'name')->textInput() ?>
-
-            <?= $form->field($model, 'date_begin')->widget(\kartik\datetime\DateTimePicker::className(), [
-                //'language' => 'ru',
-                //'dateFormat' => 'yyyy-MM-dd',
-            ]) ?>
-
-            <?= $form->field($model, 'date_end')->widget(\kartik\datetime\DateTimePicker::className(), [
-                //'language' => 'ru',
-                //'dateFormat' => 'yyyy-MM-dd',
-            ]) ?>
-
-            <?= $form->field($model, 'date')->widget(\kartik\datetime\DateTimePicker::className(), [
-                //'language' => 'ru',
-                //'dateFormat' => 'yyyy-MM-dd',
-            ]) ?>
-        </p>
-        <?= $form->field($model, "routepoint")->checkboxList(
-            \yii\helpers\ArrayHelper::map(common\models\BusRoutePoint::findAll(['active' => 1]), 'id', 'name'),
-            ['prompt' => Yii::t('app', 'Select')]
-        ); ?>
-        <?php $this->endBlock(); ?>
-
-
-        <?php $this->beginBlock('busroutepoint'); ?>
-        <div class="row">
-
-
-            <?php
-            $i = 0;
-            foreach (\yii\helpers\ArrayHelper::toArray(
-                common\models\BusRoutePoint::findAll(['active' => 1])) as $elem) {
-                $i++;
-                ?>
-                <div class="col-md-3 panel panel-primary" id="routepoint_<?= $i ?>">
-                    <h1 class="element">№<?= $i ?></h1>
-
-                    <?= $form->field($model, "first_point")->radio() ?>
-
-                    <?= $form->field($model, "end_point")->radio() ?>
-                    <?= $form->field($model, "position")->textInput() ?>
-                    <?= $form->field($model, "date_point_forward")->widget(\kartik\datetime\DateTimePicker::classname(), [
-                        //'language' => 'ru',
-                        //'dateFormat' => 'yyyy-MM-dd',
-                    ]) ?>
-                    <?= $form->field($model, "time_pause")->textInput() ?>
-                    <?= $form->field($model, "date_point_reverse")->widget(\kartik\datetime\DateTimePicker::classname(), [
-                        //'language' => 'ru',
-                        //'dateFormat' => 'yyyy-MM-dd',
-                    ]) ?>
-
-                </div>
-                <?php
-            }
-            ?>
-        </div>
-        <?php $this->endBlock(); ?>
-
-        <?=
-        Tabs::widget(
-            [
-                'encodeLabels' => false,
-                'items' => [[
-                    'label' => Yii::t('app', \yii\helpers\StringHelper::basename(common\models\BusRoute::className())),
-                    'content' => $this->blocks['main'],
-                    'active' => true,
-                ],
-                    [
-                        'label' => Yii::t('app', \yii\helpers\StringHelper::basename(common\models\BusRoutePoint::className())),
-                        'content' => $this->blocks['busroutepoint'],
-                        'active' => false,
-                    ],
-                ]
-            ]
-        );
-        ?>
-        <hr/>
-
-        <?php echo $form->errorSummary($model); ?>
-
-        <?= Html::submitButton(
-            '<span class="glyphicon glyphicon-check"></span> ' .
-            ($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save')),
-            [
-                'id' => 'save-' . $model->formName(),
-                'class' => 'btn btn-success'
-            ]
-        );
-        ?>
-
-        <?php ActiveForm::end(); ?>
-
+    <div class="form-group">
+        <?php if (Yii::$app->controller->action->id != 'save-as-new'): ?>
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php endif; ?>
+        <?php if (Yii::$app->controller->action->id != 'create'): ?>
+            <?= Html::submitButton(Yii::t('app', 'Save As New'), ['class' => 'btn btn-info', 'value' => '1', 'name' => '_asnew']) ?>
+        <?php endif; ?>
+        <?= Html::a(Yii::t('app', 'Cancel'), Yii::$app->request->referrer, ['class' => 'btn btn-danger']) ?>
     </div>
 
-</div>
+    <?php ActiveForm::end(); ?>
 
+</div>

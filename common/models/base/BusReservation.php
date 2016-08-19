@@ -4,6 +4,7 @@
 
 namespace common\models\base;
 
+use common\models\Person;
 use Yii;
 
 /**
@@ -13,7 +14,7 @@ use Yii;
  * @property string $name
  * @property integer $bus_info_id
  * @property integer $bus_way_id
- * @property integer $kontragent_persons_id
+ * @property integer $person_id
  * @property integer $number_seat
  * @property string $date
  * @property integer $status
@@ -57,13 +58,13 @@ abstract class BusReservation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['bus_info_id', 'bus_way_id', 'kontragent_persons_id'], 'required'],
-            [['bus_info_id', 'bus_way_id', 'kontragent_persons_id', 'number_seat', 'status', 'active'], 'integer'],
+            [['bus_info_id', 'bus_way_id'], 'required'],
+            [['bus_info_id', 'bus_way_id', 'person_id', 'number_seat', 'status', 'active'], 'integer'],
             [['date'], 'safe'],
             [['name'], 'string', 'max' => 45],
             [['bus_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusInfo::className(), 'targetAttribute' => ['bus_info_id' => 'id']],
             [['bus_way_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusWay::className(), 'targetAttribute' => ['bus_way_id' => 'id']],
-            [['kontragent_persons_id'], 'exist', 'skipOnError' => true, 'targetClass' => KontragentPersons::className(), 'targetAttribute' => ['kontragent_persons_id' => 'id']]
+            [['person_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['person_id' => 'id']]
         ];
     }
 
@@ -77,7 +78,7 @@ abstract class BusReservation extends \yii\db\ActiveRecord
             'name' => Yii::t('app', 'Name'),
             'bus_info_id' => Yii::t('app', 'Bus Info ID'),
             'bus_way_id' => Yii::t('app', 'Bus Way ID'),
-            'kontragent_persons_id' => Yii::t('app', 'Kontragent Persons ID'),
+            'person_id' => Yii::t('app', 'Person ID'),
             'number_seat' => Yii::t('app', 'Number Seat'),
             'date' => Yii::t('app', 'Date'),
             'status' => Yii::t('app', 'Status'),
@@ -97,7 +98,7 @@ abstract class BusReservation extends \yii\db\ActiveRecord
             'name' => Yii::t('app', 'Name'),
             'bus_info_id' => Yii::t('app', 'Bus Info Id'),
             'bus_way_id' => Yii::t('app', 'Bus Way Id'),
-            'kontragent_persons_id' => Yii::t('app', 'Kontragent Persons Id'),
+                'person_id' => Yii::t('app', 'Kontragent Persons Id'),
             'number_seat' => Yii::t('app', 'Номер места
 '),
             'date' => Yii::t('app', 'Date'),
@@ -125,9 +126,9 @@ abstract class BusReservation extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getKontragentPersons()
+    public function getPerson()
     {
-        return $this->hasOne(\common\models\KontragentPersons::className(), ['id' => 'kontragent_persons_id']);
+        return $this->hasOne(\common\models\Person::className(), ['id' => 'person_id']);
     }
 
 

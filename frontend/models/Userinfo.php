@@ -60,13 +60,13 @@ class Userinfo extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'username' => 'User name',
+            'username' => 'Имя для входа',
             'email' => 'Email',
-            'password' => 'Password',
-            'create_time' => 'Create Time',
-            'last_login' => 'Last Login',
-            'auth_key' => 'Auth Key',
-            'user_role_id' => 'User Role ID',
+            'password' => 'Пароль',
+            'create_time' => 'Время создания',
+            'last_login' => 'Последний вход',
+            'auth_key' => 'Ключ аутентификации',
+            'user_role_id' => 'Роль пользователя',
         ];
     }
 

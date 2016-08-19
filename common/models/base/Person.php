@@ -20,6 +20,11 @@ use yii\behaviors\TimestampBehavior;
  * @property string $passport_num
  * @property string $contacts
  * @property string $other
+ * @property integer $child
+ * @property string $date_add
+ * @property integer $created_by
+ * @property integer $updated_by
+ * @property integer $lock
  *
  * @property \common\models\BusReservationHasPerson[] $busReservationHasPeople
  * @property \common\models\BusReservation[] $busReservations
@@ -37,13 +42,15 @@ class Person extends \yii\db\ActiveRecord
     {
         return [
             [['firstname', 'lastname', 'secondname'], 'required'],
-            [['date_new', 'date_edit'], 'safe'],
+            [['date_new', 'date_edit', 'birthday', 'date_add'], 'safe'],
             [['contacts', 'other'], 'string'],
+            [['child', 'created_by', 'updated_by', 'lock'], 'integer'],
             [['firstname', 'lastname', 'secondname'], 'string', 'max' => 100],
             [['passport_ser'], 'string', 'max' => 10],
             [['passport_num'], 'string', 'max' => 15],
             [['lock'], 'default', 'value' => '0'],
-            [['lock'], 'mootensai\components\OptimisticLockValidator']
+            [['lock'], 'mootensai\components\OptimisticLockValidator'],
+            [['gender_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\Gender::className(), 'targetAttribute' => ['gender_id' => 'id']]
         ];
     }
 
@@ -56,11 +63,11 @@ class Person extends \yii\db\ActiveRecord
     }
 
     /**
-     *
+     * 
      * @return string
      * overwrite function optimisticLock
      * return string name of field are used to stored optimistic lock
-     *
+     * 
      */
     public function optimisticLock()
     {
@@ -81,8 +88,13 @@ class Person extends \yii\db\ActiveRecord
             'date_edit' => Yii::t('app', 'Date Edit'),
             'passport_ser' => Yii::t('app', 'Passport Ser'),
             'passport_num' => Yii::t('app', 'Passport Num'),
+            'gender_id' => Yii::t('app', 'Gender ID'),
             'contacts' => Yii::t('app', 'Contacts'),
             'other' => Yii::t('app', 'Other'),
+            'birthday' => Yii::t('app', 'Birthday'),
+            'child' => Yii::t('app', 'Child'),
+            'date_add' => Yii::t('app', 'Date Add'),
+            'lock' => Yii::t('app', 'Lock'),
         ];
     }
 
@@ -105,6 +117,14 @@ class Person extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getGender()
+    {
+        return $this->hasOne(\common\models\Gender::className(), ['id' => 'gender_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getSalOrderHasPeople()
     {
         return $this->hasMany(\common\models\SalOrderHasPerson::className(), ['person_id' => 'id']);
@@ -120,8 +140,8 @@ class Person extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return type mixed
-     */
+     * @return array mixed
+     */ 
     public function behaviors()
     {
         return [

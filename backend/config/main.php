@@ -90,6 +90,18 @@ return [
         'user' => [
             'class' => 'app\modules\user\Module',
         ],
+        /** Begin User Access Settings *
+         * 'user' => [
+         * 'class' => 'dektrium\user\Module',
+         * 'enableUnconfirmedLogin' => true,
+         * 'confirmWithin' => 21600,
+         * 'cost' => 12,
+         * 'admins' => ['admin']
+         * ],
+         * 'rbac' => [
+         * 'class' => dektrium\rbac\RbacWebModule::className(),
+         * ],
+         * /** End User Access Settings */
 
         
     ],
@@ -102,6 +114,16 @@ return [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
+        /** Begin User Access Settings *
+         * 'user' => [
+         * 'identityClass' => 'dektrium\user\models\User',
+         * 'enableAutoLogin' => true,
+         * ],
+         * /*'authManager' => [
+         * 'class' => 'dektrium\rbac\components\DbManager',
+         * ],*/
+        /** End User Access Settings */
+
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

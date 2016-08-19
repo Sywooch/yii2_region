@@ -2,7 +2,8 @@
 
 namespace frontend\controllers;
 
-use cinghie\articles\models\ItemsSearch;
+use frontend\models\ItemsSearch;
+use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\ForbiddenHttpException;
@@ -18,13 +19,13 @@ class NewsController extends \cinghie\articles\controllers\ItemsController
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index','create','update','delete','deleteimage','deletemultiple','changestate','activemultiple','deactivemultiple'],
+                        'actions' => ['index', 'create', 'update', 'delete', 'deleteimage', 'deletemultiple', 'changestate', 'activemultiple', 'deactivemultiple', 'news-list'],
                         'roles' => ['@']
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view'],
-                        'roles' => ['?', '@']
+                        'actions' => ['index', 'view', 'news-list', 'articles-index-all-items'],
+                        'roles' => ['?', '@', '*']
                     ],
                 ],
                 'denyCallback' => function () {
@@ -60,6 +61,18 @@ class NewsController extends \cinghie\articles\controllers\ItemsController
         }
     }
 
+    public function actionNewsList()
+    {
+
+        $searchModel = new ItemsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->renderPartial('newslist', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Displays a single Items model.
      * @param integer $id
@@ -69,14 +82,10 @@ class NewsController extends \cinghie\articles\controllers\ItemsController
     public function actionView($id)
     {
         // Check RBAC Permission
-        if($this->userCanView($id))
-        {
-            return $this->render('view', [
+
+        return $this->render('view', [
                 'model' => $this->findModel($id),
             ]);
-        } else {
-            throw new ForbiddenHttpException;
-        }
     }
 
 }

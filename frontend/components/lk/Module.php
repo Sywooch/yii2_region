@@ -13,6 +13,10 @@ class Module extends \yii\base\Module
      */
     //use AccessBehaviorTrait;
 
+    public $urlRules = [
+        'reservation/<action:\w+>' => 'reservation/<action>'
+    ];
+
     public $controllerNamespace = 'frontend\components\lk\controllers';
 
     public function init()

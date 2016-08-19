@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\SalOrder */
@@ -19,26 +18,30 @@ use kartik\grid\GridView;
     <div class="row">
         <?php
         $gridColumn = [
-            ['attribute' => 'id', 'hidden' => true],
+            ['attribute' => 'id', 'visible' => false],
             'date',
             [
                 'attribute' => 'salOrderStatus.name',
                 'label' => Yii::t('app', 'Sal Order Status'),
             ],
-            'persons:ntext',
-            'child',
             'date_begin',
             'date_end',
             'enable',
-            'full_price',
-            'insurance_info:ntext',
             [
                 'attribute' => 'hotelsInfo.name',
                 'label' => Yii::t('app', 'Hotels Info'),
             ],
             [
+                'attribute' => 'hotelsAppartment.name',
+                'label' => Yii::t('app', 'Hotels Appartment'),
+            ],
+            [
                 'attribute' => 'transInfo.name',
                 'label' => Yii::t('app', 'Trans Info'),
+            ],
+            [
+                'attribute' => 'hotelsTypeOfFood.name',
+                'label' => Yii::t('app', 'Hotels Type Of Food'),
             ],
             [
                 'attribute' => 'userinfo.username',
@@ -48,13 +51,9 @@ use kartik\grid\GridView;
                 'attribute' => 'tourInfo.name',
                 'label' => Yii::t('app', 'Tour Info'),
             ],
-            [
-                'attribute' => 'hotelsAppartment.name',
-                'label' => Yii::t('app', 'Hotels Appartment'),
-            ],
-            'date_add',
-            'date_edit',
-            ['attribute' => 'lock', 'hidden' => true],
+            'full_price',
+            'insurance_info:ntext',
+            ['attribute' => 'lock', 'visible' => false],
         ];
         echo DetailView::widget([
             'model' => $model,

@@ -2,46 +2,27 @@
 
 namespace common\models;
 
-use Yii;
+use common\models\base\TourType as BaseTourType;
 
 /**
  * This is the model class for table "tour_type".
- *
- * @property integer $id
- * @property string $name
- * @property integer $days
  */
-class TourType extends \yii\db\ActiveRecord
+class TourType extends BaseTourType
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'tour_type';
-    }
-
     /**
      * @inheritdoc
      */
     public function rules()
     {
-        return [
+        return array_replace_recursive(parent::rules(),
+            [
             [['name', 'days'], 'required'],
             [['name'], 'string'],
-            [['days'], 'integer']
-        ];
+                [['days', 'created_by', 'updated_by', 'lock', 'active'], 'integer'],
+                [['date_add', 'date_edit'], 'safe'],
+                [['lock'], 'default', 'value' => '0'],
+                [['lock'], 'mootensai\components\OptimisticLockValidator']
+            ]);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => Yii::t('app', 'Первичный ключ. Данная таблица-справочник содержит типы туров.'),
-            'name' => Yii::t('app', 'Название типа тура (Автобусные туры, Свадебные туры и т.д.)'),
-            'days' => Yii::t('app', 'Продолжительность типа тура в днях (шаблонная)'),
-        ];
-    }
 }

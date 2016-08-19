@@ -1,8 +1,8 @@
 <?php
 use backend\assets\AppAsset;
-use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 
 /* @var $this \yii\web\View */
@@ -48,7 +48,7 @@ AppAsset::register($this);
                 ['label' => 'Справочник "Статусы заказов"', 'url' => ['/sal-order-status']],
                 ['label' => 'Заказы','url'=>['/sal-order']],
                 ['label' => 'Онлайн заявки','url'=>['/salary-feedback']],
-                ['label' => 'Справочник туристы(пассажиры, отдыхающие)','url'=>['/persons']]
+                ['label' => 'Справочник туристы(пассажиры, отдыхающие)', 'url' => ['/person']]
             ],
         ];
 

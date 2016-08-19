@@ -6,9 +6,6 @@ namespace common\models\base;
 
 use common\models\HotelsStars;
 use Yii;
-use yii\base\Exception;
-use yii\BaseYii;
-use yii\helpers\VarDumper;
 
 /**
  * This is the base-model class for table "hotels_info".
@@ -223,6 +220,14 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
     public function getSalOrders()
     {
         return $this->hasMany(\common\models\SalOrder::className(), ['hotels_info_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHotelsPricings()
+    {
+        return $this->hasMany(HotelsPricing::className(), ['hotels_appartemnt_hotels_info_id' => 'id']);
     }
 
     /**

@@ -1,11 +1,9 @@
 <?php
 
+use dmstr\bootstrap\Tabs;
 use dmstr\helpers\Html;
-use yii\helpers\Url;
-use kartik\grid\GridView;
 use kartik\detail\DetailView;
 use yii\widgets\Pjax;
-use dmstr\bootstrap\Tabs;
 
 /**
  * @var yii\web\View $this
@@ -582,8 +580,6 @@ $items = $model->getImage2amigos(true);
                 },
                 'format' => 'raw',
             ],
-            'persons',
-            'child',
             'date_begin',
             'date_end',
         ]

@@ -36,6 +36,20 @@ return [
             // Show Titles in the views, 
             'showTitles' => true,
         ],
+
+        /** Begin User Access Settings *
+         * 'user' => [
+         * 'class' => 'dektrium\user\Module',
+         * 'enableUnconfirmedLogin' => true,
+         * 'confirmWithin' => 21600,
+         * 'cost' => 12,
+         * 'admins' => ['admin']
+         * ],
+         * 'rbac' => [
+         * 'class' => dektrium\rbac\RbacWebModule::className(),
+         * ],
+         * /** End User Access Settings */
+
         /**Личный кабинет турагенства*/
         'lk' => [
             'class' => 'frontend\components\lk\Module',
@@ -55,8 +69,18 @@ return [
         ],
         'user' => [
             'identityClass' => 'common\models\Userinfo',
+            //'class'=>\dektrium\user\models\User::className(),
             'enableAutoLogin' => true,
         ],
+        /** Begin User Access Settings *
+        'user' => [
+        'identityClass' => 'dektrium\user\models\User',
+        'enableAutoLogin' => true,
+        ],
+        'authManager' => [
+        'class' => 'dektrium\rbac\components\DbManager',
+        ],
+        /** End User Access Settings */
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

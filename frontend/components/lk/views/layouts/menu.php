@@ -17,22 +17,22 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="lk">Личный кабинет турагента</a>
+            <a class="navbar-brand" href="/lk">Личный кабинет турагента</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="lk/tour"> Туры</a>
+                    <a href="/lk"> Туры</a>
+                </li>
+                <!--<li>
+                    <a href="/lk/persons">Отдыхающие</a>
                 </li>
                 <li>
-                    <a href="lk/persons">Отдыхающие</a>
+                    <a href="/lk/docs">Документы</a>
                 </li>
                 <li>
-                    <a href="lk/docs">Документы</a>
-                </li>
-                <li>
-                    <a href="lk/finance"> Финансы </a>
-                </li>
+                    <a href="/lk/finance"> Финансы </a>
+                </li>-->
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Выход</a></li>

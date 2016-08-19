@@ -7,20 +7,19 @@
  */
 
 $this->registerJs('
-$("#hotelspricing-country").on("change", function() {
-$.pjax.reload("#hotelsappartement-gethotelsinfo div div.col-sm-6", {
-history: false,
-data: $(this).serialize(),
-type: \'POST\',
-url: \'gethotelsinfo\',
-
-});
-});
+    $("#choose-country").on("change", function() {
+        $.pjax.reload("#choose-gethotelsinfo div div.col-sm-6", {
+            history: false,
+            data: $(this).serialize(),
+            type: \'POST\',
+            url: \'gethotelsinfo\',
+        });
+    });
 ');
 
 if (!$model->isNewRecord) {
     $this->registerJs('
-        $("#hotelspricing-hotels_appartment_hotels_info_id").on("change", function() {
+        $("#choose-hotels_appartment_hotels_info_id").on("change", function() {
             $.pjax.reload("#pjax-hotelspricing-hotelsinfo div div.col-sm-6", {
                 history: false,
                 data: $(this).serialize(),
@@ -69,5 +68,3 @@ if (!$model->isNewRecord) {
         };
     ", yii\web\View::POS_END);
 }
-
-?>

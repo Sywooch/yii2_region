@@ -2,7 +2,6 @@
 
 namespace common\models\base;
 
-use mootensai\behaviors\UUIDBehavior;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -18,6 +17,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $enable
  * @property integer $hotels_info_id
  * @property integer $hotels_appartment_id
+ * @property integer $hotels_type_of_food_id
  * @property integer $trans_info_id
  * @property integer $userinfo_id
  * @property integer $tour_info_id
@@ -31,6 +31,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property \common\models\HotelsAppartment $hotelsAppartment
  * @property \common\models\HotelsInfo $hotelsInfo
+ * @property \common\models\HotelsTypeOfFood
  * @property \common\models\SalOrderStatus $salOrderStatus
  * @property \common\models\TourInfo $tourInfo
  * @property \common\models\TourTypeTransport $transInfo
@@ -49,8 +50,10 @@ class SalOrder extends \yii\db\ActiveRecord
     {
         return [
             [['date', 'date_begin', 'date_end', 'date_add', 'date_edit'], 'safe'],
-            [['sal_order_status_id', 'userinfo_id', 'tour_info_id'], 'required'],
-            [['sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id', 'trans_info_id', 'userinfo_id', 'tour_info_id', 'created_by', 'updated_by', 'lock'], 'integer'],
+            [['sal_order_status_id', 'userinfo_id', 'tour_info_id', 'hotels_type_of_food_id'], 'required'],
+            [['sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id',
+                'trans_info_id', 'userinfo_id', 'tour_info_id', 'created_by',
+                'updated_by', 'lock', 'hotels_type_of_food_id'], 'integer'],
             [['full_price'], 'number'],
             [['insurance_info'], 'string'],
             [['lock'], 'default', 'value' => '0'],
@@ -92,6 +95,7 @@ class SalOrder extends \yii\db\ActiveRecord
             'enable' => Yii::t('app', 'Enable'),
             'hotels_info_id' => Yii::t('app', 'Hotels Info ID'),
             'hotels_appartment_id' => Yii::t('app', 'Hotels Appartment ID'),
+            'hotels_type_of_food_id' => Yii::t('app', 'Type Of Food ID'),
             'trans_info_id' => Yii::t('app', 'Trans Info ID'),
             'userinfo_id' => Yii::t('app', 'Userinfo ID'),
             'tour_info_id' => Yii::t('app', 'Tour Info ID'),
@@ -118,6 +122,20 @@ class SalOrder extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\common\models\HotelsInfo::className(), ['id' => 'hotels_info_id'])->inverseOf('salOrders');
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHotelsTypeOfFood()
+    {
+        return $this->hasOne(\common\models\HotelsTypeOfFood::className(), ['id' => 'hotels_type_of_food_id'])->inverseOf('salOrders');
+    }
+
+    public function getHotelsStar()
+    {
+        return $this->hasOne(\common\models\HotelsStars::className(), ['id' => 'hotels_stars_id'])->viaTable('hotels_info', ['id' => 'hotels_info_id']);
+    }
+
 
     /**
      * @return \yii\db\ActiveQuery
@@ -184,10 +202,6 @@ class SalOrder extends \yii\db\ActiveRecord
                 'class' => BlameableBehavior::className(),
                 'createdByAttribute' => 'created_by',
                 'updatedByAttribute' => 'updated_by',
-            ],
-            'uuid' => [
-                'class' => UUIDBehavior::className(),
-                'column' => 'id',
             ],
         ];
     }

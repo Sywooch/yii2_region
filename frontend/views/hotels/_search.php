@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
     <div class="container-fluid">
     <?php $form = ActiveForm::begin([
     'action' => ['/hotels'],
-    'method' => 'POST',
+        'method' => 'GET',
     ]); ?>
         <div class="row">
             <div class="col-md-6">

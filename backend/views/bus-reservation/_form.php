@@ -13,9 +13,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'bus_info_id')->textInput() ?>
+    <?= $form->field($model, 'bus_info_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(common\models\BusInfo::find()->all(), 'id', 'name'),
+        ['prompt' => Yii::t('app', 'Select')]
+    ); ?>
 
-    <?= $form->field($model, 'bus_way_id')->textInput() ?>
+    <?= $form->field($model, 'bus_way_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(common\models\BusWay::find()->all(), 'id', 'name'),
+        ['prompt' => Yii::t('app', 'Select')]
+    ); ?>
 
     <?= $form->field($model, 'number_seat')->textInput() ?>
 
@@ -24,9 +30,9 @@ use yii\widgets\ActiveForm;
                 //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
             ]) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->checkbox() ?>
 
-    <?= $form->field($model, 'active')->textInput() ?>
+    <?= $form->field($model, 'active')->checkbox() ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

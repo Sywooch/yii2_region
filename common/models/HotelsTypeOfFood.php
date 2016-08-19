@@ -2,82 +2,42 @@
 
 namespace common\models;
 
+use common\models\base\HotelsTypeOfFood as BaseHotelsTypeOfFood;
 use Yii;
 
 /**
  * This is the model class for table "hotels_type_of_food".
- *
- * @property integer $id
- * @property string $name
- * @property string $abbrev
- * @property string $price
- * @property integer $type_price
- *
- * @property HotelsAppartmentHasHotelsTypeOfFood[] $hotelsAppartmentHasHotelsTypeOfFoods
- * @property HotelsPricing[] $hotelsPricings
  */
-class HotelsTypeOfFood extends \yii\db\ActiveRecord
+class HotelsTypeOfFood extends BaseHotelsTypeOfFood
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'hotels_type_of_food';
-    }
-
     /**
      * @inheritdoc
      */
     public function rules()
     {
-        return [
+        return array_replace_recursive(parent::rules(),
+            [
             [['name', 'abbrev'], 'required'],
             [['name'], 'string'],
             [['price'], 'number'],
             [['type_price'], 'integer'],
-            [['abbrev'], 'string', 'max' => 10]
-        ];
+                [['abbrev'], 'string', 'max' => 10],
+                [['lock'], 'default', 'value' => '0'],
+                [['lock'], 'mootensai\components\OptimisticLockValidator']
+            ]);
     }
 
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
-        return [
-            
-            'name' => Yii::t('app', 'Name'),
-            'abbrev' => Yii::t('app', 'Abbrev'),
-            'price' => Yii::t('app', 'Price Added'),
-            'type_price' => Yii::t('app', 'Фиксированная сумма'),
-        ];
-    }
-
     public function attributeHints()
     {
         return [
-
+            'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
             'abbrev' => Yii::t('app', 'Abbrev'),
-            'price' => Yii::t('app', 'Цена или надбавка к стоимости проживания в гостинице'),
-            'type_price' => Yii::t('app', 'Тип цены или надбавки. Если "галочка" установлена, то "надбавка" является фиксированной суммой, в ином случае, "надбавка" - это процент от основной суммы номера.'),
+            'price' => Yii::t('app', 'Price'),
+            'type_price' => Yii::t('app', 'Type Price'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getHotelsAppartmentHasHotelsTypeOfFoods()
-    {
-        return $this->hasMany(HotelsAppartmentHasHotelsTypeOfFood::className(), ['hotels_type_of_food_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getHotelsPricings()
-    {
-        return $this->hasMany(HotelsPricing::className(), ['hotels_type_of_food_id' => 'id']);
     }
 }

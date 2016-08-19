@@ -2,10 +2,9 @@
 
 namespace backend\models;
 
-use Yii;
+use common\models\BusReservation;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\BusReservation;
 
 /**
  * SearchBusReservation represents the model behind the search form about `common\models\BusReservation`.
@@ -18,7 +17,7 @@ class SearchBusReservation extends BusReservation
     public function rules()
     {
         return [
-            [['id', 'bus_info_id', 'bus_way_id', 'number_seat', 'status', 'active', 'persons_id'], 'integer'],
+            [['id', 'bus_info_id', 'bus_way_id', 'number_seat', 'status', 'active', 'person_id'], 'integer'],
             [['name', 'date'], 'safe'],
         ];
     }
@@ -63,7 +62,7 @@ class SearchBusReservation extends BusReservation
             'date' => $this->date,
             'status' => $this->status,
             'active' => $this->active,
-            'persons_id' => $this->persons_id,
+            'person_id' => $this->person_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

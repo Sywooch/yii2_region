@@ -6,7 +6,6 @@ namespace common\models\base;
 
 use common\models\HotelsAppartmentItem;
 use Yii;
-use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the base-model class for table "hotels_appartment".
@@ -56,11 +55,11 @@ abstract class HotelsAppartment extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            [
+            /*[
                 'class' => TimestampBehavior::className(),
                 'createdAtAttribute' => 'date_add',
                 'updatedAtAttribute' => 'date_edit',
-            ],
+            ],*/
             'image' => [
                 'class' => 'rico\yii2images\behaviors\ImageBehave',
             ],

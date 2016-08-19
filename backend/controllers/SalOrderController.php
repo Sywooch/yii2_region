@@ -2,12 +2,12 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\SalOrder;
 use backend\models\SearchSalOrder;
+use common\models\SalOrder;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * SalOrderController implements the CRUD actions for SalOrder model.
@@ -28,7 +28,7 @@ class SalOrderController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'add-sal-order-has-person'],
                         'roles' => ['@']
                     ],
                     [
@@ -62,8 +62,12 @@ class SalOrderController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
+        $providerSalOrderHasPerson = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->salOrderHasPeople,
+        ]);
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'providerSalOrderHasPerson' => $providerSalOrderHasPerson,
         ]);
     }
 
@@ -122,7 +126,7 @@ class SalOrderController extends Controller
     }
 
     /**
-     *
+     * 
      * Export SalOrder information into PDF format.
      * @param integer $id
      * @return mixed
@@ -130,9 +134,13 @@ class SalOrderController extends Controller
     public function actionPdf($id)
     {
         $model = $this->findModel($id);
+        $providerSalOrderHasPerson = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->salOrderHasPeople,
+        ]);
 
         $content = $this->renderAjax('_pdf', [
             'model' => $model,
+            'providerSalOrderHasPerson' => $providerSalOrderHasPerson,
         ]);
 
         $pdf = new \kartik\mpdf\Pdf([
@@ -189,6 +197,26 @@ class SalOrderController extends Controller
     {
         if (($model = SalOrder::findOne($id)) !== null) {
             return $model;
+        } else {
+            throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+        }
+    }
+
+    /**
+     * Action to load a tabular form grid
+     * for SalOrderHasPerson
+     * @author Yohanes Candrajaya <moo.tensai@gmail.com>
+     * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
+     *
+     * @return mixed
+     */
+    public function actionAddSalOrderHasPerson()
+    {
+        if (Yii::$app->request->isAjax) {
+            $row = Yii::$app->request->post('SalOrderHasPerson');
+            if ((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
+                $row[] = [];
+            return $this->renderAjax('_formSalOrderHasPerson', ['row' => $row]);
         } else {
             throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
         }

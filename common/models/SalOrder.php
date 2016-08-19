@@ -2,8 +2,8 @@
 
 namespace common\models;
 
+use common\models\base\SalOrder as BaseSalOrder;
 use Yii;
-use \common\models\base\SalOrder as BaseSalOrder;
 
 /**
  * This is the model class for table "sal_order".
@@ -18,8 +18,10 @@ class SalOrder extends BaseSalOrder
         return array_replace_recursive(parent::rules(),
             [
                 [['date', 'date_begin', 'date_end', 'date_add', 'date_edit'], 'safe'],
-                [['sal_order_status_id', 'userinfo_id', 'tour_info_id'], 'required'],
-                [['sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id', 'trans_info_id', 'userinfo_id', 'tour_info_id', 'created_by', 'updated_by', 'lock'], 'integer'],
+                [['sal_order_status_id', 'userinfo_id', 'tour_info_id', 'hotels_type_of_food_id'], 'required'],
+                [['sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id',
+                    'trans_info_id', 'userinfo_id', 'tour_info_id',
+                    'created_by', 'updated_by', 'lock', 'hotels_type_of_food_id'], 'integer'],
             [['full_price'], 'number'],
             [['insurance_info'], 'string'],
                 [['lock'], 'default', 'value' => '0'],
@@ -41,6 +43,7 @@ class SalOrder extends BaseSalOrder
             'enable' => Yii::t('app', 'Enable'),
             'hotels_info_id' => Yii::t('app', 'Hotels Info ID'),
             'hotels_appartment_id' => Yii::t('app', 'Hotels Appartment ID'),
+            'hotels_type_of_food_id' => Yii::t('app', 'Type Of Food Id'),
             'trans_info_id' => Yii::t('app', 'Trans Info ID'),
             'userinfo_id' => Yii::t('app', 'Userinfo ID'),
             'tour_info_id' => Yii::t('app', 'Tour Info ID'),

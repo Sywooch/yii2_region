@@ -3,10 +3,11 @@
 namespace frontend\components\lk\controllers;
 
 use common\models\Person;
-use frontend\models\SearchPerson;
-use Yii;
 use common\models\SalOrder;
+use frontend\models\SearchPerson;
 use frontend\models\SearchSalOrder;
+use kartik\mpdf\Pdf;
+use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\Html;
 use yii\web\Controller;
@@ -29,7 +30,7 @@ class DefaultController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new',
-                            'ajax-person-index', 'ajax-person-create'],
+                            'ajax-person-index', 'ajax-person-create', 'mpdf-voucher'],
                         'roles' => ['Super Admin', 'Manager', 'Tagent'],
                     ],
                     [
@@ -45,6 +46,7 @@ class DefaultController extends Controller
         //Подключаем список туров, которые забронировал текущий пользователь.
         //kartik/GridView
         //1. Подключаем модуль заказов
+
         $searchModel = new SearchSalOrder();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -52,6 +54,42 @@ class DefaultController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+
+    }
+
+    public function actionMpdfVoucher($id)
+    {
+        $this->layout = 'pdf';
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        $headers = Yii::$app->response->headers;
+        //$headers->add('Content-Type', 'application/pdf');
+
+        $model = SalOrder::findOne(['id' => $id]);
+        if ($model->sal_order_status_id == 4) {
+            $providerSalOrderHasPerson = new \yii\data\ArrayDataProvider([
+                'allModels' => $model->salOrderHasPeople,
+            ]);
+
+            //$model = $this->findModel();
+            $pdf = new Pdf([
+                'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
+                'content' => $this->renderPartial('viewpdf', ['model' => $model, 'providerSalOrderHasPerson' => $providerSalOrderHasPerson,]),
+                'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+                'cssInline' => '.img-circle {border-radius: 50%;}',
+                'options' => [
+                    /*'title' => $model->title,*/
+                    'subject' => 'PDF'
+                ],
+                'methods' => [
+                    'SetHeader' => ['Лайф Тур Вояж'],
+                    'SetFooter' => ['|{PAGENO}|'],
+                ]
+            ]);
+
+            return $pdf->render();
+        } else {
+            return false;
+        }
 
     }
 

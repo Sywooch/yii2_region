@@ -9,7 +9,7 @@ use kartik\export\ExportMenu;
 use kartik\grid\GridView;
 use yii\helpers\Html;
 
-
+echo \yii\base\View::render('../layouts/menu.php');
 $this->title = Yii::t('app', 'Sal Orders');
 $this->params['breadcrumbs'][] = $this->title;
 $search = "$('.search-button').click(function(){
@@ -25,11 +25,11 @@ CrudAsset::register($this);
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Sal Order'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Sal Order'), ['/lk/reservation'], ['class' => 'btn btn-success']) ?>
         <?= Html::a(Yii::t('app', 'Advance Search'), '#', ['class' => 'btn btn-info search-button']) ?>
-        <?= Html::a(Yii::t('app', 'Test Personal Ajax'), ['ajax-person-create'],
+        <?php /*echo Html::a(Yii::t('app', 'Test Personal Ajax'), ['ajax-person-create'],
             ['role' => 'modal-remote', 'title' => Yii::t('app', 'Create new') . Yii::t('app', 'People'), 'class' => 'btn btn-default']
-        ) ?>
+        )*/ ?>
     </p>
     <div class="search-form" style="display:none">
         <?= $this->render('_search', ['model' => $searchModel]); ?>
@@ -102,7 +102,10 @@ CrudAsset::register($this);
             'attribute' => 'trans_info_id',
             'label' => Yii::t('app', 'Trans Info'),
             'value' => function ($model) {
-                return $model->transInfo->name;
+                if (isset($model->transInfo->name)) {
+                    return $model->transInfo->name;
+                }
+                return false;
             },
             'filterType' => GridView::FILTER_SELECT2,
             'filter' => \yii\helpers\ArrayHelper::map(\common\models\TourTypeTransport::find()->asArray()->all(), 'id', 'name'),
@@ -144,13 +147,23 @@ CrudAsset::register($this);
         ['attribute' => 'lock', 'hidden' => true],
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{save-as-new} {view} {update} {delete}',
+            'template' => '{mpdf-voucher}{save-as-new}{view}',
             'buttons' => [
                 'save-as-new' => function ($url) {
                     return Html::a('<span class="glyphicon glyphicon-copy"></span>', $url, ['title' => 'Save As New']);
                 },
+                'mpdf-voucher' => function ($url) {
+                    return Html::a('<img class="left" width="30px" src="/uploads/pdf.png" /> Распечатать .PDF', $url, [
+                        'class' => 'btn btn-default',
+                        'target' => '_blank',
+                        'data-toggle' => 'tooltip',
+                        'data-pjax' => 0,
+                        'title' => Yii::t('app', 'Will open the generated PDF file in a new window')
+                    ]);
+                },
             ],
         ],
+
     ];
     ?>
     <?= GridView::widget([
@@ -172,10 +185,10 @@ CrudAsset::register($this);
                 'target' => ExportMenu::TARGET_BLANK,
                 'fontAwesome' => true,
                 'dropdownOptions' => [
-                    'label' => 'Full',
+                    'label' => 'Всё',
                     'class' => 'btn btn-default',
                     'itemsBefore' => [
-                        '<li class="dropdown-header">Export All Data</li>',
+                        '<li class="dropdown-header">Экспорт всех данных</li>',
                     ],
                 ],
             ]),

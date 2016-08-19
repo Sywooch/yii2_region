@@ -241,6 +241,29 @@ a.desc:after {
 
 }
 
+.filters-hotels {
+    padding-bottom: 13px;
+}
+
+.filters .row {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.filters .container-fluid .form-group {
+    margin-bottom: 10px;
+}
+
+.filters .form-group .form-control {
+    height: inherit;
+    padding: 2px 0;
+}
+
+.filters .form-group label {
+    margin: 0;
+
+}
+
 .link {
     color: #fff;
     text-decoration: none;
@@ -306,6 +329,30 @@ a.link:hover{
     left: 155px;
 }
 
+.hotel {
+/ / margin: 3 px;
+    padding: 3px 5px 5px 0px;
+}
+
+.hotels .list-view .col-md-4 {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-left: -2px;
+    margin-right: -2px;
+}
+
+/*.news-form{
+    border-right-style: outset;
+    border-right-width: 1px;
+    border-right-color: #337ab7;
+}*/
+
+.hotels-lists {
+    border-left-style: outset;
+    border-left-width: 1px;
+    border-left-color: #337ab7;
+}
+
 /*Высота шапки для гостиниц*/
 .hotel-vhead{
     height: 120px;
@@ -320,4 +367,8 @@ a.link:hover{
 .hotel-vbut{
     height: 50px;
     clear:both;
+}
+
+.clearhr {
+    clear: both;
 }

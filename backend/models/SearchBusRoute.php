@@ -2,13 +2,12 @@
 
 namespace backend\models;
 
-use Yii;
+use common\models\BusRoute;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\BusRoute;
 
 /**
- * SearchBusRoute represents the model behind the search form about `common\models\BusRoute`.
+ * frontend\models\bus\SearchBusRoute represents the model behind the search form about `frontend\models\bus\BusRoute`.
  */
 class SearchBusRoute extends BusRoute
 {
@@ -18,8 +17,8 @@ class SearchBusRoute extends BusRoute
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['name', 'date', 'date_begin', 'date_end'], 'safe'],
+            [['id', 'created_by', 'updated_by'], 'integer'],
+            [['name', 'date', 'date_begin', 'date_end', 'date_add', 'date_edit'], 'safe'],
         ];
     }
 
@@ -28,7 +27,7 @@ class SearchBusRoute extends BusRoute
      */
     public function scenarios()
     {
-// bypass scenarios() implementation in the parent class
+        // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
@@ -50,8 +49,8 @@ class SearchBusRoute extends BusRoute
         $this->load($params);
 
         if (!$this->validate()) {
-// uncomment the following line if you do not want to any records when validation fails
-// $query->where('0=1');
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
             return $dataProvider;
         }
 
@@ -60,6 +59,10 @@ class SearchBusRoute extends BusRoute
             'date' => $this->date,
             'date_begin' => $this->date_begin,
             'date_end' => $this->date_end,
+            'date_add' => $this->date_add,
+            'date_edit' => $this->date_edit,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

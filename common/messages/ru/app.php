@@ -11,12 +11,21 @@ return [
 
     'New' => 'Новый',
     'Password' => 'Пароль',
+    'Login' => 'Вход в систему',
+    'Please fill out the following fields to login:' => 'Пожалуйста, заполните следующие поля для входа в систему:',
+    'If you forgot your password you can' => 'Если Вы забыли пароль, Вы можете',
+    'reset it' => ' сбросить его',
     'Create' => 'Создание',
     'Create new' => 'Создать новую запись',
     'Update' => 'Обновить запись',
     'Delete' => 'Удалить',
     'success' => 'успешно заверешно',
     'Details' => 'Подробнее',
+    'Advance Search' => 'Расширенный поиск',
+    'Gender' => 'Пол',
+    'Gender ID' => 'Пол',
+    'Birthday' => 'Дата рождения',
+    'Update Person:' => 'Изменение туриста',
     
     'Active' => 'Активный',
     'Enable' => 'Активный',
@@ -65,6 +74,7 @@ return [
         '* Изменение размера столбцов таблицы происходит так же, как таблицы - перетаскивая края столбцов.',
 
     'With selected'=> 'действия с выделенными',
+    'Will open the generated PDF file in a new window' => 'Сгенерировать PDF-ваучер в новом окне.',
     /*/Description Forms*/
 
 
@@ -121,6 +131,7 @@ return [
     'Bus Ways' => 'Маршрут Автобуса',
     'Discounts' => 'Скидки',
     'Discount' => 'Скидка',
+    'Discounts listing' => 'Скидки',
     'Hotels Appartments' => 'Номера в отеле',
     'HotelsAppartment' => 'Номер в отеле',
     'Hotels Appartment' => 'Номер в отеле',
@@ -128,6 +139,8 @@ return [
     'Hotels Appartment Hotels Info ID' => 'Гостиница',
     'Hotels Others Pricing ID' => 'Дополнительные цены',
     'Hotels Type Of Food ID' => 'Тип питания',
+    'Type Of Food ID' => 'Тип питания',
+    'Type Of Food Id' => 'Тип питания',
     'Hotels Appartment Items' => 'Спарвочник номеров в отеле',
     'Hotels Characters' => 'Характеристики отеля',
     'Hotels Character Items' => 'Спарвочник характеристик отеля',
@@ -146,6 +159,7 @@ return [
     'Hotels Stars '=> '"Звездность" отелей',
     'HotelsStars'=> '"Звездность" отелей',
     'HotelsStar'=> '"Звездность" отеля',
+    'Hotels Star' => '"Звездность" отеля',
     'Hotels Type Of Foods' => 'Типы питания',
     'Tour Infos' => 'Информация о туре',
     'Tour Info ID' => 'Тур',
@@ -156,6 +170,7 @@ return [
     'Tour Type Transports' => 'Виды транспорта тура',
     'TourTypeTransport' => 'Вид транспорта тура',
     'Trans Infos' => 'Информация о транспорте',
+    'Trans Info' => 'Информация о транспорте',
     'Trans Info ID' => 'На чем добираться?',
     'Tourtypetransport List' => 'Выберите подходящие виды транспорта',
     'Tourtype List' => 'Выберите подходящие типы туров',
@@ -178,6 +193,7 @@ return [
     'Userinfos' => 'Информация о пользователях',
 
     'Userinfo' => 'Пользователь',
+    'Userinfo ID' => 'Пользователь',
     'Update Userinfo' => 'Изменение информации о пользователе',
     'Code2' => 'Двоичный буквенный код',
     'Code3' => 'Троичный буквенный код',
@@ -193,6 +209,7 @@ return [
     'Create new Tour Infos' => 'Создать новый Тур',
     'Update TourInfo #' => 'Редактироваь Тур #',
     'TourInfo' => 'Тур',
+    'Tour Info' => 'Тур',
     'TourInfos' => 'Туры',
     'Tour Prices' => 'Цены на Туры',
     'You must select item(s) to use this action' =>'Нет выбранных значений',
@@ -209,11 +226,13 @@ return [
     'Hotels info' => 'Гостиница',
     'HotelsInfos List' => 'Список гостиниц  ',
     'HotelsTypeOfFood' => '"Тип питания"',
+    'Hotels Type Of Food' => 'Тип питания',
     'HotelsCharacter' => 'Характеристика гостиниц',
     'Hotels Character' => 'Характеристика гостиниц',
     'Hotels Character ID' => 'Характеристика гостиниц',
     'Price' => 'Стоимость',
     'Full Price' => 'Полная стоимость',
+    'Price Residence' => 'Стоимость проживания',
     'Price Added' => 'Надбавка',
     'Metrics' => 'Единица измерения',
     'Abbrev' => 'Аббревиатура',
@@ -235,9 +254,16 @@ return [
 
     'Sal Orders' => 'Заказы',
     'SalOrder' => 'Заказ',
+    'Sal Order' => 'Заказ',
+    'Create Sal Order' => 'Создать новый заказ',
     'SalOrderStatus' => ' Статус заказа',
     'Sal Order Status' => ' Статус заказа',
     'Sal order status' => ' Статус заказа',
+    'Sal Order Has Person' => 'Туристы',
+    'SalOrderHasPerson' => 'Туристы',
+    'Sal Order Has Person' => 'Туристы',
+    'Insurance Info' => 'Информация о страховке',
+
 
     'Create new {modelClass}' => 'Создание нового параметра: {modelClass}',
     'Create new Tour Types' => 'Создание нового параметра: Тип тура',
@@ -261,11 +287,13 @@ return [
     'Kurort' => 'Курорт',
     'country' => 'Страна',
     'Country' => 'Страна',
+    'Country Id' => 'Страна',
+    'Country ID' => 'Страна',
     'Value' => 'Значение',
     'Price from' => 'Цена от',
     'Price to' =>'Цена до',
     'Count tourist' => 'Всего туристов',
-    'Child' => 'из них детей',
+    'Child' => 'Дети',
     'Date begin' => 'Дата заезда от',
     'Date end' => 'до',
     'Hotels Stars ID' => 'Количество звезд гостиниц',
@@ -290,11 +318,17 @@ return [
     'There was an error sending email.' => 'При отправке сообщения возникли ошибки, повторите запрос позже.',
     'New password was saved.' => 'Новый пароль успешно сохранен.',
     'success' => 'Успешное действие',
+    'Reserv' => 'Забронировать',
     
     
     'Filter tours' => 'Фильтр туров',
     'Booking' => 'Продажа Авиа/ЖД билетов',
     'Tour type' => 'Тип тура',
+
+    'Step 1. Choose tour' => 'Шаг 1. Формирование тура',
+    'Step 2. Choose person' => 'Шаг 2. Ввод информации о клиентах',
+    'Step 3. Data checking' => 'Шаг 3. Проверка всех данных',
+    'Choose Type of food' => 'Выберите тип питания',
 
 
 ];

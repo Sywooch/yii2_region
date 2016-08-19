@@ -2,11 +2,10 @@
 
 namespace frontend\models;
 
-use common\models\HotelsCharacterItem;
+use common\models\HotelsInfo;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\HotelsInfo;
 use yii\db\Query;
 
 /**
@@ -80,7 +79,7 @@ class SearchHotelsInfo extends HotelsInfo
     {
         $query = HotelsInfo::find();
         $query->andFilterWhere([
-            'active' => 1,
+            'hotels_info.active' => 1,
         ]);
 
 
@@ -97,15 +96,21 @@ class SearchHotelsInfo extends HotelsInfo
             return $dataProvider;
         }
 
-
+        $query->leftJoin('hotels_appartment as ha', 'hotels_info.id = ha.hotels_info_id')
+            ->leftJoin('tour_info as c', 'hotels_info.id = c.hotels_info_id')
+            ->leftJoin('tour_info_has_tour_type as d', 'd.tour_info_id = c.id');
         $query->andFilterWhere([
-            'id' => $this->id,
-            'country' => $this->country,
-            'city_id' => $this->city_id,
-            'hotels_stars_id' => $this->hotels_stars_id,
-        ]);
-        $query->andFilterWhere(['<=','date_begin',$this->date_beg]);
-        $query->andFilterWhere(['>=','date_begin',$this->date_end]);
+            'hotels_info.id' => $this->id,
+            'hotels_info.country' => $this->country,
+            'hotels_info.city_id' => $this->city_id,
+            'hotels_info.hotels_stars_id' => $this->hotels_stars_id,
+        ])
+            ->andFilterWhere(['d.tour_type_id' => $this->tour_type])
+            ->andFilterWhere(['>=', 'ha.price', $this->price_from])
+            ->andFilterWhere(['<=', 'ha.price', $this->price_to])
+            ->andFilterWhere(['>=', 'hotels_info.date_begin', $this->date_beg])
+            ->andFilterWhere(['<=', 'hotels_info.date_begin', $this->date_end]);
+        //Todo Добавить innerjoin на связанные таблицы, а именно, цена тура, тип тура
 
         /*$query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'address', $this->address])
