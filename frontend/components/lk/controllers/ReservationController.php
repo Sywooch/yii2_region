@@ -15,6 +15,7 @@ use common\models\SalOrderHasPerson;
 use frontend\components\lk\models\LkOrder;
 use frontend\components\lk\models\Reservation;
 use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 
 
