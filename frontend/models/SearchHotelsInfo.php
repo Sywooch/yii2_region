@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use common\models\HotelsInfo;
+use common\models\TourType;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -21,6 +22,7 @@ class SearchHotelsInfo extends HotelsInfo
     public $date_beg;
     public $date_end;
     public $tour_type;
+    public $tour_type_name;
 
     /**
      * @inheritdoc
@@ -29,7 +31,7 @@ class SearchHotelsInfo extends HotelsInfo
     {
         return [
             [['country', 'city_id', 'hotels_stars_id'], 'integer'],
-            [['name', 'address', 'gps_point_m', 'gps_point_p', 'links_maps', 'image', 'date_add', 'date_edit','tour_type'], 'safe'],
+            [['name', 'address', 'gps_point_m', 'gps_point_p', 'links_maps', 'image', 'date_add', 'date_edit', 'tour_type', 'tour_type_name'], 'safe'],
             
         ];
     }
@@ -89,6 +91,11 @@ class SearchHotelsInfo extends HotelsInfo
         ]);
 
         $this->load($params);
+
+        if (key_exists('tour_type_name', $params)) {
+            $typeName = TourType::findOne(['name' => $params['tour_type_name']]);
+            $this->tour_type = $typeName->id;
+        }
 
         if (!$this->validate()) {
 // uncomment the following line if you do not want to any records when validation fails

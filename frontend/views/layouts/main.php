@@ -1,10 +1,10 @@
 <?php
-use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use frontend\widgets\Alert;
+use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
+use yii\helpers\Html;
+use yii\widgets\Breadcrumbs;
 
 
 /* @var $this \yii\web\View */
@@ -103,15 +103,15 @@ AppAsset::register($this);
             ],
         ]);
         $menuItems = [
-            ['label' => 'Автобусные туры', 'url' => ['/site/index'], 'options' => ['class' => 'menu_autobus']],
-            ['label' => 'Школьные туры', 'url' => ['/site/index'], 'options' => ['class' => 'menu_schkola']],
-            ['label' => 'Пляжный отдых', 'url' => ['/site/index'], 'options' => ['class' => 'menu_plyag']],
-            ['label' => 'Горнолыжные туры', 'url' => ['/site/index'], 'options' => ['class' => 'menu_gory']],
-            ['label' => 'Экскурсионные туры', 'url' => ['/site/index'], 'options' => ['class' => 'menu_russia']],
-            ['label' => 'Отдых за границей', 'url' => ['/site/index'], 'options' => ['class' => 'menu_zarubeg']],
-            ['label' => 'Горящие туры', 'url' => ['/site/index'], 'options' => ['class' => 'menu_goryaschie']],
-            ['label' => 'Паломнические поездки', 'url' => ['/site/index'], 'options' => ['class' => 'menu_hram']],
-            ['label' => 'Круизы', 'url' => ['/site/index'], 'options' => ['class' => 'menu_kruiz']],
+            ['label' => 'Автобусные туры', 'url' => ['/hotels?tour_type_name=Автобусные туры'], 'options' => ['class' => 'menu_autobus']],
+            ['label' => 'Школьные туры', 'url' => ['/hotels?tour_type_name=Школьные туры'], 'options' => ['class' => 'menu_schkola']],
+            ['label' => 'Пляжный отдых', 'url' => ['/hotels'], 'options' => ['class' => 'menu_plyag']],
+            ['label' => 'Горнолыжные туры', 'url' => ['/hotels?tour_type_name=Горнолыжные туры'], 'options' => ['class' => 'menu_gory']],
+            ['label' => 'Экскурсионные туры', 'url' => ['/hotels'], 'options' => ['class' => 'menu_russia']],
+            ['label' => 'Отдых за границей', 'url' => ['/hotels?tour_type_name=Отдых за границей'], 'options' => ['class' => 'menu_zarubeg']],
+            ['label' => 'Горящие туры', 'url' => ['/hotels?tour_type_name=Горящие туры'], 'options' => ['class' => 'menu_goryaschie']],
+            ['label' => 'Паломнические поездки', 'url' => ['/hotels?tour_type_name=Паломнические поездки'], 'options' => ['class' => 'menu_hram']],
+            ['label' => 'Круизы', 'url' => ['/hotels?tour_type_name=Круизы'], 'options' => ['class' => 'menu_kruiz']],
             ['label' => 'Продажа автобусных билетов', 'url' => ['/'], 'options' => ['class' => 'menu_ticket']],
 
             /*['label' => 'Автобусные туры',
