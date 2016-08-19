@@ -21,7 +21,7 @@ use yii\web\Controller;
 class ReservationController extends Controller
 {
 
-    /*public function behaviors()
+    public function behaviors()
     {
         return [
             'verbs' => [
@@ -45,7 +45,7 @@ class ReservationController extends Controller
                 ]
             ]
         ];
-    }*/
+    }
 
     public function actionIndex()
     {

@@ -70,13 +70,12 @@ class BusRoutePoint extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'gps_point_m' => Yii::t('app', 'Gps Point M'),
-            'gps_point_p' => Yii::t('app', 'Gps Point P'),
+            'name' => Yii::t('app', 'Название путевой точки'),
+            'gps_point_m' => Yii::t('app', 'GPS-координаты меридиана.'),
+            'gps_point_p' => Yii::t('app', 'GPS-координаты паралели.'),
             'active' => Yii::t('app', 'Active'),
-            'description' => Yii::t('app', 'Description'),
-            'date' => Yii::t('app', 'Date'),
+            'description' => Yii::t('app', 'Описание путевой точки.'),
+            'date' => Yii::t('app', 'Дата создания'),
             'date_add' => Yii::t('app', 'Date Add'),
             'date_edit' => Yii::t('app', 'Date Edit'),
         ];
@@ -96,6 +95,16 @@ class BusRoutePoint extends \yii\db\ActiveRecord
     public function getBusRoutes()
     {
         return $this->hasMany(\frontend\models\bus\BusRoute::className(), ['id' => 'bus_route_id'])->viaTable('bus_route_has_bus_route_point', ['bus_route_point_id' => 'id']);
+    }
+
+    public static function listAll($keyField = 'id', $valueField = 'name', $asArray = true)
+    {
+        $query = static::find();
+        if ($asArray) {
+            $query->select([$keyField, $valueField])->asArray();
+        }
+
+        return ArrayHelper::map($query->all(), $keyField, $valueField);
     }
 
     /**
