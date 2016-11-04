@@ -16,15 +16,34 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'trans_type_id',
+        'attribute' => 'name',
     ],
     [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'name',
+        'attribute' => 'trans_type_id',
+        'label' => Yii::t('app', 'Trans Type'),
+        'value' => function ($model) {
+            return $model->transType->name;
+        },
+        'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
+        'filter' => \yii\helpers\ArrayHelper::map(\common\models\TransType::find()->asArray()->all(), 'id', 'name'),
+        'filterWidgetOptions' => [
+            'pluginOptions' => ['allowClear' => true],
+        ],
+        'filterInputOptions' => ['placeholder' => Yii::t('app', 'Trans type'), 'id' => 'grid-search-trans-info-trans_type_id']
     ],
+
     [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'trans_route_id',
+        'attribute' => 'trans_route_id',
+        'label' => Yii::t('app', 'Trans Route'),
+        'value' => function ($model) {
+            return $model->transRoute->begin_point . ' - ' . $model->transRoute->end_point;
+        },
+        'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
+        'filter' => \yii\helpers\ArrayHelper::map(\common\models\TransRoute::find()->asArray()->all(), 'id', 'begin_point', 'end_point'),
+        'filterWidgetOptions' => [
+            'pluginOptions' => ['allowClear' => true],
+        ],
+        'filterInputOptions' => ['placeholder' => Yii::t('app', 'Trans route'), 'id' => 'grid-search-trans-info-trans_route_id']
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

@@ -12,6 +12,8 @@ use yii\widgets\DetailView;
         'attributes' => [
             'id',
             'name:ntext',
+            'date_add',
+            'date_edit',
         ],
     ]) ?>
 

@@ -83,14 +83,15 @@ AppAsset::register($this);
         $menuItems[] = [
             'label' => 'Транспорт',
             'items' => [
-                ['label' => 'Тип вокзала','url'=>['/trans-type-station']],
-                ['label' => 'Типы цен', 'url'=>['/trans-price-type']],
-                ['label' => 'Типы транспорта', 'url'=>['/trans-type']],
+                ['label' => 'Справочник. Тип вокзала', 'url' => ['/trans-type-station']],
+                /*['label' => 'Типы цен', 'url'=>['/trans-price-type']],*/
+                ['label' => 'Справочник. Типы транспорта', 'url' => ['/trans-type']],
                 ['label' => ''],
                 ['label' => 'Вокзалы (аэропорты)', 'url' => ['/trans-station']],
+                ['label' => 'Транспорт', 'url' => ['/trans-info']],
                 ['label' => 'Маршруты','url'=>['/trans-route']],
-                ['label' => 'Цены', 'url'=>['/trans-price']],
-                ['label' => 'Сводная информация', 'url'=>['/trans-info']],
+                /*['label' => 'Цены', 'url'=>['/trans-price']],*/
+
             ],
         ];
         $menuItems[] = [

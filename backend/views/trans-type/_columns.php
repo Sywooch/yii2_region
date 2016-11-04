@@ -18,9 +18,22 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'name',
     ],
-    [
+    /*[
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'trans_type_station_id',
+    ],*/
+    [
+        'attribute' => 'trans_type_station_id',
+        'label' => Yii::t('app', 'Trans Type Stations'),
+        'value' => function ($model) {
+            return $model->transTypeStation->name;
+        },
+        'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
+        'filter' => \yii\helpers\ArrayHelper::map(\common\models\TransTypeStation::find()->asArray()->all(), 'id', 'name'),
+        'filterWidgetOptions' => [
+            'pluginOptions' => ['allowClear' => true],
+        ],
+        'filterInputOptions' => ['placeholder' => Yii::t('app', 'Trans type station'), 'id' => 'grid-search-sal-order-sal_order_status_id']
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

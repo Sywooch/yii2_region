@@ -13,10 +13,16 @@ use yii\widgets\DetailView;
             'id',
             'name:ntext',
             'description:ntext',
+            [
+                'attribute' => 'transTypeStation.name',
+                'label' => Yii::t('app', 'Trans type station'),
+            ],
             'gps_parallel:ntext',
             'gps_meridian:ntext',
             'address_id',
-            'trans_type_station_id',
+
+            'date_add',
+            'date_edit',
         ],
     ]) ?>
 

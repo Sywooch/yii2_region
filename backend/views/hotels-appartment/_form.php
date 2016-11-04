@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
-use \dmstr\bootstrap\Tabs;
+use dmstr\bootstrap\Tabs;
 use kartik\widgets\FileInput;
+use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
@@ -95,6 +95,10 @@ url: \'gethotelsinfo\',
             ); ?>
 
             <?= $form->field($model, 'name')->textInput() ?>
+
+        <?= $form->field($model, 'active')->textInput() ?>
+        <?= $form->field($model, 'count_rooms')->textInput() ?>
+        <?= $form->field($model, 'count_beds')->textInput() ?>
 
             <?= $form->field($model, 'price')->textInput() ?>
 

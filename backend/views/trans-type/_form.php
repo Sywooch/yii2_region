@@ -11,9 +11,15 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'name')->textInput() ?>
 
-    <?= $form->field($model, 'trans_type_station_id')->textInput() ?>
+    <?= $form->field($model, 'trans_type_station_id')->widget(\kartik\widgets\Select2::classname(), [
+        'data' => \yii\helpers\ArrayHelper::map(\common\models\TransTypeStation::find()->orderBy('id')->asArray()->all(), 'id', 'name'),
+        'options' => ['placeholder' => Yii::t('app', 'Choose Trans type station')],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

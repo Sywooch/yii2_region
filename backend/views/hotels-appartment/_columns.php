@@ -1,8 +1,8 @@
 <?php
-use yii\helpers\Url;
 use kartik\grid\GridView;
-use yii\helpers\ArrayHelper;
 use kartik\helpers\Html;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 return [
     [
@@ -57,6 +57,10 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'price',
         'label' => Yii::t('app', 'Price to'),
+    ],
+    [
+        'class' => '\kartik\grid\BooleanColumn',
+        'attribute' => 'active',
     ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',

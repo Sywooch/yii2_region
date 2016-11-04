@@ -15,6 +15,25 @@ $search = "$('.search-button').click(function(){
 	return false;
 });";
 $this->registerJs($search);
+$colorPluginOptions = [
+    'showPalette' => true,
+    'showPaletteOnly' => true,
+    'showSelectionPalette' => true,
+    'showAlpha' => false,
+    'allowEmpty' => false,
+    'preferredFormat' => 'color',
+    'palette' => [
+        [
+            "white", "black", "grey", "silver", "gold", "brown",
+        ],
+        [
+            "red", "orange", "yellow", "indigo", "maroon", "pink"
+        ],
+        [
+            "blue", "green", "violet", "cyan", "magenta", "purple",
+        ],
+    ]
+];
 ?>
 <div class="sal-order-index">
 
@@ -44,7 +63,23 @@ $this->registerJs($search);
             'expandOneOnly' => true
         ],
         ['attribute' => 'id', 'visible' => false],
-        'date',
+        [
+            'attribute' => 'tour_info_id',
+            'label' => Yii::t('app', 'Tour Info'),
+            'value' => function ($model) {
+                return $model->tourInfo->name;
+            },
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => \yii\helpers\ArrayHelper::map(\common\models\TourInfo::find()->asArray()->all(), 'id', 'name'),
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tour info'), 'id' => 'grid-search-sal-order-tour_info_id']
+        ],
+        [
+            'attribute' => 'full_price',
+            'label' => Yii::t('app', 'Price'),
+        ],
         [
             'attribute' => 'sal_order_status_id',
             'label' => Yii::t('app', 'Sal Order Status'),
@@ -56,11 +91,19 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Sal order status', 'id' => 'grid-search-sal-order-sal_order_status_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Status'), 'id' => 'grid-search-sal-order-sal_order_status_id']
             ],
-        'date_begin',
-        'date_end',
-        'enable',
+        [
+            //'attribute' => ['date_begin'],
+            'label' => Yii::t('app', 'Sal tour date'),
+            'value' => function ($model) {
+                return $model->date_begin . ' - ' . $model->date_end;
+            },
+        ],
+        [
+            'attribute' => 'enable',
+            'class' => '\kartik\grid\BooleanColumn',
+        ],
         [
             'attribute' => 'hotels_info_id',
             'label' => Yii::t('app', 'Hotels Info'),
@@ -72,7 +115,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Hotels info', 'id' => 'grid-search-sal-order-hotels_info_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Hotels info'), 'id' => 'grid-search-sal-order-hotels_info_id']
             ],
         [
             'attribute' => 'hotels_appartment_id',
@@ -85,11 +128,11 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Hotels appartment', 'id' => 'grid-search-sal-order-hotels_appartment_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Hotels Appartment'), 'id' => 'grid-search-sal-order-hotels_appartment_id']
             ],
         [
             'attribute' => 'trans_info_id',
-            'label' => Yii::t('app', 'Trans Info'),
+            'label' => Yii::t('app', 'Sal Trans Info'),
             'value' => function ($model) {
                 if (isset($model->transInfo->name)) {
                     return $model->transInfo->name;
@@ -101,9 +144,9 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Tour type transport', 'id' => 'grid-search-sal-order-trans_info_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Sal Trans Info'), 'id' => 'grid-search-sal-order-trans_info_id']
             ],
-        [
+        /*[
             'attribute' => 'hotels_type_of_food_id',
             'label' => Yii::t('app', 'Hotels Type Of Food'),
             'value' => function ($model) {
@@ -114,8 +157,8 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Hotels type of food', 'id' => 'grid-search-sal-order-hotels_type_of_food_id']
-            ],
+            'filterInputOptions' => ['placeholder' => Yii::t('app','Hotels type of food'), 'id' => 'grid-search-sal-order-hotels_type_of_food_id']
+        ],*/
         [
             'attribute' => 'userinfo_id',
             'label' => Yii::t('app', 'Userinfo'),
@@ -127,23 +170,11 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Userinfo', 'id' => 'grid-search-sal-order-userinfo_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Userinfo'), 'id' => 'grid-search-sal-order-userinfo_id']
             ],
-        [
-            'attribute' => 'tour_info_id',
-            'label' => Yii::t('app', 'Tour Info'),
-            'value' => function ($model) {
-                return $model->tourInfo->name;
-            },
-            'filterType' => GridView::FILTER_SELECT2,
-            'filter' => \yii\helpers\ArrayHelper::map(\common\models\TourInfo::find()->asArray()->all(), 'id', 'name'),
-            'filterWidgetOptions' => [
-                'pluginOptions' => ['allowClear' => true],
-            ],
-            'filterInputOptions' => ['placeholder' => 'Tour info', 'id' => 'grid-search-sal-order-tour_info_id']
-        ],
-        'full_price',
-        'insurance_info:ntext',
+
+
+        //'insurance_info:ntext',
         ['attribute' => 'lock', 'visible' => false],
         [
             'class' => 'yii\grid\ActionColumn',

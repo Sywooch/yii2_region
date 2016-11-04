@@ -50,8 +50,11 @@ return [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign'=>'middle',
-        'urlCreator' => function($action, $model, $key, $index) { 
-                return Url::to([$action,'id, $bus_info_id, $bus_way_id'=>$key]);
+        'urlCreator' => function ($action, $model, $key, $index) {
+            return Url::to([$action,
+                'id' => $key['id'],
+                'bus_info_id' => $key['bus_info_id'],
+                'bus_way_id' => $key['bus_way_id']]);
         },
         'viewOptions'=>['role'=>'modal-remote','title'=>Yii::t('app','View'),'data-toggle'=>'tooltip'],
         'updateOptions'=>['role'=>'modal-remote','title'=>Yii::t('app','Update'), 'data-toggle'=>'tooltip'],

@@ -1,8 +1,8 @@
 <?php
 
+use kartik\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use kartik\grid\GridView;
 
 /**
 * @var yii\web\View $this
@@ -30,7 +30,7 @@ $actionColumnTemplateString = "{view} {update} {delete}";
 
     <h1>
         <?= Yii::t('app', 'TourInfos') ?>        <small>
-            List
+            <?= Yii::t('app', 'List') ?>
         </small>
     </h1>
     <div class="clearfix crud-navigation">
@@ -128,7 +128,10 @@ $actionColumnTemplateString = "{view} {update} {delete}";
 			],
 			'date_end',
 			'days',
-			'active',
+            [
+                'class' => '\kartik\grid\BooleanColumn',
+                'attribute' => 'active',
+            ],
         ],
         ]); ?>
     </div>

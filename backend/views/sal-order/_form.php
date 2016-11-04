@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 \mootensai\components\JsBlock::widget(['viewFile' => '_script', 'pos' => \yii\web\View::POS_END,
     'viewParams' => [
         'class' => 'SalOrderHasPerson',
-        'relID' => 'sal-order-has-person',
+        'relID' => 'sal-order-has-person', 
         'value' => \yii\helpers\Json::encode($model->salOrderHasPeople),
         'isNewRecord' => ($model->isNewRecord) ? 1 : 0
     ]
@@ -124,6 +124,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'insurance_info')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
+
+    <?= $form->field($model, 'hotels_appartment_full_sale')->checkbox() ?>
 
     <?php
     $forms = [

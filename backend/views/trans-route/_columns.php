@@ -16,23 +16,23 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date_begin',
+        'attribute' => 'begin_point',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date_end',
+        'attribute' => 'end_point',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'active',
+        'attribute' => 'date_begin',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'begin_point',
+        'attribute' => 'date_end',
     ],
     [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'end_point',
+        'class' => '\kartik\grid\BooleanColumn',
+        'attribute' => 'active',
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

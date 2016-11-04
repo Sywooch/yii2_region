@@ -11,10 +11,16 @@ use yii\widgets\DetailView;
         'model' => $model,
         'attributes' => [
             'id',
-            'trans_type_id',
             'name:ntext',
-            'trans_route_id',
+            [
+                'attribute' => 'transType.name',
+                'label' => Yii::t('app', 'Trans type'),
+            ],
+            'transRoute.begin_point',
+            'transRoute.end_point',
             'seats',
+            'date_add',
+            'date_edit',
         ],
     ]) ?>
 

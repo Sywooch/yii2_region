@@ -13,10 +13,14 @@ use yii\widgets\DetailView;
             'id',
             'FIO:ntext',
             'number_license:ntext',
-            'active',
+            'active:boolean',
             'date',
-            'first',
+            'first:boolean',
             'bus_info_id',
+            [
+                'attribute' => 'busInfo.name',
+                'label' => Yii::t('app', 'Bus Info')
+            ],
         ],
     ]) ?>
 

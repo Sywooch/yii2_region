@@ -3,9 +3,9 @@
 namespace common\models;
 
 /**
- * This is the ActiveQuery class for [[\common\models\TransInfo]].
+ * This is the ActiveQuery class for [[TransInfo]].
  *
- * @see \common\models\TransInfo
+ * @see TransInfo
  */
 class TransInfoQuery extends \yii\db\ActiveQuery
 {
@@ -17,7 +17,7 @@ class TransInfoQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \common\models\TransInfo[]|array
+     * @return TransInfo[]|array
      */
     public function all($db = null)
     {
@@ -26,7 +26,7 @@ class TransInfoQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \common\models\TransInfo|array|null
+     * @return TransInfo|array|null
      */
     public function one($db = null)
     {

@@ -6,7 +6,6 @@ namespace common\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
 
 /**
  * This is the base-model class for table "tour_info".
@@ -95,7 +94,7 @@ abstract class TourInfo extends \yii\db\ActiveRecord
             'date_begin' => Yii::t('app', 'Date Begin'),
             'date_end' => Yii::t('app', 'Date End'),
             'days' => Yii::t('app', 'Количество дней тура'),
-            'active' => Yii::t('app', 'Признак активности тура'),
+            'active' => Yii::t('app', 'Active'),
             'hotels_info_id' => Yii::t('app', 'Hotels Info ID'),
             'tourtype_list' => Yii::t('app', 'Tourtype List'),
             'tourtypetransport_list' => Yii::t('app', 'Tourtypetransport List'),

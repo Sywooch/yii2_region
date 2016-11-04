@@ -14,8 +14,11 @@ use yii\widgets\DetailView;
             'gos_number',
             'seat',
             'date',
-            'active',
-            'bus_scheme_seats_id',
+            'active:boolean',
+            [
+                'attribute' => 'busSchemeSeats.name',
+                'label' => Yii::t('app', 'Bus Scheme Seats')
+            ],
         ],
     ]) ?>
 

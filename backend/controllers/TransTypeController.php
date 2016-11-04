@@ -2,14 +2,14 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\TransType;
 use backend\models\SearchTransType;
+use common\models\TransType;
+use Yii;
+use yii\filters\VerbFilter;
+use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use \yii\web\Response;
-use yii\helpers\Html;
+use yii\web\Response;
 
 /**
  * TransTypeController implements the CRUD actions for TransType model.
@@ -28,6 +28,19 @@ class TransTypeController extends Controller
                     'delete' => ['post'],
                     'bulk-delete' => ['post'],
                 ],
+            ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'add-hotels-appartment-has-hotels-type-of-food', 'add-hotels-pricing', 'add-sal-order'],
+                        'roles' => ['@']
+                    ],
+                    [
+                        'allow' => false
+                    ]
+                ]
             ],
         ];
     }

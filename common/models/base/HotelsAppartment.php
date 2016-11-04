@@ -6,6 +6,8 @@ namespace common\models\base;
 
 use common\models\HotelsAppartmentItem;
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the base-model class for table "hotels_appartment".
@@ -18,6 +20,12 @@ use Yii;
  * @property integer $hotels_appartment_item_id
  * @property string $date_add
  * @property string $date_edit
+ * @property integer $active
+ * @property integer $count_rooms
+ * @property integer $count_beds
+ * @property integer $created_by
+ * @property integer $updated_by
+ * @property integer $lock
  *
  * @property \common\models\HotelsAppartmentItem $hotelsAppartmentItem
  * @property \common\models\HotelsInfo $hotelsInfo
@@ -55,11 +63,17 @@ abstract class HotelsAppartment extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            /*[
+            'timestamp' => [
                 'class' => TimestampBehavior::className(),
                 'createdAtAttribute' => 'date_add',
                 'updatedAtAttribute' => 'date_edit',
-            ],*/
+                'value' => new \yii\db\Expression('NOW()'),
+            ],
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
+            ],
             'image' => [
                 'class' => 'rico\yii2images\behaviors\ImageBehave',
             ],
@@ -73,7 +87,8 @@ abstract class HotelsAppartment extends \yii\db\ActiveRecord
     {
         return [
             [['hotels_info_id', 'hotels_appartment_item_id'], 'required'],
-            [['hotels_info_id', 'type_price', 'hotels_appartment_item_id', 'country'], 'integer'],
+            [['hotels_info_id', 'type_price', 'hotels_appartment_item_id', 'country', 'active',
+                'count_rooms', 'count_beds', 'created_by', 'updated_by', 'lock'], 'integer'],
             [['name'], 'string'],
             [['price'], 'number'],
             [['hotels_appartment_item_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsAppartmentItem::className(), 'targetAttribute' => ['hotels_appartment_item_id' => 'id']],
@@ -96,6 +111,11 @@ abstract class HotelsAppartment extends \yii\db\ActiveRecord
             'price' => Yii::t('app', 'Price'),
             'type_price' => Yii::t('app', 'Type Price'),
             'hotels_appartment_item_id' => Yii::t('app', 'Hotels Appartment Item ID'),
+            'active' => Yii::t('app', 'Active'),
+            'count_rooms' => Yii::t('app', 'Count rooms'),
+            'count_beds' => Yii::t('app', 'Count beds'),
+            'created_by' => Yii::t('app', 'Created by'),
+            'updated_by' => Yii::t('app', 'Updated by'),
             'date_add' => Yii::t('app', 'Date Add'),
             'date_edit' => Yii::t('app', 'Date Edit'),
         ];
@@ -114,6 +134,10 @@ abstract class HotelsAppartment extends \yii\db\ActiveRecord
                 'hotels_appartment_item_id' => Yii::t('app', 'Hotels Appartment Item ID'),
                 'date_add' => Yii::t('app', 'Date Add'),
                 'date_edit' => Yii::t('app', 'Date Edit'),
+                'count_rooms' => Yii::t('app', 'Количество комнат данного типа'),
+                'count_beds' => Yii::t('app', 'Фактическое количество мест'),
+                'created_by' => Yii::t('app', 'Кем создана запись (владелец записи)'),
+                'updated_by' => Yii::t('app', 'Кем запись обновлена'),
             ]);
     }
 
@@ -187,7 +211,7 @@ abstract class HotelsAppartment extends \yii\db\ActiveRecord
      */
     public function getSalOrders()
     {
-        return $this->hasMany(\common\models\SalOrder::className(), ['hotels_appartment_id' => 'id', 'hotels_appartment_hotels_info_id' => 'hotels_info_id']);
+        return $this->hasMany(\common\models\SalOrder::className(), ['hotels_appartment_id' => 'id', 'hotels_info_id' => 'hotels_info_id']);
     }
 
 
@@ -268,6 +292,16 @@ abstract class HotelsAppartment extends \yii\db\ActiveRecord
             $msg = (isset($e->errorInfo[2])) ? $e->errorInfo[2] : $e->getMessage();
             $this->addError('_exception', $msg);
         }
+    }
+
+
+    //Резервация и проверка номеров (комнат)
+    public function countFreeRoom($dateBegin, $dateEnd)
+    {
+        $rooms = $this->count_rooms;
+        $countRoomSale = $this->getSalOrders()->
+        andWhere(["<", 'date_end', $dateEnd])->count();
+        return ($rooms - $countRoomSale);
     }
 
 }

@@ -11,11 +11,13 @@ use yii\widgets\DetailView;
         'model' => $model,
         'attributes' => [
             'id',
-            'date_begin',
-            'date_end',
-            'active',
             'begin_point:ntext',
             'end_point:ntext',
+            'date_begin',
+            'date_end',
+            'active:boolean',
+            'date_add',
+            'date_edit'
         ],
     ]) ?>
 

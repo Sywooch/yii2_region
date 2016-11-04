@@ -46,12 +46,12 @@ class BusDriver extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'Первичный ключ. Таблица содержит информацию о водителях автобусов.'),
+            'id' => Yii::t('app', 'Номер'),
             'FIO' => Yii::t('app', 'Фамилия Имя Отчество водителя'),
-            'number_license' => Yii::t('app', 'Номер водительского удостоверения.'),
-            'active' => Yii::t('app', 'Активирована ли запись.'),
-            'date' => Yii::t('app', 'Дата регистрации.'),
-            'first' => Yii::t('app', 'Признак основного водителя'),
+            'number_license' => Yii::t('app', 'Номер водительского удостоверения'),
+            'active' => Yii::t('app', 'Active'),
+            'date' => Yii::t('app', 'Дата регистрации'),
+            'first' => Yii::t('app', 'Основной водитель?'),
             'bus_info_id' => Yii::t('app', 'Bus Info ID'),
         ];
     }

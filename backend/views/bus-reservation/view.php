@@ -1,5 +1,6 @@
 <?php
 
+use yii\bootstrap\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -26,8 +27,8 @@ use yii\widgets\DetailView;
             'date',
 
             'status',
-            'active',
-            'person_id',
+            'active:boolean',
+            'person.name',
         ],
     ]) ?>
 

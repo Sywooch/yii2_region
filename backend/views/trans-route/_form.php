@@ -11,6 +11,10 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->field($model, 'begin_point')->textInput() ?>
+
+    <?= $form->field($model, 'end_point')->textInput() ?>
+
     <?= $form->field($model, 'date_begin')->widget(\kartik\datetime\DateTimePicker::classname(), [
                 //'langauge' => 'ru',
                 //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
@@ -23,9 +27,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'active')->checkbox() ?>
 
-    <?= $form->field($model, 'begin_point')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'end_point')->textarea(['rows' => 6]) ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

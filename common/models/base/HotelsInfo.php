@@ -242,6 +242,8 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
 
         if ($this->validate()){
             foreach($this->imageFiles as $file){
+                //$image = new Image();
+                //$image
                 $filename = uniqid() . '.' . $file->extension;
                 $this->imageFullPath= \Yii::$app->getBasePath() . '/web/uploads/images/hotels/' . $filename;
 

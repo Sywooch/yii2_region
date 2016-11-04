@@ -3,11 +3,11 @@
 namespace common\models;
 
 /**
- * This is the ActiveQuery class for [[TransRoute]].
+ * This is the ActiveQuery class for [[Banner]].
  *
- * @see TransRoute
+ * @see Banner
  */
-class TransRouteQuery extends \yii\db\ActiveQuery
+class BannerQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -17,7 +17,7 @@ class TransRouteQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return TransRoute[]|array
+     * @return Banner[]|array
      */
     public function all($db = null)
     {
@@ -26,7 +26,7 @@ class TransRouteQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return TransRoute|array|null
+     * @return Banner|array|null
      */
     public function one($db = null)
     {

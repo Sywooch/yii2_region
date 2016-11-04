@@ -23,21 +23,31 @@ return [
         'attribute'=>'description',
     ],
     [
+        'attribute' => 'trans_type_station_id',
+        'label' => Yii::t('app', 'Trans Type Stations'),
+        'value' => function ($model) {
+            return $model->transTypeStation->name;
+        },
+        'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
+        'filter' => \yii\helpers\ArrayHelper::map(\common\models\TransTypeStation::find()->asArray()->all(), 'id', 'name'),
+        'filterWidgetOptions' => [
+            'pluginOptions' => ['allowClear' => true],
+        ],
+        'filterInputOptions' => ['placeholder' => Yii::t('app', 'Trans type station'), 'id' => 'grid-search-sal-order-sal_order_status_id']
+    ],
+    /*[
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'gps_parallel',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'gps_meridian',
-    ],
+    ],*/
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'address_id',
     ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'trans_type_station_id',
-    // ],
+
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

@@ -12,7 +12,14 @@ use yii\widgets\DetailView;
         'attributes' => [
             'id',
             'name:ntext',
-            'trans_type_station_id',
+            [
+                'attribute' => 'transTypeStation.name',
+                'label' => Yii::t('app', 'Trans type station'),
+            ],
+            'date_add',
+            'date_edit',
+
+
         ],
     ]) ?>
 
