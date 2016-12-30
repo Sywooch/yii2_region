@@ -36,7 +36,7 @@ return [
     ],
     [
          'class'=>'\kartik\grid\DataColumn',
-         'attribute'=>'date',
+        'attribute' => 'date_add',
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

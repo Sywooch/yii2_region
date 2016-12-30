@@ -12,7 +12,7 @@ $urlParams = $generator->generateUrlParams();
 $model = new $generator->modelClass();
 $model->setScenario('crud');
 $className = $model::className();
-$modelName = StringHelper::basename($model::className());
+$modelName = Inflector::camel2words(StringHelper::basename($model::className()));
 
 echo "<?php\n";
 ?>
@@ -24,9 +24,9 @@ use yii\helpers\Html;
 * @var <?= ltrim($generator->modelClass, '\\') ?> $model
 */
 
-$this->title = Yii::t('<?= $generator->messageCategory ?>', '<?= StringHelper::basename($className) ?>') . $model-><?= $generator->getNameAttribute(
+$this->title = Yii::t('<?= $generator->modelMessageCategory ?>', '<?= $modelName ?>') . " " . $model-><?= $generator->getNameAttribute(
 ) ?> . ', ' . <?= $generator->generateString('Edit') ?>;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('<?= $generator->messageCategory ?>', '<?=Inflector::pluralize(StringHelper::basename($className)) ?>'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('<?= $generator->modelMessageCategory ?>', '<?= $modelName ?>'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model-><?= $generator->getNameAttribute(
 ) ?>, 'url' => ['view', <?= $urlParams ?>]];
 $this->params['breadcrumbs'][] = <?= $generator->generateString('Edit') ?>;
@@ -34,16 +34,16 @@ $this->params['breadcrumbs'][] = <?= $generator->generateString('Edit') ?>;
 <div class="giiant-crud <?= Inflector::camel2id(StringHelper::basename($generator->modelClass), '-', true) ?>-update">
 
     <h1>
-        <?= "<?= Yii::t('{$generator->messageCategory}', '{$modelName}') ?>" ?>
+        <?= "<?= Yii::t('{$generator->modelMessageCategory}', '{$modelName}') ?>" ?>
 
         <small>
             <?php $label = StringHelper::basename($generator->modelClass); ?>
-            <?= '<?= $model->'.$generator->getModelNameAttribute($generator->modelClass).' ?>' ?>
+            <?= '<?= $model->' . $generator->getModelNameAttribute($generator->modelClass) . " ?>\n" ?>
         </small>
     </h1>
 
     <div class="crud-navigation">
-        <?= '<?= ' ?>Html::a('<span class="glyphicon glyphicon-eye-open"></span> ' . <?= $generator->generateString(
+        <?= '<?= ' ?>Html::a('<span class="glyphicon glyphicon-file"></span> ' . <?= $generator->generateString(
             'View'
         ) ?>, ['view', <?= $urlParams ?>], ['class' => 'btn btn-default']) ?>
     </div>

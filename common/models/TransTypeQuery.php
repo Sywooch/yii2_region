@@ -9,11 +9,11 @@ namespace common\models;
  */
 class TransTypeQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
+    public function active()
     {
-        $this->andWhere('[[status]]=1');
+        $this->andWhere('[[active]]=1');
         return $this;
-    }*/
+    }
 
     /**
      * @inheritdoc

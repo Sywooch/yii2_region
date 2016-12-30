@@ -20,31 +20,17 @@
             'type' => TabularForm::INPUT_TEXT,
         ],
         'attributes' => [
-            "id" => ['type' => TabularForm::INPUT_HIDDEN, 'columnOptions' => ['hidden' => true]],
+            "id" => ['type' => TabularForm::INPUT_HIDDEN, 'visible' => false],
             'name' => ['type' => TabularForm::INPUT_TEXTAREA],
             'bus_info_id' => [
                 'label' => 'Bus info',
                 'type' => TabularForm::INPUT_WIDGET,
                 'widgetClass' => \kartik\widgets\Select2::className(),
                 'options' => [
-                    'data' => \yii\helpers\ArrayHelper::map(\frontend\models\bus\BusInfo::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
+                    'data' => \yii\helpers\ArrayHelper::map(\common\models\BusInfo::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
                     'options' => ['placeholder' => Yii::t('app', 'Choose Bus info')],
                 ],
                 'columnOptions' => ['width' => '200px']
-            ],
-            'date_create' => ['type' => TabularForm::INPUT_WIDGET,
-                'widgetClass' => \kartik\datecontrol\DateControl::classname(),
-                'options' => [
-                    'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
-                    'saveFormat' => 'php:Y-m-d H:i:s',
-                    'ajaxConversion' => true,
-                    'options' => [
-                        'pluginOptions' => [
-                            'placeholder' => Yii::t('app', 'Choose Date Create'),
-                            'autoclose' => true,
-                        ]
-                    ],
-                ]
             ],
             'date_begin' => ['type' => TabularForm::INPUT_WIDGET,
                 'widgetClass' => \kartik\datecontrol\DateControl::classname(),
@@ -74,9 +60,19 @@
                     ],
                 ]
             ],
-            'active' => ['type' => TabularForm::INPUT_CHECKBOX],
-            'ended' => ['type' => TabularForm::INPUT_CHECKBOX],
+            'active' => ['type' => TabularForm::INPUT_CHECKBOX,
+                'options' => [
+                    'style' => 'position : relative; margin-top : -9px'
+                ]
+            ],
+            'ended' => ['type' => TabularForm::INPUT_CHECKBOX,
+                'options' => [
+                    'style' => 'position : relative; margin-top : -9px'
+                ]
+            ],
             'path_time' => ['type' => TabularForm::INPUT_TEXT],
+            'price' => ['type' => TabularForm::INPUT_TEXT],
+            "lock" => ['type' => TabularForm::INPUT_HIDDEN, 'visible' => false],
             'del' => [
                 'type' => 'raw',
                 'label' => '',

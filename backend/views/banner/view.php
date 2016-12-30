@@ -75,8 +75,6 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View');
                 'attribute' => 'file',
                 'format' => ['image', ['width' => '120']],
             ],
-
-            'path:ntext',
             'options:ntext',
             [
                 'attribute' => 'link',

@@ -2,13 +2,12 @@
 
 namespace backend\models;
 
-use Yii;
+use common\models\TransRoute;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\TransRoute;
 
 /**
- * SearchTransRoute represents the model behind the search form about `common\models\TransRoute`.
+ * backend\models\SearchTransRoute represents the model behind the search form about `common\models\TransRoute`.
  */
 class SearchTransRoute extends TransRoute
 {
@@ -18,8 +17,8 @@ class SearchTransRoute extends TransRoute
     public function rules()
     {
         return [
-            [['id', 'active'], 'integer'],
-            [['date_begin', 'date_end', 'begin_point', 'end_point'], 'safe'],
+            [['id', 'active', 'created_by', 'updated_by', 'lock'], 'integer'],
+            [['date_begin', 'date_end', 'name', 'date_add', 'date_edit'], 'safe'],
         ];
     }
 
@@ -60,10 +59,14 @@ class SearchTransRoute extends TransRoute
             'date_begin' => $this->date_begin,
             'date_end' => $this->date_end,
             'active' => $this->active,
+            'date_add' => $this->date_add,
+            'date_edit' => $this->date_edit,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
+            'lock' => $this->lock,
         ]);
 
-        $query->andFilterWhere(['like', 'begin_point', $this->begin_point])
-            ->andFilterWhere(['like', 'end_point', $this->end_point]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

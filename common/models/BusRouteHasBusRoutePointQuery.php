@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+
 /**
  * This is the ActiveQuery class for [[BusRouteHasBusRoutePoint]].
  *
@@ -14,6 +15,11 @@ class BusRouteHasBusRoutePointQuery extends \yii\db\ActiveQuery
         $this->andWhere('[[status]]=1');
         return $this;
     }*/
+
+    public function allOrder()
+    {
+
+    }
 
     /**
      * @inheritdoc

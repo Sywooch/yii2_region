@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
 <div class="hotels-info-search">
     <div class="container-fluid">
     <?php $form = ActiveForm::begin([
-    'action' => ['/hotels'],
+        'action' => ['/tourinfo'],
         'method' => 'GET',
     ]); ?>
         <div class="row">

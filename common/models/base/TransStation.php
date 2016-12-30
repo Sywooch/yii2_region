@@ -37,9 +37,9 @@ class TransStation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'trans_type_station_id'], 'required'],
-            [['name', 'description', 'gps_parallel', 'gps_meridian'], 'string'],
-            [['address_id', 'trans_type_station_id', 'active', 'created_by', 'updated_by', 'lock'], 'integer'],
+            [['name', 'trans_type_station_id', 'city_id'], 'required'],
+            [['address_id', 'name', 'description', 'gps_parallel', 'gps_meridian'], 'string'],
+            [['trans_type_station_id', 'city_id', 'active', 'created_by', 'updated_by', 'lock'], 'integer'],
             [['date_add', 'date_edit'], 'safe'],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
@@ -77,6 +77,7 @@ class TransStation extends \yii\db\ActiveRecord
             'description' => Yii::t('app', 'Description'),
             'gps_parallel' => Yii::t('app', 'Gps Parallel'),
             'gps_meridian' => Yii::t('app', 'Gps Meridian'),
+            'city_id' => Yii::t('app', 'City'),
             'address_id' => Yii::t('app', 'Address ID'),
             'trans_type_station_id' => Yii::t('app', 'Trans Type Station ID'),
             'active' => Yii::t('app', 'Active'),

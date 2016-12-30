@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'file') ?>
 
-    <?= $form->field($model, 'path') ?>
+    <?= $form->field($model, 'count') ?>
 
     <?php // echo $form->field($model, 'options') ?>
 

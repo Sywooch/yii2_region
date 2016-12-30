@@ -37,6 +37,7 @@ return [
             'showTitles' => true,
         ],
 
+
         /** Begin User Access Settings *
          * 'user' => [
          * 'class' => 'dektrium\user\Module',
@@ -61,16 +62,19 @@ return [
             'class' => 'yii\web\urlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            /*'rules' => [
+            'rules' => [
                 'login' => 'site/login',
                 'logout' => 'site/logout',
                 'pages/<page:[\w-]+>' => 'pages/default/index',
-            ],*/
+            ],
         ],
         'user' => [
             'identityClass' => 'common\models\Userinfo',
             //'class'=>\dektrium\user\models\User::className(),
             'enableAutoLogin' => true,
+        ],
+        'authManager' => [
+            'class' => \yii\rbac\DbManager::className(),
         ],
         /** Begin User Access Settings *
         'user' => [

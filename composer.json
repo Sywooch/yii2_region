@@ -33,7 +33,7 @@
     "infoweb-internet-solutions/yii2-cms-menu": "*",
     "kartik-v/yii2-widget-datetimepicker": "*",
     "kartik-v/yii2-widgets": "*",
-    "mdmsoft/yii2-admin": "*",
+    "mdmsoft/yii2-admin": "dev-3.master",
     "fxp/composer-asset-plugin": "~1.1.1",
     "schmunk42/yii2-giiant": "@stable",
     "kartik-v/yii2-export": "@stable",
@@ -65,10 +65,14 @@
     "kartik-v/yii2-mpdf": "dev-master",
     "kartik-v/yii2-tree-manager": "dev-master",
     "yii2tech/ar-linkmany": "dev-master",
-    "kartik-v/yii2-datecontrol": "@dev"
+    "kartik-v/yii2-datecontrol": "@dev",
+    "yiisoft/yii2-jui": "^2.0",
+    "bedezign/yii2-audit": "^1.0",
+    "kartik-v/yii2-money": "*",
+    "wbraganca/yii2-dynamicform": "dev-master"
   },
   "require-dev": {
-    "yiisoft/yii2-codeception": "*",
+    "codeception/codeception": "*",
     "yiisoft/yii2-debug": "*",
     "yiisoft/yii2-gii": "*",
     "yiisoft/yii2-faker": "*"

@@ -1,8 +1,8 @@
 <?php
+use common\models\TransTypeStation as typeStation;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\helpers\ArrayHelper;
-use common\models\TransTypeStation as typeStation;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\TransStation */
@@ -14,15 +14,6 @@ use common\models\TransTypeStation as typeStation;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'name')->textInput() ?>
-
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'gps_parallel')->textInput() ?>
-
-    <?= $form->field($model, 'gps_meridian')->textInput() ?>
-
-    <?= $form->field($model, 'address_id')->textInput() ?>
-
     <?php
     $ur_names = ArrayHelper::map(typeStation::find()->all(),'id','name');
 
@@ -31,6 +22,20 @@ use common\models\TransTypeStation as typeStation;
         ['prompt' => 'Выберите тип вокзала'] // текст, который отображается в качестве первого варианта
     )->label('Тип вокзала');
     ?>
+
+    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+
+    <?php /*echo $form->field($model, 'gps_parallel')->textInput()*/ ?>
+
+    <?php /*echo $form->field($model, 'gps_meridian')->textInput()*/ ?>
+    <?= $form->field($model, 'city_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(common\models\City::find()->active()->orderBy('name')->all(), 'id', 'name'),
+        ['prompt' => Yii::t('app', 'Select')])
+    ?>
+
+    <?= $form->field($model, 'address_id')->textInput() ?>
+
+
 
 
   

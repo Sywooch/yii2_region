@@ -1,104 +1,122 @@
 <?php
 
+/* @var $this yii\web\View */
+/* @var $searchModel backend\models\SearchHotelsAppartment */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+use kartik\export\ExportMenu;
 use kartik\grid\GridView;
 use yii\helpers\Html;
 
-/**
-* @var yii\web\View $this
-* @var yii\data\ActiveDataProvider $dataProvider
-    * @var backend\models\SearchHotelsAppartemnt $searchModel
-*/
-
-
-if (isset($actionColumnTemplates)) {
-$actionColumnTemplate = implode(' ', $actionColumnTemplates);
-    $actionColumnTemplateString = $actionColumnTemplate;
-} else {
-Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('app', 'New'), ['create'], ['class' => 'btn btn-success']);
-    $actionColumnTemplateString = "'{view} {update} {delete}'";
-}
+$this->title = Yii::t('app', 'Hotels Appartments');
+$this->params['breadcrumbs'][] = $this->title;
+$search = "$('.search-button').click(function(){
+	$('.search-form').toggle(1000);
+	return false;
+});";
+$this->registerJs($search);
 ?>
-<div class="giiant-crud hotels-appartment-index">
+<div class="hotels-appartment-index">
 
-    <?php //             echo $this->render('_search', ['model' =>$searchModel]);
-        ?>
+    <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    
-    <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
-
-    <h1>
-        <?= Yii::t('app', 'HotelsAppartments') ?>        <small>
-            <?= Yii::t('app', 'List') ?>
-        </small>
-    </h1>
-    <div class="clearfix crud-navigation">
-        <div class="pull-left">
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('app', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
-        </div>
-
-        <div class="pull-right">
-
-                                                                                                                                                                                                
-            <?= 
-            \yii\bootstrap\ButtonDropdown::widget(
-            [
-            'id' => 'giiant-relations',
-            'encodeLabel' => false,
-            'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('app', 'Relations'),
-            'dropdown' => [
-            'options' => [
-            'class' => 'dropdown-menu-right'
-            ],
-            'encodeLabels' => false,
-            'items' => [            [
-                'url' => ['hotels-appartment-item/index'],
-                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Hotels Appartment Item') . '</i>',
-            ],            [
-                'url' => ['hotels-info/index'],
-                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Hotels Info') . '</i>',
-            ],            [
-                'url' => ['hotels-appartment-has-hotels-type-of-food/index'],
-                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Hotels Appartment Has Hotels Type Of Food') . '</i>',
-            ],            [
-                'url' => ['hotels-type-of-food/index'],
-                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Hotels Type Of Food') . '</i>',
-            ],            [
-                'url' => ['hotels-pricing/index'],
-                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Hotels Pricing') . '</i>',
-            ],            [
-                'url' => ['sal-order/index'],
-                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Sal Order') . '</i>',
-            ],]
-            ],
-            'options' => [
-            'class' => 'btn-default'
-            ]
-            ]
-            );
-            ?>        </div>
+    <p>
+        <?= Html::a(Yii::t('app', 'Create Hotels Appartment'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Advance Search'), '#', ['class' => 'btn btn-info search-button']) ?>
+    </p>
+    <div class="search-form" style="display:none">
+        <?= $this->render('_search', ['model' => $searchModel]); ?>
     </div>
-
-    <hr />
-
-    <div class="table-responsive">
-        <?= GridView::widget([
-        'layout' => '{summary}{pager}{items}{pager}',
+    <?php
+    $gridColumn = [
+        ['class' => 'yii\grid\SerialColumn'],
+        [
+            'class' => 'kartik\grid\ExpandRowColumn',
+            'width' => '50px',
+            'value' => function ($model, $key, $index, $column) {
+                return GridView::ROW_COLLAPSED;
+            },
+            'detail' => function ($model, $key, $index, $column) {
+                return Yii::$app->controller->renderPartial('_expand', ['model' => $model]);
+            },
+            'headerOptions' => ['class' => 'kartik-sheet-style'],
+            'expandOneOnly' => true
+        ],
+        ['attribute' => 'id', 'visible' => false],
+        [
+            'attribute' => 'hotels_info_id',
+            'label' => Yii::t('app', 'Hotels Info'),
+            'value' => function ($model) {
+                return $model->hotelsInfo->name;
+            },
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => \yii\helpers\ArrayHelper::map(\common\models\HotelsInfo::find()->asArray()->all(), 'id', 'name'),
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['placeholder' => 'Hotels info', 'id' => 'grid-search-hotels-appartment-hotels_info_id']
+            ],
+        'name:ntext',
+        'price',
+        [
+            'attribute' => 'hotels_appartment_item_id',
+            'label' => Yii::t('app', 'Hotels Appartment Item'),
+            'value' => function ($model) {
+                return $model->hotelsAppartmentItem->name;
+            },
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => \yii\helpers\ArrayHelper::map(\common\models\HotelsAppartmentItem::find()->asArray()->all(), 'id', 'name'),
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['placeholder' => 'Hotels appartment item', 'id' => 'grid-search-hotels-appartment-hotels_appartment_item_id']
+            ],
+        [
+            'class' => '\kartik\grid\BooleanColumn',
+            'attribute' => 'active',
+        ],
+        'count_rooms',
+        'count_beds',
+        ['attribute' => 'lock', 'visible' => false],
+        [
+            'class' => 'yii\grid\ActionColumn',
+            'template' => '{save-as-new} {view} {update} {delete}',
+            'buttons' => [
+                'save-as-new' => function ($url) {
+                    return Html::a('<span class="glyphicon glyphicon-copy"></span>', $url, ['title' => 'Save As New']);
+                },
+            ],
+        ],
+    ];
+    ?>
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'pager' => [
-        'class' => yii\widgets\LinkPager::className(),
-        'firstPageLabel' => Yii::t('app', 'First'),
-        'lastPageLabel' => Yii::t('app', 'Last')        ],
-                    'filterModel' => $searchModel,
-                'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
-        'headerRowOptions' => ['class'=>'x'],
-        'columns' => require(__DIR__.'/_columns.php'),
-           
-        ]); ?>
-    </div>
+        'filterModel' => $searchModel,
+        'columns' => $gridColumn,
+        'pjax' => true,
+        'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-hotels-appartment']],
+        'panel' => [
+            'type' => GridView::TYPE_PRIMARY,
+            'heading' => '<span class="glyphicon glyphicon-book"></span>  ' . Html::encode($this->title),
+        ],
+        // your toolbar can include the additional full export menu
+        'toolbar' => [
+            '{export}',
+            ExportMenu::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => $gridColumn,
+                'target' => ExportMenu::TARGET_BLANK,
+                'fontAwesome' => true,
+                'dropdownOptions' => [
+                    'label' => 'Full',
+                    'class' => 'btn btn-default',
+                    'itemsBefore' => [
+                        '<li class="dropdown-header">Export All Data</li>',
+                    ],
+                ],
+            ]),
+        ],
+    ]); ?>
 
 </div>
-
-
-<?php \yii\widgets\Pjax::end() ?>
-
-

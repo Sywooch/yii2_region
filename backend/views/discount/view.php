@@ -13,11 +13,11 @@ use yii\widgets\DetailView;
             'id',
             'name:ntext',
             'discount',
-            'type_price',
-            'date_begin',
-            'date_end',
+            'years',
+            'date_add',
+            'date_edit',
             'active',
-            'hotels_info_id',
+            //'hotels_info_id',
         ],
     ]) ?>
 

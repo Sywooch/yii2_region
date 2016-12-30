@@ -56,15 +56,15 @@ AppAsset::register($this);
             'label' => 'Пользователи',
             'items' => [
                 ['label' => 'Информация о пользователях', 'url' => ['/userinfo']],
-                ['label' => 'Права пользователей','url'=>['/user-role']],
-                ['label' => 'Справочник Контрагенты (организации)','url'=>['/kontragent-persons']]
+                //['label' => 'Права пользователей','url'=>['/user-role']],
+                //['label' => 'Справочник Контрагенты (организации)','url'=>['/kontragent-persons']]
             ],
         ];
         $menuItems[] = [
             'label' => 'Гостиницы',
             'items' => [
                 ['label' => 'Справочник. Звёзды','url'=>['/hotels-stars']],
-                ['label' => 'Справочник. Города','url'=>['/city']],
+
                 ['label' => 'Справочник. Тип питания', 'url'=>['/hotels-type-of-food']],
                 ['label' => 'Справочник. Типы номеров', 'url'=>['/hotels-appartment-item']],
                 ['label' => 'Справочник прочих цен', 'url'=>['/hotels-others-pricing-type']],
@@ -84,13 +84,16 @@ AppAsset::register($this);
             'label' => 'Транспорт',
             'items' => [
                 ['label' => 'Справочник. Тип вокзала', 'url' => ['/trans-type-station']],
-                /*['label' => 'Типы цен', 'url'=>['/trans-price-type']],*/
+                ['label' => 'Справочник. Типы мест', 'url' => ['/trans-seats-type']],
                 ['label' => 'Справочник. Типы транспорта', 'url' => ['/trans-type']],
-                ['label' => ''],
                 ['label' => 'Вокзалы (аэропорты)', 'url' => ['/trans-station']],
-                ['label' => 'Транспорт', 'url' => ['/trans-info']],
                 ['label' => 'Маршруты','url'=>['/trans-route']],
-                /*['label' => 'Цены', 'url'=>['/trans-price']],*/
+                ['label' => ''],
+
+                ['label' => 'Транспорт', 'url' => ['/trans-info']],
+                ['label' => 'Посадочные места', 'url' => ['/trans-seats']],
+                ['label' => 'Цены', 'url' => ['/trans-price']],
+                ['label' => 'Бронирование', 'url' => ['/trans-reservation']],
 
             ],
         ];
@@ -100,7 +103,8 @@ AppAsset::register($this);
                 /*['label' => 'Справочник типов транспорта для туров', 'url' => ['/tour-type-transport']],*/
                 ['label' => 'Справочник типов тура', 'url' => ['/tour-type']],
                 ['label' => 'Справочник стран','url'=>['/country']],
-                ['label' => 'Конструктор тура', 'url' => ['/tour-info']],
+                ['label' => 'Справочник. Города', 'url' => ['/city']],
+                ['label' => 'Туры', 'url' => ['/tour-info']],
                 /*['label' => 'Цены тура', 'url' => ['/tour-price']]*/
             ],
 
@@ -112,12 +116,13 @@ AppAsset::register($this);
                 ['label' => 'Справочник. Путевые точки.', 'url' => ['/bus-route-point']],
                 ['label' => 'Справочник. Маршруты', 'url' => ['/bus-route']],
                 ['label' => 'Список автобусов', 'url' => ['/bus-info']],
+                ['label' => 'Посадочные места', 'url' => ['/bus-scheme-seats']],
                 ['label' => 'Водители', 'url' => ['/bus-driver']],
                 ['label' => 'Путевой лист', 'url' => ['/bus-way']],
                 /*['label' => 'Текущие маршруты', ['/bus-current']],
                 ['label' => 'Бронь', ['/bus-bron']],
                 /*['label' => 'Маршрут + путевые точки', 'url' => ['/bus-route-has-bus-route-point']],*/
-                ['label' => 'Посадочные места','url' => ['/bus-scheme-seats']],
+
                 ['label' => 'Резервация посадочных мест', 'url' => ['/bus-reservation']]
             ],
         ];
@@ -127,6 +132,7 @@ AppAsset::register($this);
             'items' => [
                 ['label' => 'Статические страницы', 'url' => ['/pages/manager/index']],
                 ['label' => 'Новости', 'url' => ['/articles/items/index']],
+                ['label' => 'Баннер на главной', 'url' => ['/banner']],
             ],
         ];
 

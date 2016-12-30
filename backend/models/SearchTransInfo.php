@@ -2,13 +2,12 @@
 
 namespace backend\models;
 
-use Yii;
+use common\models\TransInfo;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\TransInfo;
 
 /**
- * SearchTransInfo represents the model behind the search form about `common\models\TransInfo`.
+ * backend\models\SearchTransInfo represents the model behind the search form about `common\models\TransInfo`.
  */
 class SearchTransInfo extends TransInfo
 {
@@ -18,8 +17,8 @@ class SearchTransInfo extends TransInfo
     public function rules()
     {
         return [
-            [['id', 'trans_type_id', 'trans_route_id', 'seats'], 'integer'],
-            [['name'], 'safe'],
+            [['id', 'trans_type_id', 'trans_route_id', 'seats', 'active', 'created_by', 'updated_by', 'lock'], 'integer'],
+            [['name', 'date_add', 'date_edit'], 'safe'],
         ];
     }
 
@@ -60,6 +59,12 @@ class SearchTransInfo extends TransInfo
             'trans_type_id' => $this->trans_type_id,
             'trans_route_id' => $this->trans_route_id,
             'seats' => $this->seats,
+            'active' => $this->active,
+            'date_add' => $this->date_add,
+            'date_edit' => $this->date_edit,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
+            'lock' => $this->lock,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

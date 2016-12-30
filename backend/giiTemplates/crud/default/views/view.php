@@ -9,17 +9,22 @@ use yii\helpers\StringHelper;
  */
 
 /** @var \yii\db\ActiveRecord $model */
+/** @var $generator \schmunk42\giiant\generators\crud\Generator */
+
+## TODO: move to generator (?); cleanup
 $model = new $generator->modelClass();
 $model->setScenario('crud');
-$modelName = StringHelper::basename($model::className());
-
-$className = $model::className();
-
 $safeAttributes = $model->safeAttributes();
+if (empty($safeAttributes)) {
+    $model->setScenario('default');
+    $safeAttributes = $model->safeAttributes();
+}
 if (empty($safeAttributes)) {
     $safeAttributes = $model->getTableSchema()->columnNames;
 }
 
+$modelName = Inflector::camel2words(StringHelper::basename($model::className()));
+$className = $model::className();
 $urlParams = $generator->generateUrlParams();
 
 echo "<?php\n";
@@ -38,8 +43,8 @@ use dmstr\bootstrap\Tabs;
 */
 $copyParams = $model->attributes;
 
-$this->title = Yii::t('<?= $generator->messageCategory ?>', '<?= StringHelper::basename($className) ?>');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('<?= $generator->messageCategory ?>', '<?=Inflector::pluralize(StringHelper::basename($className)) ?>'), 'url' => ['index']];
+$this->title = Yii::t('<?= $generator->modelMessageCategory ?>', '<?= $modelName ?>');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('<?= $generator->modelMessageCategory ?>', '<?= Inflector::pluralize($modelName) ?>'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model-><?= $generator->getNameAttribute() ?>, 'url' => ['view', <?= $urlParams ?>]];
 $this->params['breadcrumbs'][] = <?= $generator->generateString('View') ?>;
 ?>
@@ -56,7 +61,7 @@ $this->params['breadcrumbs'][] = <?= $generator->generateString('View') ?>;
 
 
     <h1>
-        <?= "<?= Yii::t('{$generator->messageCategory}', '{$modelName}') ?>" ?>
+        <?= "<?= Yii::t('{$generator->modelMessageCategory}', '{$modelName}') ?>\n" ?>
         <small>
             <?= '<?= $model->'.$generator->getModelNameAttribute($generator->modelClass).' ?>' ?>
         </small>
@@ -139,6 +144,7 @@ $this->params['breadcrumbs'][] = <?= $generator->generateString('View') ?>;
     'content' => \$this->blocks['{$generator->modelClass}'],
     'active'  => true,
 ],
+
 EOS;
 
     foreach ($generator->getModelRelations($generator->modelClass, ['has_many']) as $name => $relation) {
@@ -178,13 +184,12 @@ EOS;
             '<span class=\"glyphicon glyphicon-plus\"></span> ' . ".$generator->generateString('New')." . ' ".
             Inflector::singularize(Inflector::camel2words($name))."',
             ['".$generator->createRelationRoute($relation, 'create')."', '".
-            Inflector::singularize($name)."' => ['".key($relation->link)."' => \$model->".$model->primaryKey()[0]."]],
+            Inflector::id2camel($generator->generateRelationTo($relation), '-', true) . "' => ['" . key($relation->link) . "' => \$model->" . $model->primaryKey()[0] . "]],
             ['class'=>'btn btn-success btn-xs']
         ); ?>\n";
         echo $addButton;
 
-        echo '</div></div>';#<div class='clearfix'></div>\n";
-
+        echo "</div>\n</div>\n"; #<div class='clearfix'></div>\n";
         // render pivot grid
         if ($relation->via !== null) {
             $pjaxId = "pjax-{$pivotName}";
@@ -201,8 +206,8 @@ EOS;
         // render relation grid
         if (!empty($output)):
             echo "<?php Pjax::begin(['id'=>'pjax-{$name}', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-{$name} ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert(\"yo\")}']]) ?>\n";
-        echo '<?= '.$output."?>\n";
-        echo "<?php Pjax::end() ?>\n";
+            echo "<?=\n " . $output . "\n?>\n";
+            echo "<?php Pjax::end() ?>\n";
         endif;
 
         echo "<?php \$this->endBlock() ?>\n\n";
@@ -214,7 +219,7 @@ EOS;
     'content' => \$this->blocks['$name'],
     'label'   => '<small>$label <span class="badge badge-default">'.count(\$model->get{$name}()->asArray()->all()).'</span></small>',
     'active'  => false,
-],
+],\n
 EOS;
     }
     ?>

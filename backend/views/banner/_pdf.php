@@ -25,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'text',
             'file',
-            'path:ntext',
             'options:ntext',
             'link:ntext',
             ['attribute' => 'lock', 'visible' => false],

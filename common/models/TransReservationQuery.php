@@ -3,21 +3,21 @@
 namespace common\models;
 
 /**
- * This is the ActiveQuery class for [[\common\models\TransReservation]].
+ * This is the ActiveQuery class for [[TransReservation]].
  *
- * @see \common\models\TransReservation
+ * @see TransReservation
  */
 class TransReservationQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
+    public function active()
     {
-        $this->andWhere('[[status]]=1');
+        $this->andWhere('[[active]]=1');
         return $this;
-    }*/
+    }
 
     /**
      * @inheritdoc
-     * @return \common\models\TransReservation[]|array
+     * @return TransReservation[]|array
      */
     public function all($db = null)
     {
@@ -26,7 +26,7 @@ class TransReservationQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \common\models\TransReservation|array|null
+     * @return TransReservation|array|null
      */
     public function one($db = null)
     {

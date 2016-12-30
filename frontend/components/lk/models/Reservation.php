@@ -31,6 +31,7 @@ class Reservation extends ActiveRecord
     public $from_site;
     public $date_range;
     public $type_of_food_id;
+    public $trans_route;
 
     public static function tableName()
     {
@@ -46,7 +47,7 @@ class Reservation extends ActiveRecord
             'date_begin' => Yii::t('app', 'Date Begin'),
             'date_end' => Yii::t('app', 'Date End'),
             'enable' => Yii::t('app', 'Enable'),
-
+            'country_id' => Yii::t('app', 'Страна'),
             'hotels_info_id' => Yii::t('app', 'Hotels Info ID'),
             'hotels_appartment_id' => Yii::t('app', 'Hotels Appartment ID'),
             'trans_info_id' => Yii::t('app', 'Trans Info ID'),
@@ -56,6 +57,7 @@ class Reservation extends ActiveRecord
             'insurance_info' => Yii::t('app', 'Insurance Info'),
             'date_add' => Yii::t('app', 'Date Add'),
             'date_edit' => Yii::t('app', 'Date Edit'),
+            'trans_route' => Yii::t('app', 'Маршрут следования'),
             'lock' => Yii::t('app', 'Lock'),
         ];
     }
@@ -68,6 +70,7 @@ class Reservation extends ActiveRecord
                     'hotels_appartment_id', 'trans_info_id', 'userinfo_id', 'tour_info_id'], 'integer'],
                 [['sal_order_status_id', 'hotels_info_id', 'hotels_appartment_id', 'userinfo_id', 'tour_info_id',
                     'date_begin', 'date_end', 'type_of_food_id'], 'required'],
+                [['date_begin', 'date_end'], 'safe'],
                 [['date_begin', 'date_end'], 'date', 'format' => 'php:Y-m-d'],
                 [['from_site'], 'boolean'],
             ];

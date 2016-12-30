@@ -5,7 +5,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\bus\BusRoute */
+/* @var $model common\models\BusRoute */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Bus Routes'), 'url' => ['index']];
@@ -22,12 +22,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <?php
         $gridColumn = [
+            ['attribute' => 'id', 'visible' => false],
             'name:ntext',
             'date',
             'date_begin',
             'date_end',
-            'date_add',
-            'date_edit',
+            ['attribute' => 'lock', 'visible' => false],
         ];
         echo DetailView::widget([
             'model' => $model,
@@ -51,8 +51,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'date_point_forward',
                 'time_pause:datetime',
                 'date_point_reverse',
-                'date_add',
-                'date_edit',
             ];
             echo Gridview::widget([
                 'dataProvider' => $providerBusRouteHasBusRoutePoint,
@@ -73,12 +71,13 @@ $this->params['breadcrumbs'][] = $this->title;
         if ($providerBusWay->totalCount) {
             $gridColumnBusWay = [
                 ['class' => 'yii\grid\SerialColumn'],
+                ['attribute' => 'id', 'visible' => false],
                 'name:ntext',
                 [
                     'attribute' => 'busInfo.name',
                     'label' => Yii::t('app', 'Bus Info')
                 ],
-                'date_create',
+                //'date_create',
                 'date_begin',
                 'date_end',
                 'active',

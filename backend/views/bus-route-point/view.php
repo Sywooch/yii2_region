@@ -1,8 +1,8 @@
 <?php
 
-use yii\widgets\DetailView;
-use mirocow\yandexmaps\Map as YandexMap;
 use mirocow\yandexmaps\Canvas as YandexCanvas;
+use mirocow\yandexmaps\Map as YandexMap;
+use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\BusRoutePoint */
@@ -40,7 +40,7 @@ $map = new YandexMap('yandex_map', [
             'gps_point_p:ntext',
             'active',
             'description:ntext',
-            'date',
+            'date_add',
         ],
     ]) ?>
     <?= YandexCanvas::widget([

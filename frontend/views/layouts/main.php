@@ -26,45 +26,43 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 <div class="main">
-    <div class="container">
+    <div class="container-fluid" style="position: relative;">
+        <div class="animation">
+            <img class="logo-element heder-bg" src="<?= Yii::$app->homeUrl ?>images/tr.gif"/>
+        </div>
+        <div class="container">
+            <header>
 
-
-        <header>
-            <div class="animation">
-                <img class="logo-element" src="<?= Yii::$app->homeUrl ?>images/tr.gif" style="max-width: 100%;
-        position: absolute;
-        display: block;
-        left: 0;"/>
-            </div>
-            <div class="logo col-sm-6 col-md-6 col-lg-6 col-xs-12">
-                <a href="<?= Yii::$app->homeUrl ?>"><img class="logo-element"
-                                                         src="<?= Yii::$app->homeUrl ?>images/logo.png"/>
-                </a>
-            </div>
-            <div class="pull-right col-sm-6 col-md-6 col-lg-6 col-xs-12">
-                <p class="h1 text-right">
-                    <span class="color1">
-                        <strong>Оператор</strong>
-                    </span>
-                    <span class="color2">
-                        <strong>позитивного</strong>
-                    </span>
-                    <span class="color3">
-                        <strong>отдыха!</strong>
-                    </span>
-                </p>
-                <p class="h1">
-                    <strong>
-                        <span class="color4">
-                            8 (4752) 71-93-25
+                <div class="logo col-sm-6 col-md-6 col-lg-6 col-xs-12">
+                    <a href="<?= Yii::$app->homeUrl ?>"><img class="logo-element"
+                                                             src="<?= Yii::$app->homeUrl ?>images/logo.png"/>
+                    </a>
+                </div>
+                <div class="pull-right col-sm-6 col-md-6 col-lg-6 col-xs-12">
+                    <p class="h1">
+                        <span class="color1">
+                            <strong>Оператор</strong>
                         </span>
-                    </strong>
-                </p>
-            </div>
-            <div class="clear"></div>
-        </header>
+                        <span class="color2">
+                            <strong>позитивного</strong>
+                        </span>
+                        <span class="color3">
+                            <strong>отдыха!</strong>
+                        </span>
+                    </p>
+                    <p class="h1">
+                        <strong>
+                            <span class="color4">
+                                8 (4752) 71-93-25
+                            </span>
+                        </strong>
+                    </p>
+                </div>
+                <div class="clear"></div>
+            </header>
+        </div>
     </div>
-    <div class="wrap">
+    <div class="wrap bg-content">
         <?php
         NavBar::begin([
             'brandLabel' => 'Лайф Тур Вояж',
@@ -73,12 +71,13 @@ AppAsset::register($this);
                 'class' => 'navbar first-menu',
             ],
         ]);
+        //\bupy7\pages\models\Page::;
         $menuItems = [
-            ['label' => 'Точки продаж', 'url' => ['/pages/pay_points']],
+            ['label' => 'Офисы продаж', 'url' => ['/pages/pay_points']],
             ['label' => 'Способы оплаты', 'url' => ['/pages/payment_methods']],
             ['label' => 'Контакты', 'url' => ['/site/contact']],
             ['label' => 'Частным лицам', 'url' => ['/pages/individual']],
-            ['label' => 'Турагенствам', 'url' => ['/pages/touragent']],
+            ['label' => 'Турагентствам', 'url' => ['/pages/touragent']],
         ];
         /*if (Yii::$app->user->isGuest) {
             $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
@@ -104,15 +103,15 @@ AppAsset::register($this);
         ]);
         $menuItems = [
             ['label' => 'Автобусные туры', 'url' => ['/hotels?tour_type_name=Автобусные туры'], 'options' => ['class' => 'menu_autobus']],
-            ['label' => 'Школьные туры', 'url' => ['/hotels?tour_type_name=Школьные туры'], 'options' => ['class' => 'menu_schkola']],
+            ['label' => 'Школьные туры', 'url' => ['/pages/skolnye-tury'], 'options' => ['class' => 'menu_schkola']],
             ['label' => 'Пляжный отдых', 'url' => ['/hotels'], 'options' => ['class' => 'menu_plyag']],
             ['label' => 'Горнолыжные туры', 'url' => ['/hotels?tour_type_name=Горнолыжные туры'], 'options' => ['class' => 'menu_gory']],
-            ['label' => 'Экскурсионные туры', 'url' => ['/hotels'], 'options' => ['class' => 'menu_russia']],
+            ['label' => 'Экскурсионные туры', 'url' => ['/pages/ekskursionnye-tury'], 'options' => ['class' => 'menu_russia']],
             ['label' => 'Отдых за границей', 'url' => ['/hotels?tour_type_name=Отдых за границей'], 'options' => ['class' => 'menu_zarubeg']],
             ['label' => 'Горящие туры', 'url' => ['/hotels?tour_type_name=Горящие туры'], 'options' => ['class' => 'menu_goryaschie']],
-            ['label' => 'Паломнические поездки', 'url' => ['/hotels?tour_type_name=Паломнические поездки'], 'options' => ['class' => 'menu_hram']],
+            ['label' => 'Паломнические поездки', 'url' => ['/pages/palomniceskie-poezdki'], 'options' => ['class' => 'menu_hram']],
             ['label' => 'Круизы', 'url' => ['/hotels?tour_type_name=Круизы'], 'options' => ['class' => 'menu_kruiz']],
-            ['label' => 'Продажа автобусных билетов', 'url' => ['/'], 'options' => ['class' => 'menu_ticket']],
+            ['label' => 'Продажа автобусных билетов', 'url' => ['/pages/prodaza-avtobusnyh-biletov'], 'options' => ['class' => 'menu_ticket']],
 
             /*['label' => 'Автобусные туры',
                 'url' => ['/site/about']],
@@ -185,7 +184,8 @@ AppAsset::register($this);
                         </a>
                     </div>
                     <div class="pull-left social-icon">
-                        <a href="https://www.facebook.com/trevel.petersburg" target="_blank"
+                        <a href="https://www.facebook.com/%D0%9B%D0%B0%D0%B9%D1%84-%D1%82%D1%83%D1%80-%D0%92%D0%BE%D1%8F%D0%B6-363799927290130/"
+                           target="_blank"
                            title="Лайф Тур Вояж. Путешествие Санкт-Петербург.">
                             <img src="<?= Yii::$app->homeUrl ?>images/social/facebook.png"
                                  alt="Лайф Тур Вояж. Путешествие Санкт-Петербург."/>

@@ -13,10 +13,13 @@ return [
             'graphicsLibrary' => 'GD', //but really its better to use 'Imagick'
             'placeHolderPath' => 'uploads/images/placeHolder.png', // if you want to get placeholder when image not exists, string will be processed by Yii::getAlias
         ],
+        /*'user'=>[
+            'class' => 'dektrium\user\Module'
+        ],*/
         // Yii2 Articles
         'articles' => [
             'class' => 'cinghie\articles\Articles',
-            //'userClass' => 'dektrium\user\models\User',
+            'userClass' => 'common\models\Userinfo', //'dektrium\user\models\User',
             // Select Languages allowed
             'languages' => [
                 "ru-RU" => "ru-RU",
@@ -25,6 +28,35 @@ return [
             //'dateFormat' => 'd F Y',
             // Select Editor: no-editor, ckeditor, imperavi, tinymce, markdown
             'editor' => 'ckeditor',
+
+            // Select Editor: no-editor, ckeditor, imperavi, tinymce, markdown
+            'editor' => 'ckeditor',
+
+            // Select Path To Upload Category Image
+            'categoryImagePath' => '@app/web/images/articles/categories/',
+            // Select URL To Upload Category Image
+            'categoryImageURL' => '/images/articles/categories/',
+            // Select Path To Upload Category Thumb
+            'categoryThumbPath' => '@app/web/images/articles/categories/thumb/',
+            // Select URL To Upload Category Image
+            'categoryThumbURL' => 'images/articles/categories/thumb/',
+
+            // Select Path To Upload Item Image
+            'itemImagePath' => '@app/web/images/articles/items/',
+            // Select URL To Upload Item Image
+            'itemImageURL' => '/images/articles/items/',
+
+
+            // Select Path To Upload Item Thumb
+            'itemThumbPath' => '@app/web/images/articles/items/thumb/',
+            // Select URL To Upload Item Thumb
+            'itemThumbURL' => '/images/articles/items/thumb/',
+
+            // Select Path To Upload Attachments
+            'attachPath' => '@backend/web/uploads/attachments/',
+            // Select URL To Upload Attachment
+            'attachURL' => '/images/uploads/attachments/articles/',
+
             // Select Image Name: categoryname, original, casual
             'imageNameType' => 'categoryname',
             // Select Image Types allowed
@@ -38,6 +70,7 @@ return [
                 'large' => ['quality' => 100, 'width' => 300, 'height' => 250],
                 'extra' => ['quality' => 100, 'width' => 400, 'height' => 350],
             ],
+
         ],
         // Module Kartik-v Markdown Editor
         'markdown' => [
@@ -60,6 +93,14 @@ return [
                     ],
                 ],
             ],
+            'pathToImages' => '@backend/web/uploads/pages',
+            'urlToImages' => '@backend/web/images',
+            'pathToFiles' => '@backend/web/uploads/pages/files',
+            'urlToFiles' => '@backend/web/files',
+            'uploadImage' => true,
+            'uploadFile' => true,
+            'addImage' => true,
+            'addFile' => true,
         ],
         'datecontrol' => [
             'class' => '\kartik\datecontrol\Module'

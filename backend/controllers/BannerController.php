@@ -7,6 +7,7 @@ namespace backend\controllers;
 use backend\models\SearchBanner;
 use common\models\Banner;
 use dmstr\bootstrap\Tabs;
+use yii\filters\VerbFilter;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\HttpException;
@@ -24,6 +25,31 @@ class BannerController extends Controller
      * CSRF validation is enabled only when both this property and [[Request::enableCsrfValidation]] are true.
      */
     public $enableCsrfValidation = false;
+
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'save-as-new'],
+                        'roles' => ['@']
+                    ],
+                    [
+                        'allow' => false
+                    ]
+                ]
+            ]
+        ];
+    }
 
 
     /**
@@ -74,11 +100,14 @@ class BannerController extends Controller
         try {
             if ($model->load($_POST)) {
                 $model->imageFiles = UploadedFile::getInstance($model, 'imageFiles');
+                //$model->upload();
                 $filename = uniqid('banner_') . '.' . $model->imageFiles->extension;
                 $model->file = Banner::IMAGE_PATH . "/" . $filename;
-                $model->saveImage();
+                //$model->upload();
+
                 if ($model->save()) {
                     $model->upload();
+                    $model->saveImage();
                     return $this->render('update', ['model' => $model]);
                 }
             } elseif (!\Yii::$app->request->isPost) {
@@ -105,10 +134,15 @@ class BannerController extends Controller
             //Загружаем новые изображения (Если они есть)
 
             $model->imageFiles = UploadedFile::getInstance($model, 'imageFiles');
-            $filename = uniqid('banner_') . '.' . $model->imageFiles->extension;
-            $model->file = Banner::IMAGE_PATH . "/" . $filename;
+            if ($model->imageFiles != NULL) {
+                $filename = uniqid('banner_') . '.' . $model->imageFiles->extension;
+                $model->file = Banner::IMAGE_PATH . "/" . $filename;
+            }
+
             if ($model->save()) {
-                $model->upload();
+                if ($model->imageFiles != NULL) {
+                    $model->upload();
+                }
             }
             /*if (isset($_POST['delImages'])) {
                 $model->delImages = $_POST['delImages'];

@@ -3,9 +3,9 @@
 namespace common\models;
 
 /**
- * This is the ActiveQuery class for [[\common\models\TransRouteHasTransStation]].
+ * This is the ActiveQuery class for [[TransRouteHasTransStation]].
  *
- * @see \common\models\TransRouteHasTransStation
+ * @see TransRouteHasTransStation
  */
 class TransRouteHasTransStationQuery extends \yii\db\ActiveQuery
 {
@@ -17,7 +17,7 @@ class TransRouteHasTransStationQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \common\models\TransRouteHasTransStation[]|array
+     * @return TransRouteHasTransStation[]|array
      */
     public function all($db = null)
     {
@@ -26,7 +26,7 @@ class TransRouteHasTransStationQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \common\models\TransRouteHasTransStation|array|null
+     * @return TransRouteHasTransStation|array|null
      */
     public function one($db = null)
     {

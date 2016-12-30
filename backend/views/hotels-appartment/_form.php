@@ -1,157 +1,157 @@
 <?php
 
-use dmstr\bootstrap\Tabs;
-use kartik\widgets\FileInput;
-use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
-/**
- * @var yii\web\View $this
- * @var common\models\HotelsAppartment $model
- * @var yii\widgets\ActiveForm $form
- */
-$items = $model->getImage2amigos();
+/* @var $this yii\web\View */
+/* @var $model common\models\HotelsAppartment */
+/* @var $form yii\widgets\ActiveForm */
 
-$this->registerJs('
-$("#hotelsappartment-country").on("change", function() {
-$.pjax.reload("#hotelsappartement-gethotelsinfo div", {
-history: false,
-data: $(this).serialize(),
-type: \'POST\',
-url: \'gethotelsinfo\',
+\mootensai\components\JsBlock::widget(['viewFile' => '_script', 'pos' => \yii\web\View::POS_END,
+    'viewParams' => [
+        'class' => 'HotelsAppartmentHasHotelsTypeOfFood',
+        'relID' => 'hotels-appartment-has-hotels-type-of-food',
+        'value' => \yii\helpers\Json::encode($model->hotelsAppartmentHasHotelsTypeOfFoods),
+        'isNewRecord' => ($model->isNewRecord) ? 1 : 0
+    ]
+]);
+\mootensai\components\JsBlock::widget(['viewFile' => '_script', 'pos' => \yii\web\View::POS_END,
+    'viewParams' => [
+        'class' => 'HotelsPricing',
+        'relID' => 'hotels-pricing',
+        'value' => \yii\helpers\Json::encode($model->hotelsPricings),
+        'isNewRecord' => ($model->isNewRecord) ? 1 : 0
+    ]
+]);
+$hotelsInfoData = null;
+$countryId = 0;
+if ($model->getCountry()) {
+    $countryId = $model->getCountry()->id;
+    $hotelsInfoData =
+        \yii\helpers\ArrayHelper::map(\common\models\HotelsInfo::find()->active()
+            ->andWhere(['country' => $countryId])
+            ->orderBy('id')
+            ->asArray()
+            ->all(), 'id', 'name');
+}
 
-});
-});
-
-');
 ?>
-
-
-
 
 <div class="hotels-appartment-form">
 
-    <?php $form = ActiveForm::begin([
-            'id' => 'HotelsAppartment',
-            //'layout' => 'horizontal',
-            'enableClientValidation' => true,
-            'errorSummaryCssClass' => 'error-summary alert alert-error'
+    <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form->errorSummary($model); ?>
+
+    <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
+
+    <?=
+    $form->field($model, 'country')->widget(\kartik\widgets\Select2::className(), [
+            'data' => \yii\helpers\ArrayHelper::map(common\models\Country::find()->asArray()->all(), 'id', 'name'),
+            'options' => [
+
+                'prompt' => Yii::t('app', 'Select'),
+                'options' => [$countryId => ['selected' => true]],
+                //'id'=>'hotels-appartment-country-id',
+            ]
         ]
+
+    ); ?>
+
+    <?=
+    $form->field($model, 'hotels_info_id')->widget(\kartik\widgets\DepDrop::className(), [
+            'type' => \kartik\widgets\DepDrop::TYPE_SELECT2,
+            'data' => $hotelsInfoData,
+            'options' => ['placeholder' => Yii::t('app', 'Begin Select Country')],
+            'select2Options' => ['pluginOptions' => ['allowClear' => true]],
+            'pluginOptions' => [
+                'depends' => ['hotelsappartment-country'],
+                'url' => \yii\helpers\Url::to(['/hotels-appartment/child-hotels-info']),
+                'loadingText' => Yii::t('app', 'Please wait, loading data ...'),
+            ]
+        ]
+
+
     );
     ?>
 
-    <div class="">
-        <?php $this->beginBlock('main'); ?>
+    <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
 
-        <p>
+    <?= $form->field($model, 'price')->textInput(['placeholder' => 'Price']) ?>
 
-            <?php
-            if ($model->getCountry()){
-                $countryId = $model->getCountry()->id;
-            }
-            else{
-                $countryId = 0;
-            }
-            ?>
-            <?=
-            $form->field($model, 'country')->dropDownList(
-                \yii\helpers\ArrayHelper::map(common\models\Country::find()->all(), 'id', 'name'),
-                [
-                    'prompt' => Yii::t('app', 'Select'),
-                    'options' =>[$countryId => ['selected'=>true]]
-                ]
-            ); ?>
+    <?= $form->field($model, 'hotels_appartment_item_id')->widget(\kartik\widgets\Select2::classname(), [
+        'data' => \yii\helpers\ArrayHelper::map(\common\models\HotelsAppartmentItem::find()->active()->orderBy('id')->asArray()->all(), 'id', 'name'),
+        'options' => ['placeholder' => Yii::t('app', 'Choose Hotels appartment item')],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
 
+    <?= $form->field($model, 'active')->checkbox() ?>
 
-            <?php
-            \yii\widgets\Pjax::begin(['enablePushState' => false, 'id' => 'hotelsappartment-hotelsinfo']);
-            ?>
+    <?= $form->field($model, 'count_rooms')->textInput(['placeholder' => 'Count Rooms']) ?>
 
-            <div id="hotelsappartement-gethotelsinfo">
-            <?php
-            if ($model->isNewRecord){
-                echo $form->field($model, 'hotels_info_id')->dropDownList(
-                    [],
-                    ['prompt' => Yii::t('app', 'Begin Select Country'),
-                    'disabled' => '']
-                );
-            }
-            else{
-                echo $form->field($model, 'hotels_info_id')->dropDownList(
-                \yii\helpers\ArrayHelper::map(common\models\HotelsInfo::find()->all(), 'id', 'name'),
-                    ['prompt' => Yii::t('app', 'Begin Select Country')]
-                );
-            }
-             ?>
-        </div>
-            <?php
-            \yii\widgets\Pjax::end();
-            ?>
+    <?= $form->field($model, 'count_beds')->textInput(['placeholder' => 'Count Beds']) ?>
 
-            <?= // generated by schmunk42\giiant\generators\crud\providers\RelationProvider::activeField
-            $form->field($model, 'hotels_appartment_item_id')->dropDownList(
-                \yii\helpers\ArrayHelper::map(common\models\HotelsAppartmentItem::find()->all(), 'id', 'name'),
-                ['prompt' => Yii::t('app', 'Select')]
-            ); ?>
+    <?= $form->field($model, 'imageFiles[]')->widget(\kartik\file\FileInput::className(), [
+        'language' => 'ru',
+        'options' => ['multiple' => true, 'accept' => 'image/*',],
+        'pluginOptions' => [
+            'showRemove' => 'true',
+            'previewFileType' => 'any',
+            'allowedExtensions' => ['jpg', 'gif', 'png'],
+            'showUpload' => false,
+            'maxFileCount' => 12,
+            //'uploadUrl' => \yii\helpers\Url::to(['uploads'])
+        ],
 
-            <?= $form->field($model, 'name')->textInput() ?>
+    ]); ?>
 
-        <?= $form->field($model, 'active')->textInput() ?>
-        <?= $form->field($model, 'count_rooms')->textInput() ?>
-        <?= $form->field($model, 'count_beds')->textInput() ?>
+    <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
-            <?= $form->field($model, 'price')->textInput() ?>
-
-        <?= $form->field($model, 'imageFiles[]')->widget(FileInput::className(),[
-            'language' => 'ru',
-            'options' => ['multiple' => true, 'accept' => 'image/*',],
-            'pluginOptions' => [
-                'showRemove' => 'true',
-                'previewFileType' => 'any',
-                'allowedExtensions' => ['jpg','gif','png'],
-                'showUpload' => false,
-                'maxFileCount' => 12,
-                //'uploadUrl' => \yii\helpers\Url::to(['uploads'])
-            ],
-
-        ]); ?>
-
-
-
-
-
-        </p>
-        <?php $this->endBlock(); ?>
-
-        <?=
-        Tabs::widget(
-            [
-                'encodeLabels' => false,
-                'items' => [[
-                    'label' => Yii::t('app', \yii\helpers\StringHelper::basename(common\models\HotelsAppartment::className())),
-                    'content' => $this->blocks['main'],
-                    'active' => true,
-                ],]
-            ]
-        );
-        ?>
-        <hr/>
-
-        <?php echo $form->errorSummary($model); ?>
-
-        <?= Html::submitButton(
-            '<span class="glyphicon glyphicon-check"></span> ' .
-            ($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save')),
-            [
-                'id' => 'save-' . $model->formName(),
-                'class' => 'btn btn-success'
-            ]
-        );
-        ?>
-
-        <?php ActiveForm::end(); ?>
-
+    <?php
+    $forms = [
+        [
+            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode(Yii::t('app', 'HotelsAppartmentHasHotelsTypeOfFood')),
+            'content' => $this->render('_formHotelsAppartmentHasHotelsTypeOfFood', [
+                'row' => \yii\helpers\ArrayHelper::toArray($model->hotelsAppartmentHasHotelsTypeOfFoods),
+            ]),
+        ],
+        [
+            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode(Yii::t('app', 'HotelsPricing')),
+            'content' => $this->render('_formHotelsPricing', [
+                'row' => \yii\helpers\ArrayHelper::toArray($model->hotelsPricings),
+            ]),
+        ],
+        /*[
+            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode(Yii::t('app', 'SalOrder')),
+            'content' => $this->render('_formSalOrder', [
+                'form' => $form,
+                'SalOrder' => is_null($model->salOrders) ? new common\models\SalOrder() : $model->salOrders,
+            ]),
+        ],*/
+    ];
+    echo kartik\tabs\TabsX::widget([
+        'items' => $forms,
+        'position' => kartik\tabs\TabsX::POS_ABOVE,
+        'encodeLabels' => false,
+        'pluginOptions' => [
+            'bordered' => true,
+            'sideways' => true,
+            'enableCache' => false,
+        ],
+    ]);
+    ?>
+    <div class="form-group">
+        <?php if (Yii::$app->controller->action->id != 'save-as-new'): ?>
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php endif; ?>
+        <?php if (Yii::$app->controller->action->id != 'create'): ?>
+            <?= Html::submitButton(Yii::t('app', 'Save As New'), ['class' => 'btn btn-info', 'value' => '1', 'name' => '_asnew']) ?>
+        <?php endif; ?>
+        <?= Html::a(Yii::t('app', 'Cancel'), Yii::$app->request->referrer, ['class' => 'btn btn-danger']) ?>
     </div>
 
-</div>
+    <?php ActiveForm::end(); ?>
 
+</div>

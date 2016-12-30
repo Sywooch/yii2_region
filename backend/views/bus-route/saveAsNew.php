@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\bus\BusRoute */
+/* @var $model common\models\BusRoute */
 
 $this->title = Yii::t('app', 'Save As New {modelClass}: ', [
         'modelClass' => 'Bus Route',

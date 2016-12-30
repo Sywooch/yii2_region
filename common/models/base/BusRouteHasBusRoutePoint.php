@@ -51,6 +51,7 @@ abstract class BusRouteHasBusRoutePoint extends \yii\db\ActiveRecord
                 'class' => TimestampBehavior::className(),
                 'createdAtAttribute' => 'date_add',
                 'updatedAtAttribute' => 'date_edit',
+                'value' => new \yii\db\Expression('NOW()'),
             ],
         ];
     }

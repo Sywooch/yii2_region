@@ -84,7 +84,7 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
         return [
             [['name', 'address','city_id'], 'required'],
             [['name', 'address', 'description', 'gps_point_m', 'gps_point_p', 'links_maps'], 'string'],
-            [['country', 'hotels_stars_id','city_id', 'period_day'], 'integer'],
+            [['country', 'hotels_stars_id', 'city_id', 'period_day', 'discount_child'], 'integer'],
             [['imageFiles'], 'file', 'extensions' => 'png, jpg, gif', 'maxFiles' => 12],
             [['hotels_stars_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsStars::className(), 'targetAttribute' => ['hotels_stars_id' => 'id']],
             [['delImages','mainImage','active', 'top'],'boolean']
@@ -111,6 +111,7 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
             'active' => Yii::t('app','Active'),
             'top' => Yii::t('app','inMain' ),
             'period_day' => Yii::t('app', 'Day Period'),
+            'discount_child' => Yii::t('app', 'Применяются скидки на детей'),
         ];
     }
 
@@ -228,6 +229,11 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
     public function getHotelsPricings()
     {
         return $this->hasMany(HotelsPricing::className(), ['hotels_appartemnt_hotels_info_id' => 'id']);
+    }
+
+    public static function find()
+    {
+        return new \common\models\HotelsInfoQuery(get_called_class());
     }
 
     /**

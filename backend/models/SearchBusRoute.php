@@ -7,7 +7,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * frontend\models\bus\SearchBusRoute represents the model behind the search form about `frontend\models\bus\BusRoute`.
+ * backend\models\SearchBusRoute represents the model behind the search form about `common\models\BusRoute`.
  */
 class SearchBusRoute extends BusRoute
 {
@@ -17,7 +17,7 @@ class SearchBusRoute extends BusRoute
     public function rules()
     {
         return [
-            [['id', 'created_by', 'updated_by'], 'integer'],
+            [['id', 'created_by', 'updated_by', 'lock'], 'integer'],
             [['name', 'date', 'date_begin', 'date_end', 'date_add', 'date_edit'], 'safe'],
         ];
     }
@@ -63,6 +63,7 @@ class SearchBusRoute extends BusRoute
             'date_edit' => $this->date_edit,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
+            'lock' => $this->lock,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

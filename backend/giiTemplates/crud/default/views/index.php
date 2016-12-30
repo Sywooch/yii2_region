@@ -15,7 +15,7 @@ $nameAttribute = $generator->getNameAttribute();
 $model = new $generator->modelClass();
 $model->setScenario('crud');
 
-$modelName = Inflector::pluralize(StringHelper::basename($model::className()));
+$modelName = Inflector::camel2words(Inflector::pluralize(StringHelper::basename($model::className())));
 
 $safeAttributes = $model->safeAttributes();
 if (empty($safeAttributes)) {
@@ -42,10 +42,8 @@ use <?= $generator->indexWidgetType === 'grid' ? 'kartik\\grid\\GridView' : 'yii
 <?php endif; ?>
 */
 
-<?php
-$this->title = Yii::t($generator->messageCategory, $modelName);
+$this->title = Yii::t(<?= "'{$generator->modelMessageCategory}', '{$modelName}'" ?>);
 $this->params['breadcrumbs'][] = $this->title;
-?>
 
 <?php
 if ($generator->accessFilter):
@@ -56,15 +54,15 @@ if ($generator->accessFilter):
     */
     $actionColumnTemplates = [];
 
-    if (\Yii::$app->user->can('<?= $permisions['view']['name'] ?>')) {
+    if (\Yii::$app->user->can('<?= $permisions['view']['name'] ?>', ['route' => true])) {
     $actionColumnTemplates[] = '{view}';
     }
 
-    if (\Yii::$app->user->can('<?= $permisions['update']['name'] ?>')) {
+    if (\Yii::$app->user->can('<?= $permisions['update']['name'] ?>', ['route' => true])) {
     $actionColumnTemplates[] = '{update}';
     }
 
-    if (\Yii::$app->user->can('<?= $permisions['delete']['name'] ?>')) {
+    if (\Yii::$app->user->can('<?= $permisions['delete']['name'] ?>', ['route' => true])) {
     $actionColumnTemplates[] = '{delete}';
     }
     <?php
@@ -78,6 +76,8 @@ Yii::$app->view->params['pageButtons'] = Html::a('<span
     class="glyphicon glyphicon-plus"></span> ' . <?= $generator->generateString('New') ?>, ['create'], ['class' => 'btn btn-success']);
 $actionColumnTemplateString = "{view} {update} {delete}";
 }
+$actionColumnTemplateString = '
+<div class="action-buttons">'.$actionColumnTemplateString.'</div>';
 <?php
 echo '?>';
 ?>
@@ -96,7 +96,7 @@ echo '?>';
     <?= "<?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert(\"yo\")}']]) ?>\n"; ?>
 
     <h1>
-        <?= "<?= Yii::t('{$generator->messageCategory}', '{$modelName}') ?>" ?>
+        <?= "<?= Yii::t('{$generator->modelMessageCategory}', '{$modelName}') ?>\n" ?>
         <small>
             List
         </small>
@@ -106,7 +106,7 @@ echo '?>';
         if ($generator->accessFilter) {
             echo "<?php\n"
             ?>
-            if(\Yii::$app->user->can('<?= $permisions['create']['name'] ?>')){
+            if(\Yii::$app->user->can('<?= $permisions['create']['name'] ?>', ['route' => true])){
             <?php
             echo "?>\n"
             ?>
@@ -139,7 +139,7 @@ echo '?>';
                 // relation dropdown links
                 $iconType = ($relation->multiple) ? 'arrow-right' : 'arrow-left';
                 if ($generator->isPivotRelation($relation)) {
-                    $iconType = 'random';
+                    $iconType = 'random text-muted';
                 }
                 $controller = $generator->pathPrefix . Inflector::camel2id(
                         StringHelper::basename($relation->modelClass),
@@ -151,8 +151,9 @@ echo '?>';
                 $items .= <<<PHP
             [
                 'url' => ['{$route}'],
-                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . {$generator->generateString($label)} . '</i>',
+                'label' => '<i class="glyphicon glyphicon-{$iconType}">&nbsp;' . Yii::t('$generator->modelMessageCategory', '$label') . '</i>',
             ],
+                    
 PHP;
                 ?>
             <?php endforeach; ?>
@@ -198,12 +199,21 @@ PHP;
         'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
         'headerRowOptions' => ['class'=>'x'],
         'columns' => [
-
         <?php
         $actionButtonColumn = <<<PHP
         [
             'class' => '{$generator->actionButtonClass}',
             'template' => \$actionColumnTemplateString,
+            'buttons' => [
+                'view' => function (\$url, \$model, \$key) {
+                    \$options = [
+                        'title' => Yii::t('yii', 'View'),
+                        'aria-label' => Yii::t('yii', 'View'),
+                        'data-pjax' => '0',
+                    ];
+                    return Html::a('<span class="glyphicon glyphicon-file"></span>', \$url, \$options);
+                }
+            ],
             'urlCreator' => function(\$action, \$model, \$key, \$index) {
                 // using the column name as key, not mapping to 'id' like the standard generator
                 \$params = is_array(\$key) ? \$key : [\$model->primaryKey()[0] => (string) \$key];

@@ -2,23 +2,18 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\TransPrice;
 use backend\models\SearchTransPrice;
+use common\models\TransPrice;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use \yii\web\Response;
-use yii\helpers\Html;
 
 /**
  * TransPriceController implements the CRUD actions for TransPrice model.
  */
 class TransPriceController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
     public function behaviors()
     {
         return [
@@ -26,9 +21,21 @@ class TransPriceController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
-                    'bulk-delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'add-trans-reservation'],
+                        'roles' => ['@']
+                    ],
+                    [
+                        'allow' => false
+                    ]
+                ]
+            ]
         ];
     }
 
@@ -37,7 +44,7 @@ class TransPriceController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {    
+    {
         $searchModel = new SearchTransPrice();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -47,210 +54,136 @@ class TransPriceController extends Controller
         ]);
     }
 
-
     /**
      * Displays a single TransPrice model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
-    {   
-        $request = Yii::$app->request;
-        if($request->isAjax){
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return [
-                    'title'=> Yii::t('app', 'TransPrice') . ' #' .$id,
-                    'content'=>$this->renderPartial('view', [
-                        'model' => $this->findModel($id),
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
-        }else{
-            return $this->render('view', [
-                'model' => $this->findModel($id),
+    {
+        $model = $this->findModel($id);
+        $providerTransReservation = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->transReservations,
+        ]);
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+            'providerTransReservation' => $providerTransReservation,
+        ]);
+    }
+
+    /**
+     * Creates a new TransPrice model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreate()
+    {
+        $model = new TransPrice();
+
+        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
             ]);
         }
     }
 
     /**
-     * Creates a new TransPrice model.
-     * For ajax request will return json object
-     * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $request = Yii::$app->request;
-        $model = new TransPrice();  
-
-        if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){
-                return [
-                    'title'=> Yii::t('app', 'Create new') . ' ' . Yii::t('app', 'TransPrice'),
-                    'content'=>$this->renderPartial('create', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button(Yii::t('app', 'Save'),['class'=>'btn btn-primary','type'=>"submit"])
-        
-                ];         
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'true',
-                    'title'=> Yii::t('app', 'Create new') . ' ' . Yii::t('app', 'TransPrice'),
-                    'content'=>'<span class="text-success">Create TransPrice success</span>',
-                    'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a(Yii::t('app', 'Create More'),['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
-        
-                ];         
-            }else{           
-                return [
-                    'title'=> Yii::t('app', 'Create new') . ' ' . Yii::t('app', 'TransPrice'),
-                    'content'=>$this->renderPartial('create', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button(Yii::t('app', 'Save'),['class'=>'btn btn-primary','type'=>"submit"])
-        
-                ];         
-            }
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            } else {
-                return $this->render('create', [
-                    'model' => $model,
-                ]);
-            }
-        }
-       
-    }
-
-    /**
      * Updates an existing TransPrice model.
-     * For ajax request will return json object
-     * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
+     * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      */
     public function actionUpdate($id)
     {
-        $request = Yii::$app->request;
-        $model = $this->findModel($id);       
+        if (Yii::$app->request->post('_asnew') == '1') {
+            $model = new TransPrice();
+        } else {
+            $model = $this->findModel($id);
+        }
 
-        if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){
-                return [
-                    'title'=> Yii::t('app', 'Update') . ' ' . Yii::t('app', 'TransPrice') . ' #' .$id,
-                    'content'=>$this->renderPartial('update', [
-                        'model' => $this->findModel($id),
-                    ]),
-                    'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button(Yii::t('app', 'Save'),['class'=>'btn btn-primary','type'=>"submit"])
-                ];         
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'true',
-                    'title'=> Yii::t('app', 'TransPrice') . ' #' .$id,
-                    'content'=>$this->renderPartial('view', [
-                        'model' => $this->findModel($id),
-                    ]),
-                    'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a(Yii::t('app', 'Edit'),['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
-            }else{
-                 return [
-                    'title'=> Yii::t('app', 'Update') . ' ' . Yii::t('app', 'TransPrice') . ' #'.$id,
-                    'content'=>$this->renderPartial('update', [
-                        'model' => $this->findModel($id),
-                    ]),
-                    'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button(Yii::t('app', 'Save'),['class'=>'btn btn-primary','type'=>"submit"])
-                ];        
-            }
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            } else {
-                return $this->render('update', [
-                    'model' => $model,
-                ]);
-            }
+        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         }
     }
 
     /**
-     * Delete an existing TransPrice model.
-     * For ajax request will return json object
-     * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
+     * Deletes an existing TransPrice model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
     public function actionDelete($id)
     {
-        $request = Yii::$app->request;
-        $this->findModel($id)->delete();
+        $this->findModel($id)->deleteWithRelated();
 
-        if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true];    
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
-        }
-
-
+        return $this->redirect(['index']);
     }
 
-     /**
-     * Delete multiple existing TransPrice model.
-     * For ajax request will return json object
-     * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
+    /**
+     *
+     * Export TransPrice information into PDF format.
      * @param integer $id
      * @return mixed
      */
-    public function actionBulkDelete()
-    {        
-        $request = Yii::$app->request;
-        $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (TransPrice::findAll(json_decode($pks)) as $model) {
-            $model->delete();
-        }
-        
+    public function actionPdf($id)
+    {
+        $model = $this->findModel($id);
+        $providerTransReservation = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->transReservations,
+        ]);
 
-        if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true]; 
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
+        $content = $this->renderAjax('_pdf', [
+            'model' => $model,
+            'providerTransReservation' => $providerTransReservation,
+        ]);
+
+        $pdf = new \kartik\mpdf\Pdf([
+            'mode' => \kartik\mpdf\Pdf::MODE_CORE,
+            'format' => \kartik\mpdf\Pdf::FORMAT_A4,
+            'orientation' => \kartik\mpdf\Pdf::ORIENT_PORTRAIT,
+            'destination' => \kartik\mpdf\Pdf::DEST_BROWSER,
+            'content' => $content,
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            'cssInline' => '.kv-heading-1{font-size:18px}',
+            'options' => ['title' => \Yii::$app->name],
+            'methods' => [
+                'SetHeader' => [\Yii::$app->name],
+                'SetFooter' => ['{PAGENO}'],
+            ]
+        ]);
+
+        return $pdf->render();
+    }
+
+    /**
+     * Creates a new TransPrice model by another data,
+     * so user don't need to input all field from scratch.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     *
+     * @param type $id
+     * @return type
+     */
+    public function actionSaveAsNew($id)
+    {
+        $model = new TransPrice();
+
+        if (Yii::$app->request->post('_asnew') != '1') {
+            $model = $this->findModel($id);
         }
-       
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('saveAsNew', [
+                'model' => $model,
+            ]);
+        }
     }
 
     /**
@@ -265,7 +198,27 @@ class TransPriceController extends Controller
         if (($model = TransPrice::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+        }
+    }
+
+    /**
+     * Action to load a tabular form grid
+     * for TransReservation
+     * @author Yohanes Candrajaya <moo.tensai@gmail.com>
+     * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
+     *
+     * @return mixed
+     */
+    public function actionAddTransReservation()
+    {
+        if (Yii::$app->request->isAjax) {
+            $row = Yii::$app->request->post('TransReservation');
+            if ((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
+                $row[] = [];
+            return $this->renderAjax('_formTransReservation', ['row' => $row]);
+        } else {
+            throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
         }
     }
 }

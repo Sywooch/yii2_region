@@ -2,10 +2,9 @@
 
 namespace backend\models;
 
-use Yii;
+use common\models\BusRoutePoint;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\BusRoutePoint;
 
 /**
  * SearchBusRoutePoint represents the model behind the search form about `common\models\BusRoutePoint`.
@@ -19,7 +18,7 @@ class SearchBusRoutePoint extends BusRoutePoint
     {
         return [
             [['id', 'active'], 'integer'],
-            [['name', 'gps_point_m', 'gps_point_p', 'description', 'date'], 'safe'],
+            [['name', 'gps_point_m', 'gps_point_p', 'description'], 'safe'],
         ];
     }
 
@@ -58,7 +57,7 @@ class SearchBusRoutePoint extends BusRoutePoint
         $query->andFilterWhere([
             'id' => $this->id,
             'active' => $this->active,
-            'date' => $this->date,
+
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

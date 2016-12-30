@@ -5,27 +5,18 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model common\models\HotelsAppartmentItem */
 /* @var $form yii\widgets\ActiveForm */
+$model->active = 1
 ?>
 
 <div class="hotels-appartment-item-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'name')->textInput() ?>
 
     <?= $form->field($model, 'count_beds')->textInput() ?>
 
-    <?= $form->field($model, 'active')->textInput() ?>
-
-    <?= $form->field($model, 'date_add')->widget(\kartik\datetime\DateTimePicker::classname(), [
-                //'langauge' => 'ru',
-                //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
-            ]) ?>
-
-    <?= $form->field($model, 'date_edit')->widget(\kartik\datetime\DateTimePicker::classname(), [
-                //'langauge' => 'ru',
-                //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
-            ]) ?>
+    <?= $form->field($model, 'active')->checkbox() ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

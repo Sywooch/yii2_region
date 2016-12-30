@@ -2,36 +2,20 @@
 
 use yii\helpers\Html;
 
-/**
- * @var yii\web\View $this
- * @var common\models\HotelsPayPeriod $model
- */
 
-$this->title = Yii::t('app', 'Create');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'HotelsPayPeriods'), 'url' => ['index']];
+/* @var $this yii\web\View */
+/* @var $model common\models\HotelsPayPeriod */
+
+$this->title = Yii::t('app', 'Create Hotels Pay Period');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Hotels Pay Periods'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="giiant-crud hotels-pay-period-create">
+<div class="hotels-pay-period-create">
 
-    <h1>
-        <?= Yii::t('app', 'HotelsPayPeriod') ?>
-        <small>
-            <?= $model->id ?>        </small>
-    </h1>
-
-    <div class="clearfix crud-navigation">
-        <div class="pull-left">
-            <?= Html::a(
-                Yii::t('app', 'Cancel'),
-                \yii\helpers\Url::previous(),
-                ['class' => 'btn btn-default']) ?>
-        </div>
-    </div>
-
-    <hr/>
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
-    ]); ?>
+    ]) ?>
 
 </div>

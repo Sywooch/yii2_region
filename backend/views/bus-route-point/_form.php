@@ -1,8 +1,8 @@
 <?php
+use mirocow\yandexmaps\Canvas as YandexCanvas;
+use mirocow\yandexmaps\Map as YandexMap;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use mirocow\yandexmaps\Map as YandexMap;
-use mirocow\yandexmaps\Canvas as YandexCanvas;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\BusRoutePoint */
@@ -16,7 +16,7 @@ use mirocow\yandexmaps\Canvas as YandexCanvas;
         
         'zoom' => 10,
         // Enable zoom with mouse scroll
-        'behaviors' => array('default', 'scrollZoom'),
+        'behaviors' => array('default'),
         'type' => "yandex#map",
     ],
         [
@@ -28,6 +28,7 @@ use mirocow\yandexmaps\Canvas as YandexCanvas;
                 /*"\"smallZoomControl\"",*/
                 "new ymaps.control.TypeSelector(['yandex#map', 'yandex#satellite'])",
             ],
+            'behaviors' => ['scrollZoom' => 'disable'],
             'events' => [
                 'click' => "function(e) {
                 var coords = e.get('coords'); 
@@ -45,10 +46,12 @@ use mirocow\yandexmaps\Canvas as YandexCanvas;
     <?= $form->field($model, 'name')->textInput() ?>
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
     <?= $form->field($model, 'active')->checkbox() ?>
-    <?= $form->field($model, 'date')->widget(\kartik\datetime\DateTimePicker::classname(), [
-        //'language' => 'ru',
-        //'dateFormat' => 'yyyy-MM-dd',
-    ]) ?>
+
+    <?= $form->field($model, 'city_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(common\models\City::find()->active()->orderBy('name')->all(), 'id', 'name'),
+        ['prompt' => Yii::t('app', 'Select')])
+    ?>
+
     <?= $form->field($model, 'gps_point_m')->textInput() ?>
 
     <?= $form->field($model, 'gps_point_p')->textInput() ?>

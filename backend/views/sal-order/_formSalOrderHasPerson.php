@@ -21,7 +21,7 @@
         ],
         'attributes' => [
             'person_id' => [
-                'label' => 'Person',
+                'label' => Yii::t('app', 'Person'),
                 'type' => TabularForm::INPUT_WIDGET,
                 'widgetClass' => \kartik\widgets\Select2::className(),
                 'options' => [
@@ -30,7 +30,7 @@
                 ],
                 'columnOptions' => ['width' => '200px']
             ],
-            "lock" => ['type' => TabularForm::INPUT_HIDDEN, 'visible' => false],
+            //"lock" => ['type' => TabularForm::INPUT_HIDDEN, 'visible' => false],
             'del' => [
                 'type' => 'raw',
                 'label' => '',

@@ -2,10 +2,9 @@
 
 namespace backend\models;
 
-use Yii;
+use common\models\BusRouteHasBusRoutePoint;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\BusRouteHasBusRoutePoint;
 
 /**
 * SearchBusRouteHasBusRoutePoint represents the model behind the search form about `common\models\BusRouteHasBusRoutePoint`.
@@ -61,7 +60,7 @@ $query->andFilterWhere([
             'first_point' => $this->first_point,
             'end_point' => $this->end_point,
             'position' => $this->position,
-            'date_point_forward' => $this->date_point_path,
+    //'date_point_forward' => $this->date_point_path,
             'time_pause' => $this->time_pause,
             'date_point_reverse' => $this->date_point_reverse,
             'date_add' => $this->date_add,

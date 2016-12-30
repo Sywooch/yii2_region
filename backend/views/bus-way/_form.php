@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -11,46 +12,72 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
+    <?= $form->errorSummary($model); ?>
 
-    <?= $form->field($model, 'bus_info_id')->dropDownList(
-        \yii\helpers\ArrayHelper::map(common\models\BusInfo::find()->all(), 'id', 'name'),
-        ['prompt' => Yii::t('app', 'Select')]
-    ) ?>
+    <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
-    <?= $form->field($model, 'date_create')->widget(\kartik\datetime\DateTimePicker::classname(), [
-                //'langauge' => 'ru',
-                //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
-            ]) ?>
+    <?= $form->field($model, 'name')->textInput() ?>
 
-    <?= $form->field($model, 'date_begin')->widget(\kartik\datetime\DateTimePicker::classname(), [
-                //'langauge' => 'ru',
-                //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
-            ]) ?>
+    <?= $form->field($model, 'bus_info_id')->widget(\kartik\widgets\Select2::classname(), [
+        'data' => \yii\helpers\ArrayHelper::map(\common\models\BusInfo::find()->orderBy('id')->asArray()->all(), 'id', 'name'),
+        'options' => ['placeholder' => Yii::t('app', 'Choose Bus info')],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
 
-    <?= $form->field($model, 'date_end')->widget(\kartik\datetime\DateTimePicker::classname(), [
-                //'langauge' => 'ru',
-                //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
-            ]) ?>
+    <?= $form->field($model, 'bus_route_id')->widget(\kartik\widgets\Select2::classname(), [
+        'data' => \yii\helpers\ArrayHelper::map(\common\models\BusRoute::find()->orderBy('id')->asArray()->all(), 'id', 'name'),
+        'options' => ['placeholder' => Yii::t('app', 'Choose Bus route')],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
+
+    <?= $form->field($model, 'price')->widget(\kartik\money\MaskMoney::className()) ?>
+
+    <?= $form->field($model, 'date_begin')->widget(\kartik\datecontrol\DateControl::classname(), [
+        'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
+        'saveFormat' => 'php:Y-m-d H:i:s',
+        'ajaxConversion' => true,
+        'options' => [
+            'pluginOptions' => [
+                'placeholder' => Yii::t('app', 'Choose Date Begin'),
+                'autoclose' => true,
+            ]
+        ],
+    ]); ?>
+
+    <?= $form->field($model, 'date_end')->widget(\kartik\datecontrol\DateControl::classname(), [
+        'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
+        'saveFormat' => 'php:Y-m-d H:i:s',
+        'ajaxConversion' => true,
+        'options' => [
+            'pluginOptions' => [
+                'placeholder' => Yii::t('app', 'Choose Date End'),
+                'autoclose' => true,
+            ]
+        ],
+    ]); ?>
+
+    <?= $form->field($model, 'path_time')->textInput(['maxlength' => true, 'placeholder' => 'Path Time']) ?>
 
     <?= $form->field($model, 'active')->checkbox() ?>
 
     <?= $form->field($model, 'ended')->checkbox() ?>
 
-    <?= $form->field($model, 'bus_path_id')->dropDownList(
-        \yii\helpers\ArrayHelper::map(common\models\BusRoute::find()->all(), 'id', 'name'),
-        ['prompt' => Yii::t('app', 'Select')]
-    ) ?>
+    <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
-    <?= $form->field($model, 'path_time')->textInput(['maxlength' => true]) ?>
-
-  
-	<?php if (!Yii::$app->request->isAjax){ ?>
-	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-	    </div>
-	<?php } ?>
+    <div class="form-group">
+        <?php if (Yii::$app->controller->action->id != 'save-as-new'): ?>
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php endif; ?>
+        <?php if (Yii::$app->controller->action->id != 'create'): ?>
+            <?= Html::submitButton(Yii::t('app', 'Save As New'), ['class' => 'btn btn-info', 'value' => '1', 'name' => '_asnew']) ?>
+        <?php endif; ?>
+        <?= Html::a(Yii::t('app', 'Cancel'), Yii::$app->request->referrer, ['class' => 'btn btn-danger']) ?>
+    </div>
 
     <?php ActiveForm::end(); ?>
-    
+
 </div>

@@ -8,17 +8,19 @@ $dataProvider = new ArrayDataProvider([
 ]);
 $gridColumns = [
     ['class' => 'yii\grid\SerialColumn'],
+    ['attribute' => 'id', 'visible' => false],
     'name:ntext',
     [
         'attribute' => 'busInfo.name',
         'label' => Yii::t('app', 'Bus Info')
     ],
-    'date_create',
     'date_begin',
     'date_end',
     'active',
     'ended',
     'path_time',
+    'price',
+    ['attribute' => 'lock', 'visible' => false],
     [
         'class' => 'yii\grid\ActionColumn',
         'controller' => 'bus-way'

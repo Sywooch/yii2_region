@@ -24,15 +24,15 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'type_price',
+        'attribute' => 'years',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date_begin',
+        'attribute' => 'date_add',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date_end',
+        'attribute' => 'date_edit',
     ],
     // [
         // 'class'=>'\kartik\grid\BooleanColumn',

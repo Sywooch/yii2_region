@@ -7,7 +7,8 @@ $this->title = Yii::t('app', 'Гостиницы');
 <div class="container-fluid">
     <?php
     if ((Yii::$app->getRequest()->getPathInfo() == 'hotels') or
-        (Yii::$app->getRequest()->getPathInfo() == 'hotels/index')
+        (Yii::$app->getRequest()->getPathInfo() == 'hotels/index') or
+        (Yii::$app->getRequest()->getPathInfo() == 'hotels/')
     ) {
         ?>
         <div class="col-md-3 col-xs-12 panel panel-primary">

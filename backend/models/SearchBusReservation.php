@@ -7,7 +7,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * SearchBusReservation represents the model behind the search form about `common\models\BusReservation`.
+ * backend\models\SearchBusReservation represents the model behind the search form about `common\models\BusReservation`.
  */
 class SearchBusReservation extends BusReservation
 {
@@ -17,8 +17,8 @@ class SearchBusReservation extends BusReservation
     public function rules()
     {
         return [
-            [['id', 'bus_info_id', 'bus_way_id', 'number_seat', 'status', 'active', 'person_id'], 'integer'],
-            [['name', 'date'], 'safe'],
+            [['id', 'bus_info_id', 'bus_way_id', 'person_id', 'number_seat', 'status', 'active', 'created_by', 'updated_by', 'lock'], 'integer'],
+            [['name', 'date', 'date_add', 'date_edit'], 'safe'],
         ];
     }
 
@@ -58,11 +58,16 @@ class SearchBusReservation extends BusReservation
             'id' => $this->id,
             'bus_info_id' => $this->bus_info_id,
             'bus_way_id' => $this->bus_way_id,
+            'person_id' => $this->person_id,
             'number_seat' => $this->number_seat,
             'date' => $this->date,
             'status' => $this->status,
             'active' => $this->active,
-            'person_id' => $this->person_id,
+            'date_add' => $this->date_add,
+            'date_edit' => $this->date_edit,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
+            'lock' => $this->lock,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

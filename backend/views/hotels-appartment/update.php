@@ -2,31 +2,22 @@
 
 use yii\helpers\Html;
 
-/**
-* @var yii\web\View $this
-* @var common\models\HotelsAppartment $model
-*/
+/* @var $this yii\web\View */
+/* @var $model common\models\HotelsAppartment */
 
-$this->title = Yii::t('app', 'HotelsAppartment') . $model->name . ', ' . Yii::t('app', 'Edit');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'HotelsAppartments'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => (string)$model->name, 'url' => ['view', 'id' => $model->id, 'hotels_info_id' => $model->hotels_info_id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Edit');
+$this->title = Yii::t('app', 'Update {modelClass}: ', [
+        'modelClass' => 'Hotels Appartment',
+    ]) . ' ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Hotels Appartments'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id, 'hotels_info_id' => $model->hotels_info_id]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
-<div class="giiant-crud hotels-appartment-update">
+<div class="hotels-appartment-update">
 
-    <h1>
-        <?= Yii::t('app', 'HotelsAppartment') ?>        <small>
-                        <?= $model->name ?>        </small>
-    </h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="crud-navigation">
-        <?= Html::a('<span class="glyphicon glyphicon-eye-open"></span> ' . Yii::t('app', 'View'), ['view', 'id' => $model->id, 'hotels_info_id' => $model->hotels_info_id], ['class' => 'btn btn-default']) ?>
-    </div>
-
-    <hr />
-
-    <?php echo $this->render('_form', [
-    'model' => $model,
-    ]); ?>
+    <?= $this->render('_form', [
+        'model' => $model,
+    ]) ?>
 
 </div>

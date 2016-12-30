@@ -11,6 +11,9 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'console\controllers',
+    'modules' => [
+
+    ],
     'components' => [
         'log' => [
             'targets' => [
@@ -19,6 +22,9 @@ return [
                     'levels' => ['error', 'warning'],
                 ],
             ],
+        ],
+        'urlManager' => [
+            'baseUrl' => 'http://ltv.loc/'
         ],
     ],
     'params' => $params,

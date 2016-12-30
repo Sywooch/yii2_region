@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\bus\SearchBusRoute */
+/* @var $model backend\models\SearchBusRoute */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -55,29 +55,7 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?php /* echo $form->field($model, 'date_add')->widget(\kartik\datecontrol\DateControl::classname(), [
-        'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
-        'saveFormat' => 'php:Y-m-d H:i:s',
-        'ajaxConversion' => true,
-        'options' => [
-            'pluginOptions' => [
-                'placeholder' => Yii::t('app', 'Choose Date Add'),
-                'autoclose' => true,
-            ]
-        ],
-    ]); */ ?>
-
-    <?php /* echo $form->field($model, 'date_edit')->widget(\kartik\datecontrol\DateControl::classname(), [
-        'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
-        'saveFormat' => 'php:Y-m-d H:i:s',
-        'ajaxConversion' => true,
-        'options' => [
-            'pluginOptions' => [
-                'placeholder' => Yii::t('app', 'Choose Date Edit'),
-                'autoclose' => true,
-            ]
-        ],
-    ]); */ ?>
+    <?php /* echo $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); */ ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

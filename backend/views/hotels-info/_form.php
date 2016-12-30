@@ -1,13 +1,13 @@
 <?php
 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
-use \dmstr\bootstrap\Tabs;
+use dmstr\bootstrap\Tabs;
 use kartik\widgets\FileInput;
-use mirocow\yandexmaps\Map as YandexMap;
 use mirocow\yandexmaps\Canvas as YandexCanvas;
-use skeeks\yii2\ckeditor\CKEditorWidget;
+use mirocow\yandexmaps\Map as YandexMap;
 use skeeks\yii2\ckeditor\CKEditorPresets;
+use skeeks\yii2\ckeditor\CKEditorWidget;
+use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
@@ -21,7 +21,7 @@ $items = $model->getImage2amigos();
 
         'zoom' => 10,
         // Enable zoom with mouse scroll
-        'behaviors' => array('default', 'scrollZoom'),
+        'behaviors' => array('default'),
         'type' => "yandex#map",
     ],
         [
@@ -33,12 +33,9 @@ $items = $model->getImage2amigos();
                 /*"\"smallZoomControl\"",*/
                 "new ymaps.control.TypeSelector(['yandex#map', 'yandex#satellite'])",
             ],
+            'behaviors' => ['scrollZoom' => 'disable'],
             'events' => [
-                'click' => "function(e) {
-                var coords = e.get('coords'); 
-                $('#hotelsinfo-gps_point_m').val(coords[0].toPrecision(8));
-                $('#hotelsinfo-gps_point_p').val(coords[1].toPrecision(8));
-                }",
+                'click' => 'function(e) {var coords = e.get(\'coords\');$(\'#hotelsinfo-gps_point_m\').val(coords[0].toPrecision(8));$(\'#hotelsinfo-gps_point_p\').val(coords[1].toPrecision(8));}',
 
             ]
         ]
@@ -103,8 +100,10 @@ if (Yii::$app->controller->action->id === 'update'){
                 \yii\helpers\ArrayHelper::map(common\models\HotelsStars::find()->all(), 'id', 'name'),
                 ['prompt' => Yii::t('app', 'Select')]
             ); ?>
+            <?= $form->field($model, 'discount_child')->checkbox() ?>
 
             <?= $form->field($model, 'period_day')->textInput() ?>
+
 
             <?= $form->field($model, 'gps_point_m')->textInput() ?>
             <?= $form->field($model, 'gps_point_p')->textInput() ?>

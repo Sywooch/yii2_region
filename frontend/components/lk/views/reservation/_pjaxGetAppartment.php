@@ -19,7 +19,7 @@ $this->registerJs('
 
 if (!$model->isNewRecord) {
     $this->registerJs('
-        $("#choose-hotels_appartment_hotels_info_id").on("change", function() {
+        $("#choose-hotels_info_id").on("change", function() {
             $.pjax.reload("#pjax-hotelspricing-hotelsinfo div div.col-sm-6", {
                 history: false,
                 data: $(this).serialize(),

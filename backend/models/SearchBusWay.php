@@ -2,13 +2,12 @@
 
 namespace backend\models;
 
-use Yii;
+use common\models\BusWay;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\BusWay;
 
 /**
- * SearchBusWay represents the model behind the search form about `common\models\BusWay`.
+ * backend\models\SearchBusWay represents the model behind the search form about `common\models\BusWay`.
  */
 class SearchBusWay extends BusWay
 {
@@ -18,8 +17,9 @@ class SearchBusWay extends BusWay
     public function rules()
     {
         return [
-            [['id', 'bus_info_id', 'active', 'ended', 'bus_path_id'], 'integer'],
-            [['name', 'date_create', 'date_begin', 'date_end', 'path_time'], 'safe'],
+            [['id', 'bus_info_id', 'active', 'ended', 'bus_route_id', 'created_by', 'updated_by', 'lock', 'stop'], 'integer'],
+            [['name', 'date_begin', 'date_end', 'path_time', 'date_add', 'date_edit'], 'safe'],
+            [['price'], 'number'],
         ];
     }
 
@@ -58,12 +58,18 @@ class SearchBusWay extends BusWay
         $query->andFilterWhere([
             'id' => $this->id,
             'bus_info_id' => $this->bus_info_id,
-            'date_create' => $this->date_create,
             'date_begin' => $this->date_begin,
             'date_end' => $this->date_end,
             'active' => $this->active,
             'ended' => $this->ended,
-            'bus_path_id' => $this->bus_path_id,
+            'bus_route_id' => $this->bus_route_id,
+            'price' => $this->price,
+            'date_add' => $this->date_add,
+            'date_edit' => $this->date_edit,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
+            'lock' => $this->lock,
+            'stop' => $this->stop,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

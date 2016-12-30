@@ -24,6 +24,7 @@ class TransStation extends BaseTransStation
             'gps_parallel' => Yii::t('app', 'Gps Parallel'),
             'gps_meridian' => Yii::t('app', 'Gps Meridian'),
             'address_id' => Yii::t('app', 'Address ID'),
+            //'city'
             'trans_type_station_id' => Yii::t('app', 'Trans Type Station ID'),
             'active' => Yii::t('app', 'Active'),
             'date_add' => Yii::t('app', 'Date Add'),

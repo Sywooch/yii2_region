@@ -22,18 +22,18 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'description',
     ],
-    /*[
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date_add',
-    ],*/
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'date_edit',
     ],
     [
-        'class'=>'\kartik\grid\BooleanColumn',
+        'class' => '\kartik\grid\DataColumn',
         'attribute'=>'active',
     ],
+    // [
+    // 'class'=>'\kartik\grid\DataColumn',
+    // 'attribute'=>'country_id',
+    // ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

@@ -83,7 +83,7 @@ class BusRoute extends \yii\db\ActiveRecord
      */
     public function getBusRouteHasBusRoutePoints()
     {
-        return $this->hasMany(\common\models\BusRouteHasBusRoutePoint::className(), ['bus_route_id' => 'id'])->inverseOf('busRoute');
+        return $this->hasMany(\common\models\BusRouteHasBusRoutePoint::className(), ['bus_route_id' => 'id'])->inverseOf('busRoute')->orderBy('position');
     }
 
     /**
@@ -99,7 +99,7 @@ class BusRoute extends \yii\db\ActiveRecord
      */
     public function getBusWays()
     {
-        return $this->hasMany(\common\models\BusWay::className(), ['bus_path_id' => 'id'])->inverseOf('busPath');
+        return $this->hasMany(\common\models\BusWay::className(), ['bus_route_id' => 'id'])->inverseOf('busRoute');
     }
 
     /**

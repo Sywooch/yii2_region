@@ -5,7 +5,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\bus\BusRoute */
+/* @var $model common\models\BusRoute */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Bus Routes'), 'url' => ['index']];
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'title' => Yii::t('app', 'Will open the generated PDF file in a new window')
                 ]
             ) ?>
-            <?= Html::a(Yii::t('app', 'Save As New'), ['save-as-new', 'id' => $model->id], ['class' => 'btn btn-info']) ?>
+            <?= Html::a(Yii::t('app', 'Save As New'), ['save-as-new', 'id' => $model->id], ['class' => 'btn btn-info']) ?>            
             <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
             <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
@@ -44,13 +44,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <?php
         $gridColumn = [
-            ['attribute' => 'id', 'hidden' => true],
+            ['attribute' => 'id', 'visible' => false],
             'name:ntext',
             'date',
             'date_begin',
             'date_end',
-            'date_add',
-            'date_edit',
+            ['attribute' => 'lock', 'visible' => false],
         ];
         echo DetailView::widget([
             'model' => $model,
@@ -68,16 +67,24 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'busRoutePoint.name',
                     'label' => Yii::t('app', 'Bus Route Point')
                 ],
-                'first_point',
-                'end_point',
+
+                [
+                    'label' => Yii::t('app', 'First Point'),
+                    'attribute' => 'first_point',
+                    'class' => '\kartik\grid\BooleanColumn',
+                ],
+
+                [
+                    'label' => Yii::t('app', 'End Point'),
+                    'attribute' => 'end_point',
+                    'class' => '\kartik\grid\BooleanColumn',
+                ],
                 'position',
                 'date_point_forward',
-                'time_pause:datetime',
+                'time_pause:ntext',
                 'date_point_reverse',
-                'date_add',
-                'date_edit',
             ];
-            echo Gridview::widget([
+            echo GridView::widget([
                 'dataProvider' => $providerBusRouteHasBusRoutePoint,
                 'pjax' => true,
                 'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-bus-route-has-bus-route-point']],
@@ -96,12 +103,13 @@ $this->params['breadcrumbs'][] = $this->title;
         if ($providerBusWay->totalCount) {
             $gridColumnBusWay = [
                 ['class' => 'yii\grid\SerialColumn'],
+                ['attribute' => 'id', 'visible' => false],
                 'name:ntext',
                 [
                     'attribute' => 'busInfo.name',
                     'label' => Yii::t('app', 'Bus Info')
                 ],
-                'date_create',
+                //'date_create',
                 'date_begin',
                 'date_end',
                 'active',

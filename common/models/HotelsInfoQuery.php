@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use yii\db\Expression;
+
 /**
  * This is the ActiveQuery class for [[HotelsInfo]].
  *
@@ -9,11 +11,11 @@ namespace common\models;
  */
 class HotelsInfoQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
+    public function active()
     {
-        $this->andWhere('[[status]]=1');
+        $this->andWhere('[[active]]=1');
         return $this;
-    }*/
+    }
 
     /**
      * @inheritdoc
@@ -32,6 +34,21 @@ class HotelsInfoQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
-    
-    
+
+    public function hot()
+    {
+        $this->andWhere('[[hot]]=1');
+        return $this;
+    }
+
+    public function activeTour()
+    {
+        $curentTime = new Expression('NOW()');
+        $this->active();
+        $this->innerJoin('tour_info', ['tour_info.hotels_info_id' => 'hotels_info.id'])
+            ->andWhere(['>=', 'tour_info.date_begin', $curentTime]);
+        //->andWhere(['<=','tour_info.date_end',$curentTime]);
+        return $this;
+    }
+
 }

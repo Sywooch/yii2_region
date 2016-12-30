@@ -2,13 +2,12 @@
 
 namespace backend\models;
 
-use Yii;
+use common\models\TransPrice;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\TransPrice;
 
 /**
- * SearchTransPrice represents the model behind the search form about `common\models\TransPrice`.
+ * backend\models\SearchTransPrice represents the model behind the search form about `common\models\TransPrice`.
  */
 class SearchTransPrice extends TransPrice
 {
@@ -18,9 +17,9 @@ class SearchTransPrice extends TransPrice
     public function rules()
     {
         return [
-            [['id', 'trans_price_type_id'], 'integer'],
+            [['id', 'trans_info_id', 'trans_seats_id', 'active', 'created_by', 'updated_by', 'lock'], 'integer'],
+            [['date_begin', 'date_end', 'date_add', 'date_edit'], 'safe'],
             [['price'], 'number'],
-            [['date_add', 'date_edit'], 'safe'],
         ];
     }
 
@@ -58,10 +57,17 @@ class SearchTransPrice extends TransPrice
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'trans_info_id' => $this->trans_info_id,
+            'trans_seats_id' => $this->trans_seats_id,
+            'date_begin' => $this->date_begin,
+            'date_end' => $this->date_end,
             'price' => $this->price,
             'date_add' => $this->date_add,
             'date_edit' => $this->date_edit,
-            'trans_price_type_id' => $this->trans_price_type_id,
+            'active' => $this->active,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
+            'lock' => $this->lock,
         ]);
 
         return $dataProvider;

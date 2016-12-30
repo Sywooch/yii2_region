@@ -10,8 +10,8 @@ use yii\behaviors\TimestampBehavior;
  * This is the base model class for table "trans_info".
  *
  * @property integer $id
- * @property integer $trans_type_id
  * @property string $name
+ * @property integer $trans_type_id
  * @property integer $trans_route_id
  * @property integer $seats
  * @property integer $active
@@ -25,7 +25,7 @@ use yii\behaviors\TimestampBehavior;
  * @property \common\models\TransRoute $transRoute
  * @property \common\models\TransType $transType
  * @property \common\models\TransPrice[] $transPrices
- * @property \common\models\TransReservation[] $transReservations
+ * @property \common\models\TransSeats[] $transSeats
  */
 class TransInfo extends \yii\db\ActiveRecord
 {
@@ -37,11 +37,9 @@ class TransInfo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['trans_type_id', 'name', 'trans_route_id'], 'required'],
-            [['trans_type_id', 'trans_route_id', 'seats', 'active', 'created_by', 'updated_by', 'lock'], 'integer'],
+            [['name', 'trans_type_id', 'trans_route_id'], 'required'],
             [['name'], 'string'],
-            [['trans_route_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\TransRoute::className(), 'targetAttribute' => ['trans_route_id' => 'id']],
-            [['trans_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\TransType::className(), 'targetAttribute' => ['trans_type_id' => 'id']],
+            [['trans_type_id', 'trans_route_id', 'seats', 'active', 'created_by', 'updated_by', 'lock'], 'integer'],
             [['date_add', 'date_edit'], 'safe'],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
@@ -57,11 +55,11 @@ class TransInfo extends \yii\db\ActiveRecord
     }
 
     /**
-     *
+     * 
      * @return string
      * overwrite function optimisticLock
      * return string name of field are used to stored optimistic lock
-     *
+     * 
      */
     public function optimisticLock()
     {
@@ -74,12 +72,12 @@ class TransInfo extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'trans_type_id' => Yii::t('app', 'Trans Type ID'),
-            'name' => Yii::t('app', 'Name'),
-            'trans_route_id' => Yii::t('app', 'Trans Route ID'),
-            'seats' => Yii::t('app', 'Seats'),
-            'active' => Yii::t('app', 'Active'),
+            'id' => Yii::t('app', 'Первичный ключ'),
+            'name' => Yii::t('app', 'Наименование транспорта'),
+            'trans_type_id' => Yii::t('app', 'Необходимый тип трансопрт'),
+            'trans_route_id' => Yii::t('app', 'Транспортный маршрут'),
+            'seats' => Yii::t('app', 'Общее количество посадочных мест в транспорте (не обязательно)'),
+            'active' => Yii::t('app', 'Активность'),
             'date_add' => Yii::t('app', 'Date Add'),
             'date_edit' => Yii::t('app', 'Date Edit'),
             'lock' => Yii::t('app', 'Lock'),
@@ -121,15 +119,23 @@ class TransInfo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTransReservations()
+    public function getTransSeats()
     {
-        return $this->hasMany(\common\models\TransReservation::className(), ['trans_info_id' => 'id'])->inverseOf('transInfo');
+        return $this->hasMany(\common\models\TransSeats::className(), ['trans_info_id' => 'id'])->inverseOf('transInfo');
+    }
+
+    /**
+     * @return $this
+     */
+    public function getTransReservation()
+    {
+        return $this->hasMany(\common\models\TransReservation::className(), ['trans_price_id' => 'id'])->inverseOf('transPrice');
     }
 
     /**
      * @inheritdoc
      * @return array mixed
-     */
+     */ 
     public function behaviors()
     {
         return [
@@ -155,4 +161,14 @@ class TransInfo extends \yii\db\ActiveRecord
     {
         return new \common\models\TransInfoQuery(get_called_class());
     }
+
+    /*public function getRouteFullName(){
+        $model = TransRoute::find()->orderBy('begin_point')->asArray()->all();
+        $result = [];
+        foreach ($model as $key=>$value){
+            $result[$key] = $value['begin_point'].
+                " ".$value['end_point'];
+        }
+        return $result;
+    }*/
 }

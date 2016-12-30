@@ -10,7 +10,7 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log','arhistory','admin'],
+    'bootstrap' => ['log', 'arhistory', 'admin'],
     'modules' => [
         /*Добавлено Lykira*/
         /*'dashboard' => [
@@ -36,6 +36,63 @@ return [
                 ],*
             ],
         ],*/
+        'gridview' => [
+            'class' => '\kartik\grid\Module',
+            // see settings on http://demos.krajee.com/grid#module
+        ],
+        'datecontrol' => [
+            'class' => 'kartik\datecontrol\Module',
+
+            // format settings for displaying each date attribute (ICU format example)
+            'displaySettings' => [
+                \kartik\datecontrol\Module::FORMAT_DATE => 'dd.MM.yyyy',
+                \kartik\datecontrol\Module::FORMAT_TIME => 'HH:mm',
+                \kartik\datecontrol\Module::FORMAT_DATETIME => 'dd.MM.yyyy HH:mm',
+            ],
+
+            // format settings for saving each date attribute (PHP format example)
+            'saveSettings' => [
+                \kartik\datecontrol\Module::FORMAT_DATE => 'php:U', // saves as unix timestamp
+                \kartik\datecontrol\Module::FORMAT_TIME => 'php:H:i:s',
+                \kartik\datecontrol\Module::FORMAT_DATETIME => 'php:Y-m-d H:i:s',
+            ],
+
+            // set your display timezone
+            'displayTimezone' => 'Europe/Moscow',
+
+            // set your timezone for date saved to db
+            'saveTimezone' => 'UTC+3',
+
+            // automatically use kartik\widgets for each of the above formats
+            'autoWidget' => true,
+
+            // use ajax conversion for processing dates from display format to save format.
+            'ajaxConversion' => true,
+
+            // default settings for each widget from kartik\widgets used when autoWidget is true
+            'autoWidgetSettings' => [
+                \kartik\datecontrol\Module::FORMAT_DATE => ['type' => 2, 'pluginOptions' => ['autoclose' => true]], // example
+                \kartik\datecontrol\Module::FORMAT_DATETIME => [], // setup if needed
+                \kartik\datecontrol\Module::FORMAT_TIME => [], // setup if needed
+            ],
+
+            // custom widget settings that will be used to render the date input instead of kartik\widgets,
+            // this will be used when autoWidget is set to false at module or widget level.
+            'widgetSettings' => [
+                \kartik\datecontrol\Module::FORMAT_DATE => [
+                    'class' => 'yii\jui\DatePicker', // example
+                    'options' => [
+                        'dateFormat' => 'php:d.M.Y',
+                        'options' => ['class' => 'form-control'],
+                    ],
+                ],
+            ],
+        ],
+        // If you use tree table
+        'treemanager' => [
+            'class' => '\kartik\tree\Module',
+            // see settings on http://demos.krajee.com/tree-manager#module
+        ],
         'menu' => [
             'class' => 'infoweb\menu\Module',
             'enablePrivateMenuItems' => true,
@@ -70,12 +127,20 @@ return [
         ],
         'admin' => [
             'class' => 'mdm\admin\Module',
-            /*'layout' => 'left-menu',*/
+            //'layout' => 'left-menu',
+            'userClassName' => 'common\models\Userinfo',
+
             'controllerMap' => [
                 'assignment' => [
                     'class' => 'mdm\admin\controllers\AssignmentController',
                 ],
             ],
+            /*'menus' => [
+                'assignment' => [
+                    'label' => 'Grand Access' // change label
+                ],
+                //'route' => null, // disable menu route
+            ]*/
         ],
         'arhistory' => [
             'class' => 'bupy7\activerecord\history\Module',

@@ -76,11 +76,24 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($model, 'passport_num')->textInput(['placeholder' => 'Passport Num']) ?>
 
+    <?= $form->field($model, 'birthday')->widget(\kartik\datecontrol\DateControl::className(), [
+        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
+        'saveFormat' => 'php:Y-m-d',
+        'displayFormat' => 'php:d.m.Y',
+        'ajaxConversion' => true,
+        'options' => [
+            'pluginOptions' => [
+                'placeholder' => Yii::t('app', 'Выберите дату рождения'),
+                'autoclose' => true,
+            ]
+        ],
+    ]); ?>
+
+    <?= $form->field($model, 'child')->checkbox() ?>
+
     <?= $form->field($model, 'contacts')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'other')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'child')->checkbox() ?>
 
     <?php
     /*$forms = [

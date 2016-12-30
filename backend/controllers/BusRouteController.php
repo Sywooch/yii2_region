@@ -84,7 +84,7 @@ class BusRouteController extends Controller
     {
         $model = new BusRoute();
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+        if ($model->loadAll(Yii::$app->request->post(), ['BusWay']) && $model->saveAll(['BusWay'])) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -107,7 +107,7 @@ class BusRouteController extends Controller
             $model = $this->findModel($id);
         }
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+        if ($model->loadAll(Yii::$app->request->post(), ['busWays']) && $model->saveAll(['busWays'])) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -130,7 +130,7 @@ class BusRouteController extends Controller
     }
 
     /**
-     *
+     * 
      * Export BusRoute information into PDF format.
      * @param integer $id
      * @return mixed

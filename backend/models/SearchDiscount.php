@@ -2,10 +2,9 @@
 
 namespace backend\models;
 
-use Yii;
+use common\models\Discount;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Discount;
 
 /**
  * SearchDiscount represents the model behind the search form about `common\models\Discount`.
@@ -18,8 +17,8 @@ class SearchDiscount extends Discount
     public function rules()
     {
         return [
-            [['id', 'type_price', 'active', 'hotels_info_id'], 'integer'],
-            [['name', 'date_begin', 'date_end'], 'safe'],
+            [['id', 'years', 'active', 'hotels_info_id'], 'integer'],
+            [['name', 'date_add', 'date_edit'], 'safe'],
             [['discount'], 'number'],
         ];
     }
@@ -59,11 +58,11 @@ class SearchDiscount extends Discount
         $query->andFilterWhere([
             'id' => $this->id,
             'discount' => $this->discount,
-            'type_price' => $this->type_price,
-            'date_begin' => $this->date_begin,
-            'date_end' => $this->date_end,
+            'years' => $this->type_price,
+            'date_add' => $this->date_begin,
+            'date_edit' => $this->date_end,
             'active' => $this->active,
-            'hotels_info_id' => $this->hotels_info_id,
+            //'hotels_info_id' => $this->hotels_info_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

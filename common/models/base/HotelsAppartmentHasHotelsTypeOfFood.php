@@ -13,7 +13,7 @@ use yii\behaviors\TimestampBehavior;
  * This is the base-model class for table "hotels_appartment_has_hotels_type_of_food".
  *
  * @property integer $id
- * @property integer $hotels_appartment_hotels_info_id
+ * @property integer $hotels_info_id
  * @property integer $hotels_type_of_food_id
  * @property string $date_add
  * @property string $date_edit
@@ -46,6 +46,7 @@ abstract class HotelsAppartmentHasHotelsTypeOfFood extends \yii\db\ActiveRecord
                 'class' => TimestampBehavior::className(),
                 'createdAtAttribute' => 'date_add',
                 'updatedAtAttribute' => 'date_edit',
+                'value' => new \yii\db\Expression('NOW()'),
             ],
         ];
     }
@@ -56,9 +57,9 @@ abstract class HotelsAppartmentHasHotelsTypeOfFood extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['hotels_appartment_hotels_info_id', 'hotels_type_of_food_id'], 'required'],
-            [['hotels_appartment_hotels_info_id', 'hotels_type_of_food_id'], 'integer'],
-            [['hotels_appartment_hotels_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsAppartment::className(), 'targetAttribute' => ['id' => 'id', 'hotels_appartment_hotels_info_id' => 'hotels_info_id']],
+            [['hotels_info_id', 'hotels_type_of_food_id'], 'required'],
+            [['hotels_info_id', 'hotels_type_of_food_id'], 'integer'],
+            [['hotels_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsAppartment::className(), 'targetAttribute' => ['id' => 'id', 'hotels_info_id' => 'hotels_info_id']],
             [['hotels_type_of_food_id'], 'exist', 'skipOnError' => true, 'targetClass' => HotelsTypeOfFood::className(), 'targetAttribute' => ['hotels_type_of_food_id' => 'id']]
         ];
     }
@@ -70,7 +71,7 @@ abstract class HotelsAppartmentHasHotelsTypeOfFood extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'hotels_appartment_hotels_info_id' => Yii::t('app', 'Hotels Appartment Hotels Info ID'),
+            'hotels_info_id' => Yii::t('app', 'Hotels Appartment Hotels Info ID'),
             'hotels_type_of_food_id' => Yii::t('app', 'Hotels Type Of Food ID'),
             'date_add' => Yii::t('app', 'Date Add'),
             'date_edit' => Yii::t('app', 'Date Edit'),
@@ -82,7 +83,7 @@ abstract class HotelsAppartmentHasHotelsTypeOfFood extends \yii\db\ActiveRecord
      */
     public function getId0()
     {
-        return $this->hasOne(\common\models\HotelsAppartment::className(), ['id' => 'id', 'hotels_info_id' => 'hotels_appartment_hotels_info_id']);
+        return $this->hasOne(\common\models\HotelsAppartment::className(), ['id' => 'id', 'hotels_info_id' => 'hotels_info_id']);
     }
 
     /**
@@ -91,6 +92,14 @@ abstract class HotelsAppartmentHasHotelsTypeOfFood extends \yii\db\ActiveRecord
     public function getHotelsTypeOfFood()
     {
         return $this->hasOne(\common\models\HotelsTypeOfFood::className(), ['id' => 'hotels_type_of_food_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHotelsInfo()
+    {
+        return $this->hasOne(\common\models\HotelsInfo::className(), ['id' => 'hotels_info_id']);
     }
 
 

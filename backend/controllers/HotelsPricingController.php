@@ -2,238 +2,194 @@
 
 namespace backend\controllers;
 
-/*use Yii;
-use common\models\HotelsPricing;
 use backend\models\SearchHotelsPricing;
+use common\models\HotelsAppartment;
+use common\models\HotelsInfo;
+use common\models\HotelsPricing;
+use Yii;
+use yii\filters\VerbFilter;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use \yii\web\Response;
-use yii\helpers\Html;*/
-use backend\models\SearchHotelsPricing;
 
 /**
  * HotelsPricingController implements the CRUD actions for HotelsPricing model.
  */
-class HotelsPricingController extends \backend\controllers\base\HotelsPricingController
+class HotelsPricingController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
-    /*public function behaviors()
+    public function behaviors()
     {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
-                    'bulk-delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new',
+                            'add-hotels-pay-period', 'child-hotels-info', 'child-hotels-appartment'],
+                        'roles' => ['@']
+                    ],
+                    [
+                        'allow' => false
+                    ]
+                ]
+            ]
         ];
-    }*/
+    }
 
     /**
      * Lists all HotelsPricing models.
      * @return mixed
      */
-    /*public function actionIndex()
-    {    
+    public function actionIndex()
+    {
         $searchModel = new SearchHotelsPricing();
-        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-    }*/
-
+    }
 
     /**
      * Displays a single HotelsPricing model.
      * @param integer $id
      * @return mixed
      */
-    /*public function actionView($id)
-    {   
-        $request = Yii::$app->request;
-        if($request->isAjax){
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return [
-                    'title'=> Yii::t('app', 'HotelsPricing') . ' #' .$id,
-                    'content'=>$this->renderPartial('view', [
-                        'model' => $this->findModel($id),
-                    ]),
-                    'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a(Yii::t('app', 'Edit'),['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
-        }else{
-            return $this->render('view', [
-                'model' => $this->findModel($id),
-            ]);
-        }
-    }*/
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
+        $providerHotelsPayPeriod = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->hotelsPayPeriods,
+        ]);
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+            'providerHotelsPayPeriod' => $providerHotelsPayPeriod,
+        ]);
+    }
 
     /**
      * Creates a new HotelsPricing model.
-     * For ajax request will return json object
-     * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
+     * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    /*public function actionCreate()
+    public function actionCreate()
     {
-        $request = Yii::$app->request;
         $model = new HotelsPricing();
 
-        if($request->isAjax){
-
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){
-                return [
-                    'title'=> Yii::t('app', 'Create new') . ' ' . Yii::t('app', 'HotelsPricing'),
-                    'content'=>$this->renderPartial('create', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button(Yii::t('app', 'Save'),['class'=>'btn btn-primary','type'=>"submit"])
-        
-                ];         
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'true',
-                    'title'=> Yii::t('app', 'Create new') . ' ' . Yii::t('app', 'HotelsPricing'),
-                    'content'=>'<span class="text-success">' . Yii::t('app', 'Create HotelsPricing success') . '</span>',
-                    'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a(Yii::t('app', 'Create More'),['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
-        
-                ];         
-            }else{           
-                return [
-                    'title'=> Yii::t('app', 'Create new') . ' ' . Yii::t('app', 'HotelsPricing'),
-                    'content'=>$this->renderPartial('create', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button(Yii::t('app', 'Save'),['class'=>'btn btn-primary','type'=>"submit"])
-        
-                ];         
-            }
-        }else{
-
-            if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            } else {
-                return $this->render('create', [
-                    'model' => $model,
-                ]);
-            }
+        if ($model->loadAll(Yii::$app->request->post(), ['hotelsAppartment', 'hotelsTypeOfFood']) && $model->saveAll(['hotelsAppartment', 'hotelsTypeOfFood'])) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
         }
-       
-    }*/
+    }
 
     /**
      * Updates an existing HotelsPricing model.
-     * For ajax request will return json object
-     * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
+     * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      */
-    /*public function actionUpdate($id)
+    public function actionUpdate($id)
     {
-        $request = Yii::$app->request;
-        $model = $this->findModel($id);       
-
-        if($request->isAjax){
-
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){
-                return [
-                    'title'=> Yii::t('app', 'Update') . ' ' . Yii::t('app', 'HotelsPricing') . ' #' .$id,
-                    'content'=>$this->renderPartial('update', [
-                        'model' => $this->findModel($id),
-                    ]),
-                    'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button(Yii::t('app', 'Save'),['class'=>'btn btn-primary','type'=>"submit"])
-                ];         
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'true',
-                    'title'=> Yii::t('app', 'HotelsPricing') . ' #' .$id,
-                    'content'=>$this->renderPartial('view', [
-                        'model' => $this->findModel($id),
-                    ]),
-                    'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a(Yii::t('app', 'Edit'),['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
-            }else{
-                 return [
-                    'title'=> Yii::t('app', 'Update') . ' ' . Yii::t('app', 'HotelsPricing') . ' #' .$id,
-                    'content'=>$this->renderPartial('update', [
-                        'model' => $this->findModel($id),
-                    ]),
-                    'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button(Yii::t('app', 'Save'),['class'=>'btn btn-primary','type'=>"submit"])
-                ];        
-            }
-        }else{
-
-            if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            } else {
-                return $this->render('update', [
-                    'model' => $model,
-                ]);
-            }
+        if (Yii::$app->request->post('_asnew') == '1') {
+            $model = new HotelsPricing();
+        } else {
+            $model = $this->findModel($id);
         }
-    }*/
+
+        if ($model->loadAll(Yii::$app->request->post(), ['hotelsAppartment', 'hotelsTypeOfFood']) && $model->saveAll(['hotelsAppartment', 'hotelsTypeOfFood'])) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+    }
 
     /**
-     * Delete an existing HotelsPricing model.
-     * For ajax request will return json object
-     * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
+     * Deletes an existing HotelsPricing model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
-    /*public function actionDelete($id)
+    public function actionDelete($id)
     {
-        $request = Yii::$app->request;
-        $this->findModel($id)->delete();
+        $this->findModel($id)->deleteWithRelated();
 
-        if($request->isAjax){
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true];    
-        }else{
-            return $this->redirect(['index']);
-        }
+        return $this->redirect(['index']);
+    }
 
-
-    }*/
-
-     /**
-     * Delete multiple existing HotelsPricing model.
-     * For ajax request will return json object
-     * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
+    /**
+     *
+     * Export HotelsPricing information into PDF format.
      * @param integer $id
      * @return mixed
      */
-    /*public function actionBulkDelete()
-    {        
-        $request = Yii::$app->request;
-        $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (HotelsPricing::findAll(json_decode($pks)) as $model) {
-            $model->delete();
-        }
-        
+    public function actionPdf($id)
+    {
+        $model = $this->findModel($id);
+        $providerHotelsPayPeriod = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->hotelsPayPeriods,
+        ]);
 
-        if($request->isAjax){
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true]; 
-        }else{
-            return $this->redirect(['index']);
-        }
-       
-    }*/
+        $content = $this->renderAjax('_pdf', [
+            'model' => $model,
+            'providerHotelsPayPeriod' => $providerHotelsPayPeriod,
+        ]);
 
+        $pdf = new \kartik\mpdf\Pdf([
+            'mode' => \kartik\mpdf\Pdf::MODE_CORE,
+            'format' => \kartik\mpdf\Pdf::FORMAT_A4,
+            'orientation' => \kartik\mpdf\Pdf::ORIENT_PORTRAIT,
+            'destination' => \kartik\mpdf\Pdf::DEST_BROWSER,
+            'content' => $content,
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            'cssInline' => '.kv-heading-1{font-size:18px}',
+            'options' => ['title' => \Yii::$app->name],
+            'methods' => [
+                'SetHeader' => [\Yii::$app->name],
+                'SetFooter' => ['{PAGENO}'],
+            ]
+        ]);
+
+        return $pdf->render();
+    }
+
+    /**
+     * Creates a new HotelsPricing model by another data,
+     * so user don't need to input all field from scratch.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     *
+     * @param type $id
+     * @return type
+     */
+    public function actionSaveAsNew($id)
+    {
+        $model = new HotelsPricing();
+
+        if (Yii::$app->request->post('_asnew') != '1') {
+            $model = $this->findModel($id);
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('saveAsNew', [
+                'model' => $model,
+            ]);
+        }
+    }
+    
     /**
      * Finds the HotelsPricing model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -241,12 +197,78 @@ class HotelsPricingController extends \backend\controllers\base\HotelsPricingCon
      * @return HotelsPricing the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    /*protected function findModel($id)
+    protected function findModel($id)
     {
         if (($model = HotelsPricing::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
         }
-    }*/
+    }
+
+    /**
+     * Action to load a tabular form grid
+     * for HotelsPayPeriod
+     * @author Yohanes Candrajaya <moo.tensai@gmail.com>
+     * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
+     *
+     * @return mixed
+     */
+    public function actionAddHotelsPayPeriod()
+    {
+        if (Yii::$app->request->isAjax) {
+            $row = Yii::$app->request->post('HotelsPayPeriod');
+            if ((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
+                $row[] = [];
+            return $this->renderAjax('_formHotelsPayPeriod', ['row' => $row]);
+        } else {
+            throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+        }
+    }
+
+    public function actionChildHotelsInfo()
+    {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $id = end($_POST['depdrop_parents']);
+            $list = HotelsInfo::find()->andWhere(['country' => $id])->asArray()->all();
+            $selected = null;
+            if ($id != null && count($list) > 0) {
+                $selected = '';
+                foreach ($list as $i => $hotels) {
+                    $out[] = ['id' => $hotels['id'], 'name' => $hotels['name']];
+                    if ($i == 0) {
+                        $selected = $hotels['id'];
+                    }
+                }
+                // Shows how you can preselect a value
+                echo Json::encode(['output' => $out, 'selected' => $selected]);
+                return;
+            }
+        }
+        echo Json::encode(['output' => '', 'selected' => '']);
+    }
+
+    public function actionChildHotelsAppartment()
+    {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $id = end($_POST['depdrop_parents']);
+            $list = HotelsAppartment::find()->andWhere(['hotels_info_id' => $id])->asArray()->all();
+            $selected = null;
+            if ($id != null && count($list) > 0) {
+                $selected = '';
+                foreach ($list as $i => $elem) {
+                    $out[] = ['id' => $elem['id'], 'name' => $elem['name']];
+                    if ($i == 0) {
+                        $selected = $elem['id'];
+                    }
+                }
+                // Shows how you can preselect a value
+                echo Json::encode(['output' => $out, 'selected' => $selected]);
+                return;
+            }
+        }
+        echo Json::encode(['output' => '', 'selected' => '']);
+    }
 }

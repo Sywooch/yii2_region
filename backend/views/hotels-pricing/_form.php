@@ -1,237 +1,135 @@
 <?php
 
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
-use \dmstr\bootstrap\Tabs;
-use yii\helpers\StringHelper;
+use yii\widgets\ActiveForm;
 
-/**
- * @var yii\web\View $this
- * @var common\models\HotelsPricing $model
- * @var yii\widgets\ActiveForm $form
- */
+/* @var $this yii\web\View */
+/* @var $model common\models\HotelsPricing */
+/* @var $form yii\widgets\ActiveForm */
 
-$this->registerJs('
-$("#hotelspricing-country").on("change", function() {
-$.pjax.reload("#hotelsappartement-gethotelsinfo div div.col-sm-6", {
-history: false,
-data: $(this).serialize(),
-type: \'POST\',
-url: \'gethotelsinfo\',
+\mootensai\components\JsBlock::widget(['viewFile' => '_script', 'pos' => \yii\web\View::POS_END,
+    'viewParams' => [
+        'class' => 'HotelsPayPeriod',
+        'relID' => 'hotels-pay-period',
+        'value' => \yii\helpers\Json::encode($model->hotelsPayPeriods),
+        'isNewRecord' => ($model->isNewRecord) ? 1 : 0
+    ]
+]);
 
-});
-});
-');
-
-if (!$model->isNewRecord) {
-    $this->registerJs('
-        $("#hotelspricing-hotels_appartment_hotels_info_id").on("change", function() {
-        $.pjax.reload("#pjax-hotelspricing-hotelsinfo div div.col-sm-6", {
-        history: false,
-        data: $(this).serialize(),
-        type: \'POST\',
-        url: \'getappartment\',
-        
-        });
-        });'
-    );
-
-    $this->registerJs('
-    $(function(){
-    $(document).on(\'click\', \'[data-toggle=reroute]\', function(e) {
-        e.preventDefault();
-        var action = $(this).attr(\'href\');
-        $.pjax.reload(\'#pjax-hotels-pay-period\', {
-                history: false,
-                data: $(\'#hotels-pay-period_UpdatePjax input, select\').serialize(),
-                type: \'POST\',
-                url: action,
-                success: function(data){
-                    $(\'.result\').html(data);
-                },
-                error: function(xhr, str){
-                    alert(\'Возникла ошибка: \' + xhr.responseCode);
-                  }
-            });
-    });
-});
-    ');
-
-    $this->registerJs("
-    
-        function pay_update(){
-            $.pjax.reload('#pjax-hotels-pay-period', {
-                history: false,
-                data: $('#hotels-pay-period_UpdatePjax input, select').serialize(),
-                type: 'POST',
-                url: '". \yii\helpers\Url::toRoute(['hotels-pay-period/update', 'hotels_pricing_id' => $model->id]) ."',
-                success: function(data){
-                    $('.result').html(data);
-                },
-                error: function(xhr, str){
-                    alert('Возникла ошибка: ' + xhr.responseCode);
-                  }
-            });
-        };
-    ", yii\web\View::POS_END);
+$hotelsInfoData = null;
+$countryId = 0;
+$hotelsAppartmentData = null;
+if ($model->getCountry()) {
+    $countryId = $model->getCountry()->id;
+    $hotelsInfoData =
+        \yii\helpers\ArrayHelper::map(\common\models\HotelsInfo::find()->active()
+            ->andWhere(['country' => $countryId])
+            ->orderBy('id')
+            ->asArray()
+            ->all(), 'id', 'name');
 }
 
 ?>
-<?php
-\yii\widgets\Pjax::begin()
-?>
+
 <div class="hotels-pricing-form">
 
-    <?php $form = ActiveForm::begin([
-            'id' => 'HotelsPricing',
-            'layout' => 'horizontal',
-            'enableClientValidation' => true,
-            'errorSummaryCssClass' => 'error-summary alert alert-error'
+    <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form->errorSummary($model); ?>
+
+    <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
+
+    <?=
+    $form->field($model, 'country')->widget(\kartik\widgets\Select2::className(), [
+            'data' => \yii\helpers\ArrayHelper::map(common\models\Country::find()->asArray()->all(), 'id', 'name'),
+            'options' => [
+
+                'prompt' => Yii::t('app', 'Select'),
+                'options' => [$countryId => ['selected' => true]],
+                //'id'=>'hotels-appartment-country-id',
+            ]
         ]
+
+    ); ?>
+
+    <?=
+    $form->field($model, 'hotels_info_id')->widget(\kartik\widgets\DepDrop::className(), [
+            'type' => \kartik\widgets\DepDrop::TYPE_SELECT2,
+            'data' => $hotelsInfoData,
+            'options' => ['placeholder' => Yii::t('app', 'Begin Select Country')],
+            'select2Options' => ['pluginOptions' => ['allowClear' => true]],
+            'pluginOptions' => [
+                'depends' => ['hotelspricing-country'],
+                'url' => \yii\helpers\Url::to(['/hotels-pricing/child-hotels-info']),
+                'loadingText' => Yii::t('app', 'Please wait, loading data ...'),
+            ]
+        ]
+
+
     );
     ?>
 
-    <div class="">
-        <?php $this->beginBlock('main'); ?>
-
-        <p>
-            <?php
-            if ($model->getCountry()) {
-                $countryId = $model->getCountry()->id;
-            } else {
-                $countryId = 0;
-            }
-            ?>
-            <?=
-            $form->field($model, 'country')->dropDownList(
-                \yii\helpers\ArrayHelper::map(common\models\Country::find()->all(), 'id', 'name'),
-                [
-                    'prompt' => Yii::t('app', 'Select'),
-                    'options' => [$countryId => ['selected' => true]]
-                ]
-            ); ?>
 
 
-            <?php
-            \yii\widgets\Pjax::begin(['enablePushState' => false, 'id' => 'hotelsappartment-hotelsinfo']);
-            ?>
+    <?= $form->field($model, 'hotels_appartment_id')->widget(\kartik\widgets\DepDrop::classname(), [
+        'type' => \kartik\widgets\DepDrop::TYPE_SELECT2,
+        'data' => $hotelsAppartmentData,
+        //'data' => \yii\helpers\ArrayHelper::map(\common\models\HotelsAppartment::find()->orderBy('id')->asArray()->all(), 'id', 'name'),
+        'options' => ['placeholder' => Yii::t('app', 'Choose Hotels appartment')],
+        'select2Options' => ['pluginOptions' => ['allowClear' => true]],
+        'pluginOptions' => [
+            'depends' => ['hotelspricing-hotels_info_id'],
+            'url' => \yii\helpers\Url::to(['/hotels-pricing/child-hotels-appartment']),
+            'loadingText' => Yii::t('app', 'Please wait, loading data ...'),
+        ]
+    ]); ?>
 
-        <div id="hotelsappartement-gethotelsinfo">
-            <?php
 
-            if ($model->isNewRecord) {
-                echo $form->field($model, 'hotels_appartment_hotels_info_id')->dropDownList(
-                    [],
-                    ['prompt' => Yii::t('app', 'Begin Select Country'),
-                        'disabled' => '']
-                );
-            } else {
-                echo $form->field($model, 'hotels_appartment_hotels_info_id')->dropDownList(
-                    \yii\helpers\ArrayHelper::map(common\models\HotelsInfo::find()
-                        ->andFilterWhere([
-                            'active' => 1,
-                            'country' => $model->country,
-                        ])->orderBy('name')->all(), 'id', 'name'),
-                    ['prompt' => Yii::t('app', 'Begin Select Country')]
-                );
-            }
-            ?>
-        </div>
-        <?php
-        \yii\widgets\Pjax::end();
-        ?>
 
-        <?php
-        \yii\widgets\Pjax::begin(['enablePushState' => false, 'id' => 'pjax-hotelspricing-hotelsinfo']);
-        ?>
-        <?php
-        $params = array();
-        if ($model->isNewRecord) {
-            $params = ['prompt' => Yii::t('app', 'Begin Select Hotels'),
-                'disabled' => ''];
-        } else {
-            $params = ['prompt' => Yii::t('app', 'Select Hotels')];
-        }
-        echo $form->field($model, 'hotels_appartment_id')->dropDownList(
-            \yii\helpers\ArrayHelper::map(common\models\HotelsAppartment::find()
-                ->andFilterWhere([
-                    'hotels_info_id' => $model->hotels_appartment_hotels_info_id,
-                ])->orderBy('name')->all(), 'id', 'name'),
-            $params
-        ); ?>
-        <?php
-        \yii\widgets\Pjax::end();
-        ?>
+    <?= $form->field($model, 'hotels_type_of_food_id')->widget(\kartik\widgets\Select2::classname(), [
+        'data' => \yii\helpers\ArrayHelper::map(\common\models\HotelsTypeOfFood::find()->orderBy('id')->asArray()->all(), 'id', 'name'),
+        'options' => ['placeholder' => Yii::t('app', 'Choose Hotels type of food')],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
 
-        <?= // generated by schmunk42\giiant\generators\crud\providers\RelationProvider::activeField
-        $form->field($model, 'hotels_type_of_food_id')->dropDownList(
-            \yii\helpers\ArrayHelper::map(common\models\HotelsTypeOfFood::find()->all(), 'id', 'name'),
-            ['prompt' => Yii::t('app', 'Select')]
-        ); ?>
-        <?= $form->field($model, 'date')->widget(\kartik\date\DatePicker::classname(), [
-            //'langauge' => 'ru',
-            //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
-        ]) ?>
-        <?= $form->field($model, 'name')->textInput() ?>
-        <?= $form->field($model, 'active')->checkbox() ?>
-        </p>
-        <?php $this->endBlock(); ?>
+    <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
 
-        <?php $this->beginBlock('payperiod'); ?>
-        <?php \yii\widgets\Pjax::begin(['enablePushState' => false, 'id' => 'pjax-hotels-pay-period']); ?>
-        <?php
-        if ($model->isNewRecord) {
-            ?>
-            <p>&nbsp;</p>
-            <p class="text-success">
-                Перед заполнением сохраните все данные.
-            </p>
-            <?php
-        } else {
-            echo $this->renderAjax('_payperiod', ['model' => $model]);
-        }
-        ?>
-        <?php \yii\widgets\Pjax::end(); ?>
-        <?php $this->endBlock(); ?>
+    <?= $form->field($model, 'active')->checkbox() ?>
 
-        <?=
-        Tabs::widget(
-            [
-                'encodeLabels' => false,
-                'items' => [
-                    [
-                        'label' => Yii::t('app', StringHelper::basename('common\models\HotelsPricing')),
-                        'content' => $this->blocks['main'],
-                        'active' => true,
-                    ],
-                    [
-                        'label' => Yii::t('app', StringHelper::basename('common\models\HotelsPayPeriod')),
-                        'content' => $this->blocks['payperiod'],
-                    ]
-                ]
-            ]
-        );
-        ?>
-        <hr/>
+    <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
-        <?php echo $form->errorSummary($model); ?>
-
-        <?= Html::submitButton(
-            '<span class="glyphicon glyphicon-check"></span> ' .
-            ($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save')),
-            [
-                'id' => 'save-' . $model->formName(),
-                'class' => 'btn btn-success'
-            ]
-        );
-        ?>
-
-        <?php ActiveForm::end(); ?>
-
+    <?php
+    $forms = [
+        [
+            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode(Yii::t('app', 'HotelsPayPeriod')),
+            'content' => $this->render('_formHotelsPayPeriod', [
+                'row' => \yii\helpers\ArrayHelper::toArray($model->hotelsPayPeriods),
+            ]),
+        ],
+    ];
+    echo kartik\tabs\TabsX::widget([
+        'items' => $forms,
+        'position' => kartik\tabs\TabsX::POS_ABOVE,
+        'encodeLabels' => false,
+        'pluginOptions' => [
+            'bordered' => true,
+            'sideways' => true,
+            'enableCache' => false,
+        ],
+    ]);
+    ?>
+    <div class="form-group">
+        <?php if (Yii::$app->controller->action->id != 'save-as-new'): ?>
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php endif; ?>
+        <?php if (Yii::$app->controller->action->id != 'create'): ?>
+            <?= Html::submitButton(Yii::t('app', 'Save As New'), ['class' => 'btn btn-info', 'value' => '1', 'name' => '_asnew']) ?>
+        <?php endif; ?>
+        <?= Html::a(Yii::t('app', 'Cancel'), Yii::$app->request->referrer, ['class' => 'btn btn-danger']) ?>
     </div>
 
-</div>
+    <?php ActiveForm::end(); ?>
 
-<?php
-\yii\widgets\Pjax::end();
-?>
+</div>

@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $searchModel frontend\models\bus\SearchBusRoute */
+/* @var $searchModel backend\models\SearchBusRoute */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 use kartik\export\ExportMenu;
@@ -28,7 +28,7 @@ $this->registerJs($search);
     <div class="search-form" style="display:none">
         <?= $this->render('_search', ['model' => $searchModel]); ?>
     </div>
-    <?php
+    <?php 
     $gridColumn = [
         ['class' => 'yii\grid\SerialColumn'],
         [
@@ -43,13 +43,12 @@ $this->registerJs($search);
             'headerOptions' => ['class' => 'kartik-sheet-style'],
             'expandOneOnly' => true
         ],
-        ['attribute' => 'id', 'hidden' => true],
+        ['attribute' => 'id', 'visible' => false],
         'name:ntext',
         'date',
         'date_begin',
         'date_end',
-        'date_add',
-        'date_edit',
+        ['attribute' => 'lock', 'visible' => false],
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{save-as-new} {view} {update} {delete}',
@@ -59,7 +58,7 @@ $this->registerJs($search);
                 },
             ],
         ],
-    ];
+    ]; 
     ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

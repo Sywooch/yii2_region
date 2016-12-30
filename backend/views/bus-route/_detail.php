@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\bus\BusRoute */
+/* @var $model common\models\BusRoute */
 
 ?>
 <div class="bus-route-view">
@@ -18,13 +18,12 @@ use yii\widgets\DetailView;
     <div class="row">
         <?php
         $gridColumn = [
-            ['attribute' => 'id', 'hidden' => true],
+            ['attribute' => 'id', 'visible' => false],
             'name:ntext',
             'date',
             'date_begin',
             'date_end',
-            'date_add',
-            'date_edit',
+            ['attribute' => 'lock', 'visible' => false],
         ];
         echo DetailView::widget([
             'model' => $model,

@@ -12,8 +12,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $id
  * @property string $date_begin
  * @property string $date_end
- * @property string $begin_point
- * @property string $end_point
+ * @property string $name
  * @property integer $active
  * @property string $date_add
  * @property string $date_edit
@@ -36,7 +35,7 @@ class TransRoute extends \yii\db\ActiveRecord
     {
         return [
             [['date_begin', 'date_end', 'date_add', 'date_edit'], 'safe'],
-            [['begin_point', 'end_point'], 'string'],
+            [['name'], 'string'],
             [['active', 'created_by', 'updated_by', 'lock'], 'integer'],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
@@ -52,10 +51,10 @@ class TransRoute extends \yii\db\ActiveRecord
     }
 
     /**
-     *
+     * 
      * @return string
      * overwrite function optimisticLock
-     * return string name of field are used to stored optimistic lock
+     * return string name of field are used to stored optimistic lock 
      * 
      */
     public function optimisticLock()
@@ -69,11 +68,10 @@ class TransRoute extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
+            'id' => Yii::t('app', 'Первичный ключ. Таблица содержит информацию о маршрутных точках транспорта.'),
             'date_begin' => Yii::t('app', 'Date Begin'),
             'date_end' => Yii::t('app', 'Date End'),
-            'begin_point' => Yii::t('app', 'Begin Point'),
-            'end_point' => Yii::t('app', 'End Point'),
+            'name' => Yii::t('app', 'Name'),
             'active' => Yii::t('app', 'Active'),
             'date_add' => Yii::t('app', 'Date Add'),
             'date_edit' => Yii::t('app', 'Date Edit'),
@@ -86,7 +84,7 @@ class TransRoute extends \yii\db\ActiveRecord
      */
     public function getTransInfos()
     {
-        return $this->hasMany(\common\models\TransInfo::className(), ['trans_route_id' => 'id'])->inverseOf('transRoute');
+        return $this->hasMany(\common\models\TransInfo::className(), ['trans_route_id' => 'id']);
     }
 
     /**
@@ -94,7 +92,7 @@ class TransRoute extends \yii\db\ActiveRecord
      */
     public function getTransRouteHasTransStations()
     {
-        return $this->hasMany(\common\models\TransRouteHasTransStation::className(), ['trans_route_id' => 'id'])->inverseOf('transRoute');
+        return $this->hasMany(\common\models\TransRouteHasTransStation::className(), ['trans_route_id' => 'id']);
     }
 
     /**
@@ -108,7 +106,7 @@ class TransRoute extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      * @return array mixed
-     */
+     */ 
     public function behaviors()
     {
         return [

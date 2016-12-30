@@ -88,13 +88,16 @@ if (isset($actionColumnTemplates)) {
                     },
                     'contentOptions' => ['nowrap' => 'nowrap']
                 ],
-                'file',
-                'path:ntext',
-                'options:ntext',
-                'link:ntext',
+                'name',
+                'text',
+                'active:boolean',
+                /*'file',*/
+                'count:ntext',
+                /*'options:ntext',*/
+                /*'link:ntext',*/
                 'date_add',
-                'date_edit',
-                'created_by',
+                /*'date_edit',
+                'created_by',*/
                 /*'updated_by',*/
                 /*'lock',*/
                 /*'name',*/

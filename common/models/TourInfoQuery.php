@@ -9,11 +9,11 @@ namespace common\models;
  */
 class TourInfoQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
+    public function active()
     {
-        $this->andWhere('[[status]]=1');
+        $this->andWhere('[[active]]=1');
         return $this;
-    }*/
+    }
 
     /**
      * @inheritdoc
@@ -32,4 +32,6 @@ class TourInfoQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+
+
 }

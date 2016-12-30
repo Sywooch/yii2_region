@@ -21,23 +21,35 @@
         ],
         'attributes' => [
             'bus_route_point_id' => [
-                'label' => 'Bus route point',
+                'label' => Yii::t('app', 'Bus route point'),
                 'type' => TabularForm::INPUT_WIDGET,
                 'widgetClass' => \kartik\widgets\Select2::className(),
                 'options' => [
-                    'data' => \yii\helpers\ArrayHelper::map(\frontend\models\bus\BusRoutePoint::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
+                    'data' => \yii\helpers\ArrayHelper::map(\common\models\BusRoutePoint::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
                     'options' => ['placeholder' => Yii::t('app', 'Choose Bus route point')],
                 ],
                 'columnOptions' => ['width' => '200px']
             ],
-            'first_point' => ['type' => TabularForm::INPUT_CHECKBOX],
-            'end_point' => ['type' => TabularForm::INPUT_CHECKBOX],
+            'first_point' => [
+                'type' => TabularForm::INPUT_CHECKBOX,
+                'options' => [
+                    'style' => 'position : relative; margin-top : -9px'
+                ]
+            ],
+            'end_point' => ['type' => TabularForm::INPUT_CHECKBOX,
+                'options' => [
+                    'style' => 'position : relative; margin-top : -9px'
+                ]
+            ],
             'position' => ['type' => TabularForm::INPUT_TEXT],
             'date_point_forward' => ['type' => TabularForm::INPUT_WIDGET,
                 'widgetClass' => \kartik\datecontrol\DateControl::classname(),
                 'options' => [
                     'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
-                    'saveFormat' => 'php:Y-m-d H:i:s',
+                    //'autoWidget' => false,
+                    //'widgetClass' => 'yii\jui\DatePicker',
+                    'saveFormat' => 'php:Y-m-d H:i',
+                    'displayFormat' => 'dd.MM.yyyy hh:mm',
                     'ajaxConversion' => true,
                     'options' => [
                         'pluginOptions' => [
@@ -52,39 +64,11 @@
                 'widgetClass' => \kartik\datecontrol\DateControl::classname(),
                 'options' => [
                     'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
-                    'saveFormat' => 'php:Y-m-d H:i:s',
+                    'saveFormat' => 'php:Y-m-d H:i',
                     'ajaxConversion' => true,
                     'options' => [
                         'pluginOptions' => [
                             'placeholder' => Yii::t('app', 'Choose Date Point Reverse'),
-                            'autoclose' => true,
-                        ]
-                    ],
-                ]
-            ],
-            'date_add' => ['type' => TabularForm::INPUT_WIDGET,
-                'widgetClass' => \kartik\datecontrol\DateControl::classname(),
-                'options' => [
-                    'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
-                    'saveFormat' => 'php:Y-m-d H:i:s',
-                    'ajaxConversion' => true,
-                    'options' => [
-                        'pluginOptions' => [
-                            'placeholder' => Yii::t('app', 'Choose Date Add'),
-                            'autoclose' => true,
-                        ]
-                    ],
-                ]
-            ],
-            'date_edit' => ['type' => TabularForm::INPUT_WIDGET,
-                'widgetClass' => \kartik\datecontrol\DateControl::classname(),
-                'options' => [
-                    'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
-                    'saveFormat' => 'php:Y-m-d H:i:s',
-                    'ajaxConversion' => true,
-                    'options' => [
-                        'pluginOptions' => [
-                            'placeholder' => Yii::t('app', 'Choose Date Edit'),
                             'autoclose' => true,
                         ]
                     ],

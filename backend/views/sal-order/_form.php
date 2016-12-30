@@ -125,7 +125,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
-    <?= $form->field($model, 'hotels_appartment_full_sale')->checkbox() ?>
+    <?php /*echo $form->field($model, 'hotels_appartment_full_sale')->checkbox() */ ?>
 
     <?php
     $forms = [
