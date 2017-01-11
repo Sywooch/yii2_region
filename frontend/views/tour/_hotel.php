@@ -1,6 +1,21 @@
 <?php
 use yii\helpers\Html;
 
+$hotels = $model->hotelsInfo;
+$pricing = $hotels->hotelsPricings;
+$prices = array();
+//$pricing1 = $pricing->hotelsPayPeriods;
+foreach ($pricing as $key => $value) {
+    foreach ($value->hotelsPayPeriods as $k => $payPeriod) {
+        $prices[] = $payPeriod->price;
+    }
+}
+
+/*
+$hotels = \common\models\HotelsInfo::findOne(['id'=>$model['hotels_info_id']]);
+$price = \common\models\HotelsPricing::find()->andWhere(['hotels_info_id'=>$model['hotels_info_id']])
+    ->orderBy('price')->one();
+*/
 ?>
 
 <div class="col-md-4">
@@ -9,17 +24,17 @@ use yii\helpers\Html;
             <div class="row hotel-vhead">
                 <div class="col-lg-5 col-md-12">
                     <div class="image">
-                        <?= Html::img($model->getImage()->getUrl('100x'), ['alt' => $model->name]) ?>
+                        <?= Html::img($hotels->getImage()->getUrl('100x'), ['alt' => $hotels->name]) ?>
                     </div>
                 </div>
                 <div class="col-lg-7 col-md-12 mgt-10">
                     <div class="name">
-                        <strong><?= $model->name ?></strong>
+                        <strong><?= $hotels->name ?></strong>
 
                     </div>
                     <div id="reviewStars">
                         <?php
-                        $count_star = \yii\helpers\ArrayHelper::getValue(\common\models\HotelsStars::findOne(['id' => $model->hotels_stars_id]), 'count_stars');
+                        $count_star = \yii\helpers\ArrayHelper::getValue(\common\models\HotelsStars::findOne(['id' => $hotels->hotels_stars_id]), 'count_stars');
                         for ($i = 0; $i < $count_star; $i++) {
                             ?>
                             <label id="star-<?= $i ?>"></label>
@@ -30,18 +45,18 @@ use yii\helpers\Html;
                     </div>
                     <div class="country">
                         <strong><?= Yii::t('app', 'Country') ?>:</strong>
-                        <?= \yii\helpers\ArrayHelper::getValue(\common\models\Country::findOne(['id' => $model->country]), 'name') ?>
+                        <?= \yii\helpers\ArrayHelper::getValue(\common\models\Country::findOne(['id' => $hotels->country]), 'name') ?>
                     </div>
                     <div class="city">
                         <strong><?= Yii::t('app', 'City') ?>:</strong>
-                        <?= \yii\helpers\ArrayHelper::getValue(\common\models\City::findOne(['id' => $model->city_id]), 'name') ?>
+                        <?= \yii\helpers\ArrayHelper::getValue(\common\models\City::findOne(['id' => $hotels->city_id]), 'name') ?>
                     </div>
                 </div>
             </div>
             <div class="row hotel-vdesc">
                 <div class="col-md-12 mgt-10">
                     <div class="description">
-                        <?= \yii\helpers\StringHelper::truncate(strip_tags($model->description), 150) ?>
+                        <?= \yii\helpers\StringHelper::truncate(strip_tags($hotels->description), 150) ?>
                     </div>
                 </div>
             </div>
@@ -49,21 +64,18 @@ use yii\helpers\Html;
                 <div class="col-md-8 mgt-10">
                     <strong><?= Yii::t('app', 'Prices appartment from') ?>:</strong>
                     <div class="price">
-                        <?= \yii\helpers\ArrayHelper::getValue(\common\models\HotelsAppartment::find()
-                            ->andFilterWhere(['hotels_info_id' => $model->id])
-                            ->andFilterWhere(['active' => 1])
-                            ->orderBy('price')->one(), 'price') ?> руб.
+                        <?= $prices[0] ?> руб.
                     </div>
                 </div>
                 <div class="pull-right">
                     <div class="btn btn-primary">
                         <?=
-                        Html::a(Yii::t('app', 'Reserv'), ['lk/reservation/choose-tour', 'hotels_info_id' => $model->id], ['class' => 'link'])
+                        Html::a(Yii::t('app', 'Reserv'), ['lk/reservation/choose-tour', 'hotels_info_id' => $hotels->id], ['class' => 'link'])
                         ?>
                     </div>
                     <div class="btn btn-primary">
                         <?=
-                        Html::a(Yii::t('app', 'Details'), ['hotels/details', 'id' => $model->id], ['class' => 'link'])
+                        Html::a(Yii::t('app', 'Details'), ['hotels/details', 'id' => $hotels->id], ['class' => 'link'])
                         ?>
                     </div>
                 </div>

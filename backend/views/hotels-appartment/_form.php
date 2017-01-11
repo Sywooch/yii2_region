@@ -70,8 +70,6 @@ if ($model->getCountry()) {
                 'loadingText' => Yii::t('app', 'Please wait, loading data ...'),
             ]
         ]
-
-
     );
     ?>
 

@@ -80,9 +80,6 @@ class ReservationController extends Controller
         $session = Yii::$app->session;
         $order = new LkOrder();
         //$order = $model->processChooseTour();
-
-        /*$order->hotels_appartment_id = 1;
-        $order->hotels_info_id = 24;*/
         /*TODO Произвести автоматический расчет суммы*/
         $order->sal_order_status_id = LkOrder::SAL_STATUS_DEFAULT;
 
@@ -90,7 +87,7 @@ class ReservationController extends Controller
         //$order->full_price = 25000;
         //$dayCount = $order;
         //$order = new SalOrder();
-        //Получаем данные из фроненда (выбрали отель или комнату)
+        //Получаем данные из фронтенда (выбрали отель или комнату)
 
         if ($order->isNewRecord && $order->load($request->post())) {
 

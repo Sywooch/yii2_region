@@ -187,7 +187,7 @@ class HotelsPricing extends \yii\db\ActiveRecord
         $newDateBegin = new \DateTime($dayBegin);
         $newDateEnd = new \DateTime($dayEnd);
         //Получение данных о цене
-        $query->select('hpp.price, hpp.date_begin, hpp.date_end')
+        $query/*->select('hpp.price, hpp.date_begin, hpp.date_end')*/
             ->innerJoin('hotels_pay_period hpp', 'hpp.hotels_pricing_id = hotels_pricing.id')
             ->andWhere([
                 'hotels_appartment_id' => $appartmentId,

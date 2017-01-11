@@ -117,4 +117,52 @@ class HotelsPayPeriod extends \yii\db\ActiveRecord
     {
         return new \common\models\HotelsPayPeriodQuery(get_called_class());
     }
+
+    /**
+     * Функция расчитывает сумму проживания в номере в зависимости от периодичности цен
+     *
+     * @param $appartmentId - ИД номера в отеле
+     * @param $dayBegin - дата заезда в отель
+     * @param $dayEnd - дата отъезда из отеля
+     * @param $typeOfFood - тип питания
+     * @param $countTourist - количество туристов
+     * @return int - финальная сумма за проживание
+     */
+    public static function calculatedAppartmentPrice($appartmentId, $dayBegin, $countDay, $typeOfFood, $countTourist = \common\models\HotelsPricing::SAL_ORDER_COUNT_PEOPLE, $countChild = 0, $childYears = array())
+    {
+        //TODO Уточнить правила формирования платы, сколько дней, ночей и т.п.
+        //TODO Добавить правило подсчета количества туристов и разбиения большего количества туристов на номера.
+        $query = self::find();
+        //Переводим даты из строкового формата
+        //$newDateBegin = new \DateTime($dayBegin);
+        //$newDateEnd = new \DateTime($dayEnd);
+        //Получение данных о цене
+        $query->innerJoin('hotels_pricing hp', 'hotels_pay_period.hotels_pricing_id = hp.id')
+            ->andWhere([
+                'hp.hotels_appartment_id' => $appartmentId,
+                'hp.hotels_type_of_food_id' => $typeOfFood,
+            ])
+            ->andWhere(['<=', 'hotels_pay_period.date_begin', $dayBegin])
+            ->andWhere(['>=', 'hotels_pay_period.date_end', $dayBegin]);
+        $result = $query->one();
+        //Расчет окончательной цены за проживание
+        ///Проверяем находится ли период заезда в одном диапазоне цен
+
+        $finalPrice = 0;
+        //Расчитваем фактическое количество (да, дробное, зависит от детей) туристов
+        foreach ($childYears as $disc) {
+            $percent = \common\models\Discount::find(['<=', 'years', $disc])->orderBy('years')->one()->discount;
+            if ((isset($countChild) && ($countChild != 0)) & (isset($countTourist) & ($countTourist > 0))) {
+                $countTourist = $countTourist - $countChild * ($percent / 100);
+            } elseif (isset($countChild) && ($countChild != 0)) {
+                $countTourist = $countChild - $countChild * ($percent / 100);
+            } elseif (!isset($countTourist) && !($countTourist > 0)) {
+                return false;
+            }
+        }
+
+        $finalPrice = $result->price * $countDay * $countTourist;
+
+        return $finalPrice;
+    }
 }

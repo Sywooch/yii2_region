@@ -11,28 +11,38 @@ if ((Yii::$app->getRequest()->getPathInfo() == 'hotels') or
     (Yii::$app->getRequest()->getPathInfo() == 'hotels/')
 ) {
     ?>
-    <div class="col-md-3 col-xs-12 panel panel-primary">
+<div class="col-md-3 col-xs-12 panel panel-default">
         <div class="filters-hotels">
             <?php
             echo $this->render('_search_page_hotels', ['model' => $searchModel]);
             ?>
         </div>
     </div>
+<div class="result-hotels">
     <?php
-}
-?>
-
-
-<div class="hotels">
-    <?= \yii\widgets\ListView::widget([
+    echo \kartik\grid\GridView::widget([
         'dataProvider' => $dataProvider,
-        'itemView' => '_hotel',
-        'pager' => [
-            'options' => [
-                'class' => 'pagination',
+        'columns' => require(__DIR__ . '/_tourColumns.php'),
+        'condensed' => true,
+        'bordered' => false,
+        //'showHeader' => false,
+    ]);
+}
+    else {
+    ?>
+    <div class="hotels">
+        <?= \yii\widgets\ListView::widget([
+            'dataProvider' => $dataProvider,
+            'itemView' => '_hotel',
+            'pager' => [
+                'options' => [
+                    'class' => 'pagination',
+                ],
             ],
-        ],
-        'summary' => '',
-    ]) ?>
-</div>
+            'summary' => '',
+        ]); ?>
 
+        <?php
+        }
+        ?>
+    </div>

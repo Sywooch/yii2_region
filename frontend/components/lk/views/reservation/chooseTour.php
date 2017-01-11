@@ -36,7 +36,6 @@ $this->registerJs('
     $("#lkorder-trans_route").on("change",function(){
     
         if (($(this).val() != null) && ($(this).val() != "")){
-        console.log($("#lkorder-trans_info_id").val());
             $.ajax({
                 type: "POST",
                 url: "/lk/reservation/get-trans-info",
@@ -53,7 +52,6 @@ $this->registerJs('
     $("#lkorder-trans_route_reverse").on("change",function(){
     
         if (($(this).val() != null) && ($(this).val() != "")){
-        console.log($("#lkorder-trans_info_id").val());
             $.ajax({
                 type: "POST",
                 url: "/lk/reservation/get-trans-info",
@@ -64,6 +62,30 @@ $this->registerJs('
             });
         }
     });
+');
+
+$this->registerJs('
+    $("#lkorder-childcount").on("change",function(){
+        c = $(this).val();
+        if (($(this).val() != null) && ($(this).val() != "")){
+            for(i = 0; i <= 4; i++){
+                if (c == 0){
+                    $("#tourist-child-years-label").hide();
+                }
+                else{
+                    $("#tourist-child-years-label").show();
+                }
+                if (i <= c){
+                    console.log(c);
+                    $("#tourist-child-years-" + i).show();
+                }
+                else{
+                    $("#tourist-child-years-" + i).hide();
+                }
+            }
+        }
+    }
+    );
 ');
 
 /*
@@ -150,6 +172,14 @@ $date->add($interval);
 $model->date_end = $date->format('Y-m-d');
 
 $hotelsInfoData = null;
+$cityTo = null;
+if (isset($model->hotels_info_id)) {
+    $hotelsInfoData =
+        \yii\helpers\ArrayHelper::map(\common\models\HotelsInfo::find()
+            ->andWhere(['id' => $model->hotels_info_id])->asArray()->all(), 'id', 'name');
+
+
+}
 $countryId = 0;
 $starsId = 0;
 if ($model->getCountry()) {
@@ -166,7 +196,18 @@ if ($model->getStars()) {
     $starsId = $model->getStars()->id;
 }
 
+$cityTo = null;
 
+if ($countryId !== 0) {
+    $cityTo = \yii\helpers\ArrayHelper::map(common\models\City::find()
+        ->andWhere(['country_id' => $countryId])
+        ->asArray()->all(), 'id', 'name');
+    if ($hotelsInfoData != null) {
+        $a = \yii\helpers\ArrayHelper::map(\common\models\HotelsInfo::find()
+            ->andWhere(['id' => $model->hotels_info_id])->asArray()->all(), 'id', 'city_id');
+        $model->city_id = $a[$model->hotels_info_id];
+    }
+}
 ?>
     <div class="date-range">
         <div class="panel panel-info">
@@ -199,6 +240,8 @@ if ($model->getStars()) {
         </div>
     </div>
 
+<?= Yii::$app->controller->renderPartial('_tourTourist', ['model' => $model, 'form' => $form]); ?>
+
     <div class="tour-info">
         <div class="panel panel-info">
             <div class="panel-heading">
@@ -215,13 +258,12 @@ if ($model->getStars()) {
                             //'id'=>'hotels-appartment-country-id',
                         ]
                     ]
-
                 ); ?>
                 <?=
                 $form->field($model, 'city_id')->widget(\kartik\widgets\DepDrop::className(), [
 
                         'type' => \kartik\widgets\DepDrop::TYPE_SELECT2,
-                        'data' => null,
+                        'data' => $cityTo,
                         'options' => ['placeholder' => Yii::t('app', 'Begin Select Country')],
                         'select2Options' => ['pluginOptions' => ['allowClear' => true]],
                         'pluginOptions' => [

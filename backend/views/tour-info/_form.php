@@ -7,8 +7,11 @@ use yii\widgets\ActiveForm;
 /* @var $model common\models\TourInfo */
 /* @var $form yii\widgets\ActiveForm */
 
-$model->active = 1;
-$model->date_begin = date('Y-m-d H:i');
+if ($model->isNewRecord) {
+    $model->active = 1;
+    $model->date_begin = date('Y-m-d H:i:s');
+}
+
 \mootensai\components\JsBlock::widget(['viewFile' => '_script', 'pos' => \yii\web\View::POS_END,
     'viewParams' => [
         'class' => 'TourInfoHasTourType',

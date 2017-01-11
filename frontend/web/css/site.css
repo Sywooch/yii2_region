@@ -124,7 +124,7 @@ a.desc:after {
 .bg-content {
     background-image: url(../images/background.png);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
 }
 
 .animation{
@@ -345,6 +345,10 @@ a.link:hover{
     padding: 3px 5px 5px 0px;
 }
 
+.result-hotels {
+    font-size: 0.85em;
+}
+
 .hotels .list-view .col-md-4 {
     padding-left: 5px;
     padding-right: 5px;
@@ -390,4 +394,14 @@ a.link:hover{
     position: absolute;
     display: block;
     left: 0px;
+}
+
+.zakaz-tour {
+    min-width: 65px;
+    float: left;
+    padding: 2px 5px;
+}
+
+.zakaz-tour p {
+    text-align: center;
 }

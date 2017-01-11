@@ -6,6 +6,7 @@ use common\models\TourInfo;
 use frontend\models\SearchAdvancedFilter;
 use Yii;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -30,7 +31,9 @@ class TourController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'pdf', 'filter', 'top'/*'create', 'update', 'delete', 'save-as-new', 'add-tour-info-has-tour-type', 'add-tour-info-has-tour-type-transport', 'add-tour-price'*/],
+                        'actions' => ['index', 'view', 'pdf', 'filter', 'top'
+                            , 'child-city-out', 'child-city-to'
+                            /*'create', 'update', 'delete', 'save-as-new', 'add-tour-info-has-tour-type', 'add-tour-info-has-tour-type-transport', 'add-tour-price'*/],
                         'roles' => ['@']
                     ],
                     [
@@ -305,5 +308,51 @@ class TourController extends Controller
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
         ]);
+    }
+
+    public function actionChildCityOut()
+    {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $id = end($_POST['depdrop_parents']);
+            $list = \common\models\City::find()->active()->andWhere(['country_id' => $id])->orderBy('name')->asArray()->all();
+            $selected = null;
+            if ($id != null && count($list) > 0) {
+                $selected = '';
+                foreach ($list as $i => $hotels) {
+                    $out[] = ['id' => $hotels['id'], 'name' => $hotels['name']];
+                    if ($i == 0) {
+                        $selected = $hotels['id'];
+                    }
+                }
+                // Shows how you can preselect a value
+                echo Json::encode(['output' => $out, 'selected' => $selected]);
+                return;
+            }
+        }
+        echo Json::encode(['output' => '', 'selected' => '']);
+    }
+
+    public function actionChildCityTo()
+    {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $id = end($_POST['depdrop_parents']);
+            $list = \common\models\City::find()->active()->andWhere(['country_id' => $id])->orderBy('name')->asArray()->all();
+            $selected = null;
+            if ($id != null && count($list) > 0) {
+                $selected = '';
+                foreach ($list as $i => $hotels) {
+                    $out[] = ['id' => $hotels['id'], 'name' => $hotels['name']];
+                    if ($i == 0) {
+                        $selected = $hotels['id'];
+                    }
+                }
+                // Shows how you can preselect a value
+                echo Json::encode(['output' => $out, 'selected' => $selected]);
+                return;
+            }
+        }
+        echo Json::encode(['output' => '', 'selected' => '']);
     }
 }

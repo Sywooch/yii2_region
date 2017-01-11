@@ -2,6 +2,8 @@
 
 namespace common\models\base;
 
+use common\models\BusInfo;
+use common\models\TransInfo;
 use rico\yii2images\behaviors\ImageBehave;
 use Yii;
 use yii\behaviors\BlameableBehavior;
@@ -236,5 +238,25 @@ class TourInfo extends \yii\db\ActiveRecord
         }
     }
 
+    /**
+     * Получаем данные и разбиваем на категории о туре
+     */
+    public function categorized()
+    {
+
+    }
+
+
+    public static function getTransportClassName(int $typeId)
+    {
+        if ($typeId == 1) {
+            //Получаем модель автобусов
+            return BusInfo::className();
+        } elseif ($typeId == 2 or $typeId == 3) {
+            //Получаем модель транспорта: поезда или самолеты
+            return TransInfo::className();
+        }
+        return false;
+    }
 
 }

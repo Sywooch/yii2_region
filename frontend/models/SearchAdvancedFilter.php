@@ -2,8 +2,8 @@
 
 namespace frontend\models;
 
-use common\models\HotelsInfo;
 use common\models\TourInfo;
+use common\models\TourType;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -42,6 +42,7 @@ class SearchAdvancedFilter extends TourInfo
 
     public $date_begin; //Начало периода, в который ищется начало тура (tour_info -> date_begin) +
     public $date_end; //Окончание периода, в который ищется начало тура (tour_info -> date_end) +
+    public $tour_type_name; //Добавлено для перехода из строки меню
 
     /**
      * TODO Формирование счета, сразу после подтверждения админом брони.
@@ -56,7 +57,12 @@ class SearchAdvancedFilter extends TourInfo
     public function rules()
     {
         return [
-            [['countryTo', 'cityTo', 'stars'], 'integer'],
+            [['countryTo', 'cityTo', 'countryOut', 'cityOut', 'stars', 'days', 'touristCount', 'childCount'], 'integer'],
+            [['priceMin', 'priceMax'], 'number'],
+            [['tour_type_name'], 'string'],
+            //[['date_begin','date_end'],'required'],
+            ['priceMax', 'compare', 'compareAttribute' => 'priceMin', 'operator' => '>='],
+            //['childCount', 'compare','compareAttribute'=>'touristCount', 'operator' => '<'],
             [['name', 'address', 'gps_point_m', 'gps_point_p', 'links_maps', 'image', 'date_begin', 'date_end', 'tourTypes'], 'safe'],
 
         ];
@@ -83,10 +89,15 @@ class SearchAdvancedFilter extends TourInfo
             'name' => Yii::t('app', 'Name hotels'),
             'tourTypes' => Yii::t('app', 'Tour type'),
             'address' => Yii::t('app', 'Address'),
-            'countryTo' => Yii::t('app', 'Country'),
-            'cityTo' => Yii::t('app', 'City'),
+            'countryTo' => Yii::t('app', 'Country To'),
+            'countryOut' => Yii::t('app', 'Country Out'),
+            'cityTo' => Yii::t('app', 'City To'),
+            'cityOut' => Yii::t('app', 'City Out'),
+            'typeOfFood' => Yii::t('app', 'Type Of Food'),
+            'appartmentType' => Yii::t('app', 'Appartment Type'),
             'priceMin' => Yii::t('app', 'Price from'),
             'priceMax' => Yii::t('app', 'Price to'),
+            'days' => Yii::t('app', 'Days'),
             'touristCount' => Yii::t('app', 'Count tourist'),
             'childCount' => Yii::t('app', 'Child'),
             'date_begin' => Yii::t('app', 'Date begin'),
@@ -105,17 +116,37 @@ class SearchAdvancedFilter extends TourInfo
      */
     public function search($params)
     {
-        $query = TourInfo::find();
+        //$query = TourInfo::find();
+        $query = new Query();
+        $query->from('tour_info');
+
         $query->andWhere([
             'tour_info.active' => 1,
         ])
-            ->andWhere(['>=', 'tour_info.date_begin', date('Y-m-d')]);
+            ->andWhere(['>=', 'tour_info.date_end', date('Y-m-d')]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
         $this->load($params);
+
+        if (isset($params['tour_type_name']) && $params['tour_type_name'] != "") {
+            $this->tourTypes = TourType::findOne(['name' => $params['tour_type_name']])->id;
+        }
+        if (!isset($this->date_begin) || $this->date_begin == "") {
+            $date_begin = date("Y-m-d");
+        } else {
+            $date_begin = date("Y-m-d", strtotime(str_replace('.', '-', $this->date_begin)));
+        }
+
+        if (!isset($this->date_end) || $this->date_end == "") {
+            $date_end = date("Y-m-d");
+        } else {
+            $date_end = date("Y-m-d", strtotime(str_replace('.', '-', $this->date_end)));
+        }
+
+
 
         /*if (key_exists('tour_type_name', $params)) {
             $typeName = TourType::findOne(['name' => $params['tour_type_name']]);
@@ -127,28 +158,73 @@ class SearchAdvancedFilter extends TourInfo
 // $query->where('0=1');
             return $dataProvider;
         }
+        $query->select(['tour_info.id as tour_info_id',
+            'tour_info.days',
+            'hi.id as hotels_info_id',
+            'hi.name as name',
+            'hi.hotels_stars_id as hotels_stars_id',
+            'hi.city_id as city_id',
+            'hi.country as country_id',
+            'ha.name as appartment_name',
+            'ha.id as hotels_appartment_id',
+            'htof.name as name_type_food',
+            'htof.id as type_food_id',
+            'hpp.price as price',
+            'hpp.id as hotels_pay_period_id',
+            'tp.price as min_full_price',
+            'http.tour_type_transport_id',
+            //'date_begin'=>$date_begin
+        ]);
+        //$query->select(['date_begin'=>$date_begin,'date_end'=>$date_end]);
+        //$query->distinct();
 
-        $query->leftJoin('hotels_info as hi', 'hi.id = tour_info.hotels_info_id and hi.active=1')
+
+        $query->leftJoin('hotels_info as hi', 'tour_info.hotels_info_id = hi.id and hi.active=1')
             ->leftJoin('hotels_appartment as ha', 'ha.hotels_info_id = hi.id and ha.active=1')
             ->leftJoin('hotels_appartment_has_hotels_type_of_food as htf', 'htf.id = ha.id')
-            ->leftJoin('tour_info_has_tour_type as htt', 'htt.tour_info_id = tour_info.id')
+            ->leftJoin('`hotels_type_of_food` `htof`', 'htof.id = htf.hotels_type_of_food_id')
+            ->leftJoin('tour_info_has_tour_type as htt', 'tour_info.id = htt.tour_info_id')
             ->leftJoin('hotels_pricing as hp', 'hp.hotels_info_id = hi.id and hp.active=1')
             ->leftJoin('hotels_pay_period as hpp', 'hpp.hotels_pricing_id = hp.id and hpp.active=1')
-            ->leftJoin('tour_price as tp', 'tp.tour_info_id = tour_info.id');
+            ->leftJoin('tour_price as tp', 'tour_info.id = tp.tour_info_id')
+            ->leftJoin('`tour_info_has_tour_type_transport` as `http`', 'tour_info.id = http.tour_info_id');
 
         $query->andFilterWhere(['tour_info.active' => 1])
             ->andFilterWhere(['tour_info.days' => $this->days])
             //->andFilterWhere(['tour_info.price'=>$this->priceMin])
-            ->andFilterWhere(['>=', 'tour_info.date_begin', $this->date_begin])
-            ->andFilterWhere(['>=', 'tour_info.date_end', $this->date_end])
-            ->andFilterWhere(['tour_info.city_id' => $this->cityOut])
-            ->andFilterWhere(['hi.country' => $this->countryTo])
+            /*->andFilterWhere(['<=', 'tour_info.date_begin', $this->date_begin])
+            ->andFilterWhere(['>=', 'tour_info.date_end', $this->date_end])*/
+            ->andWhere("((`hpp`.`date_begin` <= \"$date_begin\") AND (`hpp`.`date_end` >= \"$date_begin\") )
+    OR ((`hpp`.`date_begin` <= \"$date_end\")AND(`hpp`.`date_end` >= \"$date_end\"))")
+            //->andFilterWhere([''])
+            //->andFilterWhere(['IN','tour_info.city_id', $cityOut])
             ->andFilterWhere(['hi.city_id' => $this->cityTo])
             ->andFilterWhere(['hi.country' => $this->countryTo])
+
             ->andFilterWhere(['hi.hotels_stars_id' => $this->stars])
             ->andFilterWhere(['hp.hotels_type_of_food_id' => $this->typeOfFood])
             ->andFilterWhere(['ha.hotels_appartment_item_id' => $this->appartmentType])
             ->andFilterWhere(['htt.tour_type_id' => $this->tourTypes]);
+        if (isset($this->cityOut) && $this->cityOut != "") {
+            $query->andWhere(['tour_info.city_id' => $this->cityOut]);
+        } elseif (isset($this->countryOut) && $this->countryOut != "") {
+            $query->andWhere("tour_info.city_id IN (SELECT id FROM city WHERE country_id=$this->countryOut)");
+            //\common\models\City::find()->select('id')->andWhere(['country_id'=>$this->countryOut])->asArray()->all();
+        }
+        $query->groupBy('tour_info_id, ha.id, name_type_food, days');
+
+        /**
+         * TODO Добавить фильтр по наличию мест в эти даты
+         * Для этого надо сделать дополнительный запрос
+         * На наличие мест в эти даты.
+         * ID-шники допустимых номеров передать в основной запрос
+         *
+         *
+         * SELECT id FROM hotels_appartment WHERE
+         *
+         * bron.date_begin <= $this->date_end
+         * bron.date_end >= $this->date_begin
+         */
 
 
         /*if ($this->childCount > 0){
@@ -192,10 +268,10 @@ class SearchAdvancedFilter extends TourInfo
 
     public function searchTop()
     {
-        $query = HotelsInfo::find();
+        $query = TourInfo::find();
         $query->andFilterWhere([
             'active' => 1,
-            'top' => 1,
+            //'top' => 1,
         ]);
 
         $dataProvider = new ActiveDataProvider([
@@ -245,5 +321,16 @@ class SearchAdvancedFilter extends TourInfo
         $dateCurrent = new \DateTime();
         $years = $dateCurrent->diff($dateBegin);
         return $years->y;
+    }
+
+    public function categorizedTour()
+    {
+
+    }
+
+    public function searchTour($params)
+    {
+        $find = new GenTour();
+        return $find->search($params);
     }
 }

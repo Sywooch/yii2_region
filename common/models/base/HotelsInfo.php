@@ -25,6 +25,7 @@ use Yii;
  * @property \common\models\HotelsStars $hotelsStars
  * @property \common\models\HotelsInfoHasTourInfo[] $hotelsInfoHasTourInfos
  * @property \common\models\TourInfo[] $tourInfos
+ * @property \common\models\HotelsPricing $hotelsPricings
  * @property \common\models\HotelsOthersPricing[] $hotelsOthersPricings
  * @property \common\models\SalBasket[] $salBaskets
  * @property \common\models\SalOrder[] $salOrders
@@ -228,7 +229,7 @@ abstract class HotelsInfo extends \yii\db\ActiveRecord
      */
     public function getHotelsPricings()
     {
-        return $this->hasMany(HotelsPricing::className(), ['hotels_appartemnt_hotels_info_id' => 'id']);
+        return $this->hasMany(\common\models\HotelsPricing::className(), ['hotels_info_id' => 'id']);
     }
 
     public static function find()

@@ -11,7 +11,7 @@ class TransPriceQuery extends \yii\db\ActiveQuery
 {
     public function active()
     {
-        $this->andWhere('[[active]]=1');
+        $this->andWhere('[[trans_price.active]]=1');
         return $this;
     }
 

@@ -11,7 +11,7 @@ namespace frontend\components\lk\models;
 use common\models\BusInfo;
 use common\models\BusReservation;
 use common\models\BusWay;
-use common\models\HotelsPricing;
+use common\models\HotelsPayPeriod;
 use common\models\SalOrder;
 use common\models\SalOrderHasPerson;
 use common\models\TransPrice;
@@ -47,6 +47,10 @@ class LkOrder extends SalOrder
     public $trans_info_id_reverse;
     public $trans_route_reverse;
 
+    public $touristCount;
+    public $childCount;
+    public $childYears;
+
     public function attributeLabels()
     {
         return [
@@ -74,7 +78,13 @@ class LkOrder extends SalOrder
             'country_out_id' => Yii::t('app', 'Страна'),
             'city_out_id' => Yii::t('app', 'City Id'),
             'stars_id' => Yii::t('app', 'Stars Id'),
+
+            'touristCount' => Yii::t('app', 'Количество туристов'),
+            'childCount' => Yii::t('app', 'из них детей'),
+            'childYears' => Yii::t('app', 'Возраст детей'),
             'lock' => Yii::t('app', 'Lock'),
+
+
         ];
     }
 
@@ -145,8 +155,7 @@ class LkOrder extends SalOrder
 
     public function calculateAppartmentPrice($appartmentId, $dayBegin, $dayEnd, $typeOfFood)
     {
-        return $price = HotelsPricing::calculatedAppartmentPrice($appartmentId, $dayBegin, $dayEnd, $typeOfFood);
-
+        return $price = HotelsPayPeriod::calculatedAppartmentPrice($appartmentId, $dayBegin, $dayEnd, $typeOfFood);
     }
 
     /**

@@ -167,6 +167,7 @@ return [
     'Hotels Type Of Food Id' => 'Тип питания',
     'Hotels type of food' => 'Тип питания',
     'Type Of Food ID' => 'Тип питания',
+    'Type Of Food' => 'Тип питания',
     'Type Of Food Id' => 'Тип питания',
     'Hotels Appartment Items' => 'Спарвочник номеров в отеле',
     'Hotels Characters' => 'Характеристики отеля',
@@ -185,6 +186,8 @@ return [
     'HotelsPricing' => 'Цена на отель',
     'Create Hotels Pricing' => 'Создание новой записи',
     'Create Hotels Appartment' => 'Создание нового номера',
+    'Appartment Type' => 'Тип номера',
+
     'Select ...' => 'Выбор ...',
 
     'Prices appartment from' => 'Цены номеров от',
@@ -407,6 +410,13 @@ return [
     'Country' => 'Страна',
     'Country Id' => 'Страна',
     'Country ID' => 'Страна',
+
+
+    'Country Out' => 'Страна отправления',
+    'Country To' => 'Страна прибытия',
+    'City Out' => 'Город отправления',
+    'City To' => 'Город прибытия',
+
     'Value' => 'Значение',
     'Price from' => 'Цена от',
     'Price to' =>'Цена до',
@@ -449,5 +459,8 @@ return [
     'Step 3. Data checking' => 'Шаг 3. Проверка всех данных',
     'Choose Type of food' => 'Выберите тип питания',
 
+
+    'Days' => 'Количество дней',
+    'Enter range price' => 'Границы цены',
 
 ];
