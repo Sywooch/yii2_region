@@ -2,14 +2,20 @@
 use yii\helpers\Html;
 
 $hotels = $model->hotelsInfo;
-$pricing = $hotels->hotelsPricings;
-$prices = array();
+$price = 'Нет направления';
+if ($hotels) {
+    $pricing = $hotels->hotelsPricings;
+    $price = 0;
 //$pricing1 = $pricing->hotelsPayPeriods;
-foreach ($pricing as $key => $value) {
-    foreach ($value->hotelsPayPeriods as $k => $payPeriod) {
-        $prices[] = $payPeriod->price;
+    foreach ($pricing as $key => $value) {
+        $p = 0;
+        $p = $value->getHotelsPayPeriods()->orderBy('price')->one();
+        if ($price == 0 || $price > $p->price) {
+            $price = $p->price;
+        }
     }
 }
+
 
 /*
 $hotels = \common\models\HotelsInfo::findOne(['id'=>$model['hotels_info_id']]);
@@ -48,7 +54,7 @@ $price = \common\models\HotelsPricing::find()->andWhere(['hotels_info_id'=>$mode
                         <?= \yii\helpers\ArrayHelper::getValue(\common\models\Country::findOne(['id' => $hotels->country]), 'name') ?>
                     </div>
                     <div class="city">
-                        <strong><?= Yii::t('app', 'City') ?>:</strong>
+                        <strong><?= Yii::t('app', 'Курорт') ?>:</strong>
                         <?= \yii\helpers\ArrayHelper::getValue(\common\models\City::findOne(['id' => $hotels->city_id]), 'name') ?>
                     </div>
                 </div>
@@ -64,7 +70,7 @@ $price = \common\models\HotelsPricing::find()->andWhere(['hotels_info_id'=>$mode
                 <div class="col-md-8 mgt-10">
                     <strong><?= Yii::t('app', 'Prices appartment from') ?>:</strong>
                     <div class="price">
-                        <?= $prices[0] ?> руб.
+                        <?= $price ?> руб.
                     </div>
                 </div>
                 <div class="pull-right">
