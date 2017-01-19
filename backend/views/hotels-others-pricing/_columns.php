@@ -16,11 +16,21 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'hotels_info_id',
+        'attribute' => 'hotels_info_id',
+        'label' => Yii::t('app', 'Hotels Info'),
+        'value' => function ($model) {
+            return $model->hotelsInfo->name;
+        },
+        'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
+        'filter' => \yii\helpers\ArrayHelper::map(\common\models\HotelsInfo::find()->active()->asArray()->all(), 'id', 'name'),
+        'filterWidgetOptions' => [
+            'pluginOptions' => ['allowClear' => true],
+        ],
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'price',
+
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

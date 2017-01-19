@@ -37,6 +37,11 @@ class TourController extends Controller
                         'roles' => ['@']
                     ],
                     [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'filter', 'top', 'child-city-out', 'child-city-to'],
+                        'roles' => ['?'],
+                    ],
+                    [
                         'allow' => false
                     ]
                 ]

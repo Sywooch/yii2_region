@@ -181,6 +181,7 @@ return [
     'Hotels info' => 'Информация о отелях',
     'Hotels Info Id' => 'Отель',
     'Hotels Others Pricings' => 'Цены на дополнительные услуги в отеле',
+    'Hotels Others Pricings listing' => 'Цены на дополнительные услуги в отеле',
     'HotelsOthersPricing' => 'Стоимость дополнительной услуги в отеле',
     'Hotels Others Pricing Types' => 'Типы дополнительных услуг в отеле',
     'Hotels Pricings' => 'Цены на отели',
