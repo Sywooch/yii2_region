@@ -131,7 +131,7 @@ AppAsset::register($this);
             <div style=" padding-left:2px;">Покупатель: </div>
         </td>
         <td>
-            <div style="font-weight:bold;  padding-left:2px;"> <i><?= $model->?></i> </div>
+            <div style="font-weight:bold;  padding-left:2px;"> <i><?= $model->name ?></i> </div>
         </td>
     </tr>
 </table>

@@ -272,8 +272,8 @@ class ReservationController extends Controller
 
         $request = Yii::$app->request;
         $orderId = $_GET['order_id'];
-        /*$session = Yii::$app->session;
-        $orderId = $session->get('reservation_order_id');*/
+        $session = Yii::$app->session;
+        /*$orderId = $session->get('reservation_order_id');*/
         if (!isset($orderId)){
             return false;
         }
@@ -326,6 +326,7 @@ class ReservationController extends Controller
             $transWay = $session->get('reservation_transport_way');
             $typeTransportReverse = $session->get('reservation_type_transport_reverse');
             $transWayReverse = $session->get('reservation_transport_way_reverse');
+
             if (1 == $typeTransport) {//Сохраняем резерв для автобуса
                 LkOrder::reservationBusWay($transWay, $persons->asArray()->all());
             } elseif ($typeTransport > 1 && $typeTransport < 4) {

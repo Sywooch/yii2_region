@@ -2,10 +2,12 @@
 
 return [
     [
+        'label' => 'Отель',
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'name',
     ],
     [
+        'label' => 'Страна прибытия',
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'country_id',
         'value' => function ($model) {
@@ -15,6 +17,7 @@ return [
     ],
     [
         'class' => '\kartik\grid\DataColumn',
+        'label' => 'Город прибытия',
         'attribute' => 'city_id',
         'value' => function ($model) {
             $query = \common\models\City::findOne(['id' => $model['city_id']]);
@@ -23,6 +26,7 @@ return [
     ],
     [
         'class' => '\kartik\grid\DataColumn',
+        'label' => 'Категория отеля',
         'attribute' => 'hotels_stars_id',
         'value' => function ($model) {
             $query = \common\models\HotelsStars::findOne(['id' => $model['hotels_stars_id']]);
@@ -31,14 +35,17 @@ return [
     ],
     [
         'class' => '\kartik\grid\DataColumn',
+        'label' => 'Номер',
         'attribute' => 'appartment_name',
     ],
     [
         'class' => '\kartik\grid\DataColumn',
+        'label' => 'Тип питания',
         'attribute' => 'name_type_food',
     ],
     [
         'class' => '\kartik\grid\DataColumn',
+        'label' => 'Кол-во дней',
         'attribute' => 'days',
     ],
     [

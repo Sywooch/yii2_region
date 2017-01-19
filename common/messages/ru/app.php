@@ -101,6 +101,7 @@ return [
     'Routepoint' => 'Точки маршрута',
     'position' => 'Позиция',
     'Bus Reservation' => 'Резерв мест',
+    'Bus reservation' => 'Зарезервированное место',
     'Create Bus Reservation' => 'Новое бронирование',
     'BusReservation' => 'Резерв мест',
     'Bus Reservations' => 'Резерв мест',
@@ -273,6 +274,7 @@ return [
 
     'Userinfo' => 'Пользователь',
     'Userinfo ID' => 'Пользователь',
+    'Userinfos listing' => 'Список пользователей',
     'Update Userinfo' => 'Изменение информации о пользователе',
     'Code2' => 'Двоичный буквенный код',
     'Code3' => 'Троичный буквенный код',
@@ -359,6 +361,7 @@ return [
     'Sal Orders' => 'Заказы',
     'SalOrder' => 'Заказ',
     'Sal Order' => 'Заказ',
+    'Sal order' => 'Заказ',
     'Create Sal Order' => 'Создать новый заказ',
     'SalOrderStatus' => ' Статус заказа',
     'Sal Order Status' => ' Статус заказа',
@@ -462,5 +465,15 @@ return [
 
     'Days' => 'Количество дней',
     'Enter range price' => 'Границы цены',
+
+    'Trans Reservations' => 'Бронирование транспорта',
+    'Trans reservations' => 'Бронирование транспорта',
+    'Create Trans Reservation' => 'Новое бронирование',
+
+
+    'People' => 'Туристы',
+    'Create Person' => 'Создать нового туриста',
+    'BusReservationHasPerson' => 'Зарезервированные автобусы',
+    'Add Bus Reservation Has Person' => 'Добавить новую бронь автобуса',
 
 ];
