@@ -195,10 +195,8 @@ $hotel_enable = true)
                 $fullPrice[$key]['price'] = $price + $hotelPrice;
                 $fullPrice[$key]['to'] = $value['to']->id;
                 $fullPrice[$key]['out'] = $value['out']->id;
-
             }
         }
-
         return $fullPrice;
     }
 
