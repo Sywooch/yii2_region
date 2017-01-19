@@ -38,6 +38,13 @@ $items = [
         ]),
     ],
     [
+        'label' => '<i class="glyphicon glyphicon-book"></i> '. Html::encode(Yii::t('app', 'Tour Other Price')),
+        'content' => $this->render('_dataTourOtherPrice', [
+            'model' => $model,
+            'row' => $model->tourOtherPrices,
+        ]),
+    ],
+    [
         'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode(Yii::t('app', 'Tour Price')),
         'content' => $this->render('_dataTourPrice', [
             'model' => $model,

@@ -2,6 +2,9 @@
 
 namespace common\models\base;
 
+use common\models\BusWay;
+use common\models\TourTypeTransport;
+use common\models\TransPrice;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -19,6 +22,9 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $hotels_appartment_id
  * @property integer $hotels_type_of_food_id
  * @property integer $trans_info_id
+ * @property integer $trans_way_id
+ * @property integer $trans_info_id_reverse
+ * @property integer $trans_way_id_reverse
  * @property integer $userinfo_id
  * @property integer $tour_info_id
  * @property double $full_price
@@ -28,32 +34,42 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $created_by
  * @property integer $updated_by
  * @property integer $lock
+ * @property integer $hotels_appartment_full_sale
+ * @property string $hotel_date_begin
+ * @property string $hotel_date_end
  *
  * @property \common\models\HotelsAppartment $hotelsAppartment
  * @property \common\models\HotelsInfo $hotelsInfo
- * @property \common\models\HotelsTypeOfFood
+ * @property \common\models\HotelsTypeOfFood $hotelsTypeOfFood
  * @property \common\models\SalOrderStatus $salOrderStatus
  * @property \common\models\TourInfo $tourInfo
  * @property \common\models\TourTypeTransport $transInfo
+ * @property \common\models\TourTypeTransport $transInfoReverse
  * @property \common\models\Userinfo $userinfo
  * @property \common\models\SalOrderHasPerson[] $salOrderHasPeople
  * @property \common\models\Person[] $people
+ * @property $transWay - в зависимости от $transInfo - может принимать 2 значения
+ *  - \common\models\BusWay
+ *  - \common\models\TransPrice
+ * @property $transWayReverse - в зависимости от $transInfoReverse - может принимать 2 значения
+ *  - \common\models\BusWay
+ *  - \common\models\TransPrice
  */
 class SalOrder extends \yii\db\ActiveRecord
 {
     use \mootensai\relation\RelationTrait;
 
+    /*public $trans_route;
+    public $trans_rout_reverse;*/
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['date', 'date_begin', 'date_end', 'date_add', 'date_edit'], 'safe'],
+            [['date', 'date_begin', 'date_end', 'date_add', 'date_edit', 'hotel_date_begin', 'hotel_date_end'], 'safe'],
             [['sal_order_status_id', 'userinfo_id', 'tour_info_id', 'hotels_type_of_food_id'], 'required'],
-            [['sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id',
-                'trans_info_id', 'userinfo_id', 'tour_info_id', 'created_by',
-                'updated_by', 'lock', 'hotels_type_of_food_id'], 'integer'],
+            [['sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id', 'trans_info_id', 'trans_way_id', 'trans_info_id_reverse', 'trans_way_id_reverse', 'hotels_type_of_food_id', 'userinfo_id', 'tour_info_id', 'created_by', 'updated_by', 'lock', 'hotels_appartment_full_sale'], 'integer'],
             [['full_price'], 'number'],
             [['insurance_info'], 'string'],
             [['lock'], 'default', 'value' => '0'],
@@ -97,6 +113,9 @@ class SalOrder extends \yii\db\ActiveRecord
             'hotels_appartment_id' => Yii::t('app', 'Hotels Appartment ID'),
             'hotels_type_of_food_id' => Yii::t('app', 'Type Of Food ID'),
             'trans_info_id' => Yii::t('app', 'Trans Info ID'),
+            'trans_way_id' => Yii::t('app', 'Trans Way ID'),
+            'trans_info_id_reverse' => Yii::t('app', 'Trans Info ID Reverse'),
+            'trans_way_id_reverse' => Yii::t('app', 'Trans Way ID Reverse'),
             'userinfo_id' => Yii::t('app', 'Userinfo ID'),
             'tour_info_id' => Yii::t('app', 'Tour Info ID'),
             'full_price' => Yii::t('app', 'Full Price'),
@@ -104,6 +123,9 @@ class SalOrder extends \yii\db\ActiveRecord
             'date_add' => Yii::t('app', 'Date Add'),
             'date_edit' => Yii::t('app', 'Date Edit'),
             'lock' => Yii::t('app', 'Lock'),
+            'hotels_appartment_full_sale' => Yii::t('app', 'Hotels Appartment Full Sale'),
+            'hotel_date_begin' => Yii::t('app', 'Hotel Date Begin'),
+            'hotel_date_end' => Yii::t('app', 'Hotel Date End'),
         ];
     }
 
@@ -164,6 +186,14 @@ class SalOrder extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getTransInfoReverse()
+    {
+        return $this->hasOne(\common\models\TourTypeTransport::className(), ['id' => 'trans_info_id_reverse'])->inverseOf('salOrders');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUserinfo()
     {
         return $this->hasOne(\common\models\Userinfo::className(), ['id' => 'userinfo_id'])->inverseOf('salOrders');
@@ -215,8 +245,38 @@ class SalOrder extends \yii\db\ActiveRecord
         return new \common\models\SalOrderQuery(get_called_class());
     }
 
-    public function processFullPrice()
+    /*public function processFullPrice()
     {
 
+    }*/
+
+    /**
+     * Функция получает тип транспорта ДО места отдыха на текущий заказ
+     * @return $this|bool
+     */
+    public function getTransWay(){
+        $type = $this->transInfo;
+        if ($type->id == TourTypeTransport::TYPE_BUS){
+            return [$type->id, $this->hasOne(BusWay::className(),['id'=>$this->trans_way_id])->inverseOf('salOrders')];
+        }
+        elseif ($type->id == TourTypeTransport::TYPE_TRAIN || $type->id == TourTypeTransport::TYPE_AVIA){
+            return [$type->id, $this->hasOne(TransPrice::className(),['id'=>$this->trans_way_id])->inverseOf('salOrders')];
+        }
+        return false;
+    }
+
+    /**
+     * Функция получает тип транспорта ОТ места отдыха на текущий заказ
+     * @return $this|bool
+     */
+    public function getTransWayReverse(){
+        $type = $this->transInfo;
+        if ($type->id == TourTypeTransport::TYPE_BUS){
+            return [$type->id, $this->hasOne(BusWay::className(),['id'=>$this->trans_way_id])->inverseOf('salOrders')];
+        }
+        elseif ($type->id == TourTypeTransport::TYPE_TRAIN || $type->id == TourTypeTransport::TYPE_AVIA){
+            return [$type->id, $this->hasOne(TransPrice::className(),['id'=>$this->trans_way_id])->inverseOf('salOrders')];
+        }
+        return false;
     }
 }

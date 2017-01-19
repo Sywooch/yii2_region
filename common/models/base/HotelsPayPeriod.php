@@ -150,16 +150,19 @@ class HotelsPayPeriod extends \yii\db\ActiveRecord
 
         $finalPrice = 0;
         //Расчитваем фактическое количество (да, дробное, зависит от детей) туристов
-        foreach ($childYears as $disc) {
-            $percent = \common\models\Discount::find(['<=', 'years', $disc])->orderBy('years')->one()->discount;
-            if ((isset($countChild) && ($countChild != 0)) & (isset($countTourist) & ($countTourist > 0))) {
-                $countTourist = $countTourist - $countChild * ($percent / 100);
-            } elseif (isset($countChild) && ($countChild != 0)) {
-                $countTourist = $countChild - $countChild * ($percent / 100);
-            } elseif (!isset($countTourist) && !($countTourist > 0)) {
-                return false;
+        if (isset($countChild) && $countChild > 0){
+            foreach ($childYears as $disc) {
+                $percent = \common\models\Discount::find(['<=', 'years', $disc])->orderBy('years')->one()->discount;
+                if ((isset($countChild) && ($countChild != 0)) & (isset($countTourist) & ($countTourist > 0))) {
+                    $countTourist = $countTourist - $countChild * ($percent / 100);
+                } elseif (isset($countChild) && ($countChild != 0)) {
+                    $countTourist = $countChild - $countChild * ($percent / 100);
+                } elseif (!isset($countTourist) && !($countTourist > 0)) {
+                    return false;
+                }
             }
         }
+
 
         $finalPrice = $result->price * $countDay * $countTourist;
 

@@ -209,7 +209,30 @@ $this->params['breadcrumbs'][] = $this->title;
         }
         ?>
     </div>
-
+    <div class="row">
+        <?php
+        if($providerTourOtherPrice->totalCount){
+        $gridColumnTourOtherPrice = [
+                ['class' => 'yii\grid\SerialColumn'],
+                ['attribute' => 'id', 'visible' => false],
+                'name',
+                'price',
+                'active',
+                ['attribute' => 'lock', 'visible' => false],
+        ];
+            echo Gridview::widget([
+                'dataProvider' => $providerTourOtherPrice,
+                'pjax' => true,
+                'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-tour-other-price']],
+                'panel' => [
+                    'type' => GridView::TYPE_PRIMARY,
+                    'heading' => '<span class="glyphicon glyphicon-book"></span> ' . Html::encode(Yii::t('app', 'Tour Other Price')),
+                ],
+                'columns' => $gridColumnTourOtherPrice
+            ]);
+        }
+        ?>
+    </div>
     <div class="row">
         <?php
         if ($providerTourPrice->totalCount) {

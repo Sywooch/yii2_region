@@ -12,7 +12,6 @@ use common\models\BusReservation;
 use common\models\BusWay;
 use common\models\City;
 use common\models\HotelsAppartment;
-use common\models\HotelsInfo;
 use common\models\HotelsPricing;
 use common\models\Person;
 use common\models\SalOrder;
@@ -21,6 +20,7 @@ use common\models\TourInfo;
 use common\models\TransPrice;
 use frontend\components\lk\models\LkOrder;
 use frontend\components\lk\models\Reservation;
+use frontend\models\GenTour;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
@@ -57,6 +57,7 @@ class ReservationController extends Controller
                             'get-transport', // по ссылке начинаем искать маршруты, по которым туристы могут добраться до места
                             'get-transport-reverse',
                             'get-trans-info', // получаем информацию о выбранном транспорте: цена и количество свободных мест
+                            'get-full-price', // получаем запрос на расчет полной цены
                         ],
                         'roles' => ['Super Admin', 'Manager', 'Tagent'],
                     ],
@@ -92,17 +93,30 @@ class ReservationController extends Controller
         if ($order->isNewRecord && $order->load($request->post())) {
 
             //$dayCount = $beginDay->diff($endDay)->days;
-
+            $order->loadTrans();
             $beginDay = new \DateTime($order->date_begin . HotelsPricing::CHECKOUT_TIME);
             $endDay = new \DateTime($order->date_end . HotelsPricing::CHECKOUT_TIME);
             $countDay = $beginDay->diff($endDay)->days;
             $order->date_begin = $beginDay->format('Y-m-d H:i');
             $order->date_end = $endDay->format('Y-m-d H:i');
             if (isset($request->post()['_toperson'])) {
-                $order->full_price = $order->calculateAppartmentPrice($order->hotels_appartment_id,
-                    $beginDay->format('Y-m-d H:i'),
-                    $endDay->format('Y-m-d H:i'),
-                    $order->type_of_food_id);
+
+                $order->full_price = GenTour::calcFullPrice(
+                    $order->tour_info_id,
+                    $order->hotels_appartment_id,
+                    $order->type_of_food_id,
+                    $order->date_begin,
+                    $order->date_end,
+                    $countDay,
+                    $order->touristCount,
+                    $order->childCount,
+                    $order->childYears,
+                    $order->date_begin,
+                    $order->trans_info_id,
+                    $order->trans_way_id,
+                    $order->trans_info_id_reverse,
+                    $order->trans_way_id_reverse
+                )[0];
                 if (/*$order->validate()*/
                 true
                 ) {
@@ -140,12 +154,22 @@ class ReservationController extends Controller
                 //Заполняем (перезаполняем) делаем запрос к БД для
                 //Информация об отеле
                 $order->hotels_info_id = $order->getHotelsInfoByAppartmentId($order->hotels_appartment_id);
-
-                $order->full_price = $order->calculateAppartmentPrice($order->hotels_appartment_id,
+                $order->full_price = GenTour::calcFullPrice(
+                    $order->tour_info_id,
+                    $order->hotels_appartment_id,
+                    $order->type_of_food_id,
+                    $order->date_begin,
+                    $order->date_end,
+                    $countDay,
+                    $order->touristCount,
+                    $order->childCount,
+                    $order->childYears,
+                    $order->date_begin
+                );
+                /*$order->full_price = $order->calculateAppartmentPrice($order->hotels_appartment_id,
                     $beginDay->format('Y-m-d H:i'),
                     $endDay->format('Y-m-d H:i'),
-                    $order->type_of_food_id);
-
+                    $order->type_of_food_id);*/
             }
             //Информация о туре
             if (isset($order->hotels_info_id)) {
@@ -154,6 +178,46 @@ class ReservationController extends Controller
                 $order->userinfo_id = Yii::$app->user->id;
             }
         }
+        elseif ($order->isNewRecord && $order->load($request->get(),'')) {
+            //Выбран готовый заказ из фильтра. Добавляем данные
+            /*
+             * 1. Идентификатор тура
+             * 2. Номер в отеле
+             * 3. Тип питания
+             * 4. Страна отдыха
+             * 5. Город отдыха
+             * 6. Дата начала проживания в номере / для однодневных туров и экскурсий - дата выезда
+             * 7. Количество дней проживания в отеле
+             * */
+            $beginDay = new \DateTime($order->date_begin . HotelsPricing::CHECKOUT_TIME);
+            /*TODO !!!Проверить будет ли выбран только отель, или уже с комнатой*/
+            //TODO !!!Предусмотреть возможность выбора типа номера во фронтенде
+            $tour = TourInfo::findOne(['id'=>$order->tour_info_id]);
+            $hotel = $tour->getHotelsInfo()->one();
+            $order->hotels_info_id = $hotel->id;
+            $order->city_id = $hotel->city_id;
+
+            /*
+             * Получаем "звезды"
+             * */
+            $order->stars_id = $hotel->hotels_stars_id;
+            if (isset($order->hotels_appartment_id)) {
+                //Заполняем (перезаполняем) делаем запрос к БД для
+                //Информация об отеле
+                //$order->hotels_info_id = $order->getHotelsInfoByAppartmentId($order->hotels_appartment_id)->id;
+
+                //TODO Получить цену номера
+
+            }
+            /*//Информация о туре
+            if (isset($order->hotels_info_id)) {
+
+            }*/
+            $order->userinfo_id = Yii::$app->user->id;
+        }
+
+
+
         return $this->render('chooseTour', ['model' => $order]);
     }
 
@@ -178,7 +242,7 @@ class ReservationController extends Controller
                 $allPersons = LkOrder::getAllPersons($model->sal_order_id);
 
                 if ($model->save()) {
-                    return $this->redirect(['reservation/choose-reserv']);
+                    return $this->redirect(['reservation/choose-reserv','order_id'=>$model->sal_order_id]);
                 } else {
                     return $this->render('choosePerson', ['model' => $person]);
                 }
@@ -207,16 +271,51 @@ class ReservationController extends Controller
         //(так как персон все равно там нет, а другие таблицы не заполнялись
 
         $request = Yii::$app->request;
-        $session = Yii::$app->session;
-        $orderId = $session->get('reservation_order_id');
+        $orderId = $_GET['order_id'];
+        /*$session = Yii::$app->session;
+        $orderId = $session->get('reservation_order_id');*/
+        if (!isset($orderId)){
+            return false;
+        }
 
-        $appartmentId = $session->get('reservation_appartment_id');
-        $typeOfFoodId = $session->get('reservation_type_of_food_id');
+        /*$appartmentId = $session->get('reservation_appartment_id');
+        $typeOfFoodId = $session->get('reservation_type_of_food_id');*/
         //Считаем количество туристов
         $persons = LkOrder::getAllPersons($orderId);
         $count = $persons->count();
 
         $countChild = LkOrder::getChildPersons($orderId)->count();
+        $childYears = LkOrder::getChildPersonsYears($orderId);
+
+        $order = LkOrder::findOne(['id' => $orderId]);
+        $beginDay = new \DateTime($order->date_begin);
+        $endDay = new \DateTime($order->date_end);
+        $countDay = $beginDay->diff($endDay)->days;
+        //Пересчитываем сумму за проживание
+
+        /*$fullPrice = HotelsPricing::calculatedAppartmentPrice($appartmentId,
+            $beginDay->format("Y-m-d H:i"),
+            $endDay->format("Y-m-d H:i"),
+            $typeOfFoodId, $count, $countChild);*/
+
+        $model = SalOrder::findOne(['id' => $orderId]);
+        if ($model->enable != 1){
+            $fullPrice = GenTour::calcFullPrice(
+                $model->tour_info_id,
+                $model->hotels_appartment_id,
+                $model->hotels_type_of_food_id,
+                $model->date_begin,
+                $model->date_end,
+                $countDay,
+                $count,
+                $countChild,
+                $childYears,
+                $model->date_begin
+            );
+            $model->full_price = $fullPrice[0];
+
+        }
+
         /**
          * TODO Переделать формирование заказов через темповую таблицу, для устранения мусора
          */
@@ -240,7 +339,9 @@ class ReservationController extends Controller
             }
 
             //Пересохраняем заказ
-
+            $model->enable = 1;
+            //И активируем заказ (удалить его будет нельзя)
+            $model->save();
             //Восстанавливаем (если необходимо) связи с туристами
 
             return $this->redirect('/lk');
@@ -249,19 +350,11 @@ class ReservationController extends Controller
             \frontend\models\bus\SalOrder::findOne($orderId)->deleteWithRelated();
             return $this->redirect('/lk');
         }
+        //Отображаем финальную страницу заказа
+        elseif (isset($request->get()['order_id'])){
 
-        $order = LkOrder::findOne(['id' => $orderId]);
-        $beginDay = new \DateTime($order->date_begin);
-        $endDay = new \DateTime($order->date_end);
+        }
 
-        //Пересчитываем сумму за проживание
-        $fullPrice = HotelsPricing::calculatedAppartmentPrice($appartmentId,
-            $beginDay->format("Y-m-d H:i"),
-            $endDay->format("Y-m-d H:i"),
-            $typeOfFoodId, $count, $countChild);
-
-        $model = SalOrder::findOne(['id' => $orderId]);
-        $model->full_price = $fullPrice;
         $providerSalOrderHasPerson = new \yii\data\ArrayDataProvider([
             'allModels' => $model->salOrderHasPeople,
         ]);
@@ -331,13 +424,8 @@ class ReservationController extends Controller
             if ($city_id != null && $stars_id != null) {
                 //$model = TourInfo::find();
                 //$query = $model
-                $query = HotelsInfo::find();
-                $query->select('hotels_info.*')
-                    ->innerJoin('tour_info ti', 'ti.hotels_info_id = hotels_info.id');
-                $query->andWhere(['hotels_info.city_id' => $city_id, 'hotels_info.active' => 1, 'ti.active' => 1]);
-                if ($stars_id != 1) {
-                    $query->andWhere(['hotels_stars_id' => $stars_id]);
-                }
+                $res = new Reservation();
+                $query = $res->getHotels(null,null,$city_id,$stars_id);
                 $list = $query->asArray()->all();
                 $selected = null;
                 if (count($list) > 0) {
@@ -421,10 +509,11 @@ class ReservationController extends Controller
                     'pageSize' => 100,
                 ],
             ]);
-
-            $tourId = TourInfo::findOne(['active' => 1, 'hotels_info_id' => $hotelsId])/*->active()
+            $res = new Reservation();
+            $tourId = $res->getHotels(null,null,null,null,null,$hotelsId)->one()
+            /*TourInfo::findOne(['active' => 1, 'hotels_info_id' => $hotelsId])/*->active()
                 ->andWhere('hotels_info_id',$hotelsId)->one()*/
-            ->id;
+            ->tour_info_id;
             //$freeCountAppartment =
             echo $this->renderAjax('_hotelsDetails', [
                 'allCount' => $allCount,
@@ -440,7 +529,7 @@ class ReservationController extends Controller
      */
 
     /**
-     * Функция выводит формирует и выводит JSON для личного кабинета турагенства.
+     * Функция формирует и выводит JSON для личного кабинета турагенства.
      * Для расчета типа и цены транспорта, необходимо передать следующие параметры:
      * - дату заезда - для того, чтобы отфильтровать прошедшие и будущие маршруты;
      * - время в пути (опционально, возможно, не пригодится) - чтобы выбрать только те маршруты, которые
@@ -600,7 +689,7 @@ class ReservationController extends Controller
     {
 
 
-        if (isset($_POST['trans']) && $_POST['trans'] !== 'null') {
+        if (isset($_POST['trans']) && $_POST['trans'] !== 'null' && $_POST['trans'] != '0') {
             $id = $_POST['trans'];
             $model = new BusWay();
             $query = $model->find()->active()
@@ -617,6 +706,11 @@ class ReservationController extends Controller
             ]);
         }
         return null;
+    }
+
+    public function actionGetFullPrice(){
+        $a = $_POST;
+        return false;
     }
 
 }

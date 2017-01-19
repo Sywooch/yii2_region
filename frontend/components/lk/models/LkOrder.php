@@ -72,7 +72,7 @@ class LkOrder extends SalOrder
             'trans_info_id' => Yii::t('app', 'Trans Info ID'),
             'trans_route' => Yii::t('app', 'Маршрут следования'),
             'trans_info_id_reverse' => Yii::t('app', 'Trans Info ID'),
-            'trans_route_reverse' => Yii::t('app', 'Маршрут следования'),
+            'trans_route_reverse' => Yii::t('app', 'Обратный маршрут следования'),
             'country_id' => Yii::t('app', 'Страна'),
             'city_id' => Yii::t('app', 'City Id'),
             'country_out_id' => Yii::t('app', 'Страна'),
@@ -184,6 +184,22 @@ class LkOrder extends SalOrder
         return false;
     }
 
+    public static function getChildPersonsYears($salOrderId)
+    {
+        if (isset($salOrderId)) {
+            $query = self::getChildPersons($salOrderId);
+            $query->select(['birthday']);
+            $years = [];
+            foreach ($query->each() as $key => $value){
+                $date_begin = new \DateTime($value['birthday']);
+                $date_end = new \DateTime();
+                $years[] = $date_begin->diff($date_end)->y;
+            }
+            return $years;
+        }
+        return false;
+    }
+
     public static function reservationBusWay($busWayId, $person = array())
     {
         if (count($person) > 0) {
@@ -234,5 +250,11 @@ class LkOrder extends SalOrder
             return true;
         }
         return false;
+    }
+
+    public function loadTrans(){
+        $this->trans_way_id = $_REQUEST['LkOrder']['trans_route'];
+        $this->trans_info_id_reverse = $_REQUEST['LkOrder']['trans_info_id_reverse'];
+        $this->trans_way_id_reverse = $_REQUEST['LkOrder']['trans_route_reverse'];
     }
 }

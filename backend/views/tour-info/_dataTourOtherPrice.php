@@ -3,20 +3,19 @@ use kartik\grid\GridView;
 use yii\data\ArrayDataProvider;
 
 $dataProvider = new ArrayDataProvider([
-        'allModels' => $model->tourInfoHasTourTypeTransports,
-        'key' => function($model){
-            return ['tour_info_id' => $model->tour_info_id, 'tour_type_transport_id' => $model->tour_type_transport_id];
-        }
+        'allModels' => $model->tourOtherPrices,
+        'key' => 'id'
     ]);
     $gridColumns = [
         ['class' => 'yii\grid\SerialColumn'],
-        [
-                'attribute' => 'tourTypeTransport.name',
-                'label' => Yii::t('app', 'Tour Type Transport')
-            ],
+        ['attribute' => 'id', 'visible' => false],
+        'name',
+        'price',
+        'active',
+        ['attribute' => 'lock', 'visible' => false],
         [
             'class' => 'yii\grid\ActionColumn',
-            'controller' => 'tour-info-has-tour-type-transport'
+            'controller' => 'tour-other-price'
         ],
     ];
     

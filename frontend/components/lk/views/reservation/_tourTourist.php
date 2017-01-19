@@ -15,8 +15,7 @@
         </div>
         <div class="panel-body">
             <?=
-            $form->field($model, 'touristCount')->widget(\kartik\widgets\TouchSpin::className()
-            ); ?>
+            $form->field($model, 'touristCount')->textInput()/*widget(\kartik\widgets\TouchSpin::className());*/ ?>
 
             <?=
             $form->field($model, 'childCount')->widget(\kartik\widgets\Select2::className(), [

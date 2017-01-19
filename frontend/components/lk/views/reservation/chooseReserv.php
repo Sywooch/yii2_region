@@ -19,32 +19,55 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Sal Orders'), 'url' 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="sal-order-view">
+    <div class="col-sm-12">
+        <h2><?= Yii::t('app', 'Sal Order') . ' №' . Html::encode($this->title) ?></h2>
 
-    <div class="row">
-        <div class="col-sm-8">
-            <h2><?= Yii::t('app', 'Sal Order') . ' №' . Html::encode($this->title) ?></h2>
-            <p>
-            <h2>
-                Внимание. Проверьте правильность введенных данных, а также конечную стоимость.
-                Подтвердите или отмените заказ.
-                <!--Все заказы, не подтвержденые в течении 20 минут, будут автоматически удаляться. -->
-            </h2></p>
-        </div>
-        <div class="col-sm-4" style="margin-top: 15px">
-
-            <?= Html::a(Yii::t('app', 'Подтвердить заказ'), ['choose-reserv', '_reservation' => $model->id], ['class' => 'btn btn-primary']) ?>
-
-            <?= Html::a(Yii::t('app', 'Отменить заказ'), ['choose-reserv', '_not_reservation' => $model->id], [
-                'class' => 'btn btn-danger',
-                'data' => [
-                    'confirm' => Yii::t('app', 'Вы действительно отменяете заказ?'),
-                    'method' => 'post',
-                ],
-            ])
-            ?>
-
-        </div>
     </div>
+    <?php
+    if ($model->enable == 0){
+    ?>
+    <div id="accept-tour">
+        <div class="row">
+            <div class="col-sm-12">
+                <p>
+                    <h2>
+                <p class="text-warning">
+                    Внимание!
+                </p>
+                <p >
+                    <small class="text-primary">
+                        Проверьте правильность введенных данных, а также, конечную стоимость и
+                        подтвердите или отмените заказ.
+                    </small>
+                </p>
+                <!--Все заказы, не подтвержденые в течении 20 минут, будут автоматически удаляться. -->
+                </h2></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" style="margin-top: 15px">
+
+                <?= Html::a(Yii::t('app', 'Подтвердить заказ'), ['choose-reserv', '_reservation' => $model->id], ['class' => 'btn btn-primary',
+                    'data' => [
+                        'confirm' => Yii::t('app', 'Внимание! Отмена заказа невозможна. Вы уверены, что хотите оформить заказ?'),
+                        'method' => 'post',
+                    ],
+                ]) ?>
+
+                <?= Html::a(Yii::t('app', 'Отменить заказ'), ['choose-reserv', '_not_reservation' => $model->id], [
+                    'class' => 'btn btn-danger',
+                    'data' => [
+                        'confirm' => Yii::t('app', 'Вы действительно отменяете заказ?'),
+                        'method' => 'post',
+                    ],
+                ])
+                ?>
+
+            </div>
+        </div>
+
+    </div>
+    <?php }?>
 
     <div class="row">
         <div class="panel panel-info">

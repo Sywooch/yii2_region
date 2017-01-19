@@ -18,7 +18,7 @@ class Person extends BasePerson
         return array_replace_recursive(parent::rules(),
             [
                 [['firstname', 'lastname', 'secondname'], 'required'],
-                [['date_new', 'date_edit', 'date_add'], 'safe'],
+                [['date_new', 'date_edit', 'date_add','birthday'], 'safe'],
                 [['contacts', 'other'], 'string'],
                 [['child', 'created_by', 'updated_by', 'lock'], 'integer'],
                 [['firstname', 'lastname', 'secondname'], 'string', 'max' => 100],
@@ -43,6 +43,7 @@ class Person extends BasePerson
             'date_edit' => Yii::t('app', 'Date Edit'),
             'passport_ser' => Yii::t('app', 'Passport Ser'),
             'passport_num' => Yii::t('app', 'Passport Num'),
+            'birthday' => Yii::t('app', 'Birthday'),
             'contacts' => Yii::t('app', 'Contacts'),
             'other' => Yii::t('app', 'Other'),
             'child' => Yii::t('app', 'Child'),

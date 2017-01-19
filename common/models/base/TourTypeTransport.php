@@ -21,6 +21,15 @@ class TourTypeTransport extends \yii\db\ActiveRecord
     use \mootensai\relation\RelationTrait;
 
     /**
+     * Константы определяют тип транспорта на котором возможен тур
+     *
+     */
+    const TYPE_BUS = 1; //Автобусы
+    const TYPE_TRAIN = 2; //Поезда
+    const TYPE_AVIA = 3; //Самолеты
+    const TYPE_NONE = 4; //Нет транспорта (туристы добираются самостоятельно)
+
+    /**
      * @inheritdoc
      */
     public function rules()

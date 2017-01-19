@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "discount".
@@ -31,6 +32,22 @@ class Discount extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
+     * @return array mixed
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'date_add',
+                'updatedAtAttribute' => 'date_edit',
+                'value' => new \yii\db\Expression('NOW()'),
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
      */
     public function rules()
     {
@@ -38,8 +55,8 @@ class Discount extends \yii\db\ActiveRecord
             [['name', 'discount'], 'required'],
             [['name'], 'string'],
             [['discount'], 'number'],
-            [['type_price', 'active'], 'integer'],
-            [['date_begin', 'date_end'], 'safe']
+            [['years', 'active'], 'integer'],
+            [['date_add', 'date_edit'], 'safe']
         ];
     }
 
@@ -51,10 +68,10 @@ class Discount extends \yii\db\ActiveRecord
         return [
 
             'name' => Yii::t('app', 'Название скидки'),
-            'discount' => Yii::t('app', 'Стоимость скидки'),
-            'type_price' => Yii::t('app', 'Скидка в процентах (иначе, в денежном выражении)'),
-            'date_begin' => Yii::t('app', 'Начало скидки'),
-            'date_end' => Yii::t('app', 'Окончане скидки'),
+            'discount' => Yii::t('app', 'Стоимость скидки (%)'),
+            'years' => Yii::t('app', 'Предельный возраст'),
+            'date_add' => Yii::t('app', 'Date Add'),
+            'date_edit' => Yii::t('app', 'Date Edit'),
             'active' => Yii::t('app', 'Активность'),
             'hotels_info_id' => Yii::t('app', 'Hotels Info ID'),
         ];

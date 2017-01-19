@@ -13,7 +13,7 @@ class HotelsInfoQuery extends \yii\db\ActiveQuery
 {
     public function active()
     {
-        $this->andWhere('[[active]]=1');
+        $this->andWhere('[[hotels_info.active]]=1');
         return $this;
     }
 
@@ -45,9 +45,9 @@ class HotelsInfoQuery extends \yii\db\ActiveQuery
     {
         $curentTime = new Expression('NOW()');
         $this->active();
-        $this->innerJoin('tour_info', ['tour_info.hotels_info_id' => 'hotels_info.id'])
-            ->andWhere(['>=', 'tour_info.date_begin', $curentTime]);
-        //->andWhere(['<=','tour_info.date_end',$curentTime]);
+        $this->innerJoin('tour_info ti', 'ti.hotels_info_id = hotels_info.id')
+            ->andWhere(['<=', 'ti.date_begin', $curentTime])
+            ->andWhere(['>=','ti.date_end',$curentTime]);
         return $this;
     }
 

@@ -15,6 +15,7 @@ use yii\helpers\Html;
 echo \yii\base\View::render('../layouts/menu.php');
 $this->title = Yii::t('app', 'Step 1. Choose tour');
 $this->params['breadcrumbs'][] = $this->title;
+$model->date = date('Y-m-d H:i:s');
 
 $this->registerJs('
     $("#lkorder-hotels_info_id").on("change",function(){
@@ -67,6 +68,11 @@ $this->registerJs('
 $this->registerJs('
     $("#lkorder-childcount").on("change",function(){
         c = $(this).val();
+        tourist = $("#lkorder-touristcount");
+        console.log(tourist);
+        if (tourist.val() < c){
+            tourist.val(c);
+        }
         if (($(this).val() != null) && ($(this).val() != "")){
             for(i = 0; i <= 4; i++){
                 if (c == 0){
@@ -76,17 +82,37 @@ $this->registerJs('
                     $("#tourist-child-years-label").show();
                 }
                 if (i <= c){
-                    console.log(c);
                     $("#tourist-child-years-" + i).show();
                 }
                 else{
                     $("#tourist-child-years-" + i).hide();
                 }
+                
             }
         }
     }
     );
 ');
+
+// TODO Не забыть включить
+/*$this->registerJs('
+    $(".result-value").on("change",function(){
+        var res = "";
+        $(".result-value").each(function(i){
+            res += $(this).attr("name") + "=" + $(this).val() + "&";
+        });
+        console.log(res);
+            $.ajax({
+                type: "POST",
+                url: "/lk/reservation/get-full-price",
+                data: res,
+                success: function(answer){
+                    $("#lkorder-tour-final-price").html(answer);
+                }
+            });
+        
+    });
+');*/
 
 /*
 $this->registerJs('
@@ -172,16 +198,22 @@ $date->add($interval);
 $model->date_end = $date->format('Y-m-d');
 
 $hotelsInfoData = null;
+$appartmentData = null;
 $cityTo = null;
 if (isset($model->hotels_info_id)) {
-    $hotelsInfoData =
-        \yii\helpers\ArrayHelper::map(\common\models\HotelsInfo::find()
-            ->andWhere(['id' => $model->hotels_info_id])->asArray()->all(), 'id', 'name');
-
+    $hotelModel = \common\models\HotelsInfo::find()->activeTour()
+        ->andWhere(['hotels_info.id' => $model->hotels_info_id])->all();
+    $hotelsInfoData = \yii\helpers\ArrayHelper::map($hotelModel, 'id', 'name');
+    if ($hotelsInfoData != null){
+        $appartmentData = \yii\helpers\ArrayHelper::map($hotelModel[0]->getHotelsAppartments()->all(), 'id', 'name');
+    }
 
 }
 $countryId = 0;
 $starsId = 0;
+if ($model->isNewRecord){
+    $model->touristCount = 0;
+}
 if ($model->getCountry()) {
     $countryId = $model->getCountry()->id;
     /*$hotelsInfoData =
@@ -202,12 +234,26 @@ if ($countryId !== 0) {
     $cityTo = \yii\helpers\ArrayHelper::map(common\models\City::find()
         ->andWhere(['country_id' => $countryId])
         ->asArray()->all(), 'id', 'name');
-    if ($hotelsInfoData != null) {
-        $a = \yii\helpers\ArrayHelper::map(\common\models\HotelsInfo::find()
-            ->andWhere(['id' => $model->hotels_info_id])->asArray()->all(), 'id', 'city_id');
+    if ($model->city_id == null) {
+        $a = \yii\helpers\ArrayHelper::map($hotelModel[0], 'id', 'city_id');
         $model->city_id = $a[$model->hotels_info_id];
     }
 }
+
+$countryOutId = 0;
+if ($countryOutId != 0)
+if (isset($model->country_out_id) && $model->country_out_id !== 0) {
+    $cityOut = \yii\helpers\ArrayHelper::map(common\models\City::find()
+        ->andWhere(['country_id' => $model->country_out_id])
+        ->asArray()->all(), 'id', 'name');
+}
+if ($model->trans_info_id !== 0) {
+    $transInfoId = \yii\helpers\ArrayHelper::map(common\models\TourTypeTransport::find()
+        ->asArray()->all(), 'id', 'name');
+}
+
+
+
 ?>
     <div class="date-range">
         <div class="panel panel-info">
@@ -309,13 +355,18 @@ if ($countryId !== 0) {
                     ]
                 );
                 ?>
+
             </div>
             <?php
 
             ?>
             <div class="panel-footer">
                 <div id="lkorder-hotels-info-details">
-
+                    <?= $form->field($model, 'tour_info_id', ['template' => '{input}'])->textInput([
+                        'value' => $model->tour_info_id,
+                        'readonly' => true,
+                        'style' => 'display:none'
+                    ]); ?>
                 </div>
             </div>
 
@@ -341,8 +392,8 @@ if ($countryId !== 0) {
                 <?=
                 $form->field($model, 'hotels_appartment_id')->widget(\kartik\widgets\DepDrop::className(), [
                         'type' => \kartik\widgets\DepDrop::TYPE_SELECT2,
-                        'data' => null,
-                        'options' => ['placeholder' => Yii::t('app', 'Choose Hotels appartment')],
+                        'data' => $appartmentData,
+                        'options' => ['placeholder' => Yii::t('app', 'Choose Hotels appartment'), 'class' => 'result-value'],
                         'select2Options' => ['pluginOptions' => ['allowClear' => true]],
                         'pluginOptions' => [
                             'depends' => ['lkorder-hotels_info_id', 'lkorder-hotels_type_of_food_id'],
@@ -379,7 +430,6 @@ if ($countryId !== 0) {
                         'options' => [
 
                             'prompt' => Yii::t('app', 'Select'),
-                            'options' => [$countryId => ['selected' => true]],
                             //'id'=>'hotels-appartment-country-id',
                         ]
                     ]
@@ -389,7 +439,7 @@ if ($countryId !== 0) {
                 $form->field($model, 'city_out_id')->widget(\kartik\widgets\DepDrop::className(), [
 
                         'type' => \kartik\widgets\DepDrop::TYPE_SELECT2,
-                        'data' => null,
+                        'data' => $cityOut,
                         'options' => ['placeholder' => Yii::t('app', 'Begin Select Country')],
                         'select2Options' => ['pluginOptions' => ['allowClear' => true]],
                         'pluginOptions' => [
@@ -432,7 +482,8 @@ if ($countryId !== 0) {
                         $form->field($model, 'trans_info_id')->widget(\kartik\widgets\DepDrop::className(), [
 
                                 'type' => \kartik\widgets\DepDrop::TYPE_SELECT2,
-                                'data' => null,
+                                'data' => \yii\helpers\ArrayHelper::map(common\models\TourTypeTransport::find()
+                                    ->asArray()->all(), 'id', 'name'),
                                 'options' => ['placeholder' => Yii::t('app', 'Begin Select Appartment')],
                                 'select2Options' => ['pluginOptions' => ['allowClear' => true]],
                                 'pluginOptions' => [
@@ -457,7 +508,7 @@ if ($countryId !== 0) {
 
                                 'type' => \kartik\widgets\DepDrop::TYPE_SELECT2,
                                 'data' => null,
-                                'options' => ['placeholder' => Yii::t('app', 'Begin Select Transport')],
+                                'options' => ['placeholder' => Yii::t('app', 'Begin Select Transport'), 'class' => 'result-value'],
                                 'select2Options' => ['pluginOptions' => ['allowClear' => true]],
                                 'pluginOptions' => [
                                     'depends' => ['lkorder-trans_info_id', 'lkorder-hotels_appartment_id',
@@ -488,7 +539,8 @@ if ($countryId !== 0) {
                         $form->field($model, 'trans_info_id_reverse')->widget(\kartik\widgets\DepDrop::className(), [
 
                                 'type' => \kartik\widgets\DepDrop::TYPE_SELECT2,
-                                'data' => null,
+                                'data' => \yii\helpers\ArrayHelper::map(common\models\TourTypeTransport::find()
+                                    ->asArray()->all(), 'id', 'name'),
                                 'options' => ['placeholder' => Yii::t('app', 'Begin Select Appartment')],
                                 'select2Options' => ['pluginOptions' => ['allowClear' => true]],
                                 'pluginOptions' => [
@@ -513,10 +565,10 @@ if ($countryId !== 0) {
 
                                 'type' => \kartik\widgets\DepDrop::TYPE_SELECT2,
                                 'data' => null,
-                                'options' => ['placeholder' => Yii::t('app', 'Begin Select Transport')],
+                                'options' => ['placeholder' => Yii::t('app', 'Begin Select Transport'), 'class' => 'result-value'],
                                 'select2Options' => ['pluginOptions' => ['allowClear' => true]],
                                 'pluginOptions' => [
-                                    'depends' => ['lkorder-trans_info_id', 'lkorder-hotels_appartment_id',
+                                    'depends' => ['lkorder-trans_info_id_reverse', 'lkorder-hotels_appartment_id',
                                         'lkorder-hotels_info_id', 'lkorder-city_id', 'lkorder-date_range-end',
                                         'lkorder-city_out_id'],
                                     'url' => \yii\helpers\Url::to(['/lk/reservation/get-transport-reverse']),
@@ -537,11 +589,17 @@ if ($countryId !== 0) {
         </div>
     </div>
 
+<div class="final-price" id="lkorder-tour-final-price">
+
+</div>
+
 <?= $form->field($model, 'userinfo_id', ['template' => '{input}'])->textInput([
     'value' => Yii::$app->user->id,
     'readonly' => true,
     'style' => 'display:none'
 ]); ?>
+
+
 
 
 <?php

@@ -58,9 +58,9 @@ class SearchDiscount extends Discount
         $query->andFilterWhere([
             'id' => $this->id,
             'discount' => $this->discount,
-            'years' => $this->type_price,
-            'date_add' => $this->date_begin,
-            'date_edit' => $this->date_end,
+            'years' => $this->years,
+            'date_add' => $this->date_add,
+            'date_edit' => $this->date_edit,
             'active' => $this->active,
             //'hotels_info_id' => $this->hotels_info_id,
         ]);

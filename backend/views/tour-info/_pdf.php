@@ -190,6 +190,31 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <?php
+        if($providerTourOtherPrice->totalCount){
+            $gridColumnTourOtherPrice = [
+                ['class' => 'yii\grid\SerialColumn'],
+                ['attribute' => 'id', 'visible' => false],
+                'name',
+                'price',
+                'active',
+                ['attribute' => 'lock', 'visible' => false],
+            ];
+            echo Gridview::widget([
+                'dataProvider' => $providerTourOtherPrice,
+                'panel' => [
+                    'type' => GridView::TYPE_PRIMARY,
+                    'heading' => Html::encode(Yii::t('app', 'Tour Other Price')),
+                ],
+                'panelHeadingTemplate' => '<h4>{heading}</h4>{summary}',
+                'toggleData' => false,
+                'columns' => $gridColumnTourOtherPrice
+            ]);
+        }
+        ?>
+    </div>
+
+    <div class="row">
+        <?php
         if ($providerTourPrice->totalCount) {
             $gridColumnTourPrice = [
                 ['class' => 'yii\grid\SerialColumn'],

@@ -28,6 +28,14 @@ if ($model->isNewRecord) {
         'isNewRecord' => ($model->isNewRecord) ? 1 : 0
     ]
 ]);
+\mootensai\components\JsBlock::widget(['viewFile' => '_script', 'pos'=> \yii\web\View::POS_END,
+    'viewParams' => [
+        'class' => 'TourOtherPrice',
+        'relID' => 'tour-other-price',
+        'value' => \yii\helpers\Json::encode($model->tourOtherPrices),
+        'isNewRecord' => ($model->isNewRecord) ? 1 : 0
+    ]
+]);
 \mootensai\components\JsBlock::widget(['viewFile' => '_script', 'pos' => \yii\web\View::POS_END,
     'viewParams' => [
         'class' => 'TourPrice',
@@ -45,6 +53,45 @@ if ($model->isNewRecord) {
         'value' => \yii\helpers\Json::encode($model->city),
     ]
 ]);
+
+
+$this->registerJs('
+    var $carsList = $("#tourinfo-name"),
+        stop = false,
+        items = [],
+    carObj = {};
+    carObj.length = 0;
+    if (stop == false){
+        $(".tour-name").change(function(){
+            if ($(this).val() != null){
+                items[$(".tour-name").index(this)] = $(this).find("option:selected").text();
+            }
+            value = "\"" + items.join("->") + "\"";
+            if ($("#tourinfo-date_begin").val()){
+                value += " от " + $("#tourinfo-date_begin").val();
+            }
+            $($carsList).val("Тур " + value); 
+            
+        });
+    }
+    $carsList.change(function(){
+        stop = true;
+    });
+');
+/*
+$this->registerJs('
+var $carsList = $("#tourinfo-name"),
+    carObj = {};
+carObj.length = 0;
+$(".hotels-name").change(function(){
+    console.log($(this).attr("id"));
+	carObj[$(this).index()] = $(this).find("option:selected").text();
+    carObj.length = Object.keys(carObj).length - 1;
+    $carsList.val(Array.prototype.join.call(carObj, ", "));
+    console.log(carObj);
+})
+');*/
+
 //\mootensai\components\JsBlock::widget(['viewFile' => ''])
 ?>
 
@@ -56,6 +103,52 @@ if ($model->isNewRecord) {
 
     <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
+    <?=
+    $form->field($model, 'country_hotel')->widget(\kartik\widgets\Select2::className(), [
+            'data' => \yii\helpers\ArrayHelper::map(common\models\Country::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
+            'options' => [
+
+                'prompt' => Yii::t('app', 'Select'),
+                'class' => 'tour-name',
+                'options' => [$countryId => ['selected' => true]],
+                //'id'=>'hotels-appartment-country-id',
+            ]
+        ]
+
+    ); ?>
+
+    <?=
+    $form->field($model, 'city_hotel')->widget(\kartik\widgets\DepDrop::className(), [
+            'type' => \kartik\widgets\DepDrop::TYPE_SELECT2,
+            'data' =>
+                \yii\helpers\ArrayHelper::map(\common\models\City::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
+            'options' => ['placeholder' => Yii::t('app', 'Begin Select Country'),'class' => 'tour-name'],
+            'select2Options' => ['pluginOptions' => ['allowClear' => true]],
+            'pluginOptions' => [
+                'depends' => ['tourinfo-country_hotel'],
+                'url' => \yii\helpers\Url::to(['/tour-info/child-city']),
+                'loadingText' => Yii::t('app', 'Please wait, loading data ...'),
+            ]
+        ]
+    );
+    ?>
+
+    <?=
+    $form->field($model, 'hotels_info_id')->widget(\kartik\widgets\DepDrop::className(), [
+            'type' => \kartik\widgets\DepDrop::TYPE_SELECT2,
+            'data' =>
+                \yii\helpers\ArrayHelper::map(\common\models\HotelsInfo::find()->active()->orderBy('name')->asArray()->all(), 'id', 'name'),
+            'options' => ['placeholder' => Yii::t('app', 'Begin Select Country'),'class' => 'tour-name',],
+            'select2Options' => ['pluginOptions' => ['allowClear' => true]],
+            'pluginOptions' => [
+                'depends' => ['tourinfo-city_hotel'],
+                'url' => \yii\helpers\Url::to(['/tour-info/child-hotels-info']),
+                'loadingText' => Yii::t('app', 'Please wait, loading data ...'),
+            ]
+        ]
+    );
+    ?>
+
     <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'date_begin')->widget(\kartik\datecontrol\DateControl::classname(), [
@@ -65,6 +158,7 @@ if ($model->isNewRecord) {
         'options' => [
             'pluginOptions' => [
                 'placeholder' => Yii::t('app', 'Choose Date Begin'),
+                'id' => 'tour_date',
                 'autoclose' => true,
             ]
         ],
@@ -86,13 +180,7 @@ if ($model->isNewRecord) {
 
     <?= $form->field($model, 'active')->checkbox() ?>
 
-    <?= $form->field($model, 'hotels_info_id')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => \yii\helpers\ArrayHelper::map(\common\models\HotelsInfo::find()->orderBy('id')->asArray()->all(), 'id', 'name'),
-        'options' => ['placeholder' => Yii::t('app', 'Choose Hotels info')],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]); ?>
+
 
     <?php
     if ($model->getCountry()) {
@@ -152,6 +240,12 @@ if ($model->isNewRecord) {
             'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode(Yii::t('app', 'TourInfoHasTourTypeTransport')),
             'content' => $this->render('_formTourInfoHasTourTypeTransport', [
                 'row' => \yii\helpers\ArrayHelper::toArray($model->tourInfoHasTourTypeTransports),
+            ]),
+        ],
+        [
+            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode(Yii::t('app', 'TourOtherPrice')),
+            'content' => $this->render('_formTourOtherPrice', [
+                'row' => \yii\helpers\ArrayHelper::toArray($model->tourOtherPrices),
             ]),
         ],
         [

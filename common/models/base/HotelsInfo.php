@@ -34,14 +34,13 @@ use Yii;
  */
 abstract class HotelsInfo extends \yii\db\ActiveRecord
 {
-
     const IMAGE_PATH = '/uploads/images/hotels/';
-
     protected $imageFullPath;
     public $imageFiles;
     public $delImages;
     public $mainImage;
     public $hotels_character_id;
+    public $tour_info_id;
 
     /**
      * @inheritdoc

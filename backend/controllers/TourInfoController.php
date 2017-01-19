@@ -7,6 +7,7 @@ use common\models\City;
 use common\models\TourInfo;
 use Yii;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -29,7 +30,11 @@ class TourInfoController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'add-tour-info-has-tour-type', 'add-tour-info-has-tour-type-transport', 'add-tour-price', 'get-city'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf',
+                            'save-as-new', 'add-tour-info-has-tour-type',
+                            'add-tour-info-has-tour-type-transport', 'add-tour-price', 'get-city',
+                            'add-tour-other-price',
+                            'child-city', 'child-hotels-info'],
                         'roles' => ['@']
                     ],
                     [
@@ -72,11 +77,15 @@ class TourInfoController extends Controller
         $providerTourPrice = new \yii\data\ArrayDataProvider([
             'allModels' => $model->tourPrices,
         ]);
+        $providerTourOtherPrice = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->tourOtherPrices,
+        ]);
         return $this->render('view', [
             'model' => $this->findModel($id),
             'providerTourInfoHasTourType' => $providerTourInfoHasTourType,
             'providerTourInfoHasTourTypeTransport' => $providerTourInfoHasTourTypeTransport,
             'providerTourPrice' => $providerTourPrice,
+            'providerTourOtherPrice' => $providerTourOtherPrice,
         ]);
     }
 
@@ -90,7 +99,7 @@ class TourInfoController extends Controller
         $model = new TourInfo();
 
         if ($model->loadAll(Yii::$app->request->post(), ['salOrders', 'salBaskets']) && $model->saveAll(['salOrders', 'salBaskets'])) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -149,6 +158,9 @@ class TourInfoController extends Controller
         $providerTourInfoHasTourTypeTransport = new \yii\data\ArrayDataProvider([
             'allModels' => $model->tourInfoHasTourTypeTransports,
         ]);
+        $providerTourOtherPrice = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->tourOtherPrices,
+        ]);
         $providerTourPrice = new \yii\data\ArrayDataProvider([
             'allModels' => $model->tourPrices,
         ]);
@@ -158,6 +170,7 @@ class TourInfoController extends Controller
             'providerTourInfoHasTourType' => $providerTourInfoHasTourType,
             'providerTourInfoHasTourTypeTransport' => $providerTourInfoHasTourTypeTransport,
             'providerTourPrice' => $providerTourPrice,
+            'providerTourOtherPrice' => $providerTourOtherPrice,
         ]);
 
         $pdf = new \kartik\mpdf\Pdf([
@@ -261,6 +274,26 @@ class TourInfoController extends Controller
 
     /**
      * Action to load a tabular form grid
+     * for TourOtherPrice
+     * @author Yohanes Candrajaya <moo.tensai@gmail.com>
+     * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
+     *
+     * @return mixed
+     */
+    public function actionAddTourOtherPrice()
+    {
+        if (Yii::$app->request->isAjax) {
+            $row = Yii::$app->request->post('TourOtherPrice');
+            if((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
+                $row[] = [];
+            return $this->renderAjax('_formTourOtherPrice', ['row' => $row]);
+        } else {
+            throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+        }
+    }
+
+    /**
+     * Action to load a tabular form grid
      * for TourPrice
      * @author Yohanes Candrajaya <moo.tensai@gmail.com>
      * @author Jiwantoro Ndaru <jiwanndaru@gmail.com>
@@ -305,6 +338,52 @@ class TourInfoController extends Controller
             'model' => $model,
             'countryId' => $countryId,
         ]);
+    }
+
+    public function actionChildCity()
+    {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $id = end($_POST['depdrop_parents']);
+            $list = \common\models\City::find()->andWhere(['country_id' => $id])->asArray()->all();
+            $selected = null;
+            if ($id != null && count($list) > 0) {
+                $selected = '';
+                foreach ($list as $i => $value) {
+                    $out[] = ['id' => $value['id'], 'name' => $value['name']];
+                    if ($i == 0) {
+                        $selected = $value['id'];
+                    }
+                }
+                // Shows how you can preselect a value
+                echo Json::encode(['output' => $out, 'selected' => $selected]);
+                return;
+            }
+        }
+        echo Json::encode(['output' => '', 'selected' => '']);
+    }
+
+    public function actionChildHotelsInfo()
+    {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $id = end($_POST['depdrop_parents']);
+            $list = \common\models\HotelsInfo::find()->active()->andWhere(['city_id' => $id])->asArray()->all();
+            $selected = null;
+            if ($id != null && count($list) > 0) {
+                $selected = '';
+                foreach ($list as $i => $hotels) {
+                    $out[] = ['id' => $hotels['id'], 'name' => $hotels['name']];
+                    if ($i == 0) {
+                        $selected = $hotels['id'];
+                    }
+                }
+                // Shows how you can preselect a value
+                echo Json::encode(['output' => $out, 'selected' => $selected]);
+                return;
+            }
+        }
+        echo Json::encode(['output' => '', 'selected' => '']);
     }
 
 }

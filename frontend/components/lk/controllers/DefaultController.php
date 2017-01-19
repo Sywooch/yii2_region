@@ -4,6 +4,8 @@ namespace frontend\components\lk\controllers;
 
 use common\models\Person;
 use common\models\SalOrder;
+use frontend\components\lk\models\LkOrder;
+use frontend\models\GenTour;
 use frontend\models\SearchPerson;
 use frontend\models\SearchSalOrder;
 use kartik\mpdf\Pdf;
@@ -57,6 +59,10 @@ class DefaultController extends Controller
 
     }
 
+    public function actionMpdfInvoice()
+    {
+        $this->layout = 'pdf';
+    }
     public function actionMpdfVoucher($id)
     {
         $this->layout = 'pdf';
@@ -65,11 +71,10 @@ class DefaultController extends Controller
         //$headers->add('Content-Type', 'application/pdf');
 
         $model = SalOrder::findOne(['id' => $id]);
-        if ($model->sal_order_status_id == 4) {
+        if ($model->sal_order_status_id == 4 || $model->sal_order_status_id == 5) {
             $providerSalOrderHasPerson = new \yii\data\ArrayDataProvider([
                 'allModels' => $model->salOrderHasPeople,
             ]);
-
             //$model = $this->findModel();
             $pdf = new Pdf([
                 'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
@@ -182,6 +187,57 @@ class DefaultController extends Controller
                 ]);
             }
         }
+    }
+
+    public function actionView($id){
+
+        $model = SalOrder::findOne(['id' => $id]);
+
+        if ($model->enable != 1){
+            $order = LkOrder::findOne(['id' => $id]);
+            $beginDay = new \DateTime($order->date_begin);
+            $endDay = new \DateTime($order->date_end);
+            $countDay = $beginDay->diff($endDay)->days;
+            $persons = LkOrder::getAllPersons($id);
+            $count = $persons->count();
+
+            $countChild = LkOrder::getChildPersons($id)->count();
+            $childYears = LkOrder::getChildPersonsYears($id);
+
+            $fullPrice = GenTour::calcFullPrice(
+                $model->tour_info_id,
+                $model->hotels_appartment_id,
+                $model->hotels_type_of_food_id,
+                $model->date_begin,
+                $model->date_end,
+                $countDay,
+                $count,
+                $countChild,
+                $childYears,
+                $model->date_begin,
+                $model->trans_info_id,
+                $model->trans_way_id,
+                $model->trans_info_id_reverse,
+                $model->trans_way_id_reverse
+            );
+            $model->full_price = $fullPrice['price'];
+
+        }
+
+        $providerSalOrderHasPerson = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->salOrderHasPeople,
+        ]);
+
+        $transportTo = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->transWay,
+        ]);
+        $transportOut = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->transWayReverse,
+        ]);
+
+        return $this->render('view',
+            ['model' => $model, 'providerSalOrderHasPerson' => $providerSalOrderHasPerson,
+            'providerTransportTo' => $transportTo, 'providerTrasportOut'=>$transportOut]);
     }
 
 }

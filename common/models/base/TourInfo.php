@@ -2,8 +2,6 @@
 
 namespace common\models\base;
 
-use common\models\BusInfo;
-use common\models\TransInfo;
 use rico\yii2images\behaviors\ImageBehave;
 use Yii;
 use yii\behaviors\BlameableBehavior;
@@ -41,7 +39,11 @@ use yii\behaviors\TimestampBehavior;
 class TourInfo extends \yii\db\ActiveRecord
 {
     use \mootensai\relation\RelationTrait;
+
     public $country_id;
+
+    public $country_hotel;
+    public $city_hotel;
 
     public function getAliasModel($plural = false)
     {
@@ -161,6 +163,14 @@ class TourInfo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getTourOtherPrices()
+    {
+        return $this->hasMany(\common\models\TourOtherPrice::className(), ['tour_info_id' => 'id'])->inverseOf('tourInfo');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getTourTypes()
     {
         return $this->hasMany(\common\models\TourType::className(), ['id' => 'tour_type_id'])->viaTable('tour_info_has_tour_type', ['tour_info_id' => 'id']);
@@ -246,7 +256,7 @@ class TourInfo extends \yii\db\ActiveRecord
 
     }
 
-
+/*
     public static function getTransportClassName(int $typeId)
     {
         if ($typeId == 1) {
@@ -258,5 +268,5 @@ class TourInfo extends \yii\db\ActiveRecord
         }
         return false;
     }
-
+*/
 }

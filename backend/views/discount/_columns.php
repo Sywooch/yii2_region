@@ -30,14 +30,14 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute' => 'date_add',
     ],
+    //[
+    //    'class'=>'\kartik\grid\DataColumn',
+    //    'attribute' => 'date_edit',
+    //],
     [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute' => 'date_edit',
+        'class'=>'\kartik\grid\BooleanColumn',
+        'attribute'=>'active',
     ],
-    // [
-        // 'class'=>'\kartik\grid\BooleanColumn',
-        // 'attribute'=>'active',
-    // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'hotels_info_id',

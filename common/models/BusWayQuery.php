@@ -98,8 +98,8 @@ class BusWayQuery extends \yii\db\ActiveQuery
             ->innerJoin('bus_route_has_bus_route_point as hasbr', 'br.id=hasbr.bus_route_id')
             ->innerJoin('bus_route_point as brp', 'hasbr.bus_route_point_id=brp.id');
         //Выбираем дату заезда
-        $query->andFilterWhere(['>=', 'bus_way.date_end', $dayBegin]);
-        $query->andFilterWhere(['<=', 'bus_way.date_end', $dayEnd]);
+        $query->andFilterWhere(['>=', 'bus_way.date_begin', $dayBegin]);
+        $query->andFilterWhere(['<=', 'bus_way.date_begin', $dayEnd]);
         $query->andWhere('bus_way.active = 1');
         $query->andWhere('bus_way.ended = 0');
         //Выбираем необходимый город

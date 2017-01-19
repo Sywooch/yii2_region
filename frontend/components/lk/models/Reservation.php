@@ -177,17 +177,18 @@ class Reservation extends ActiveRecord
     public function getTourInfoByHotelsId($hotelsId)
     {
         $query = $this->getTourInfo();
-        $query->select('id')
-            ->andWhere(['hotels_appartment_id' => $hotelsId]);
+        $query->select('id')->active()
+            ->andWhere(['hotels_info_id' => $hotelsId]);
         return $query->one();
     }
 
 
     public function getHotelsByCountry($idCountry)
     {
-        $model = new \common\models\HotelsInfo();
+        $model = $this->getHotels(null,$idCountry);
+        //$model = new \common\models\HotelsInfo();
         //$model->find()->andFilterWhere(['country'=>$idCountry]);
-        return $model->findAll(['country_id' => $idCountry, 'active' => 1]);
+        return $model->all();
     }
 
     public function getAppertmentsByHotel($idHotel)
@@ -201,6 +202,48 @@ class Reservation extends ActiveRecord
     {
         return $price = HotelsPricing::calculatedAppartmentPrice($appartmentId, $dayBegin, $dayEnd, $typeOfFood);
 
+    }
+
+    /**
+     * Функция отбирает гостиницы только в активных(по состоянию на текущую дату) турах
+     * @param null $tour_info_id
+     * @param null $country_id
+     * @param null $city_id
+     * @param null $stars_id
+     * @param null $appartment_id
+     * @return \common\models\HotelsInfoQuery|\yii\db\ActiveQuery
+     */
+    public function getHotels($tour_info_id = null, $country_id = null, $city_id = null,
+                              $stars_id = null, $appartment_id = null, $hotels_id = null){
+        //Получаем отели во всех активных турах
+        $query = \common\models\HotelsInfo::find();
+        $query->select('hotels_info.*, ti.id as tour_info_id')
+            ->innerJoin('tour_info ti', 'ti.hotels_info_id = hotels_info.id');
+        $query->andWhere(['hotels_info.active' => 1, 'ti.active' => 1])
+            ->andWhere(['>=','ti.date_end',date('Y-m-d')]);
+
+        if ($appartment_id != null){
+            $query->innerJoin('hotels_appartment ha','ha.hotels_info_id = hotels_info.id');
+            $query->andWhere(['ha.id'=>$appartment_id]);
+        }
+        if ($tour_info_id != null){
+            $query->andWhere(['ti.id'=>$tour_info_id]);
+        }
+        if ($country_id != null){
+            $query->andWhere(['country'=>$country_id]);
+        }
+        if ($city_id != null){
+            $query->andWhere(['hotels_info.city_id' => $city_id]);
+        }
+
+        if ($stars_id != 1 && $stars_id != null) {
+            $query->andWhere(['hotels_stars_id' => $stars_id]);
+        }
+        if ($hotels_id != null){
+            $query->andWhere(['hotels_info.id' => $hotels_id]);
+        }
+
+        return $query;
     }
 
 }

@@ -3,19 +3,19 @@ use yii\helpers\Url;
 
 ?>
 <script>
-    function addRow <?= $class ?>() {
+    function addRow<?= $class ?>() {
         var data = $('#add-<?= $relID?> :input').serializeArray();
-        data.push({name: '_action', value: 'add'});
+        data.push({name: '_action', value : 'add'});
         $.ajax({
             type: 'POST',
-            url: '<?php echo Url::to(['add-' . $relID]); ?>',
+            url: '<?php echo Url::to(['add-'.$relID]); ?>',
             data: data,
             success: function (data) {
                 $('#add-<?= $relID?>').html(data);
             }
         });
     }
-    function delRow <?= $class ?>(id) {
+    function delRow<?= $class ?>(id) {
         $('#add-<?= $relID?> tr[data-key=' + id + ']').remove();
     }
 </script>

@@ -8,6 +8,7 @@
 
 namespace frontend\models;
 
+use common\models\HotelsInfo;
 use common\models\HotelsPayPeriod;
 use common\models\TourInfo;
 use Yii;
@@ -79,56 +80,160 @@ class GenTour extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function getTourTransport($tour_info_id, $date_begin, $date_end)
-    {
-        $trans = new TourInfo(['id' => $tour_info_id]);
-        $transType = $trans->getTourInfoHasTourTypeTransports();
 
+    /**
+     * Функция получает по одному маршруту "туда" и "обратно"
+     * @param $tour_info_id - идентификатор тура
+     * @param $date_start - дата заезда в гостиницу
+     * @param $date_end - дата выезда из гостиницы
+     * @param $hotel - параметр определяет, в гостиницу поедем или это только автобусный тур (экскурсии, паломнические поездки)
+     * @return array
+     */
+    public static function getTourTransport($tour_info_id, $date_start, $date_end, $hotel = true,
+        $trans_info_id = false, $trans_way_id = false, $trans_info_id_reverse = false,$trans_way_id_reverse = false)
+    {
         $route = array();
+        //Получаем только конкретные маршруты и цены
         //TODO Добавить проверку забронированных маршрутов
-        foreach ($transType->all() as $key => $value) {
-            $transTour = $value['tour_type_transport_id'];
-            unset($query);
-            if ($transTour == 1) {
-                //Получаем автобусы, которые идут в конкретное время в конкретное место
-                $query = \common\models\BusWay::find()->active();
-            } elseif ($transTour == 2 or $transTour == 3) {
-                //Получаем модель транспорта: поезда
-                //Получаем поезд, который идет в конкретное время в конкретное место
-                $query = \common\models\TransPrice::find()->active();
-                $query->innerJoin('trans_info as ti', 'trans_price.trans_info_id = ti.id')
-                    ->andWhere(['ti.trans_type_id' => $transTour]);
+        if (($trans_info_id && $trans_way_id) || ($trans_info_id_reverse && $trans_way_id_reverse)){
+            if ($trans_info_id && $trans_way_id){
+                if ($trans_info_id == 1){
+                    $query = \common\models\BusWay::find()->active()
+                        ->andWhere(['id'=>$trans_way_id])->one()
+                    ;
+                }
+                elseif ($trans_info_id == 2 || $trans_info_id == 3){
+                    $query = \common\models\TransPrice::find()->active()
+                        ->andWhere(['id'=>$trans_way_id])->one();
+                }
+                $route['to'] = $query;
+                $route['to']['type'] = $trans_info_id;
             }
-            if ($transTour > 0 && $transTour < 4) {
-                //Получаем маршруты "Туда":
-                $route[$transTour]['to'] = $query->andWhere(['date_end' => $date_begin])->one();
-                //Получаем маршруты "Обратно":
-                $route[$transTour]['out'] = $query->andWhere(['date_begin' => $date_end])->one();
+            else{
+                $route['to'] = false;
             }
+            if ($trans_info_id_reverse && $trans_way_id_reverse){
+
+                if ($trans_info_id_reverse == 1){
+                    $query_reverse = \common\models\BusWay::find()->active()
+                        ->andWhere(['id'=>$trans_way_id_reverse])->one()
+                    ;
+                }
+                elseif ($trans_info_id_reverse == 2 || $trans_info_id_reverse == 3){
+                    $query_reverse = \common\models\TransPrice::find()->active()
+                        ->andWhere(['id'=>$trans_way_id_reverse])->one();
+                }
+                $route['out'] = $query_reverse;
+                $route['out']['type'] = $trans_info_id_reverse;
+            }
+            else{
+                $route['out'] = false;
+            }
+            $route[0]=1;
+        }
+
+        else {
+            $trans = new TourInfo(['id' => $tour_info_id]);
+            $transType = $trans->getTourInfoHasTourTypeTransports();
+            foreach ($transType->all() as $key => $value) {
+                $transTour = $value['tour_type_transport_id'];
+                unset($query);
+                if ($transTour == 1) {
+                    //Получаем автобусы, которые идут в конкретное время в конкретное место
+                    $query = \common\models\BusWay::find()->active();
+                } elseif ($transTour == 2 or $transTour == 3) {
+                    //Получаем модель транспорта: поезда
+                    //Получаем поезд, который идет в конкретное время в конкретное место
+                    $query = \common\models\TransPrice::find()->active();
+                    $query->innerJoin('trans_info as ti', 'trans_price.trans_info_id = ti.id')
+                        ->andWhere(['ti.trans_type_id' => $transTour]);
+                }
+                if ($transTour > 0 && $transTour < 4) {
+                    if ($hotel === true) {
+                        //Получаем маршруты "Туда":
+                        $route[$transTour]['to'] = $query->andWhere(['date_end' => $date_start])->one();
+                        //Получаем маршруты "Обратно":
+                        $route[$transTour]['out'] = $query->andWhere(['date_begin' => $date_end])->one();
+                    } else {
+                        //Получаем маршруты "Туда":
+                        $route[$transTour]['to'] = $query->andWhere(['date_begin' => $date_start])->one();
+                        //Получаем маршруты "Обратно":
+                        $route[$transTour]['out'] = $query->andWhere(['date_end' => $date_end])->one();
+                    }
+                }
+            }
+            $route[0] = 2;
         }
         return $route;
     }
 
     public static function calcFullPrice($tourInfoId, $hotelsAppartmentId, $typeOfFood, $hotelsBegin, $hotelsEnd, $countDay,
-                                         $countTourist, $countChild, $childYears, $transDateBegin)
+                                         $countTourist, $countChild, $childYears, $transDateBegin,
+$trans_info_id = false, $trans_way_id = false, $trans_info_id_reverse = false,$trans_way_id_reverse = false,
+$hotel_enable = true)
     {
         $fullPrice = array();
         $dateBegin = new \DateTime($hotelsBegin);
         $dateBegin = $dateBegin->format('Y-m-d');
         $hotelPrice = HotelsPayPeriod::calculatedAppartmentPrice($hotelsAppartmentId, $dateBegin, $countDay, $typeOfFood, $countTourist, $countChild, $childYears);
-        $transPrice = self::getTourTransport($tourInfoId, $transDateBegin, $hotelsEnd);
-        foreach ($transPrice as $key => $value) {
-            $price = $value['to']->price ? $value['to']->price : 0 + $value['out']->price ? $value['out']->price : 0;
-            $fullPrice[$key]['price'] = $price + $hotelPrice;
-            $fullPrice[$key]['to'] = $value['to']->id;
-            $fullPrice[$key]['out'] = $value['out']->id;
+        $transPrice = self::getTourTransport($tourInfoId, $transDateBegin, $hotelsEnd, $hotel_enable,
+            $trans_info_id, $trans_way_id, $trans_info_id_reverse, $trans_way_id_reverse);
+
+        $otherPrice = 0; //self::calcOtherPrice($tourInfoId);
+        //формируем массив с ценой
+        if ($transPrice[0] === 1){
+
+            $fullPrice['price'] =
+                $transPrice['to']->price ? $transPrice['to']->price : 0
+                + $transPrice['out']->price ? $transPrice['out']->price : 0
+                + $hotelPrice
+                + $otherPrice;
         }
-        if (count($fullPrice) > 0 && $hotelPrice > 0) {
-            $fullPrice[0] = $hotelPrice;
+        elseif($transPrice[0] === 2) {
+            foreach ($transPrice as $key => $value) {
+                $price = $value['to']->price ? $value['to']->price : 0 + $value['out']->price ? $value['out']->price : 0;
+                $fullPrice[$key]['price'] = $price + $hotelPrice;
+                $fullPrice[$key]['to'] = $value['to']->id;
+                $fullPrice[$key]['out'] = $value['out']->id;
+
+            }
         }
-        $otherPrice = 0;
 
         return $fullPrice;
+    }
+
+    /**
+     * Рассчитываем стоимость всех дополнительных услуг
+     * @param $hotelId - идентификатор отеля
+     * @param $tourId - идентификатор тура
+     * @return float - сумма дополнительных услуг
+     */
+    public function calcOtherPrice($tourId){
+        $model = new GenTour();
+        $hotelId = \common\models\TourInfo::findOne(['id'=>$tourId])->hotels_info_id;
+        $result = floatval($model->hotelOthelPrice($hotelId)) + floatval($model->tourOtherPrice($tourId));
+        return $result;
+    }
+
+
+    public function hotelOthelPrice($hotelId){
+        $model = new HotelsInfo(['id'=>$hotelId]);
+        $result = $model->getHotelsOthersPricings()->active();
+        $price = 0;
+        foreach ($result->each() as $key=>$value){
+            $price += $value->price;
+        }
+        return $price;
+    }
+
+    public function tourOtherPrice($tourId){
+        $model = new \common\models\TourInfo(['id'=>$tourId]);
+        $result = $model->getTourOtherPricings()->active();
+        $price = 0;
+        foreach ($result->each() as $key=>$value){
+            $price += $value->price;
+        }
+        return $price;
     }
 
 }
