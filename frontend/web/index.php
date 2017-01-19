@@ -1,4 +1,9 @@
 <?php
+$block = true;
+if ($block == true && $_SERVER['REMOTE_ADDR'] != '213.135.146.3'){
+    echo file_get_contents('close.html');
+    die;
+}
 /**///
 defined('YII_DEBUG') or define('YII_DEBUG', true);
 defined('YII_ENV') or define('YII_ENV', 'dev');
@@ -6,6 +11,8 @@ defined('YII_ENV') or define('YII_ENV', 'dev');
 defined('YII_DEBUG') or define('YII_DEBUG', false);
 defined('YII_ENV') or define('YII_ENV', 'prod');
 /**/
+
+
 require(__DIR__ . '/../../vendor/autoload.php');
 require(__DIR__ . '/../../vendor/yiisoft/yii2/Yii.php');
 require(__DIR__ . '/../../common/config/bootstrap.php');
@@ -18,5 +25,7 @@ $config = yii\helpers\ArrayHelper::merge(
     require(__DIR__ . '/../config/main-local.php')
 );
 
+
 $application = new yii\web\Application($config);
+
 $application->run();
