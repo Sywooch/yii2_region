@@ -2,14 +2,14 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\TransStation;
 use backend\models\SearchTransStation;
+use common\models\TransStation;
+use Yii;
+use yii\filters\VerbFilter;
+use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use \yii\web\Response;
-use yii\helpers\Html;
+use yii\web\Response;
 
 /**
  * TransStationController implements the CRUD actions for TransStation model.
@@ -103,7 +103,7 @@ class TransStationController extends Controller
                 return [
                     'forceReload'=>'true',
                     'title'=> Yii::t('app', 'Create new') . ' ' . Yii::t('app', 'TransStation'),
-                    'content'=>'<span class="text-success">Create TransStation success</span>',
+                    'content'=>'<span class="text-success">'.Yii::t('app', 'Create ') . Yii::t('app', 'TransStation') . Yii::t('app', ' success'). '</span>',
                     'footer'=> Html::button(Yii::t('app', 'Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a(Yii::t('app', 'Create More'),['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         

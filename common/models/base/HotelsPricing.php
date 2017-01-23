@@ -83,6 +83,7 @@ class HotelsPricing extends \yii\db\ActiveRecord
             'active' => Yii::t('app', 'Active'),
             'date_add' => Yii::t('app', 'Date Add'),
             'date_edit' => Yii::t('app', 'Date Edit'),
+            'country' => Yii::t('app', 'Country'),
             'lock' => Yii::t('app', 'Lock'),
         ];
     }

@@ -161,6 +161,7 @@ return [
     'HotelsAppartments' => 'Номера в отеле',
     'HotelsAppartment' => 'Номер в отеле',
     'Hotels Appartment' => 'Номер в отеле',
+    'Update Hotels Appartment: ' => 'Изменение номера: ',
     'Hotels Appartment ID' => 'Номера в отеле',
     'Hotels Appartment Hotels Info ID' => 'Гостиница',
     'Hotels Others Pricing ID' => 'Дополнительные цены',
@@ -388,6 +389,7 @@ return [
     'Create Bus Way' => 'Создать путевой лист',
 
     'Update Bus Route' => 'Редактирование маршрута',
+    'Update Bus Route: ' => 'Редактирование маршрута: ',
 
     'Choose Bus route' => 'Выберите маршрут',
     'Choose Bus info' => 'Выберите автобус',

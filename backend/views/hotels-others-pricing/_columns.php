@@ -26,6 +26,8 @@ return [
         'filterWidgetOptions' => [
             'pluginOptions' => ['allowClear' => true],
         ],
+        'filterInputOptions'=>['placeholder'=>'Любой отель'],
+        'format'=>'raw'
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
