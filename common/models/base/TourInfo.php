@@ -109,6 +109,8 @@ class TourInfo extends \yii\db\ActiveRecord
             'lock' => Yii::t('app', 'Lock'),
             'date_add' => Yii::t('app', 'Date Add'),
             'date_edit' => Yii::t('app', 'Date Edit'),
+            'country_hotel' => Yii::t('app','Country Hotel'),
+            'city_hotel' => Yii::t('app','City Hotel'),
         ];
     }
 

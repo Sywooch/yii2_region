@@ -147,13 +147,22 @@ CrudAsset::register($this);
         ['attribute' => 'lock', 'hidden' => true],
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{mpdf-voucher}{save-as-new}{view}',
+            'template' => '{mpdf-invoice}{mpdf-voucher}{save-as-new}{view}',
             'buttons' => [
                 'save-as-new' => function ($url) {
                     return Html::a('<span class="glyphicon glyphicon-copy"></span>', $url, ['title' => 'Save As New']);
                 },
+                'mpdf-invoice' => function ($url) {
+                    return Html::a('<img class="left" width="30px" src="/uploads/pdf.png" /> Распечатать счет', $url, [
+                        'class' => 'btn btn-default',
+                        'target' => '_blank',
+                        'data-toggle' => 'tooltip',
+                        'data-pjax' => 0,
+                        'title' => Yii::t('app', 'Will open the generated PDF file in a new window')
+                    ]);
+                },
                 'mpdf-voucher' => function ($url) {
-                    return Html::a('<img class="left" width="30px" src="/uploads/pdf.png" /> Распечатать .PDF', $url, [
+                    return Html::a('<img class="left" width="30px" src="/uploads/pdf.png" /> Распечатать ваучер', $url, [
                         'class' => 'btn btn-default',
                         'target' => '_blank',
                         'data-toggle' => 'tooltip',

@@ -22,7 +22,7 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'abbrev',
     ],
-    [
+    /*[
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'price',
     ],
@@ -32,7 +32,7 @@ return [
         'trueLabel'=>'Фиксированная сумма',
         'falseLabel'=>'Процент от стоимости номера',
 
-    ],
+    ],*/
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

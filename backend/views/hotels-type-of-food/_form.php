@@ -15,9 +15,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'abbrev')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
+    <?php
+    /*
+    echo $form->field($model, 'price')->textInput(['maxlength' => true]);
 
-    <?= $form->field($model, 'type_price')->checkbox() ?>
+    echo $form->field($model, 'type_price')->checkbox();
+    */
+    ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

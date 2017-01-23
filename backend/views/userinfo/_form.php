@@ -1,9 +1,10 @@
 <?php
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-//use kartik\widgets\ActiveForm;
 use common\models\UserRole;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
+//use kartik\widgets\ActiveForm;
 
 
 /* @var $this yii\web\View */
@@ -19,21 +20,13 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'password')->textInput() ?>
+    <?php
+    if ($model->isNewRecord){
+        echo $form->field($model, 'password')->textInput();
+    }
+?>
 
     <?= $form->field($model, 'status')->checkbox() ?>
-
-    <?= $form->field($model, 'create_time')->widget(\kartik\datetime\DateTimePicker::classname(), [
-                //'langauge' => 'ru-RU',
-                //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
-            ]) ?>
-
-    <?= $form->field($model, 'last_login')->widget(\kartik\datetime\DateTimePicker::classname(), [
-                //'langauge' => 'ru',
-                //'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
-            ]) ?>
-
-
 
     <?php
     $ur_names = ArrayHelper::map(UserRole::find()->all(),'id','role_name');

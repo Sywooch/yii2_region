@@ -158,15 +158,16 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     </div>
+
     <?php
-    if (is_array($transportTo) && count($transportTo)>0) {
+    if (is_array($providerTransportTo) && count($providerTransportTo)>0) {
     ?>
     <div class="row">
         <div class="panel panel-info">
             <div class="pane-body">
                 <?php
 
-                    if ($transportTo[0] == \common\models\TourTypeTransport::TYPE_BUS){
+                    if ($providerTransportTo[0] == \common\models\TourTypeTransport::TYPE_BUS){
                         $gridColumnTransportTo = [
                             ['class' => 'yii\grid\SerialColumn'],
                             ['attribute' => 'id', 'visible' => false],
@@ -181,8 +182,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             ['attribute' => 'lock', 'visible' => false],
                         ];
                     }
-                    elseif ($transportTo[0] == \common\models\TourTypeTransport::TYPE_TRAIN ||
-                            $transportTo[0] == \common\models\TourTypeTransport::TYPE_AVIA){
+                    elseif ($providerTransportTo[0] == \common\models\TourTypeTransport::TYPE_TRAIN ||
+                            $providerTransportTo[0] == \common\models\TourTypeTransport::TYPE_AVIA){
                         $gridColumnTransportTo = [
                             ['class' => 'yii\grid\SerialColumn'],
                             ['attribute' => 'id', 'visible' => false],
@@ -206,7 +207,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
 
                     echo Gridview::widget([
-                        'dataProvider' => $providerTransportTo,
+                        'dataProvider' => $providerTransportTo[1],
                         'columns' => $gridColumnTransportTo,
                         'pjax' => true,
                         'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-sal-order-has-person']],
@@ -231,13 +232,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php } ?>
 
     <?php
-    if (is_array($transportOut) && count($transportOut)>0) {
+    if (is_array($providerTrasportOut) && count($providerTrasportOut)>0) {
     ?>
     <div class="row">
         <div class="panel panel-info">
             <div class="pane-body">
                 <?php
-                    if ($transportOut[0] == \common\models\TourTypeTransport::TYPE_BUS){
+                    if ($providerTrasportOut[0] == \common\models\TourTypeTransport::TYPE_BUS){
                         $gridColumnTransportTo = [
                             ['class' => 'yii\grid\SerialColumn'],
                             ['attribute' => 'id', 'visible' => false],
@@ -252,8 +253,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             ['attribute' => 'lock', 'visible' => false],
                         ];
                     }
-                    elseif ($transportOut[0] == \common\models\TourTypeTransport::TYPE_TRAIN ||
-                        $transportOut[0] == \common\models\TourTypeTransport::TYPE_AVIA){
+                    elseif ($providerTrasportOut[0] == \common\models\TourTypeTransport::TYPE_TRAIN ||
+                        $providerTrasportOut[0] == \common\models\TourTypeTransport::TYPE_AVIA){
                         $gridColumnTransportTo = [
                             ['class' => 'yii\grid\SerialColumn'],
                             ['attribute' => 'id', 'visible' => false],
@@ -277,7 +278,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
 
                     echo Gridview::widget([
-                        'dataProvider' => $providerTransportOut,
+                        'dataProvider' => $providerTransportOut[1],
                         'columns' => $gridColumnTransportOut,
                         'pjax' => true,
                         'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-sal-order-has-person']],

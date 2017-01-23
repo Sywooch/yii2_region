@@ -4,14 +4,12 @@
 
 namespace backend\controllers\base;
 
-use common\models\HotelsInfo;
 use backend\models\SearchHotelsInfo;
-use yii\helpers\VarDumper;
+use common\models\HotelsInfo;
+use dmstr\bootstrap\Tabs;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\HttpException;
-use yii\helpers\Url;
-use yii\filters\AccessControl;
-use dmstr\bootstrap\Tabs;
 use yii\web\UploadedFile;
 
 /**
@@ -72,16 +70,20 @@ class HotelsInfoController extends Controller
         $model = new HotelsInfo;
 
         try {
+            $transact = \Yii::$app->db->beginTransaction();
             if ($model->load($_POST)) {
                 $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+
                 if ($model->save()) {
                     $model->upload();
-                    return $this->render('update', ['model' => $model]);
+                    $transact->commit();
+                    return $this->redirect(['update', 'id' => $model->id]);
                 }
             } elseif (!\Yii::$app->request->isPost) {
                 $model->load($_GET);
             }
         } catch (\Exception $e) {
+            $transact->rollBack();
             $msg = (isset($e->errorInfo[2])) ? $e->errorInfo[2] : $e->getMessage();
             $model->addError('_exception', $msg);
         }

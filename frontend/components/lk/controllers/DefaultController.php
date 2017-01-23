@@ -32,7 +32,7 @@ class DefaultController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new',
-                            'ajax-person-index', 'ajax-person-create', 'mpdf-voucher'],
+                            'ajax-person-index', 'ajax-person-create', 'mpdf-voucher', 'mpdf-invoice'],
                         'roles' => ['Super Admin', 'Manager', 'Tagent'],
                     ],
                     [
@@ -45,6 +45,14 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
+
+        //Тестируем фильтр
+        $t = new \frontend\models\Tour();
+        $p = $t->findTourFilter();
+        //echo "<pre>";
+        //print_r($p);
+        //die;
+
         //Подключаем список туров, которые забронировал текущий пользователь.
         //kartik/GridView
         //1. Подключаем модуль заказов
@@ -62,6 +70,7 @@ class DefaultController extends Controller
     public function actionMpdfInvoice()
     {
         $this->layout = 'pdf';
+
     }
     public function actionMpdfVoucher($id)
     {
@@ -75,10 +84,18 @@ class DefaultController extends Controller
             $providerSalOrderHasPerson = new \yii\data\ArrayDataProvider([
                 'allModels' => $model->salOrderHasPeople,
             ]);
+            $transportTo = new \yii\data\ArrayDataProvider([
+                'allModels' => $model->transWay,
+            ]);
+            $transportOut = new \yii\data\ArrayDataProvider([
+                'allModels' => $model->transWayReverse,
+            ]);
             //$model = $this->findModel();
             $pdf = new Pdf([
                 'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
-                'content' => $this->renderPartial('viewpdf', ['model' => $model, 'providerSalOrderHasPerson' => $providerSalOrderHasPerson,]),
+                'content' => $this->renderPartial('viewpdf',
+                    ['model' => $model, 'providerSalOrderHasPerson' => $providerSalOrderHasPerson,
+                        'providerTransportTo' => $transportTo, 'providerTrasportOut'=>$transportOut]),
                 'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
                 'cssInline' => '.img-circle {border-radius: 50%;}',
                 'options' => [
@@ -228,6 +245,7 @@ class DefaultController extends Controller
             'allModels' => $model->salOrderHasPeople,
         ]);
 
+        //TODO Скорее всего не работает так как отдается массив.
         $transportTo = new \yii\data\ArrayDataProvider([
             'allModels' => $model->transWay,
         ]);

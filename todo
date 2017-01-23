@@ -77,4 +77,35 @@ ut-air
 
 
 Действия при обновлении
+Исправления в vendor
 2016-11-03 cinghie\articles\models\Items.php - заменить на файл со старой версии (2.6.1)
+2016-12-22 - /vendor/costa-rico/yii2-images/models/Image.php -
+    104
+        - $image = new \abeautifulsite\SimpleImage($this->getPathToOrigin());
+        + $image = new \claviska\SimpleImage($this->getPathToOrigin());
+    185
+    - $image = new \abeautifulsite\SimpleImage($imagePath);
+    + $image = new \claviska\SimpleImage($imagePath);
+
+    194
+    - $image->fit_to_height($size['height']);
+    + $image->fitToHeight($size['height']);
+
+    196
+        - $image->fit_to_width($size['height']);
+        + $image->fitToWidth($size['height']);
+
+    214
+        - $waterMark = new \abeautifulsite\SimpleImage($waterMarkPath);
+        + $waterMark = new \claviska\SimpleImage($waterMarkPath);
+
+    219
+    * $waterMark->getHeight() > $wmMaxHeight
+    221
+    * $waterMark->getHeight() > $wmMaxWidth
+    231
+    * $waterMark->fitToWidth($wmMaxWidth);
+    * $waterMark->toFile($waterMarkPath, null, 100);
+
+    244
+    * $image->toFile($pathToSave, null, 100);

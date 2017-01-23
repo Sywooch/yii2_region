@@ -107,7 +107,7 @@ class GenTour extends \yii\db\ActiveRecord
                         ->andWhere(['id'=>$trans_way_id])->one();
                 }
                 $route['to'] = $query;
-                $route['to']['type'] = $trans_info_id;
+                $route['to_type'] = $trans_info_id;
             }
             else{
                 $route['to'] = false;
@@ -124,7 +124,7 @@ class GenTour extends \yii\db\ActiveRecord
                         ->andWhere(['id'=>$trans_way_id_reverse])->one();
                 }
                 $route['out'] = $query_reverse;
-                $route['out']['type'] = $trans_info_id_reverse;
+                $route['out_type'] = $trans_info_id_reverse;
             }
             else{
                 $route['out'] = false;

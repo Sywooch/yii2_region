@@ -472,6 +472,10 @@ return [
     'Create Trans Reservation' => 'Новое бронирование',
 
 
+    'Country Hotel'=>'Страна прибытия',
+    'City Hotel' => 'Город прибытия',
+
+
     'People' => 'Туристы',
     'Create Person' => 'Создать нового туриста',
     'BusReservationHasPerson' => 'Зарезервированные автобусы',
