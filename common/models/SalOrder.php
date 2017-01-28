@@ -25,7 +25,7 @@ class SalOrder extends BaseSalOrder
                     'trans_info_id_reverse',
                     'trans_way_id_reverse',
                     'userinfo_id', 'tour_info_id',
-                    'created_by', 'updated_by', 'lock', 'hotels_type_of_food_id'], 'integer'],
+                    'created_by', 'updated_by', 'lock', 'hotels_type_of_food_id','hotels_appartment_full_sale', 'hotels_pay_period_id'], 'integer'],
             [['full_price'], 'number'],
             [['insurance_info'], 'string'],
                 [['lock'], 'default', 'value' => '0'],

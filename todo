@@ -79,6 +79,14 @@ ut-air
 Действия при обновлении
 Исправления в vendor
 2016-11-03 cinghie\articles\models\Items.php - заменить на файл со старой версии (2.6.1)
+
+
+//возможность удаления или установки изображения главным
+2017-01-26 2amigos/yii2-gallery-widget/src/Gallery.php - заменить локальным файлом
+2017-01-26 costa-rice/yii2-images/behaviors/ImageBehave.php - заменить локальным файлом
+
+
+//Слудеющее изменение не актуально, так как баг исправлен внутри самого расширения
 2016-12-22 - /vendor/costa-rico/yii2-images/models/Image.php -
     104
         - $image = new \abeautifulsite\SimpleImage($this->getPathToOrigin());

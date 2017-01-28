@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
         <div id="accept-tour">
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-md-10 col-sm-12 col-xs-12">
                     <p>
                         <h2>
                     <p class="text-warning">
@@ -44,17 +44,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     </h2></p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-12" style="margin-top: 15px">
 
-                    <?= Html::a(Yii::t('app', 'Подтвердить заказ'), ['/lk/reservation/choose-reserv', '_reservation' => $model->id], ['class' => 'btn btn-primary',
+            <div class="row">
+                <div class="col-md-10 col-sm-12 col-xs-12" style="margin-top: 15px">
+
+                    <?= Html::a(Yii::t('app', 'Подтвердить заказ'), ['/lk/reservation/choose-reserv', '_reservation' => $model->id, 'order_id' => $model->id], ['class' => 'btn btn-primary',
                         'data' => [
                             'confirm' => Yii::t('app', 'Внимание! Отмена заказа невозможна. Вы уверены, что хотите оформить заказ?'),
                             'method' => 'post',
                         ],
                     ]) ?>
 
-                    <?= Html::a(Yii::t('app', 'Отменить заказ'), ['/lk/reservation/choose-reserv', '_not_reservation' => $model->id], [
+                    <?= Html::a(Yii::t('app', 'Отменить заказ'), ['/lk/reservation/choose-reserv', '_not_reservation' => $model->id, 'order_id' => $model->id], [
                         'class' => 'btn btn-danger',
                         'data' => [
                             'confirm' => Yii::t('app', 'Вы действительно отменяете заказ?'),
@@ -62,12 +63,21 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                     ])
                     ?>
-
                 </div>
             </div>
 
         </div>
     <?php }?>
+    <div class="row">
+        <div class="col-md-2 col-sm-12 col-xs-12">
+            <?= \yii\bootstrap\Html::a('Распечатать счет',['mpdf-invoice','id'=>$model->id] , ['target' => '_blank']) ?>
+            <?php
+            if ($model->sal_order_status_id == 4 || $model->sal_order_status_id == 5) {
+                echo \yii\bootstrap\Html::a('Распечатать ваучер', ['mpdf-voucher', 'id' => $model->id], ['target' => '_blank']);
+            }
+            ?>
+        </div>
+    </div>
 
     <div class="row">
         <div class="panel panel-info">

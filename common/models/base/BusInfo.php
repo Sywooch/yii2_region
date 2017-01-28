@@ -140,6 +140,11 @@ abstract class BusInfo extends \yii\db\ActiveRecord
         return $this->hasMany(\common\models\BusWay::className(), ['bus_info_id' => 'id']);
     }
 
+    public function getAllSeats()
+    {
+        return $this->seat;
+    }
+
     /**
      * @inheritdoc
      * @return \common\models\BusInfoQuery the active query used by this AR class.

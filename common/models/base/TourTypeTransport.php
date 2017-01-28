@@ -3,8 +3,6 @@
 namespace common\models\base;
 
 use Yii;
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the base model class for table "tour_type_transport".
@@ -35,7 +33,8 @@ class TourTypeTransport extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'string']
+            [['name'], 'string'],
+            [['date_edit','date_add'], 'safe'],
         ];
     }
 
@@ -86,7 +85,7 @@ class TourTypeTransport extends \yii\db\ActiveRecord
      * @inheritdoc
      * @return type mixed
      */
-    public function behaviors()
+    /*public function behaviors()
     {
         return [
             'timestamp' => [
@@ -101,7 +100,7 @@ class TourTypeTransport extends \yii\db\ActiveRecord
                 'updatedByAttribute' => 'updated_by',
             ],
         ];
-    }
+    }*/
 
     /**
      * @inheritdoc

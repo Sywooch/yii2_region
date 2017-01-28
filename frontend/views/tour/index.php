@@ -8,7 +8,10 @@ $this->title = Yii::t('app', 'Гостиницы');
 <?php
 if ((Yii::$app->getRequest()->getPathInfo() == 'hotels') or
     (Yii::$app->getRequest()->getPathInfo() == 'hotels/index') or
-    (Yii::$app->getRequest()->getPathInfo() == 'hotels/')
+    (Yii::$app->getRequest()->getPathInfo() == 'hotels/') or
+    (Yii::$app->getRequest()->getPathInfo() == 'tour') or
+    (Yii::$app->getRequest()->getPathInfo() == 'tour/index') or
+    (Yii::$app->getRequest()->getPathInfo() == 'tour/')
 ) {
     ?>
 <div class="col-md-3 col-xs-12 panel panel-default">

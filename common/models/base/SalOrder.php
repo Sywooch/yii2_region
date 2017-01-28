@@ -40,6 +40,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property \common\models\HotelsAppartment $hotelsAppartment
  * @property \common\models\HotelsInfo $hotelsInfo
+ * @property \common\models\HotelsPayPeriod $hotelsPayPeriod
  * @property \common\models\HotelsTypeOfFood $hotelsTypeOfFood
  * @property \common\models\SalOrderStatus $salOrderStatus
  * @property \common\models\TourInfo $tourInfo
@@ -69,7 +70,9 @@ class SalOrder extends \yii\db\ActiveRecord
         return [
             [['date', 'date_begin', 'date_end', 'date_add', 'date_edit', 'hotel_date_begin', 'hotel_date_end'], 'safe'],
             [['sal_order_status_id', 'userinfo_id', 'tour_info_id', 'hotels_type_of_food_id'], 'required'],
-            [['sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id', 'trans_info_id', 'trans_way_id', 'trans_info_id_reverse', 'trans_way_id_reverse', 'hotels_type_of_food_id', 'userinfo_id', 'tour_info_id', 'created_by', 'updated_by', 'lock', 'hotels_appartment_full_sale'], 'integer'],
+            [['sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id',
+                'trans_info_id', 'trans_way_id', 'trans_info_id_reverse', 'trans_way_id_reverse', 'hotels_type_of_food_id',
+                'userinfo_id', 'tour_info_id', 'created_by', 'updated_by', 'lock', 'hotels_appartment_full_sale', 'hotels_pay_period_id'], 'integer'],
             [['full_price'], 'number'],
             [['insurance_info'], 'string'],
             [['lock'], 'default', 'value' => '0'],
@@ -126,6 +129,7 @@ class SalOrder extends \yii\db\ActiveRecord
             'hotels_appartment_full_sale' => Yii::t('app', 'Hotels Appartment Full Sale'),
             'hotel_date_begin' => Yii::t('app', 'Hotel Date Begin'),
             'hotel_date_end' => Yii::t('app', 'Hotel Date End'),
+            'hotels_pay_period_id' => Yii::t('app', 'Hotels pay period'),
         ];
     }
 
@@ -156,6 +160,14 @@ class SalOrder extends \yii\db\ActiveRecord
     public function getHotelsStar()
     {
         return $this->hasOne(\common\models\HotelsStars::className(), ['id' => 'hotels_stars_id'])->viaTable('hotels_info', ['id' => 'hotels_info_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHotelsPayPeriod()
+    {
+        return $this->hasOne(\common\models\HotelsPayPeriod::className(), ['id' => 'hotels_pay_period_id'])->inverseOf('salOrders');
     }
 
 
@@ -224,7 +236,7 @@ class SalOrder extends \yii\db\ActiveRecord
         return [
             'timestamp' => [
                 'class' => TimestampBehavior::className(),
-                'createdAtAttribute' => 'date_add',
+                'createdAtAttribute' => ['date_add','date'],
                 'updatedAtAttribute' => 'date_edit',
                 'value' => new \yii\db\Expression('NOW()'),
             ],
@@ -257,12 +269,29 @@ class SalOrder extends \yii\db\ActiveRecord
     public function getTransWay(){
         $type = $this->transInfo;
         if ($type->id == TourTypeTransport::TYPE_BUS){
-            return [$type->id, $this->hasOne(BusWay::className(),['id'=>$this->trans_way_id])->inverseOf('salOrders')];
+            return [$type->id, BusWay::findOne(['id'=>$this->trans_way_id])];
         }
         elseif ($type->id == TourTypeTransport::TYPE_TRAIN || $type->id == TourTypeTransport::TYPE_AVIA){
-            return [$type->id, $this->hasOne(TransPrice::className(),['id'=>$this->trans_way_id])->inverseOf('salOrders')];
+            return [$type->id, TransPrice::findOne(['id'=>$this->trans_way_id])];
+                //$this->hasOne(TransPrice::className(),['id'=>'trans_way_id'])->inverseOf('salOrders')];
         }
         return false;
+    }
+
+    public function getTransWayName(){
+        $type = $this->transInfo;
+        $name = false;
+        if ($type->id == TourTypeTransport::TYPE_BUS){
+            $model = BusWay::findOne(['id'=>$this->trans_way_id]);
+            //$this->hasOne(BusWay::className(),['id'=>$this->trans_way_id])->inverseOf('salOrders');
+            $name = $model->name;
+        }
+        elseif ($type->id == TourTypeTransport::TYPE_TRAIN || $type->id == TourTypeTransport::TYPE_AVIA){
+            $model = TransPrice::findOne(['id'=>$this->trans_way_id]);
+                //$this->hasOne(TransPrice::className(),['id'=>$this->trans_way_id])->inverseOf('salOrders')->one();
+            $name = $model->name;
+        }
+        return $name;
     }
 
     /**
@@ -272,11 +301,29 @@ class SalOrder extends \yii\db\ActiveRecord
     public function getTransWayReverse(){
         $type = $this->transInfo;
         if ($type->id == TourTypeTransport::TYPE_BUS){
-            return [$type->id, $this->hasOne(BusWay::className(),['id'=>$this->trans_way_id])->inverseOf('salOrders')];
+            return [$type->id,  BusWay::findOne(['id'=>$this->trans_way_id_reverse])];
+                //$this->hasOne(BusWay::className(),['id'=>'trans_way_id_reverse'])->inverseOf('salOrders')];
         }
         elseif ($type->id == TourTypeTransport::TYPE_TRAIN || $type->id == TourTypeTransport::TYPE_AVIA){
-            return [$type->id, $this->hasOne(TransPrice::className(),['id'=>$this->trans_way_id])->inverseOf('salOrders')];
+            return [$type->id,  TransPrice::findOne(['id'=>$this->trans_way_id_reverse])];
+                //$this->hasOne(TransPrice::className(),['id'=>'trans_way_id_reverse'])->inverseOf('salOrders')];
         }
         return false;
     }
+
+    public function getTransWayReverseName(){
+    $type = $this->transInfo;
+    $name = false;
+    if ($type->id == TourTypeTransport::TYPE_BUS){
+        $model =  BusWay::findOne(['id'=>$this->trans_way_id_reverse]);
+            //$this->hasOne(BusWay::className(),['id'=>$this->trans_way_id_reverse])->inverseOf('salOrders');
+        $name = $model->busRoute->name;
+    }
+    elseif ($type->id == TourTypeTransport::TYPE_TRAIN || $type->id == TourTypeTransport::TYPE_AVIA){
+        $model = TransPrice::findOne(['id'=>$this->trans_way_id_reverse]);
+            //$this->hasOne(TransPrice::className(),['id'=>$this->trans_way_id_reverse])->inverseOf('salOrders');
+        $name = $model->name;
+    }
+    return $name;
+}
 }

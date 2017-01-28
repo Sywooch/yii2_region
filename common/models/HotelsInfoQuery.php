@@ -35,6 +35,11 @@ class HotelsInfoQuery extends \yii\db\ActiveQuery
         return parent::one($db);
     }
 
+    public function listAll($active = true){
+        $query = $this->andWhere('[[hotels_info.active]] = '. $active);
+        return $query->all();
+    }
+
     public function hot()
     {
         $this->andWhere('[[hot]]=1');

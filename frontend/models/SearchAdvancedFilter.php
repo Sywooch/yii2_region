@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use common\models\HotelsInfo;
 use common\models\TourInfo;
 use common\models\TourType;
 use Yii;
@@ -118,13 +119,13 @@ class SearchAdvancedFilter extends TourInfo
     {
         //$query = TourInfo::find();
         $query = new Query();
-        $query->from('tour_info');
+        //$query->from('tour_info');
 
         $query->andWhere([
             'tour_info.active' => 1,
         ])
-            ->andWhere(['>=', 'tour_info.date_end', date('Y-m-d')]);
-
+            //->andWhere(['>=', 'tour_info.date_end', date('Y-m-d')]);
+;
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -146,7 +147,15 @@ class SearchAdvancedFilter extends TourInfo
             $date_end = date("Y-m-d", strtotime(str_replace('.', '-', $this->date_end)));
         }
 
-
+        $query->from(" 
+            (SELECT '$date_begin' + INTERVAL (6 * a.num + b.num) DAY as selected_date
+                 FROM
+                (SELECT 0 AS num UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5) AS a,
+                (SELECT 0 AS num UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5) AS b
+                WHERE '$date_begin' + INTERVAL (6 * a.num + b.num) DAY <= '$date_end'
+                ORDER BY 1
+                ) as s,tour_info
+        ");
 
         /*if (key_exists('tour_type_name', $params)) {
             $typeName = TourType::findOne(['name' => $params['tour_type_name']]);
@@ -173,10 +182,11 @@ class SearchAdvancedFilter extends TourInfo
             'hpp.id as hotels_pay_period_id',
             'tp.price as min_full_price',
             'http.tour_type_transport_id',
-            //'date_begin'=>$date_begin
+            's.selected_date'
         ]);
         //$query->select(['date_begin'=>$date_begin,'date_end'=>$date_end]);
         //$query->distinct();
+
 
 
         $query->leftJoin('hotels_info as hi', 'tour_info.hotels_info_id = hi.id and hi.active=1')
@@ -194,10 +204,11 @@ class SearchAdvancedFilter extends TourInfo
             //->andFilterWhere(['tour_info.price'=>$this->priceMin])
             /*->andFilterWhere(['<=', 'tour_info.date_begin', $this->date_begin])
             ->andFilterWhere(['>=', 'tour_info.date_end', $this->date_end])*/
-            ->andWhere("((`hpp`.`date_begin` <= \"$date_begin\") AND (`hpp`.`date_end` >= \"$date_begin\") )
-    OR ((`hpp`.`date_begin` <= \"$date_end\")AND(`hpp`.`date_end` >= \"$date_end\"))")
+            /*->andWhere("((`hpp`.`date_begin` <= \"$date_begin\") AND (`hpp`.`date_end` >= \"$date_begin\") )
+    OR ((`hpp`.`date_begin` <= \"$date_end\")AND(`hpp`.`date_end` >= \"$date_end\"))")*/
             //->andFilterWhere([''])
             //->andFilterWhere(['IN','tour_info.city_id', $cityOut])
+                ->andWhere('s.selected_date between hpp.date_begin and hpp.date_end')
             ->andFilterWhere(['hi.city_id' => $this->cityTo])
             ->andFilterWhere(['hi.country' => $this->countryTo])
 
@@ -211,7 +222,7 @@ class SearchAdvancedFilter extends TourInfo
             $query->andWhere("tour_info.city_id IN (SELECT id FROM city WHERE country_id=$this->countryOut)");
             //\common\models\City::find()->select('id')->andWhere(['country_id'=>$this->countryOut])->asArray()->all();
         }
-        $query->groupBy('tour_info_id, ha.id, name_type_food, days');
+        $query->groupBy('s.selected_date, tour_info_id, ha.id, name_type_food, days');
 
         /**
          * TODO Добавить фильтр по наличию мест в эти даты
@@ -268,11 +279,23 @@ class SearchAdvancedFilter extends TourInfo
 
     public function searchTop()
     {
-        $query = TourInfo::find();
+        $query = HotelsInfo::find();
+        $query->distinct();
+        //$query->select('hotels_info.*, hp.id, hpp.id , price');
+        //$query->leftJoin('tour_info','tour_info.hotels_info_id = hotels_info.id');
+        $query->innerJoin('hotels_pricing hp','hp.hotels_info_id = hotels_info.id')
+            ->innerJoin('hotels_pay_period hpp', 'hpp.hotels_pricing_id = hp.id')
+        ;
         $query->andFilterWhere([
-            'active' => 1,
-            //'top' => 1,
+            //'tour_info.active' => 1,
+            'hotels_info.active' => 1,
+            'top' => 1,
+            //'hot' => 1,
         ]);
+            $query->andFilterWhere(['>', 'hpp.price', 0]);
+       $query->andFilterWhere(['>', 'DATE_FORMAT(`hpp`.`date_end`,"%Y-%m-%d")', date('Y-m-d')]);
+            $query->orderBy(['date_add'=>SORT_DESC,'top_num'=>SORT_ASC]);
+            $query->limit(12);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

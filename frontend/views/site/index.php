@@ -53,19 +53,21 @@ $this->title = 'Лайв Тур Вояж';
                 ?>
             </div>
         </div>
-        <div class="col-md-3 col-sm-5 col-xs-5 news-form">
+
+
+        <div class="col-md-9 col-sm-12 col-xs-12 hotels-lists" style="float: right;">
+            <?php
+            echo $hic[0]->actionTop();
+            ?>
+        </div>
+
+        <div class="col-md-3 col-sm-12 col-xs-12 news-form">
             <?php
             $news = \Yii::$app->createController('news');
             echo $news[0]->actionNewsList();
             //$article = Yii::$app->createController('\cinghie\articles\controllers\ItemsController');
 
 
-            ?>
-        </div>
-
-        <div class="col-md-9 col-sm-7 col-xs-7 hotels-lists">
-            <?php
-            echo $hic[0]->actionTop();
             ?>
         </div>
 

@@ -12,7 +12,6 @@ use common\models\BusReservation;
 use common\models\BusWay;
 use common\models\City;
 use common\models\HotelsAppartment;
-use common\models\HotelsPricing;
 use common\models\Person;
 use common\models\SalOrder;
 use common\models\SalOrderHasPerson;
@@ -21,6 +20,7 @@ use common\models\TransPrice;
 use frontend\components\lk\models\LkOrder;
 use frontend\components\lk\models\Reservation;
 use frontend\models\GenTour;
+use frontend\models\Tour;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
@@ -91,27 +91,32 @@ class ReservationController extends Controller
         //Получаем данные из фронтенда (выбрали отель или комнату)
 
         if ($order->isNewRecord && $order->load($request->post())) {
+            $order->no_request = false;
 
             //$dayCount = $beginDay->diff($endDay)->days;
             $order->loadTrans();
-            $beginDay = new \DateTime($order->date_begin . HotelsPricing::CHECKOUT_TIME);
-            $endDay = new \DateTime($order->date_end . HotelsPricing::CHECKOUT_TIME);
-            $countDay = $beginDay->diff($endDay)->days;
-            $order->date_begin = $beginDay->format('Y-m-d H:i');
-            $order->date_end = $endDay->format('Y-m-d H:i');
-            if (isset($request->post()['_toperson'])) {
 
+            $date = new Tour();
+            $date = $date->datePeriodDays($order->date_begin, $order->days, $order->date_end);
+            $beginDay = $date['begin'];
+            $endDay = $date['end'];
+            $countDay = $date['period'];
+
+            $order->hotel_date_begin = $beginDay;
+            $order->hotel_date_end = $endDay;
+
+            if (isset($request->post()['_toperson'])) {
                 $order->full_price = GenTour::calcFullPrice(
                     $order->tour_info_id,
                     $order->hotels_appartment_id,
                     $order->type_of_food_id,
-                    $order->date_begin,
-                    $order->date_end,
+                    $order->hotel_date_begin,
+                    $order->hotel_date_end,
                     $countDay,
-                    $order->touristCount,
-                    $order->childCount,
-                    $order->childYears,
-                    $order->date_begin,
+                    $order->tourist_count,
+                    $order->child_count,
+                    $order->child_years,
+                    $order->hotel_date_begin,
                     $order->trans_info_id,
                     $order->trans_way_id,
                     $order->trans_info_id_reverse,
@@ -144,13 +149,21 @@ class ReservationController extends Controller
 
             }
         } elseif ($order->isNewRecord && $request->get('hotels_info_id')) {
-            $beginDay = new \DateTime($order->date_begin . HotelsPricing::CHECKOUT_TIME);
-            $endDay = new \DateTime($order->date_end . HotelsPricing::CHECKOUT_TIME);
-            $countDay = $beginDay->diff($endDay)->days;
+
+            /*$beginDay = new \DateTime($order->date_begin . HotelsPricing::CHECKOUT_TIME);
+            $countDay = 1;
+            if (isset($order->days) && $order->days > 0){
+                $endDay = $beginDay->add(new \DateInterval("P".$order->days."D"));
+                $countDay = $order->days;
+            }
+            else{
+                $endDay = new \DateTime($order->date_end . HotelsPricing::CHECKOUT_TIME);
+                $countDay = $beginDay->diff($endDay)->days;
+            */
             /*TODO !!!Проверить будет ли выбран только отель, или уже с комнатой*/
             //TODO !!!Предусмотреть возможность выбора типа номера во фронтенде
             $order->hotels_info_id = $request->get('hotels_info_id');
-            if (isset($order->hotels_appartment_id)) {
+            /* (isset($order->hotels_appartment_id)) {
                 //Заполняем (перезаполняем) делаем запрос к БД для
                 //Информация об отеле
                 $order->hotels_info_id = $order->getHotelsInfoByAppartmentId($order->hotels_appartment_id);
@@ -161,16 +174,12 @@ class ReservationController extends Controller
                     $order->date_begin,
                     $order->date_end,
                     $countDay,
-                    $order->touristCount,
-                    $order->childCount,
-                    $order->childYears,
+                    $order->tourist_count,
+                    $order->child_count,
+                    $order->child_years,
                     $order->date_begin
                 );
-                /*$order->full_price = $order->calculateAppartmentPrice($order->hotels_appartment_id,
-                    $beginDay->format('Y-m-d H:i'),
-                    $endDay->format('Y-m-d H:i'),
-                    $order->type_of_food_id);*/
-            }
+            }*/
             //Информация о туре
             if (isset($order->hotels_info_id)) {
                 $order->country_id = $order->getCountryByHotels($order->hotels_info_id);
@@ -179,6 +188,7 @@ class ReservationController extends Controller
             }
         }
         elseif ($order->isNewRecord && $order->load($request->get(),'')) {
+            $order->no_request = false;
             //Выбран готовый заказ из фильтра. Добавляем данные
             /*
              * 1. Идентификатор тура
@@ -189,13 +199,21 @@ class ReservationController extends Controller
              * 6. Дата начала проживания в номере / для однодневных туров и экскурсий - дата выезда
              * 7. Количество дней проживания в отеле
              * */
-            $beginDay = new \DateTime($order->date_begin . HotelsPricing::CHECKOUT_TIME);
+            $date = new Tour();
+            $date = $date->datePeriodDays($order->date_begin,$order->days);
+            $beginDay = $date['begin'];
+            $endDay = $date['end'];
+
+            $order->hotel_date_begin = $beginDay;
+            $order->hotel_date_end = $endDay;
+
             /*TODO !!!Проверить будет ли выбран только отель, или уже с комнатой*/
             //TODO !!!Предусмотреть возможность выбора типа номера во фронтенде
             $tour = TourInfo::findOne(['id'=>$order->tour_info_id]);
             $hotel = $tour->getHotelsInfo()->one();
             $order->hotels_info_id = $hotel->id;
             $order->city_id = $hotel->city_id;
+
 
             /*
              * Получаем "звезды"
@@ -310,9 +328,13 @@ class ReservationController extends Controller
                 $count,
                 $countChild,
                 $childYears,
-                $model->date_begin
+                $model->date_begin,
+                $model->trans_info_id,
+                $model->trans_way_id,
+                $model->trans_info_id_reverse,
+                $model->trans_way_id_reverse
             );
-            $model->full_price = $fullPrice[0];
+            $model->full_price = $fullPrice['price'];
 
         }
 
@@ -322,10 +344,10 @@ class ReservationController extends Controller
         //Подтверждаем заказ
         if (isset($request->get()['_reservation'])) {
             //Делаем резерв в выбранном транспорте
-            $typeTransport = $session->get('reservation_type_transport');
-            $transWay = $session->get('reservation_transport_way');
-            $typeTransportReverse = $session->get('reservation_type_transport_reverse');
-            $transWayReverse = $session->get('reservation_transport_way_reverse');
+            $typeTransport = $model->trans_info_id;
+            $transWay = $model->trans_way_id;
+            $typeTransportReverse = $model->trans_info_id_reverse;
+            $transWayReverse = $model->trans_way_id_reverse;
 
             if (1 == $typeTransport) {//Сохраняем резерв для автобуса
                 LkOrder::reservationBusWay($transWay, $persons->asArray()->all());
@@ -695,7 +717,7 @@ class ReservationController extends Controller
             $model = new BusWay();
             $query = $model->find()->active()
                 ->andWhere(['id' => $id]);
-            $seats = BusReservation::getFreeSeats($id);
+            $seats = BusReservation::getCountFreeSeats($id);
 
 
             //->asArray()->all();

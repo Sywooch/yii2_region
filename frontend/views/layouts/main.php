@@ -68,7 +68,7 @@ AppAsset::register($this);
             'brandLabel' => 'Лайф Тур Вояж',
             'brandUrl' => Yii::$app->homeUrl,
             'options' => [
-                'class' => 'navbar first-menu',
+                'class' => 'navbar navbar-default ',
             ],
         ]);
         //\bupy7\pages\models\Page::;
@@ -98,7 +98,7 @@ AppAsset::register($this);
         <?php
         NavBar::begin([
             'options' => [
-                'class' => 'navbar',
+                'class' => 'navbar navbar-default',
             ],
         ]);
         $menuItems = [
@@ -111,7 +111,7 @@ AppAsset::register($this);
             ['label' => 'Горящие туры', 'url' => ['/hotels?tour_type_name=Горящие туры'], 'options' => ['class' => 'menu_goryaschie']],
             ['label' => 'Паломнические поездки', 'url' => ['/pages/palomniceskie-poezdki'], 'options' => ['class' => 'menu_hram']],
             ['label' => 'Круизы', 'url' => ['/hotels?tour_type_name=Круизы'], 'options' => ['class' => 'menu_kruiz']],
-            ['label' => 'Продажа автобусных билетов', 'url' => ['/pages/prodaza-avtobusnyh-biletov'], 'options' => ['class' => 'menu_ticket']],
+            ['label' => 'Автобусные билеты', 'url' => ['/pages/prodaza-avtobusnyh-biletov'], 'options' => ['class' => 'menu_ticket']],
 
             /*['label' => 'Автобусные туры',
                 'url' => ['/site/about']],

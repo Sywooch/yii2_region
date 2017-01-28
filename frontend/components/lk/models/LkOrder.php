@@ -24,6 +24,8 @@ class LkOrder extends SalOrder
     const SAL_STATUS_DEFAULT = 1;
     const SAL_ORDER_COUNT_PEOPLE = 1;
 
+    public $no_request = true; // Переменная определяет, создается страница заново или предопределенные параметры имеются
+
     public $country_id;
     //public $sal_order_status_id;
     public $city_id;
@@ -44,12 +46,39 @@ class LkOrder extends SalOrder
     public $country_out_id;
     public $city_out_id;
 
-    public $trans_info_id_reverse;
+    //public $trans_info_id_reverse;
     public $trans_route_reverse;
 
-    public $touristCount;
-    public $childCount;
-    public $childYears;
+    public $tourist_count;
+    public $child_count;
+    public $child_years;
+    public $days;
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return array_replace_recursive(parent::rules(),
+            [
+                [['date', 'date_begin', 'date_end', 'date_add', 'date_edit','hotel_date_begin', 'hotel_date_end',
+                    'tourist_count', 'child_count', 'child_years', 'trans_info_id',
+                    'trans_info_id_reverse', 'city_id', 'country_id', 'stars_id', 'days'
+                ], 'safe'],
+                [['sal_order_status_id', 'userinfo_id', 'tour_info_id', 'hotels_type_of_food_id'], 'required'],
+                [['sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id',
+                    'trans_info_id',
+                    'trans_way_id',
+                    'trans_info_id_reverse',
+                    'trans_way_id_reverse',
+                    'userinfo_id', 'tour_info_id',
+                    'created_by', 'updated_by', 'lock', 'hotels_type_of_food_id','hotels_appartment_full_sale', 'hotels_pay_period_id'], 'integer'],
+                [['full_price'], 'number'],
+                [['insurance_info'], 'string'],
+                [['lock'], 'default', 'value' => '0'],
+                [['lock'], 'mootensai\components\OptimisticLockValidator']
+            ]);
+    }
 
     public function attributeLabels()
     {
@@ -79,9 +108,9 @@ class LkOrder extends SalOrder
             'city_out_id' => Yii::t('app', 'City Id'),
             'stars_id' => Yii::t('app', 'Stars Id'),
 
-            'touristCount' => Yii::t('app', 'Количество туристов'),
-            'childCount' => Yii::t('app', 'из них детей'),
-            'childYears' => Yii::t('app', 'Возраст детей'),
+            'tourist_count' => Yii::t('app', 'Количество туристов'),
+            'child_count' => Yii::t('app', 'из них детей'),
+            'child_years' => Yii::t('app', 'Возраст детей'),
             'lock' => Yii::t('app', 'Lock'),
 
 
@@ -153,9 +182,9 @@ class LkOrder extends SalOrder
         return $model->findAll(['hotels_info_id' => $idHotel]);
     }
 
-    public function calculateAppartmentPrice($appartmentId, $dayBegin, $dayEnd, $typeOfFood)
+    public function calculateAppartmentPrice($appartmentId, $dayBegin, $countDay, $typeOfFood)
     {
-        return $price = HotelsPayPeriod::calculatedAppartmentPrice($appartmentId, $dayBegin, $dayEnd, $typeOfFood);
+        return $price = HotelsPayPeriod::calculatedAppartmentPrice($appartmentId, $dayBegin, $countDay, $typeOfFood);
     }
 
     /**
@@ -188,10 +217,11 @@ class LkOrder extends SalOrder
     {
         if (isset($salOrderId)) {
             $query = self::getChildPersons($salOrderId);
-            $query->select(['birthday']);
+            //$query->select(['birthday']);
             $years = [];
             foreach ($query->each() as $key => $value){
-                $date_begin = new \DateTime($value['birthday']);
+                $person = $value->person;
+                $date_begin = new \DateTime($person->birthday);
                 $date_end = new \DateTime();
                 $years[] = $date_begin->diff($date_end)->y;
             }
@@ -206,14 +236,20 @@ class LkOrder extends SalOrder
             $maxNumberSeats = intval(BusReservation::getMaxSeats($busWayId));
             $busInfo = BusWay::findOne($busWayId)->bus_info_id;
             $maxBusSeats = BusInfo::findOne($busInfo)->seat;
+
             $currentNumberSeats = $maxNumberSeats + 1;
+            //Если количество людей превышает количество мест, останавливаем функцию
+            if (($currentNumberSeats + count($person)) >= $maxBusSeats){
+                return false;
+            }
             unset($busReserv);
             foreach ($person as $key => $value) {
+
                 $busReserv = new BusReservation();
                 $busReserv->bus_info_id = $busInfo;
                 $busReserv->bus_way_id = $busWayId;
                 $busReserv->active = 1;
-                $busReserv->person_id = $value['id'];
+                $busReserv->person_id = $value['person_id'];
                 $busReserv->number_seat = $currentNumberSeats;
                 $busReserv->date = date('Y-m-d H:i:s');
 
@@ -256,5 +292,49 @@ class LkOrder extends SalOrder
         $this->trans_way_id = $_REQUEST['LkOrder']['trans_route'];
         $this->trans_info_id_reverse = $_REQUEST['LkOrder']['trans_info_id_reverse'];
         $this->trans_way_id_reverse = $_REQUEST['LkOrder']['trans_route_reverse'];
+    }
+
+    public function genInvoiceTable($salId){
+        $res = array();
+        $order = SalOrder::findOne(['id' => $salId]);
+        $appartment = $order->hotelsAppartment;
+        $count = $order->getPeople()->count();
+        $countChild = self::getChildPersons($salId)->count();
+        $childYears = self::getChildPersonsYears($salId);
+
+        $dBegin = new \DateTime($order->hotel_date_begin);
+        $dEnd = new \DateTime($order->hotel_date_end);
+        $countDay = $dEnd->diff($dBegin)->days;
+        $hotelPrice =  \common\models\HotelsPayPeriod::calculatedAppartmentPrice($appartment->id,
+            $dBegin,$countDay,$order->hotels_type_of_food_id, $count, $countChild, $childYears,$salId);
+
+
+        //Заполняем названия гостиниц
+        //индекс 0 - отели
+        //      1 - транспорт
+        //      2 - прочие цены (тура)
+        $res = array(
+            array(
+                'name' => $order->hotelsInfo->name . " / " . $appartment->name . " / дней: " . $countDay,
+                'count' => $count,
+                'ed' => 'чел.',
+                'full_price' => $hotelPrice,
+            ),
+            array(
+                'name' => $order->getTransWayName(),
+                'count' => $count,
+                'ed' => 'чел.',
+                'full_price' => $order->getTransWay()[1]->price * $count,
+            ),
+            array(
+                'name' => $order->getTransWayReverseName(),
+                'count' => $count,
+                'ed' => 'чел.',
+                'full_price' => $order->getTransWayReverse()[1]->price * $count,
+            ),
+        );
+
+
+        return $res;
     }
 }

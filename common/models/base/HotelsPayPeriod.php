@@ -2,6 +2,7 @@
 
 namespace common\models\base;
 
+use common\models\SalOrder;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -89,6 +90,14 @@ class HotelsPayPeriod extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSalOrders()
+    {
+        return $this->hasMany(\common\models\SalOrder::className(), ['hotels_pay_period_id' => 'id'])->inverseOf('hotelsPayPeriod');
+    }
+
+    /**
      * @inheritdoc
      * @return array mixed
      */
@@ -128,23 +137,31 @@ class HotelsPayPeriod extends \yii\db\ActiveRecord
      * @param $countTourist - количество туристов
      * @return int - финальная сумма за проживание
      */
-    public static function calculatedAppartmentPrice($appartmentId, $dayBegin, $countDay, $typeOfFood, $countTourist = \common\models\HotelsPricing::SAL_ORDER_COUNT_PEOPLE, $countChild = 0, $childYears = array())
+    public static function calculatedAppartmentPrice($appartmentId, $dayBegin, $countDay, $typeOfFood,
+                                                     $countTourist = \common\models\HotelsPricing::SAL_ORDER_COUNT_PEOPLE,
+                                                     $countChild = 0, $childYears = array(), $salOrderId = false)
     {
         //TODO Уточнить правила формирования платы, сколько дней, ночей и т.п.
         //TODO Добавить правило подсчета количества туристов и разбиения большего количества туристов на номера.
-        $query = self::find();
-        //Переводим даты из строкового формата
-        //$newDateBegin = new \DateTime($dayBegin);
-        //$newDateEnd = new \DateTime($dayEnd);
-        //Получение данных о цене
-        $query->innerJoin('hotels_pricing hp', 'hotels_pay_period.hotels_pricing_id = hp.id')
-            ->andWhere([
-                'hp.hotels_appartment_id' => $appartmentId,
-                'hp.hotels_type_of_food_id' => $typeOfFood,
-            ])
-            ->andWhere(['<=', 'hotels_pay_period.date_begin', $dayBegin])
-            ->andWhere(['>=', 'hotels_pay_period.date_end', $dayBegin]);
-        $result = $query->one();
+        if ($salOrderId){
+            $result = SalOrder::findOne(['id' => $salOrderId])->hotelsPayPeriod;
+        }
+        else{
+            $query = self::find();
+            //Переводим даты из строкового формата
+            //$newDateBegin = new \DateTime($dayBegin);
+            //$newDateEnd = new \DateTime($dayEnd);
+            //Получение данных о цене
+            $query->innerJoin('hotels_pricing hp', 'hotels_pay_period.hotels_pricing_id = hp.id')
+                ->andWhere([
+                    'hp.hotels_appartment_id' => $appartmentId,
+                    'hp.hotels_type_of_food_id' => $typeOfFood,
+                ])
+                ->andWhere(['<=', 'hotels_pay_period.date_begin', $dayBegin])
+                ->andWhere(['>=', 'hotels_pay_period.date_end', $dayBegin]);
+            $result = $query->one();
+        }
+
         //Расчет окончательной цены за проживание
         ///Проверяем находится ли период заезда в одном диапазоне цен
 
@@ -152,7 +169,7 @@ class HotelsPayPeriod extends \yii\db\ActiveRecord
         //Расчитваем фактическое количество (да, дробное, зависит от детей) туристов
         if (isset($countChild) && $countChild > 0){
             foreach ($childYears as $disc) {
-                $percent = \common\models\Discount::find(['<=', 'years', $disc])->orderBy('years')->one()->discount;
+                $percent = \common\models\Discount::find(['<=', 'years', $disc])->orderBy(['years'=>SORT_DESC])->one()->discount;
                 if ((isset($countChild) && ($countChild != 0)) & (isset($countTourist) & ($countTourist > 0))) {
                     $countTourist = $countTourist - $countChild * ($percent / 100);
                 } elseif (isset($countChild) && ($countChild != 0)) {

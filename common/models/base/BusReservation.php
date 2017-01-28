@@ -200,7 +200,7 @@ class BusReservation extends \yii\db\ActiveRecord
      * @param $date - дата, на которую проверяется наличие мест
      * @return int - количество свободных мест
      */
-    public static function getFreeSeats($busWay, $date = false)
+    public static function getCountFreeSeats($busWay, $date = false)
     {
         /*$timestamp = strtotime($date);
         $dayBegin = date('Y-m-d', $timestamp) . ' 00:00:00';
@@ -219,12 +219,53 @@ class BusReservation extends \yii\db\ActiveRecord
         return $count;
     }
 
+    /**
+     * Получаем массив с номерами забронированных мест
+     * @param $busWay
+     * @param bool $date
+     * @return array
+     */
+    public static function getBronSeats($busWay, $date = false){
+        $busReserv = \common\models\BusReservation::find()->active()
+            ->andWhere(['bus_way_id'=>$busWay]);
+        $bron = array();
+        foreach ($busReserv->each() as $key=>$value){
+            $bron[] = $value->number_seat;
+        }
+        return $bron;
+    }
+
+    /**
+     * Возвращает массив с номерами свободных мест, отсортированных по возрастанию
+     * @param $busWay
+     * @param bool $date
+     * @return array
+     */
+    public static function getFreeSeats($busWay, $date = false){
+        $busReserv = \common\models\BusReservation::find();
+
+        $busInfo = BusWay::findOne(['id' => $busWay])->busInfo;
+        $allCount = $busInfo->seat;
+        $seat = array();
+        $bron = self::getBronSeats($busWay);
+        for ($i = 1; $i < $allCount; $i++){
+            if (!in_array($i,$bron)){
+                $seat[] = $i;
+            }
+        }
+        return $seat;
+    }
+
+    /**
+     * Получаем максимальный номер занятого места
+     * @param $busWayId
+     * @return int
+     */
     public static function getMaxSeats($busWayId)
     {
         return \common\models\BusReservation::find()
-            ->andFilterWhere(['bus_way_id', $busWayId])
-            ->select('number_seat')
-            ->max();
+            ->andWhere(['bus_way_id'=> $busWayId])
+            ->max('number_seat');
     }
 
 

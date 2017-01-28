@@ -189,13 +189,16 @@ if (!$model->isNewRecord) {
 
 <?= $form->field($model, 'id', ['template' => '{input}'])->hiddenInput(['style' => 'display:none']); ?>
 <?php
-$date = new DateTime();
-$interval = new DateInterval("P1D");
-$date->add($interval);
-$model->date_begin = $date->format('Y-m-d');
-$interval = new DateInterval("P6D");
-$date->add($interval);
-$model->date_end = $date->format('Y-m-d');
+if ($model->no_request){
+    $date = new DateTime();
+    $interval = new DateInterval("P1D");
+    $date->add($interval);
+    $model->date_begin = $date->format('Y-m-d');
+    $interval = new DateInterval("P6D");
+    $date->add($interval);
+    $model->date_end = $date->format('Y-m-d');
+}
+
 
 $hotelsInfoData = null;
 $appartmentData = null;
@@ -212,7 +215,7 @@ if (isset($model->hotels_info_id)) {
 $countryId = 0;
 $starsId = 0;
 if ($model->isNewRecord){
-    $model->touristCount = 0;
+    $model->tourist_count = 0;
 }
 if ($model->getCountry()) {
     $countryId = $model->getCountry()->id;
@@ -258,7 +261,7 @@ if ($model->trans_info_id !== 0) {
     <div class="date-range">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">Когда отдыхаем?</h3>
+                <h3 class="panel-title">Когда отдыхаем?</h3> <span>(Укажите точный период проживания в отеле (без учета дороги). Если точный период не известен, воспользуйтесь фильтром на сайте.)</span>
             </div>
             <div class="panel-body">
 
@@ -269,8 +272,8 @@ if ($model->trans_info_id !== 0) {
                         'attribute' => 'date_range',
                         'useWithAddon' => true,
                         'convertFormat' => true,
-                        'startAttribute' => 'date_begin',
-                        'endAttribute' => 'date_end',
+                        'startAttribute' => 'hotel_date_begin',
+                        'endAttribute' => 'hotel_date_end',
                         'pluginOptions' => [
                             'locale' => ['format' => 'Y-m-d'],
                             'label' => 'Период заезда',

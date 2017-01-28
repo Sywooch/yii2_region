@@ -86,11 +86,12 @@ class GenTour extends \yii\db\ActiveRecord
      * @param $tour_info_id - идентификатор тура
      * @param $date_start - дата заезда в гостиницу
      * @param $date_end - дата выезда из гостиницы
-     * @param $hotel - параметр определяет, в гостиницу поедем или это только автобусный тур (экскурсии, паломнические поездки)
+     * @param $hotel - параметр определяет, в гостиницу поедем или это только автобусный тур (экскурсии, паломнические поездки).
+     * В зависимости от этого
      * @return array
      */
     public static function getTourTransport($tour_info_id, $date_start, $date_end, $hotel = true,
-        $trans_info_id = false, $trans_way_id = false, $trans_info_id_reverse = false,$trans_way_id_reverse = false)
+                            $trans_info_id = false, $trans_way_id = false, $trans_info_id_reverse = false, $trans_way_id_reverse = false)
     {
         $route = array();
         //Получаем только конкретные маршруты и цены
@@ -162,39 +163,68 @@ class GenTour extends \yii\db\ActiveRecord
                     }
                 }
             }
+
             $route[0] = 2;
         }
         return $route;
     }
 
     public static function calcFullPrice($tourInfoId, $hotelsAppartmentId, $typeOfFood, $hotelsBegin, $hotelsEnd, $countDay,
-                                         $countTourist, $countChild, $childYears, $transDateBegin,
-$trans_info_id = false, $trans_way_id = false, $trans_info_id_reverse = false,$trans_way_id_reverse = false,
-$hotel_enable = true)
+            $countTourist, $countChild, $childYears, $transDateBegin, $trans_info_id = false, $trans_way_id = false,
+             $trans_info_id_reverse = false,$trans_way_id_reverse = false, $hotel_enable = true)
     {
         $fullPrice = array();
+
         $dateBegin = new \DateTime($hotelsBegin);
         $dateBegin = $dateBegin->format('Y-m-d');
+
+        $dateEnd = new \DateTime($hotelsEnd);
+        $hotelsEnd = $dateEnd->format('Y-m-d');
+
+        $transDateBegin = new \DateTime($transDateBegin);
+        $transDateBegin = $transDateBegin->format('Y-m-d');
+
         $hotelPrice = HotelsPayPeriod::calculatedAppartmentPrice($hotelsAppartmentId, $dateBegin, $countDay, $typeOfFood, $countTourist, $countChild, $childYears);
         $transPrice = self::getTourTransport($tourInfoId, $transDateBegin, $hotelsEnd, $hotel_enable,
             $trans_info_id, $trans_way_id, $trans_info_id_reverse, $trans_way_id_reverse);
 
         $otherPrice = 0; //self::calcOtherPrice($tourInfoId);
         //формируем массив с ценой
-        if ($transPrice[0] === 1){
+        $typeT = $transPrice[0];
+        unset ($transPrice[0]);
+        if ($typeT === 1){
+
+            //TODO Ошибка при формировании цены, проверить
+            $transPriceTo = 0;
+            $transPriceOut = 0;
+            if ($transPrice['to']){
+                $transPriceOut = $transPrice['to']->price;
+            }
+            if ($transPrice['out']){
+                $transPriceOut = $transPrice['out']->price;
+            }
+
 
             $fullPrice['price'] =
-                $transPrice['to']->price ? $transPrice['to']->price : 0
-                + $transPrice['out']->price ? $transPrice['out']->price : 0
+                $transPriceTo
+                + $transPriceOut
                 + $hotelPrice
                 + $otherPrice;
         }
-        elseif($transPrice[0] === 2) {
+        elseif($typeT === 2) {
+            $stop = false;
             foreach ($transPrice as $key => $value) {
                 $price = $value['to']->price ? $value['to']->price : 0 + $value['out']->price ? $value['out']->price : 0;
-                $fullPrice[$key]['price'] = $price + $hotelPrice;
-                $fullPrice[$key]['to'] = $value['to']->id;
-                $fullPrice[$key]['out'] = $value['out']->id;
+                if ($price != 0){
+                    $fullPrice[$key][0] = true;
+                    $fullPrice[$key]['price'] = $price + $hotelPrice;
+                    $fullPrice[$key]['to'] = $value['to']->id;
+                    $fullPrice[$key]['out'] = $value['out']->id;
+                }
+                else{
+                    $fullPrice[$key][0] = false;
+                    $fullPrice[$key]['hotelPrice'] = $hotelPrice;
+                }
             }
         }
         return $fullPrice;

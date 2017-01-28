@@ -6,7 +6,7 @@ foreach (\common\models\Banner::bannerList() as $banner) {
         'link' => $banner->link,
         'content' => '<img src="' . $banner->file . '" />',
         'options' => [
-            'style' => 'max-width:100%; height:380px',
+            'style' => 'max-width:100%; max-height:380px',
         ],
     ];
 }

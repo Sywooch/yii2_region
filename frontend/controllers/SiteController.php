@@ -67,6 +67,11 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        /*$tour = new Tour();
+        $res = $tour->findFilterBusDate();
+        echo '<pre>';
+        print_r($res);
+        die;*/
         return $this->render('index');
     }
 

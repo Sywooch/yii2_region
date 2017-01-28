@@ -47,14 +47,16 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <div class="col-sm-12" style="margin-top: 15px">
 
-                <?= Html::a(Yii::t('app', 'Подтвердить заказ'), ['choose-reserv', '_reservation' => $model->id], ['class' => 'btn btn-primary',
+                <?= Html::a(Yii::t('app', 'Подтвердить заказ'),
+                    ['choose-reserv', '_reservation' => $model->id, 'order_id' => $model->id],
+                    ['class' => 'btn btn-primary',
                     'data' => [
                         'confirm' => Yii::t('app', 'Внимание! Отмена заказа невозможна. Вы уверены, что хотите оформить заказ?'),
                         'method' => 'post',
                     ],
                 ]) ?>
 
-                <?= Html::a(Yii::t('app', 'Отменить заказ'), ['choose-reserv', '_not_reservation' => $model->id], [
+                <?= Html::a(Yii::t('app', 'Отменить заказ'), ['choose-reserv', '_not_reservation' => $model->id, 'order_id' => $model->id], [
                     'class' => 'btn btn-danger',
                     'data' => [
                         'confirm' => Yii::t('app', 'Вы действительно отменяете заказ?'),

@@ -10,6 +10,7 @@ use frontend\models\SearchPerson;
 use frontend\models\SearchSalOrder;
 use kartik\mpdf\Pdf;
 use Yii;
+use yii\data\ArrayDataProvider;
 use yii\filters\VerbFilter;
 use yii\helpers\Html;
 use yii\web\Controller;
@@ -48,7 +49,7 @@ class DefaultController extends Controller
 
         //Тестируем фильтр
         $t = new \frontend\models\Tour();
-        $p = $t->findTourFilter();
+        $p = $t->findFilterTour();
         //echo "<pre>";
         //print_r($p);
         //die;
@@ -67,9 +68,40 @@ class DefaultController extends Controller
 
     }
 
-    public function actionMpdfInvoice()
+    public function actionMpdfInvoice($id)
     {
-        $this->layout = 'pdf';
+        $this->layout = 'invoice';
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        $headers = Yii::$app->response->headers;
+        //$headers->add('Content-Type', 'application/pdf');
+
+        $model = SalOrder::findOne(['id' => $id]);
+        $order = new LkOrder();
+        $tableInvoice = new ArrayDataProvider([
+            'allModels' => $order->genInvoiceTable($id)
+        ]);
+
+
+        //$model = $this->findModel();
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
+            'content' => $this->renderPartial('viewinvoice',
+                ['model' => $model, 'tableInvoice' => $tableInvoice]),
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            'cssInline' => '.img-circle {border-radius: 50%;}',
+            'options' => [
+                /*'title' => $model->title,*/
+                'subject' => 'PDF'
+            ],
+            'methods' => [
+                'SetHeader' => ['Лайф Тур Вояж'],
+                'SetFooter' => ['|{PAGENO}|'],
+            ]
+        ]);
+
+        return $pdf->render();
+
 
     }
     public function actionMpdfVoucher($id)

@@ -16,10 +16,13 @@ return [
     'If you forgot your password you can' => 'Если Вы забыли пароль, Вы можете',
     'reset it' => ' сбросить его',
     'Create' => 'Создание',
+    'Create ' => 'Создание ',
+
     'Create new' => 'Создать новую запись',
     'Update' => 'Обновить запись',
     'Delete' => 'Удалить',
     'success' => 'успешно заверешно',
+    ' success' => ' успешно заверешно',
     'Details' => 'Подробнее',
     'Advance Search' => 'Расширенный поиск',
     'Gender' => 'Пол',
@@ -28,6 +31,7 @@ return [
     'Update Person:' => 'Изменение туриста',
     'Status' => 'Статус',
     'Save As New' => 'Сохранить как новую запись',
+    'Count' => 'Количество',
     
     'Active' => 'Активный',
     'Enable' => 'Активный',
@@ -316,6 +320,7 @@ return [
 
     /*Begin Hotels*/
     'Create HotelsInfo success' => 'Новая гостиница успешно создана',
+    'Day Period' => 'Периодичность заезда',
     'HotelsInfos' => 'Гостиницы',
     'Hotels Info ID' => 'Гостиница',
     'HotelsInfo' => 'Гостиница',

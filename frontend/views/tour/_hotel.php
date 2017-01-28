@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 
-$hotels = $model->hotelsInfo;
+$hotels = $model;//->hotelsInfo;
 $price = 'Нет направления';
 if ($hotels) {
     $pricing = $hotels->hotelsPricings;
@@ -9,7 +9,9 @@ if ($hotels) {
 //$pricing1 = $pricing->hotelsPayPeriods;
     foreach ($pricing as $key => $value) {
         $p = 0;
-        $p = $value->getHotelsPayPeriods()->orderBy('price')->one();
+        $p = $value->getHotelsPayPeriods()
+        ->andFilterWhere(['>', 'DATE_FORMAT(`date_end`,"%Y-%m-%d")', date('Y-m-d')])
+        ->orderBy('price')->one();
         if ($price == 0 || $price > $p->price) {
             $price = $p->price;
         }

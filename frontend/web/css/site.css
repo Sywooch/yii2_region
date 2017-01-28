@@ -81,7 +81,7 @@ a.desc:after {
 }
 
 .grid-view th {
-    white-space: nowrap;
+    /*white-space: nowrap;*/
 }
 
 .hint-block {
@@ -404,4 +404,88 @@ a.link:hover{
 
 .zakaz-tour p {
     text-align: center;
+    margin: 0;
+}
+
+
+
+
+
+#w5.navbar-default .navbar-brand {
+    color: rgba(51, 122, 183, 1);
+}
+#w5.navbar-default {
+    font-size: 14px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-width: 1px;
+    border-radius: 4px;
+}
+#w5.navbar-default .navbar-nav>li>a {
+    color: rgba(0, 0, 0, 1);
+    background-color: rgba(248, 248, 248, 0);
+}
+#w5.navbar-default .navbar-nav>li>a:hover,
+#w5.navbar-default .navbar-nav>li>a:focus {
+    color: rgba(51, 51, 51, 1);
+    background-color: rgba(238, 238, 238, 1);
+}
+#w5.navbar-default .navbar-nav>.active>a,
+#w5.navbar-default .navbar-nav>.active>a:hover,
+#w5.navbar-default .navbar-nav>.active>a:focus {
+    color: rgba(85, 85, 85, 1);
+    background-color: rgba(231, 231, 231, 1);
+}
+#w5.navbar-default .navbar-toggle {
+    border-color: #ddd;
+}
+#w5.navbar-default .navbar-toggle:hover,
+#w5.navbar-default .navbar-toggle:focus {
+    background-color: #ddd;
+}
+#w5.navbar-default .navbar-toggle .icon-bar {
+    background-color: #888;
+}
+#w5.navbar-default .navbar-toggle:hover .icon-bar,
+#w5.navbar-default .navbar-toggle:focus .icon-bar {
+    background-color: #ffffff;
+}
+
+
+#w7.navbar-default .navbar-brand {
+    color: rgba(51, 122, 183, 1);
+}
+#w7.navbar-default {
+    font-size: 14px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-width: 1px;
+    border-radius: 4px;
+}
+#w7.navbar-default .navbar-nav>li>a {
+    color: rgba(0, 0, 0, 1);
+    background-color: rgba(248, 248, 248, 0);
+}
+#w7.navbar-default .navbar-nav>li>a:hover,
+#w7.navbar-default .navbar-nav>li>a:focus {
+    color: rgba(51, 51, 51, 1);
+    background-color: rgba(238, 238, 238, 1);
+}
+#w7.navbar-default .navbar-nav>.active>a,
+#w7.navbar-default .navbar-nav>.active>a:hover,
+#w7.navbar-default .navbar-nav>.active>a:focus {
+    color: rgba(85, 85, 85, 1);
+    background-color: rgba(231, 231, 231, 1);
+}
+#w7.navbar-default .navbar-toggle {
+    border-color: #ddd;
+}
+#w7.navbar-default .navbar-toggle:hover,
+#w7.navbar-default .navbar-toggle:focus {
+    background-color: #ddd;
+}
+#w7.navbar-default .navbar-toggle .icon-bar {
+    background-color: #888;
+}
+#w7.navbar-default .navbar-toggle:hover .icon-bar,
+#w7.navbar-default .navbar-toggle:focus .icon-bar {
+    background-color: #ffffff;
 }

@@ -1,7 +1,5 @@
 <?php
 
-use yii\widgets\DetailView;
-
 /* @var $this yii\web\View */
 /* @var $model common\models\SalOrder */
 $this->title = $model->id;
@@ -15,7 +13,7 @@ $this->title = $model->id;
             <table width="100%" border="0" cellpadding="0" cellspacing="0" style="height: 13mm;">
                 <tr>
                     <td valign="top">
-                        <div>Укажите название банка</div>
+                        <div>Название банка</div>
                     </td>
                 </tr>
                 <tr>
@@ -58,7 +56,7 @@ $this->title = $model->id;
             <table border="0" cellpadding="0" cellspacing="0" style="height: 13mm; width: 105mm;">
                 <tr>
                     <td valign="top">
-                        <div>Название организации</div>
+                        <div>ООО "ЛайфТурВояж"</div>
                     </td>
                 </tr>
                 <tr>
@@ -75,7 +73,9 @@ $this->title = $model->id;
 
 
 <div style="font-weight: bold; font-size: 16pt; padding-left:5px;">
-    <p>Счет № <?= $model->id ?> от <?= $model->date ?></p></div>
+    <p>Счет № <?= $model->id ?> от <?= $model->date_add ?></p>
+    <p style="font-weight: inherit; font-size: 14pt;"><i><?= $model->tourInfo->name ?></i></p>
+</div>
 
 <div style="background-color:#000000; width:100%; font-size:1px; height:2px;">&nbsp;</div>
 
@@ -94,64 +94,40 @@ $this->title = $model->id;
             <div style=" padding-left:2px;">Покупатель: </div>
         </td>
         <td>
-            <div style="font-weight:bold;  padding-left:2px;"> <i><?= $model->name ?></i> </div>
+            <div style="font-weight:bold;  padding-left:2px;"> <i><?= $model->people[0]->lastname ?>
+                    <?= $model->people[0]->firstname ?>
+                    <?= $model->people[0]->secondname ?>
+                </i> </div>
         </td>
     </tr>
 </table>
-
-
-
-
-
-
-
-
-<table class="invoice_items" width="100%" cellpadding="2" cellspacing="2">
-    <thead>
-    <tr>
-        <th style="width:13mm;">№</th>
-        <th>Наименование</th>
-        <th style="width:20mm;">Кол-во</th>
-        <th style="width:17mm;">Ед.</th>
-        <th style="width:27mm;">Цена</th>
-        <th style="width:27mm;">Сумма</th>
-    </tr>
-    </thead>
-    <tbody >
-    <?php
-    echo $this->render('_invoice_product', ['model' => $model]);
-    ?>
-    </tbody>
-</table>
 <?php
 $gridColumn = [
-    ['attribute' => 'id', 'visible' => false],
     [
-        'attribute' => 'hotelsInfo.name',
-        'label' => Yii::t('app', 'Hotels Info'),
+        'attribute' => 'name',
+        'label' => Yii::t('app', 'Продукт/Услуга'),
     ],
     [
-        'attribute' => 'hotelsAppartment.name',
-        'label' => Yii::t('app', 'Hotels Appartment'),
+        'attribute' => 'count',
+        'label' => Yii::t('app', 'Count'),
     ],
     [
-        'attribute' => 'hotelsTypeOfFood.name',
-        'label' => Yii::t('app', 'Type Of Food'),
+        'attribute' => 'ed',
+        'label' => Yii::t('app', 'Единица измерения'),
     ],
     [
-        'attribute' => 'transInfo.name',
-        'label' => Yii::t('app', 'Trans Info'),
-    ],
-    [
-        'attribute' => 'tourInfo.name',
-        'label' => Yii::t('app', 'Tour Info'),
-    ],
-    'full_price',
-    ['attribute' => 'lock', 'visible' => false],
+        'attribute' => 'full_price',
+        'label' => Yii::t('app', 'Full Price'),
+        'format'=>['decimal', 2],
+        'pageSummary'=>true,
+        'footer'=>true
+    ]
 ];
-echo DetailView::widget([
-    'model' => $model,
-    'attributes' => $gridColumn
+echo \kartik\grid\GridView::widget([
+    'dataProvider' => $tableInvoice,
+    'columns' => $gridColumn,
+    'beforeHeader' => '',
+
 ]);
 ?>
 
@@ -161,7 +137,7 @@ echo DetailView::widget([
     <tr>
         <td></td>
         <td style="width:27mm; font-weight:bold;  text-align:right;">Итого:</td>
-        <td style="width:27mm; font-weight:bold;  text-align:right;"> <?= $model->full_price ?> </td>
+        <td style="width:27mm; font-weight:bold;  text-align:right;"> <?= $model->full_price ?> руб. </td>
     </tr>
 </table>
 
