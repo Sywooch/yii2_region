@@ -56,8 +56,8 @@ class TourController extends Controller
     public function actionIndex()
     {
         $searchModel = new SearchAdvancedFilter();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->searchInHotels(Yii::$app->request->queryParams);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

@@ -215,6 +215,7 @@ class SearchAdvancedFilter extends TourInfo
             ->andFilterWhere(['hi.hotels_stars_id' => $this->stars])
             ->andFilterWhere(['hp.hotels_type_of_food_id' => $this->typeOfFood])
             ->andFilterWhere(['ha.hotels_appartment_item_id' => $this->appartmentType])
+            ->andFilterWhere(['>','hpp.price','0'])
             ->andFilterWhere(['htt.tour_type_id' => $this->tourTypes]);
         if (isset($this->cityOut) && $this->cityOut != "") {
             $query->andWhere(['tour_info.city_id' => $this->cityOut]);
@@ -223,7 +224,7 @@ class SearchAdvancedFilter extends TourInfo
             //\common\models\City::find()->select('id')->andWhere(['country_id'=>$this->countryOut])->asArray()->all();
         }
         $query->groupBy('s.selected_date, tour_info_id, ha.id, name_type_food, days');
-
+        $query->orderBy('(hpp.price * days)');
         /**
          * TODO Добавить фильтр по наличию мест в эти даты
          * Для этого надо сделать дополнительный запрос
@@ -273,6 +274,128 @@ class SearchAdvancedFilter extends TourInfo
             ->andFilterWhere(['like', 'gps_point_p', $this->gps_point_p]);*/
 
         //Формируем запрос по поиску направлений и гостиниц (туров)
+
+        return $dataProvider;
+    }
+
+    public function searchInHotels($params)
+    {
+
+
+        $query = new Query();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        //!!!!!!!!Если выбирается страна и/или город отправления, тогда переходим на обычный поиск туров
+        if ((isset($this->countryOut) && $this->countryOut > 0) || (isset($this->cityOut) && $this->cityOut > 0)){
+            return $this->search($params);
+        }
+        //!!!!!!!!
+
+        if (isset($params['tour_type_name']) && $params['tour_type_name'] != "") {
+            $this->tourTypes = TourType::findOne(['name' => $params['tour_type_name']])->id;
+        }
+        /*if (!isset($this->date_begin) || $this->date_begin == "") {
+            $date_begin = date("Y-m-d");
+        } else {
+            $date_begin = date("Y-m-d", strtotime(str_replace('.', '-', $this->date_begin)));
+        }
+
+        if (!isset($this->date_end) || $this->date_end == "") {
+            $date_end = date("Y-m-d");
+        } else {
+            $date_end = date("Y-m-d", strtotime(str_replace('.', '-', $this->date_end)));
+        }*/
+        $date = new Tour();
+        $date = $date->datePeriodDays($this->date_begin, 1, $this->date_end);
+        $date_begin = $date['begin'];
+        $date_end = $date['end'];
+
+        $query->from(" 
+            (SELECT '$date_begin' + INTERVAL (6 * a.num + b.num) DAY as selected_date
+                 FROM
+                (SELECT 0 AS num UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5) AS a,
+                (SELECT 0 AS num UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5) AS b
+                WHERE '$date_begin' + INTERVAL (6 * a.num + b.num) DAY <= '$date_end'
+                ORDER BY 1
+                ) as s,hotels_info as hi
+        ");
+
+        /*if (key_exists('tour_type_name', $params)) {
+            $typeName = TourType::findOne(['name' => $params['tour_type_name']]);
+            $this->tour_type = $typeName->id;
+        }*/
+
+        if (!$this->validate()) {
+// uncomment the following line if you do not want to any records when validation fails
+// $query->where('0=1');
+            return $dataProvider;
+        }
+        $query->select([
+            'hi.id as hotels_info_id',
+            'hi.name as name',
+            'hi.hotels_stars_id as hotels_stars_id',
+            'hi.city_id as city_id',
+            'hi.country as country_id',
+            'ha.name as appartment_name',
+            'ha.id as hotels_appartment_id',
+            'htof.name as name_type_food',
+            'htof.id as type_food_id',
+            'hpp.price as price',
+            'hpp.id as hotels_pay_period_id',
+            '`s`.`selected_date`, "1" as days'
+        ]);
+
+        //$query->select(['date_begin'=>$date_begin,'date_end'=>$date_end]);
+        //$query->distinct();
+
+        $query
+            ->leftJoin('hotels_appartment as ha', 'ha.hotels_info_id = hi.id and ha.active=1')
+            ->leftJoin('hotels_appartment_has_hotels_type_of_food as htf', 'htf.id = ha.id')
+            ->leftJoin('`hotels_type_of_food` `htof`', 'htof.id = htf.hotels_type_of_food_id')
+            ->leftJoin('hotels_pricing as hp', 'hp.hotels_info_id = hi.id and hp.active=1')
+            ->leftJoin('hotels_pay_period as hpp', 'hpp.hotels_pricing_id = hp.id and hpp.active=1');
+
+        $query->andFilterWhere(['hi.active' => 1])
+            ->andWhere('s.selected_date between hpp.date_begin and hpp.date_end')
+            ->andFilterWhere(['hi.city_id' => $this->cityTo])
+            ->andFilterWhere(['hi.country' => $this->countryTo])
+            ->andFilterWhere(['hi.hotels_stars_id' => $this->stars])
+            ->andFilterWhere(['hp.hotels_type_of_food_id' => $this->typeOfFood])
+            ->andFilterWhere(['ha.hotels_appartment_item_id' => $this->appartmentType])
+            ->andFilterWhere(['>','hpp.price','0'])
+            ;
+        $query->groupBy('s.selected_date, hotels_info_id, ha.id, name_type_food');
+        $query->orderBy('hpp.price');
+
+        /**
+         * TODO Добавить фильтр по наличию мест в эти даты
+         * Для этого надо сделать дополнительный запрос
+         * На наличие мест в эти даты.
+         * ID-шники допустимых номеров передать в основной запрос
+         *
+         *
+         * SELECT id FROM hotels_appartment WHERE
+         *
+         * bron.date_begin <= $this->date_end
+         * bron.date_end >= $this->date_begin
+         */
+
+
+        /*if ($this->childCount > 0){
+            //Получаем размеры всех скидкок
+            foreach ($this->birthdayChild as $birthDay){
+                /**
+                 * TODO Доделать расчет процента скидки
+                 *
+            }
+        }*/
+
+        //Todo Добавить innerjoin на связанные таблицы, а именно, цена тура, тип тура
+
 
         return $dataProvider;
     }
