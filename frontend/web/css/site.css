@@ -400,6 +400,7 @@ a.link:hover{
     min-width: 65px;
     float: left;
     padding: 2px 5px;
+    margin: 0;
 }
 
 .zakaz-tour p {

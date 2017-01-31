@@ -10,6 +10,12 @@ return [
         'label' => 'Отель',
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'name',
+        'value'=>function ($model, $key, $index, $widget) {
+            return \yii\bootstrap\Html::a($model['name'],
+                ['/hotels/details','id'=>$model['hotels_info_id']],
+                ['title'=>'Детальная информация о гостинице']);
+        },
+        'format' => 'raw',
     ],
     [
         'label' => 'Страна прибытия',

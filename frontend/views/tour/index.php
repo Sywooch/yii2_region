@@ -1,7 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 
-$this->title = Yii::t('app', 'Гостиницы');
+$this->title = Yii::t('app', 'Лайф Тур Вояж - оператор позитивного отдыха');
 ?>
 
 

@@ -194,7 +194,12 @@ class SearchAdvancedFilter extends TourInfo
             ->leftJoin('hotels_appartment_has_hotels_type_of_food as htf', 'htf.id = ha.id')
             ->leftJoin('`hotels_type_of_food` `htof`', 'htof.id = htf.hotels_type_of_food_id')
             ->leftJoin('tour_info_has_tour_type as htt', 'tour_info.id = htt.tour_info_id')
-            ->leftJoin('hotels_pricing as hp', 'hp.hotels_info_id = hi.id and hp.active=1')
+            ->leftJoin('hotels_pricing as hp', '
+                hp.hotels_info_id = hi.id 
+                and hp.active=1 
+                and hp.hotels_appartment_id = ha.id 
+                and hp.hotels_type_of_food_id = htf.hotels_type_of_food_id
+            ')
             ->leftJoin('hotels_pay_period as hpp', 'hpp.hotels_pricing_id = hp.id and hpp.active=1')
             ->leftJoin('tour_price as tp', 'tour_info.id = tp.tour_info_id')
             ->leftJoin('`tour_info_has_tour_type_transport` as `http`', 'tour_info.id = http.tour_info_id');
@@ -209,6 +214,8 @@ class SearchAdvancedFilter extends TourInfo
             //->andFilterWhere([''])
             //->andFilterWhere(['IN','tour_info.city_id', $cityOut])
                 ->andWhere('s.selected_date between hpp.date_begin and hpp.date_end')
+            //->andWhere('(`hpp`.`date_begin` >= `s`.`selected_date` and `hpp`.`date_end` <= `s`.`selected_date`)')
+
             ->andFilterWhere(['hi.city_id' => $this->cityTo])
             ->andFilterWhere(['hi.country' => $this->countryTo])
 
@@ -406,8 +413,9 @@ class SearchAdvancedFilter extends TourInfo
         $query->distinct();
         //$query->select('hotels_info.*, hp.id, hpp.id , price');
         //$query->leftJoin('tour_info','tour_info.hotels_info_id = hotels_info.id');
-        $query->innerJoin('hotels_pricing hp','hp.hotels_info_id = hotels_info.id')
-            ->innerJoin('hotels_pay_period hpp', 'hpp.hotels_pricing_id = hp.id')
+        $query->leftJoin('hotels_pricing hp','hp.hotels_info_id = hotels_info.id')
+            ->leftJoin('hotels_pay_period hpp', 'hpp.hotels_pricing_id = hp.id')
+            ->innerJoin('hotels_appartment ha', 'ha.hotels_info_id = hotels_info.id')
         ;
         $query->andFilterWhere([
             //'tour_info.active' => 1,
@@ -415,16 +423,17 @@ class SearchAdvancedFilter extends TourInfo
             'top' => 1,
             //'hot' => 1,
         ]);
-            $query->andFilterWhere(['>', 'hpp.price', 0]);
-       $query->andFilterWhere(['>', 'DATE_FORMAT(`hpp`.`date_end`,"%Y-%m-%d")', date('Y-m-d')]);
+            /*$query->andFilterWhere(['>', 'hpp.price', 0]);
+       $query->andFilterWhere(['>', 'DATE_FORMAT(`hpp`.`date_end`,"%Y-%m-%d")', date('Y-m-d')]);*/
             $query->orderBy(['date_add'=>SORT_DESC,'top_num'=>SORT_ASC]);
             $query->limit(12);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
+            /*'pagination' => [
                 'pageSize' => 12,
-            ],
+            ],*/
+            'pagination' => false,
         ]);
 
         /*$this->load($params);

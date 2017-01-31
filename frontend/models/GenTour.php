@@ -142,6 +142,7 @@ class GenTour extends \yii\db\ActiveRecord
                 if ($transTour == 1) {
                     //Получаем автобусы, которые идут в конкретное время в конкретное место
                     $query = \common\models\BusWay::find()->active();
+
                 } elseif ($transTour == 2 or $transTour == 3) {
                     //Получаем модель транспорта: поезда
                     //Получаем поезд, который идет в конкретное время в конкретное место
@@ -150,16 +151,18 @@ class GenTour extends \yii\db\ActiveRecord
                         ->andWhere(['ti.trans_type_id' => $transTour]);
                 }
                 if ($transTour > 0 && $transTour < 4) {
+                    $query_to = clone $query;
+                    $query_out = clone $query;
                     if ($hotel === true) {
                         //Получаем маршруты "Туда":
-                        $route[$transTour]['to'] = $query->andWhere(['date_end' => $date_start])->one();
+                        $route[$transTour]['to'] = $query_to->andWhere(["DATE_FORMAT(`date_end`,'%Y-%m-%d')" => $date_start])->one();
                         //Получаем маршруты "Обратно":
-                        $route[$transTour]['out'] = $query->andWhere(['date_begin' => $date_end])->one();
+                        $route[$transTour]['out'] = $query_out->andWhere(["DATE_FORMAT(`date_begin`,'%Y-%m-%d')" => $date_end])->one();
                     } else {
                         //Получаем маршруты "Туда":
-                        $route[$transTour]['to'] = $query->andWhere(['date_begin' => $date_start])->one();
+                        $route[$transTour]['to'] = $query->andWhere(["DATE_FORMAT(`date_begin`,'%Y-%m-%d')" => $date_start])->one();
                         //Получаем маршруты "Обратно":
-                        $route[$transTour]['out'] = $query->andWhere(['date_end' => $date_end])->one();
+                        $route[$transTour]['out'] = $query->andWhere(["DATE_FORMAT(`date_end`,'%Y-%m-%d')" => $date_end])->one();
                     }
                 }
             }
@@ -177,15 +180,18 @@ class GenTour extends \yii\db\ActiveRecord
 
         $dateBegin = new \DateTime($hotelsBegin);
         $dateBegin = $dateBegin->format('Y-m-d');
-
-        $dateEnd = new \DateTime($hotelsEnd);
+        $hotelsBegin = $dateBegin;
+        if ($countDay > 0){
+            $dateEnd = new \DateTime($hotelsBegin);
+            $dateEnd->add(new \DateInterval('P'.$countDay.'D'));
+        }
+        else{
+            $dateEnd = new \DateTime($hotelsEnd);
+        }
         $hotelsEnd = $dateEnd->format('Y-m-d');
 
-        $transDateBegin = new \DateTime($transDateBegin);
-        $transDateBegin = $transDateBegin->format('Y-m-d');
-
         $hotelPrice = HotelsPayPeriod::calculatedAppartmentPrice($hotelsAppartmentId, $dateBegin, $countDay, $typeOfFood, $countTourist, $countChild, $childYears);
-        $transPrice = self::getTourTransport($tourInfoId, $transDateBegin, $hotelsEnd, $hotel_enable,
+        $transPrice = self::getTourTransport($tourInfoId, $hotelsBegin, $hotelsEnd, $hotel_enable,
             $trans_info_id, $trans_way_id, $trans_info_id_reverse, $trans_way_id_reverse);
 
         $otherPrice = 0; //self::calcOtherPrice($tourInfoId);
@@ -214,7 +220,7 @@ class GenTour extends \yii\db\ActiveRecord
         elseif($typeT === 2) {
             $stop = false;
             foreach ($transPrice as $key => $value) {
-                $price = $value['to']->price ? $value['to']->price : 0 + $value['out']->price ? $value['out']->price : 0;
+                $price = ($value['to']->price ? $value['to']->price : 0) + ($value['out']->price ? $value['out']->price : 0);
                 if ($price != 0){
                     $fullPrice[$key][0] = true;
                     $fullPrice[$key]['price'] = $price + $hotelPrice;

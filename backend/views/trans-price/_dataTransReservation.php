@@ -13,7 +13,7 @@ $gridColumns = [
     'date_begin',
     'date_end',
     'number_seats',
-    'persons',
+    'person_id',
     'status',
     'active',
     ['attribute' => 'lock', 'visible' => false],

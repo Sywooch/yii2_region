@@ -5,17 +5,32 @@ $hotels = $model;//->hotelsInfo;
 $price = 'Нет направления';
 if ($hotels) {
     $pricing = $hotels->hotelsPricings;
+
     $price = 0;
-//$pricing1 = $pricing->hotelsPayPeriods;
-    foreach ($pricing as $key => $value) {
+    //Сначала получаем цену из таблицы цен
+    foreach ($pricing as $key => $value){
         $p = 0;
         $p = $value->getHotelsPayPeriods()
         ->andFilterWhere(['>', 'DATE_FORMAT(`date_end`,"%Y-%m-%d")', date('Y-m-d')])
+            ->andFilterWhere(['<', 'DATE_FORMAT(`date_begin`,"%Y-%m-%d")', date('Y-m-d')])
         ->orderBy('price')->one();
-        if ($price == 0 || $price > $p->price) {
+        if (isset($p) && ($price == 0 || $price > $p->price )) {
             $price = $p->price;
         }
     }
+    //Если цены нет, берем цену по-умолчанию из "Номера"
+    if (!isset($price) || $price == 0){
+        $price = 0;
+        $appartment = $hotels->hotelsAppartments;
+        foreach ($appartment as $key => $value) {
+            $p = 0;
+            $p = $value->price;
+            if (isset($p) && ($price == 0 || $price > $p)) {
+                $price = $p;
+            }
+        }
+    }
+
 }
 
 

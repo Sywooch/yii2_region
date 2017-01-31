@@ -149,7 +149,7 @@ class ReservationController extends Controller
 
             }
         } elseif ($order->isNewRecord && $request->get('hotels_info_id')) {
-
+            $order->no_request = true;
             /*$beginDay = new \DateTime($order->date_begin . HotelsPricing::CHECKOUT_TIME);
             $countDay = 1;
             if (isset($order->days) && $order->days > 0){
@@ -160,6 +160,7 @@ class ReservationController extends Controller
                 $endDay = new \DateTime($order->date_end . HotelsPricing::CHECKOUT_TIME);
                 $countDay = $beginDay->diff($endDay)->days;
             */
+
             /*TODO !!!Проверить будет ли выбран только отель, или уже с комнатой*/
             //TODO !!!Предусмотреть возможность выбора типа номера во фронтенде
             $order->hotels_info_id = $request->get('hotels_info_id');

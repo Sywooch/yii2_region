@@ -193,10 +193,10 @@ if ($model->no_request){
     $date = new DateTime();
     $interval = new DateInterval("P1D");
     $date->add($interval);
-    $model->date_begin = $date->format('Y-m-d');
+    $model->hotel_date_begin = $date->format('Y-m-d');
     $interval = new DateInterval("P6D");
     $date->add($interval);
-    $model->date_end = $date->format('Y-m-d');
+    $model->hotel_date_end = $date->format('Y-m-d');
 }
 
 
