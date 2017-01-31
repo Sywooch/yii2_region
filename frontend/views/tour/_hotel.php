@@ -21,8 +21,8 @@ if ($hotels) {
     //Если цены нет, берем цену по-умолчанию из "Номера"
     if (!isset($price) || $price == 0){
         $price = 0;
-        $appartment = $hotels->hotelsAppartments;
-        foreach ($appartment as $key => $value) {
+        $appartment = $hotels->getHotelsAppartments()->active();
+        foreach ($appartment->each() as $key => $value) {
             $p = 0;
             $p = $value->price;
             if (isset($p) && ($price == 0 || $price > $p)) {
