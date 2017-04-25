@@ -2,6 +2,7 @@
 
 namespace frontend\components\lk\controllers;
 
+use common\models\Organization;
 use common\models\Person;
 use common\models\SalOrder;
 use frontend\components\lk\models\LkOrder;
@@ -68,6 +69,11 @@ class DefaultController extends Controller
 
     }
 
+    /**
+     * Выводим счет турагенства
+     * @param $id
+     * @return mixed
+     */
     public function actionMpdfInvoice($id)
     {
         $this->layout = 'invoice';
@@ -81,13 +87,15 @@ class DefaultController extends Controller
         $tableInvoice = new ArrayDataProvider([
             'allModels' => $order->genInvoiceTable($id)
         ]);
+        //Получаем реквизиты организации (по-умолчанию, он у нас одна)
+        $rekv = Organization::findOne(['id'=>1]);
 
 
         //$model = $this->findModel();
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
             'content' => $this->renderPartial('viewinvoice',
-                ['model' => $model, 'tableInvoice' => $tableInvoice]),
+                ['model' => $model, 'tableInvoice' => $tableInvoice, 'rekv' => $rekv]),
             'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
             'cssInline' => '.img-circle {border-radius: 50%;}',
             'options' => [
@@ -116,18 +124,22 @@ class DefaultController extends Controller
             $providerSalOrderHasPerson = new \yii\data\ArrayDataProvider([
                 'allModels' => $model->salOrderHasPeople,
             ]);
+            $transWay = $model->transWay;
             $transportTo = new \yii\data\ArrayDataProvider([
-                'allModels' => $model->transWay,
+                'allModels' => array($transWay[1])
             ]);
+            $transWayReverse = $model->transWayReverse;
             $transportOut = new \yii\data\ArrayDataProvider([
-                'allModels' => $model->transWayReverse,
+                'allModels' => array($transWayReverse[1])
             ]);
             //$model = $this->findModel();
             $pdf = new Pdf([
                 'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
                 'content' => $this->renderPartial('viewpdf',
                     ['model' => $model, 'providerSalOrderHasPerson' => $providerSalOrderHasPerson,
-                        'providerTransportTo' => $transportTo, 'providerTrasportOut'=>$transportOut]),
+                        'providerTransportTo' => $transportTo, 'providerTransportOut'=>$transportOut,
+                        'providerTypeTransportTo' => $transWay[0],
+                        'providerTypeTransportOut' => $transWayReverse[0]]),
                 'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
                 'cssInline' => '.img-circle {border-radius: 50%;}',
                 'options' => [

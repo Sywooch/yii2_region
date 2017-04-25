@@ -6,11 +6,14 @@ $params = array_merge(
     require(__DIR__ . '/params-local.php')
 );
 
+//Разрешаем использовать загрузку файлов в стат.страницах
+\Yii::$container->set('vova07\imperavi\actions\UploadAction', ['uploadOnlyImage' => false]);
 return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log', 'arhistory', 'admin'],
+    'bootstrap' => ['log', 'arhistory', 'admin',
+    ],
     'modules' => [
         /*Добавлено Lykira*/
         /*'dashboard' => [
@@ -24,7 +27,7 @@ return [
                 'user' => 'cornernote\dashboard\panels\UserPanel'
             ],
         ],*/
-        /*'dashboard' => [
+        /*'dashboard' => [4
             'class' => 'stronglab\dashboard\Module',
             'roles' => ['@'], // необязатьельный параметр, по-умолчанию доступ всем гостям
             'column' => 2, // необязательный параметр, количество столбцов в панели (возможные значения: 1-3)
@@ -102,20 +105,20 @@ return [
             // Select Path To Upload Category Image
             'categoryImagePath' => '@frontend/web/images/articles/categories/',
             // Select URL To Upload Category Image
-            'categoryImageURL'  => '/images/articles/categories/',
+            'categoryImageURL' => '/images/articles/categories/',
             // Select Path To Upload Category Thumb
             'categoryThumbPath' => '@frontend/web/images/articles/categories/thumb/',
             // Select URL To Upload Category Image
-            'categoryThumbURL'  => '/images/articles/categories/thumb/',
+            'categoryThumbURL' => '/images/articles/categories/thumb/',
 
             // Select Path To Upload Item Image
             'itemImagePath' => '@frontend/web/images/articles/items/',
             // Select URL To Upload Item Image
-            'itemImageURL'  => '/images/articles/items/',
+            'itemImageURL' => '/images/articles/items/',
             // Select Path To Upload Item Thumb
             'itemThumbPath' => '@frontend/web/images/articles/items/thumb/',
             // Select URL To Upload Item Thumb
-            'itemThumbURL'  => '/images/articles/items/thumb/',
+            'itemThumbURL' => '/images/articles/items/thumb/',
 
             // Select Path To Upload Attachments
             'attachPath' => '@frontend/web/uploads/articles/',
@@ -152,41 +155,42 @@ return [
         /*'main' => [
             'class' => 'app\modules\main\Module',
         ],*/
-        'user' => [
+        /*'user' => [
             'class' => 'app\modules\user\Module',
+        ],*/
+        /** Begin User Access Settings */
+        'user' => [
+            'class' => 'dektrium\user\Module',
+            'enableUnconfirmedLogin' => false,
+            'confirmWithin' => 21600,
+            'cost' => 12,
+            'admins' => ['admin'],
+            'as backend' => 'dektrium\user\filters\BackendFilter',
         ],
-        /** Begin User Access Settings *
-         * 'user' => [
-         * 'class' => 'dektrium\user\Module',
-         * 'enableUnconfirmedLogin' => true,
-         * 'confirmWithin' => 21600,
-         * 'cost' => 12,
-         * 'admins' => ['admin']
-         * ],
-         * 'rbac' => [
-         * 'class' => dektrium\rbac\RbacWebModule::className(),
-         * ],
-         * /** End User Access Settings */
+        'rbac' => [
+            'class' => dektrium\rbac\RbacWebModule::className(),
+        ],
+        /** End User Access Settings */
 
-        
+
     ],
     'components' => [
-        'user' => [
+        /*'user' => [
             'identityClass' => 'common\models\Userinfo',
             'enableAutoLogin' => true,
 
-        ],
-        'authManager' => [
+        ],*/
+        /*'authManager' => [
             'class' => 'yii\rbac\DbManager',
-        ],
-        /** Begin User Access Settings *
-         * 'user' => [
-         * 'identityClass' => 'dektrium\user\models\User',
-         * 'enableAutoLogin' => true,
-         * ],
-         * /*'authManager' => [
-         * 'class' => 'dektrium\rbac\components\DbManager',
-         * ],*/
+        ],*/
+        /** Begin User Access Settings */
+        /*'user' => [
+        'identityClass' => 'dektrium\user\models\User',
+        'enableAutoLogin' => true,
+        ],*/
+        /*'authManager' => [
+            'class' => 'dektrium\rbac\components\DbManager',
+        ],*/
         /** End User Access Settings */
 
         'log' => [
@@ -215,7 +219,7 @@ return [
             'enablePrettyUrl' => true,
             'enableStrictParsing' => true,
             'showScriptName' => false,
-        ],  
+        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -232,13 +236,17 @@ return [
             'class' => 'mirocow\yandexmaps\Api',
         ],
     ],
-    'as access' => [
+    /*'as access' => [
         'class' => 'mdm\admin\classes\AccessControl',
+        //'class' => \yii\filters\AccessControl::className(),
         'allowActions' => [
             'site/login',
             'site/logout',
             'login',
             'logout',
+            'user/register/*',
+            'user/confirm/*',
+            'user/recovery/*'
             //'admin/*',
             //'menu/*',
             //'*',
@@ -249,7 +257,7 @@ return [
             // add a lot of actions here until you finally completed setting up rbac,
             // otherwise you may not even take a first step.
         ]
-    ],
+    ],*/
 
     'params' => $params,
 ];

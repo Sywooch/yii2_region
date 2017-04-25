@@ -98,7 +98,10 @@ if (!isset($model->date_end) or $model->date_end == "") {
                     'data' => \yii\helpers\ArrayHelper::map(common\models\TourType::find()->active()->orderBy('name')->all(), 'id', 'name'),
                     'options' => [
                         'prompt' => Yii::t('app', 'Select'),
-                    ]
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
                 ]
             ); ?>
         </div>
@@ -108,7 +111,10 @@ if (!isset($model->date_end) or $model->date_end == "") {
                     'data' => \yii\helpers\ArrayHelper::map(common\models\HotelsStars::find()->all(), 'id', 'name'),
                     'options' => [
                         'prompt' => Yii::t('app', 'Select'),
-                    ]
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
                 ]
             ); ?>
         </div>
@@ -118,7 +124,10 @@ if (!isset($model->date_end) or $model->date_end == "") {
                     'data' => \yii\helpers\ArrayHelper::map(common\models\HotelsTypeOfFood::find()->all(), 'id', 'name'),
                     'options' => [
                         'prompt' => Yii::t('app', 'Select'),
-                    ]
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
                 ]
             ); ?>
         </div>
@@ -128,7 +137,10 @@ if (!isset($model->date_end) or $model->date_end == "") {
                     'data' => \yii\helpers\ArrayHelper::map(common\models\HotelsAppartmentItem::find()->active()->all(), 'id', 'name'),
                     'options' => [
                         'prompt' => Yii::t('app', 'Select'),
-                    ]
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
                 ]
             ); ?>
         </div>

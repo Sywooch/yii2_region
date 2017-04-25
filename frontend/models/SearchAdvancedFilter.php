@@ -58,7 +58,8 @@ class SearchAdvancedFilter extends TourInfo
     public function rules()
     {
         return [
-            [['countryTo', 'cityTo', 'countryOut', 'cityOut', 'stars', 'days', 'touristCount', 'childCount'], 'integer'],
+            [['countryTo', 'cityTo', 'countryOut', 'cityOut', 'stars', 'days', 'touristCount', 'childCount',
+                'appartmentType', 'typeOfFood'], 'integer'],
             [['priceMin', 'priceMax'], 'number'],
             [['tour_type_name'], 'string'],
             //[['date_begin','date_end'],'required'],
@@ -220,9 +221,11 @@ class SearchAdvancedFilter extends TourInfo
             ->andFilterWhere(['hi.country' => $this->countryTo])
 
             ->andFilterWhere(['hi.hotels_stars_id' => $this->stars])
+            ->andFilterWhere(['htof.id' => $this->typeOfFood])
             ->andFilterWhere(['hp.hotels_type_of_food_id' => $this->typeOfFood])
             ->andFilterWhere(['ha.hotels_appartment_item_id' => $this->appartmentType])
-            ->andFilterWhere(['>','hpp.price','0'])
+            ->andFilterWhere(['>=','hpp.price',$this->priceMin])
+            ->andFilterWhere(['<=','hpp.price',$this->priceMax])
             ->andFilterWhere(['htt.tour_type_id' => $this->tourTypes]);
         if (isset($this->cityOut) && $this->cityOut != "") {
             $query->andWhere(['tour_info.city_id' => $this->cityOut]);
@@ -371,9 +374,11 @@ class SearchAdvancedFilter extends TourInfo
             ->andFilterWhere(['hi.city_id' => $this->cityTo])
             ->andFilterWhere(['hi.country' => $this->countryTo])
             ->andFilterWhere(['hi.hotels_stars_id' => $this->stars])
+            ->andFilterWhere(['htof.id' => $this->typeOfFood])
             ->andFilterWhere(['hp.hotels_type_of_food_id' => $this->typeOfFood])
             ->andFilterWhere(['ha.hotels_appartment_item_id' => $this->appartmentType])
-            ->andFilterWhere(['>','hpp.price','0'])
+            ->andFilterWhere(['>=','hpp.price',$this->priceMin])
+            ->andFilterWhere(['<=','hpp.price',$this->priceMax])
             ;
         $query->groupBy('s.selected_date, hotels_info_id, ha.id, name_type_food');
         $query->orderBy('hpp.price');
@@ -426,14 +431,14 @@ class SearchAdvancedFilter extends TourInfo
             /*$query->andFilterWhere(['>', 'hpp.price', 0]);
        $query->andFilterWhere(['>', 'DATE_FORMAT(`hpp`.`date_end`,"%Y-%m-%d")', date('Y-m-d')]);*/
             $query->orderBy(['date_add'=>SORT_DESC,'top_num'=>SORT_ASC]);
-            $query->limit(12);
+            //$query->limit(12);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            /*'pagination' => [
+            'pagination' => [
                 'pageSize' => 12,
-            ],*/
-            'pagination' => false,
+            ],
+            //'pagination' => true,
         ]);
 
         /*$this->load($params);

@@ -24,6 +24,9 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $lock
  * @property string $date_add
  * @property string $date_edit
+ * @property integer $hot
+ * @property integer $early
+ * @property double $early_percent
  *
  * @property \common\models\SalBasket[] $salBaskets
  * @property \common\models\SalOrder[] $salOrders
@@ -63,10 +66,13 @@ class TourInfo extends \yii\db\ActiveRecord
             [['name'], 'string'],
             [['date_begin', 'date_end', 'date_add', 'date_edit'], 'safe'],
             [['days', 'active', 'hotels_info_id', 'city_id', /*'tour_composition_id', */
-                'created_by', 'updated_by', 'lock'], 'integer'],
+                'created_by', 'updated_by', 'lock', 'hot', 'early'], 'integer'],
+            [['early_percent','hot_percent'], 'number'],
             //[['hotels_info_id'], 'required'],
-            [['lock'], 'default', 'value' => '0'],
-            [['lock'], 'mootensai\components\OptimisticLockValidator']
+            /*[['lock'], 'default', 'value' => '0'],
+            [['lock'], 'mootensai\components\OptimisticLockValidator']*/
+            //TODO Решить вопрос с lock
+
         ];
     }
 
@@ -111,6 +117,10 @@ class TourInfo extends \yii\db\ActiveRecord
             'date_edit' => Yii::t('app', 'Date Edit'),
             'country_hotel' => Yii::t('app','Country Hotel'),
             'city_hotel' => Yii::t('app','City Hotel'),
+            'hot' => Yii::t('app', 'Hot'),
+            'early' => Yii::t('app', 'Early'),
+            'early_percent' => Yii::t('app', 'Early Percent'),
+            'hot_percent' => Yii::t('app', 'Hot Percent'),
         ];
     }
 

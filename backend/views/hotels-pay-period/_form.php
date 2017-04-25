@@ -51,7 +51,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'active')->checkbox() ?>
 
-    <?= $form->field($model, 'price')->textInput(['maxlength' => true, 'placeholder' => 'Price']) ?>
+    <?= $form->field($model, 'price')->widget(\kartik\money\MaskMoney::className()) ?>
 
     <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 

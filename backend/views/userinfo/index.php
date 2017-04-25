@@ -1,10 +1,9 @@
 <?php
-use yii\helpers\Url;
-use yii\helpers\Html;
-use yii\bootstrap\Modal;
-use kartik\grid\GridView;
-use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
+use johnitvn\ajaxcrud\CrudAsset;
+use kartik\grid\GridView;
+use yii\bootstrap\Modal;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\SearchUserinfo */
@@ -27,9 +26,9 @@ CrudAsset::register($this);
             'toolbar'=> [
                 ['content'=>
                     Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
-                    ['role'=>'modal-remote','title'=> Yii::t( 'app ', 'Create new') . ' ' . Yii::t( 'app ', 'Userinfos'),'class'=>'btn btn-default']).
+                    ['role'=>'modal-remote','title'=> Yii::t( 'app', 'Create new') . ' ' . Yii::t( 'app', 'Userinfos'),'class'=>'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>Yii::t( 'app ', 'Reset Grid')]).
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>Yii::t( 'app', 'Reset Grid')]).
                     '{toggleData}'.
                     '{export}'
                 ],
@@ -39,7 +38,7 @@ CrudAsset::register($this);
             'responsive' => true,          
             'panel' => [
                 'type' => 'primary', 
-                'heading' => '<i class="glyphicon glyphicon-list"></i> ' . Yii::t( 'app ', 'Userinfos') . ' ' . Yii::t( 'app ', 'listing'),
+                'heading' => '<i class="glyphicon glyphicon-list"></i> ' . Yii::t( 'app', 'Userinfos') . ' ' . Yii::t( 'app', 'listing'),
                 'before'=>'<em>' . Yii::t('app','* Resize table columns just like a spreadsheet by dragging the column edges.') . '</em>',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; ' . Yii::t('app','Delete All'),

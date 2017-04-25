@@ -29,13 +29,14 @@
                 </li>
                 <li>
                     <a href="/lk/docs">Документы</a>
-                </li>
-                <li>
-                    <a href="/lk/finance"> Финансы </a>
                 </li>-->
+                <li>
+                    <a href="/lk/agent-payment"> Финансы </a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Выход</a></li>
+
+                <li><a href="/logout" data-method="post">Выход (<?= \common\models\AgentRekv::findOne(['user_id'=>Yii::$app->getUser()->id])->name ?>)</a></li>
 
             </ul>
         </div>

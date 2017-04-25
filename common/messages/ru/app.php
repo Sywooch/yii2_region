@@ -166,6 +166,9 @@ return [
     'HotelsAppartment' => 'Номер в отеле',
     'Hotels Appartment' => 'Номер в отеле',
     'Update Hotels Appartment: ' => 'Изменение номера: ',
+
+    'Update Hotels Pricing: ' => 'Изменение цены за номер',
+
     'Hotels Appartment ID' => 'Номера в отеле',
     'Hotels Appartment Hotels Info ID' => 'Гостиница',
     'Hotels Others Pricing ID' => 'Дополнительные цены',
@@ -307,6 +310,7 @@ return [
     'TourInfoHasTourType' => 'Типы тура',
 
 
+    /**Tour Info */
     'Update TourInfo #' => 'Редактироваь Тур #',
     'TourInfo' => 'Тур',
     'Tour Info' => 'Тур',
@@ -317,6 +321,13 @@ return [
     'No selection' => 'Ничего не выбранно',
     'Trans Type Stations listing' =>'Типы станций. Список',
     'Create new TransTypeStation' => 'Добавить новый тип станции',
+    'Hot'=>'"Горящий" тур',
+    'Early' => 'Акция раннего бронирования',
+    'Hot Percent'=>'Процент скидки по "горящему" туру',
+    'Early' => 'Акция раннего бронирования',
+    'Early Percent'=>'Процент скидки по акции раннего бронирования',
+    'Early Day' => 'Количество дней раннего бронирования',
+
 
     /*Begin Hotels*/
     'Create HotelsInfo success' => 'Новая гостиница успешно создана',
@@ -487,5 +498,71 @@ return [
     'Create Person' => 'Создать нового туриста',
     'BusReservationHasPerson' => 'Зарезервированные автобусы',
     'Add Bus Reservation Has Person' => 'Добавить новую бронь автобуса',
+
+    /*Organization*/
+    'Fullname' => 'Полное юридическое наименование',
+    'Inn' => 'ИНН организации',
+    'Kpp' => 'КПП организации',
+    'Ogrn' => 'ОГРН организации',
+    'Bik' => 'БИК банка',
+    'Bankname' => 'Наименование банка',
+    'Rs' => 'Расчетный счет',
+    'Ks' => 'Корреспондентский счет',
+    'Direktor Fio' => 'Фамилия Имя Отчество руководителя',
+    'Direktor Dolgnost' => 'Должность руководителя',
+    'Glbuh Fio' => 'Фамилия Имя Отчество ответственного бухгалтера',
+    'Glbuh Dolgnost' => 'Должность ответственного бухгалтера',
+    'Create Organization' => 'Создание новой орагнизации',
+    'Update Organization' => 'Редактирование',
+    'Organizations' => 'Организации',
+    'Organization' => 'Организация',
+
+    /*kurs currency - курсы валют*/
+    'Kurs Percents' => 'Внутренний % от курса ЦБ',
+    'Kurs Percent' => 'Внутренний % от курса ЦБ:',
+    'Create Kurs Percent' => 'Создать внутренний процент',
+    'Update Kurs Percent' => 'Изменение процента',
+    'Percent' => 'Значение процента',
+
+    'Kurs Type Currencies' => 'Типы валют',
+    'Kurs Type Currency' => 'Eалюта',
+    'Create Kurs Type Currency' => 'Добавление новой валюты',
+    'Ncode' => 'Числовой код валюты (ЦБ)',
+    'Tcode' => 'Текстовый код валюты (ЦБ)',
+
+    'Kurs Currencies' => 'Курсы валют',
+    'Kurs Currency' => 'Курс валюты',
+    'Create Kurs Currency' => 'Добавить новый курс',
+    'Okurs' => 'Курс ЦБ РФ',
+    'Skurs' => 'Курс сайта',
+    'Kurs Type Currency ID' => 'Валюта',
+    'Date Kurs' => 'Дата обновления курса',
+
+
+    'Phone2' => 'Дополнительные контакты',
+
+
+    /**Агенства*/
+    'Agent Default Percents' => 'Проценты по-умолчанию',
+
+    'Create Agent Default Percent' => 'Создать новую запись',
+
+    'Agent Rekvs' => 'Информация об агенствах',
+    'Agent Rekv' => 'Информация об агенстве',
+    'Create Agent Rekv' => 'Заполнить реквизиты нового агента',
+    'User ID' => 'Пользователи',
+    'User' => 'Пользователь',
+
+    'Agent Percents' => 'Проценты агенств',
+    'Agent Percent' => 'Проценты агенства',
+    'Create Agent Percent' => 'Уставновка нового процента агенству',
+
+    'Agent Payments' => 'Выплаты агентствам',
+    'Agent Payment' => 'Выплаты агентству',
+    'Create Agent Payment' => 'Создать новую выплату',
+    'Payment' => 'Сумма',
+    'Comment' => 'Комментарий',
+
+
 
 ];

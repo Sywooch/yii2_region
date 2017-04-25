@@ -28,7 +28,7 @@ class TourController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new'],
-                        'roles' => ['@']
+                        'roles' => ['Super Admin', 'Manager', 'Tagent'],
                     ],
                     [
                         'allow' => false

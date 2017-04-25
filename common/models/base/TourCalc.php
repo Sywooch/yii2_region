@@ -51,6 +51,8 @@ class TourCalc extends \yii\db\ActiveRecord
     protected $date_end;
     protected $children;
     protected $typeTransport;
+    protected $tourId;
+    protected $hotelsId;
 
     /**
      * @inheritdoc
@@ -235,20 +237,24 @@ class TourCalc extends \yii\db\ActiveRecord
 
         $pAppartment = $this->calcPriceAppartment($countDay);
         $pFood = 0; //Входит в цену прожиивания (pApartment)
-
         $pTransport = $this->calcPriceTransport();
         $pTransfer = $this->calcPriceTransfer();
-        $pDiscountHotels = $this->calcDiscountHotels();
-        $pDiscountTransport = $this->calcDiscountTransport();
         $pExcursion = $this->calcPriceExtended();
-
-
-        $finalPrice = $pAppartment
-            + $pTransport
-            + $pTransfer
-            + $pExcursion
-            - $pDiscountHotels
-            - $pDiscountTransport;
+        $fullPrice = $pAppartment + $pTransport + $pTransfer + $pExcursion;
+        //Проверяем наличие скидок горящих туров или раннего бронирования
+        $discount = $this->calcFullDiscount();
+        if ($discount > 0){
+            $fullDiscount = $fullPrice*(100-$discount)/100;
+        }
+        else{
+            $pDiscountHotels = $this->calcDiscountHotels();
+            $pDiscountTransport = $this->calcDiscountTransport();
+            $fullDiscount =
+                $fullPrice*
+                (100-($pDiscountHotels + $pDiscountTransport))
+                /100;
+        }
+        $finalPrice = $fullPrice-$fullDiscount;
 
         return $finalPrice;
     }
@@ -273,7 +279,6 @@ class TourCalc extends \yii\db\ActiveRecord
         if (!is_integer($countDay)) {
             $countDay = intval($this->getDayTour());
         }
-
         //Получаем одну единственную цену, по переданным параметрам
         $query->select('hpp.price')
             ->innerJoin('hotels_pay_period hpp', 'hpp.hotels_pricing_id = hotels_pricing.id')
@@ -346,6 +351,13 @@ class TourCalc extends \yii\db\ActiveRecord
 
     }
 
+    /**
+     * Получаем полное количество комнат данного типа
+     *
+     * @param $appartmentId
+     * @param $date
+     * @return mixed
+     */
     public function countAppartment($appartmentId, $date)
     {
         $query = HotelsAppartment::find($appartmentId)
@@ -356,6 +368,41 @@ class TourCalc extends \yii\db\ActiveRecord
                 ]
             );
         return $query->count();
+    }
+
+    /**
+     * Функция проверяет наличие скидок (кроме скидок на детей)
+     * и если эти скидки присутствуют, то применить их от полной суммы
+     * Скидки: акция раннего бронирования или "горящий" тур
+     */
+    public function calcFullDiscount($tourInfoId = 0)
+    {
+        //Если явно передали Id тура, тогда получаем информацию только по этому туру
+        if ($tourInfoId > 0) {
+            $tour = \common\models\TourInfo::findOne(['id'=>$tourInfoId]);
+        }
+        else{
+            $tour = $this;
+        }
+        $valueDiscount = 0;
+        if ($tour->early == 1) { //Акция раннего бронирования
+            $dateSale = $tour->date_begin;
+            //Получаем количество дней от текущей даты до даты бронирования
+            $bDate = new \DateTime();
+            $eDate = new \DateTime($dateSale);
+            $dDate = $bDate->diff($eDate);
+            $dDate = $dDate->d;
+            $dayEarly = \common\models\Organization::findOne('active = 1')->early_day;
+            if ($dayEarly - $dDate >= 0) {
+                //Применяем скидку раннего бронирования
+                $valueDiscount = $tour->early_percent;
+            }
+        }
+        if (($tour->hot == 1) && ($valueDiscount < $tour->hot_percent)) {
+            $valueDiscount = $tour->hot_percent;
+        }
+
+        return $valueDiscount;
     }
 
 }

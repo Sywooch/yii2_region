@@ -217,6 +217,7 @@ class GenTour extends \yii\db\ActiveRecord
                 + $hotelPrice
                 + $otherPrice;
         }
+
         elseif($typeT === 2) {
             $stop = false;
             foreach ($transPrice as $key => $value) {

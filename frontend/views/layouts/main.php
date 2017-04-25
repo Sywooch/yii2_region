@@ -13,6 +13,26 @@ use yii\widgets\Breadcrumbs;
 AppAsset::register($this);
 //$this->registerJs('jQuery("div.animation")')
 ?>
+
+<style>table td:hover {
+        background: none;
+    }
+
+    ;
+    table td {
+        vertical-align: middle;
+    }
+
+    ;
+    table tbody td tr:hover td {
+        background: none
+    }
+
+    table tbody td tr:hover td {
+        background: none
+    }</style>
+<!--  END: topbiz.md Widget HTML 1.0-->
+
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
@@ -34,9 +54,13 @@ AppAsset::register($this);
             <header>
 
                 <div class="logo col-sm-6 col-md-6 col-lg-6 col-xs-12">
-                    <a href="<?= Yii::$app->homeUrl ?>"><img class="logo-element"
+                    <div style="float:left;">
+                    <a href="<?= Yii::$app->homeUrl ?>"><img class="logo-element" alt="Лайф Тур Вояж"
                                                              src="<?= Yii::$app->homeUrl ?>images/logo.png"/>
                     </a>
+                    </div>
+
+
                 </div>
                 <div class="pull-right col-sm-6 col-md-6 col-lg-6 col-xs-12">
                     <p class="h1">
@@ -53,7 +77,7 @@ AppAsset::register($this);
                     <p class="h1">
                         <strong>
                             <span class="color4">
-                                8 (4752) 71-93-25
+                                <?= \common\models\Organization::findOne(['active'=>1])->phone ?>
                             </span>
                         </strong>
                     </p>
@@ -71,6 +95,49 @@ AppAsset::register($this);
                 'class' => 'navbar navbar-default ',
             ],
         ]);
+        ?>
+        <div class="banner-currency" style="float: right; margin: 4px 20px;">
+            <table cellpadding="0" cellspacing="0"
+                   style="border-collapse: inherit; border-collapse: inherit;background-color: #ffffff; border-radius: 0px ; border: 1px solid #145FCF; width: 110px;text-shadow: none;font-family: Helvetica, Arial, sans-serif ;line-height: 1.5">
+                <tbody>
+                <tr>
+                    <td rowspan="3" style="font-size:13px; color: #207E95;text-align:center" id="curentData">
+                        Курсы на <?= date('d.m.Y') ?>
+                    </td>
+                </tr>
+                <?php
+                $model = \common\models\KursTypeCurrency::find()->active()->asArray()->all();
+                foreach ($model as $typeCurrency){
+                    //Получаем текущий курс валюты
+                    $currency = \common\models\KursCurrency::findOne([
+                        'active'=>1,
+                        'kurs_type_currency_id'=>$typeCurrency['id']
+                    ]);
+                    ?>
+                    <tr>
+                        <td style="vertical-align: middle; /*padding: 0 0 7px 0;*/">
+                            <table cellpadding="0" cellspacing="0"
+                                   style="border-collapse: initial;width: inherit;margin: 0 auto; font-size: 13px; border-bottom: 1px dotted rgb(130, 148, 130)">
+                                <tr>
+                                    <td style="padding: 0 10px; ">
+                                        <p
+                                                style="text-decoration: none; color: inherit;  font-weight: bold; margin: 0;" title="<?= $typeCurrency['name'] ?>">
+                                            <?= $typeCurrency['tcode'] ?></p></td>
+                                    <td style="  padding: 0 12px 0 0px;color: #000000; " id="<?= $typeCurrency['tcode'] ?>_td"><?= number_format($currency->skurs,2,',', ' ') ?></td>
+
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <?php
+                }
+                ?>
+
+                </tbody>
+
+            </table>
+        </div>
+        <?php
         //\bupy7\pages\models\Page::;
         $menuItems = [
             ['label' => 'Офисы продаж', 'url' => ['/pages/pay_points']],
@@ -78,7 +145,9 @@ AppAsset::register($this);
             ['label' => 'Контакты', 'url' => ['/site/contact']],
             ['label' => 'Частным лицам', 'url' => ['/pages/individual']],
             ['label' => 'Турагентствам', 'url' => ['/pages/touragent']],
+
         ];
+
         /*if (Yii::$app->user->isGuest) {
             $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
             $menuItems[] = ['label' => 'Войти', 'url' => ['/site/login']];
@@ -236,10 +305,10 @@ AppAsset::register($this);
 <!-- Yandex.Metrika informer -->
 <a href="https://metrika.yandex.ru/stat/?id=37814910&amp;from=informer"
    target="_blank" rel="nofollow"><img
-        src="https://informer.yandex.ru/informer/37814910/3_1_FFFFFFFF_EFEFEFFF_0_pageviews"
-        style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика"
-        title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)"
-        onclick="try{Ya.Metrika.informer({i:this,id:37814910,lang:'ru'});return false}catch(e){}"/></a>
+            src="https://informer.yandex.ru/informer/37814910/3_1_FFFFFFFF_EFEFEFFF_0_pageviews"
+            style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика"
+            title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)"
+            onclick="try{Ya.Metrika.informer({i:this,id:37814910,lang:'ru'});return false}catch(e){}"/></a>
 <!-- /Yandex.Metrika informer -->
 
 <!-- Yandex.Metrika counter -->

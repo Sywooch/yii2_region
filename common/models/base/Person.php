@@ -2,7 +2,7 @@
 
 namespace common\models\base;
 
-use mootensai\behaviors\UUIDBehavior;
+//use mootensai\behaviors\UUIDBehavior;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -155,10 +155,6 @@ class Person extends \yii\db\ActiveRecord
                 'class' => BlameableBehavior::className(),
                 'createdByAttribute' => 'created_by',
                 'updatedByAttribute' => 'updated_by',
-            ],
-            'uuid' => [
-                'class' => UUIDBehavior::className(),
-                'column' => 'id',
             ],
         ];
     }

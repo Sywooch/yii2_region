@@ -53,9 +53,14 @@ AppAsset::register($this);
         ];
 
         $menuItems[] = [
-            'label' => 'Пользователи',
+            'label' => 'Агенства',
             'items' => [
-                ['label' => 'Информация о пользователях', 'url' => ['/userinfo']],
+                ['label' => 'Администрирование пользователей', 'url' => ['/user/admin']],
+                ['label' => ''],
+                ['label' => 'Стандартные проценты агенств', 'url' => ['/agent-default-percent']],
+                ['label' => 'Информация об агенствах', 'url' => ['/agent-rekv']],
+                ['label' => 'Установка процентов', 'url' => ['/agent-percent']],
+                ['label' => 'Выплаты', 'url' => ['/agent-payment']],
                 //['label' => 'Права пользователей','url'=>['/user-role']],
                 //['label' => 'Справочник Контрагенты (организации)','url'=>['/kontragent-persons']]
             ],
@@ -64,24 +69,22 @@ AppAsset::register($this);
             'label' => 'Гостиницы',
             'items' => [
                 ['label' => 'Справочник. Звёзды','url'=>['/hotels-stars']],
-
                 ['label' => 'Справочник. Тип питания', 'url'=>['/hotels-type-of-food']],
                 ['label' => 'Справочник. Типы номеров', 'url'=>['/hotels-appartment-item']],
-                ['label' => 'Справочник прочих цен', 'url'=>['/hotels-others-pricing-type']],
-                ['label' => 'Справочник. Характеристики гостиниц', 'url'=>['/hotels-character']],
+                //['label' => 'Справочник прочих цен', 'url'=>['/hotels-others-pricing-type']],
+                //['label' => 'Справочник. Характеристики гостиниц', 'url'=>['/hotels-character']],
                 ['label' => ''],
                 ['label' => 'Информация о гостиницах', 'url' => ['/hotels-info']],
                 ['label' => 'Номера','url'=>['/hotels-appartment']],
-
-                ['label' => 'Инфраструктура гостиниц', 'url'=>['/hotels-character-item']],
-                ['label' => 'Скидки', 'url'=>['/discount']],
+                //['label' => 'Инфраструктура гостиниц', 'url'=>['/hotels-character-item']],
+                ['label' => 'Скидки на детей', 'url'=>['/discount']],
                 /*['label' => 'Стоимость проживания', ''],*/
-                ['label' => 'Гостиничные цены', 'url'=>['/hotels-pricing']],
-                ['label' => 'Дополнительные цены', 'url'=>['/hotels-others-pricing']],
+                ['label' => 'Стоимость проживания и питания', 'url'=>['/hotels-pricing']],
+                //['label' => 'Дополнительные цены', 'url'=>['/hotels-others-pricing']],
             ],
         ];
         $menuItems[] = [
-            'label' => 'Транспорт',
+            'label' => 'Ж-Д/Авиа',
             'items' => [
                 ['label' => 'Справочник. Тип вокзала', 'url' => ['/trans-type-station']],
                 ['label' => 'Справочник. Типы мест', 'url' => ['/trans-seats-type']],
@@ -89,10 +92,9 @@ AppAsset::register($this);
                 ['label' => 'Вокзалы (аэропорты)', 'url' => ['/trans-station']],
                 ['label' => 'Маршруты','url'=>['/trans-route']],
                 ['label' => ''],
-
                 ['label' => 'Транспорт', 'url' => ['/trans-info']],
                 ['label' => 'Посадочные места', 'url' => ['/trans-seats']],
-                ['label' => 'Цены', 'url' => ['/trans-price']],
+                ['label' => 'Цены за проезд', 'url' => ['/trans-price']],
                 ['label' => 'Бронирование', 'url' => ['/trans-reservation']],
 
             ],
@@ -133,6 +135,7 @@ AppAsset::register($this);
                 ['label' => 'Статические страницы', 'url' => ['/pages/manager/index']],
                 ['label' => 'Новости', 'url' => ['/articles/items/index']],
                 ['label' => 'Баннер на главной', 'url' => ['/banner']],
+                ['label' => 'Реквизиты', 'url' => ['/organization']],
             ],
         ];
 

@@ -11,6 +11,12 @@ if ($model->isNewRecord) {
     $model->active = 1;
     $model->date_begin = date('Y-m-d H:i:s');
 }
+else{
+    //Выбираем поля со страной и городом
+    $hotels = \common\models\HotelsInfo::find()->andWhere(['id'=>$model->hotels_info_id])->one();
+    $countryId = $hotels->country;
+    $cityId = $hotels->city_id;
+}
 
 \mootensai\components\JsBlock::widget(['viewFile' => '_script', 'pos' => \yii\web\View::POS_END,
     'viewParams' => [
@@ -122,7 +128,11 @@ $(".hotels-name").change(function(){
             'type' => \kartik\widgets\DepDrop::TYPE_SELECT2,
             'data' =>
                 \yii\helpers\ArrayHelper::map(\common\models\City::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
-            'options' => ['placeholder' => Yii::t('app', 'Begin Select Country'),'class' => 'tour-name'],
+            'options' => [
+                'placeholder' => Yii::t('app', 'Begin Select Country'),
+                'class' => 'tour-name',
+                'options' => [$cityId => ['selected' => true]],
+            ],
             'select2Options' => ['pluginOptions' => ['allowClear' => true]],
             'pluginOptions' => [
                 'depends' => ['tourinfo-country_hotel'],
@@ -180,7 +190,15 @@ $(".hotels-name").change(function(){
 
     <?= $form->field($model, 'active')->checkbox() ?>
 
+    <div class="panel panel-default">
+    <?= $form->field($model, 'hot')->checkbox() ?>
 
+    <?= $form->field($model, 'hot_percent')->textInput() ?>
+
+    <?= $form->field($model, 'early')->checkbox() ?>
+
+    <?= $form->field($model, 'early_percent')->textInput() ?>
+    </div>
 
     <?php
     if ($model->getCountry()) {

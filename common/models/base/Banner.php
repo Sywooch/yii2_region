@@ -82,7 +82,7 @@ abstract class Banner extends \yii\db\ActiveRecord
             [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, gif', 'maxFiles' => 1],
             /*[['date_add', 'date_edit'], 'safe'],*/
             [[/*'created_by', 'updated_by',*/
-                'count', 'lock'], 'integer'],
+                'count', 'lock', 'active'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['text'], 'string', 'max' => 100]
         ];

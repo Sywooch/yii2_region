@@ -17,7 +17,7 @@ return [
         // Yii2 Articles
         'articles' => [
             'class' => 'cinghie\articles\Articles',
-            'userClass' => 'common\models\Userinfo', //'dektrium\user\models\User',
+            'userClass' => 'dektrium\user\models\User', //'common\models\Userinfo',
             // Select Languages allowed
             'languages' => [
                 "ru-RU" => "ru-RU",
@@ -91,7 +91,7 @@ return [
             'pathToImages' => '@backend/web/uploads/pages',
             'urlToImages' => '@backend/web/images',
             'pathToFiles' => '@backend/web/uploads/pages/files',
-            'urlToFiles' => '@backend/web/files',
+            'urlToFiles' => '/uploads/pages/files',
             'uploadImage' => true,
             'uploadFile' => true,
             'addImage' => true,
@@ -150,23 +150,30 @@ return [
             ],
         ],
 
+        'user' => [
+            'class' => 'dektrium\user\Module',
+            /*'modelMap' => [
+                'User' => 'common\models\User',
+            ],*/
+        ],
+
     ],
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'user' => [
+        /*'user' => [
             'identityClass' => 'common\models\Userinfo',
             'enableAutoLogin' => true,
-        ],
+        ],*/
         'urlManager' => [
             'class' => \yii\web\UrlManager::className(),
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             
             'rules' => [
-                'login' => 'site/login',
-                'logout' => 'site/logout',
+                //'login' => 'site/login',
+                //'logout' => 'site/logout',
                 'pages/<page:[\w-]+>' => 'pages/default/index',
                 '<id:\d+>/<alias:[A-Za-z0-9 -_.]+>' => 'articles/categories/view',
                 '<cat>/<id:\d+>/<alias:[A-Za-z0-9 -_.]+>' => 'articles/items/view',
@@ -227,8 +234,11 @@ return [
             ],
         ],
 
-        'authManager' => [
+        /*'authManager' => [
             'class' => 'yii\rbac\DbManager',
+        ],*/
+        'authManager' => [
+            'class' => 'dektrium\rbac\components\DbManager',
         ],
     ],
 ];

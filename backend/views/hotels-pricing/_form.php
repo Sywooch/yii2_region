@@ -28,7 +28,16 @@ if ($model->getCountry()) {
             ->asArray()
             ->all(), 'id', 'name');
 }
-
+if ($model->hotels_info_id){
+    $hotelsAppartmentData =
+        \yii\helpers\ArrayHelper::map(\common\models\HotelsAppartment::find()->active()
+                ->andWhere(['hotels_info_id' => $model->hotels_info_id])
+                ->orderBy('name')
+                ->asArray()
+                ->all(), 'id', 'name'
+        );
+}
+$m = $countryId;
 ?>
 
 <div class="hotels-pricing-form">

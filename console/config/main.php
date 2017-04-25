@@ -12,7 +12,14 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'console\controllers',
     'modules' => [
-
+        'user' => [
+            'class' => 'dektrium\user\Module',
+            //'enableAutoLogin' => true,
+            /*'confirmWithin' => 21600,
+            'cost' => 12,
+            'admins' => ['admin'],*/
+            //'as backend' => 'dektrium\user\filters\BackendFilter',
+        ],
     ],
     'components' => [
         'log' => [
@@ -25,6 +32,11 @@ return [
         ],
         'urlManager' => [
             'baseUrl' => 'http://ltv.loc/'
+        ],
+        'user' => [
+            'identityClass' => 'common\models\Userinfo',
+            'enableAutoLogin' => true,
+
         ],
     ],
     'params' => $params,
