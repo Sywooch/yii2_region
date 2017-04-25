@@ -161,11 +161,11 @@ return [
         /** Begin User Access Settings */
         'user' => [
             'class' => 'dektrium\user\Module',
-            'enableUnconfirmedLogin' => false,
+            'enableUnconfirmedLogin' => true,
             'confirmWithin' => 21600,
             'cost' => 12,
             'admins' => ['admin'],
-            'as backend' => 'dektrium\user\filters\BackendFilter',
+            //'as backend' => 'dektrium\user\filters\BackendFilter',
         ],
         'rbac' => [
             'class' => dektrium\rbac\RbacWebModule::className(),
