@@ -11,7 +11,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $date
- * @property integer $userinfo_id
+ * @property integer $user_id
  * @property integer $tour_info_id
  * @property integer $hotels_info_id
  * @property integer $trans_info_id
@@ -60,13 +60,13 @@ abstract class SalBasket extends \yii\db\ActiveRecord
     {
         return [
             [['date'], 'safe'],
-            [['userinfo_id', 'tour_info_id', 'hotels_info_id', 'trans_info_id'], 'required'],
-            [['userinfo_id', 'tour_info_id', 'hotels_info_id', 'trans_info_id', 'col_day', 'col_person', 'col_kids'], 'integer'],
+            [['user_id', 'tour_info_id', 'hotels_info_id', 'trans_info_id'], 'required'],
+            [['user_id', 'tour_info_id', 'hotels_info_id', 'trans_info_id', 'col_day', 'col_person', 'col_kids'], 'integer'],
             [['price'], 'number'],
             [['hotels_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\TransInfo::className(), 'targetAttribute' => ['hotels_info_id' => 'id']],
             [['tour_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\TourInfo::className(), 'targetAttribute' => ['tour_info_id' => 'id']],
             [['trans_info_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\TourInfo::className(), 'targetAttribute' => ['trans_info_id' => 'id']],
-            [['userinfo_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\Userinfo::className(), 'targetAttribute' => ['userinfo_id' => 'id']]
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\User::className(), 'targetAttribute' => ['user_id' => 'id']]
         ];
     }
 
@@ -78,7 +78,7 @@ abstract class SalBasket extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'date' => Yii::t('app', 'Date'),
-            'userinfo_id' => Yii::t('app', 'Userinfo ID'),
+            'user_id' => Yii::t('app', 'Userinfo ID'),
             'tour_info_id' => Yii::t('app', 'Tour Info ID'),
             'hotels_info_id' => Yii::t('app', 'Hotels Info ID'),
             'trans_info_id' => Yii::t('app', 'Trans Info ID'),
@@ -99,7 +99,7 @@ abstract class SalBasket extends \yii\db\ActiveRecord
             [
             'id' => Yii::t('app', 'ID'),
             'date' => Yii::t('app', 'Date'),
-            'userinfo_id' => Yii::t('app', 'Userinfo Id'),
+            'user_id' => Yii::t('app', 'Userinfo Id'),
             'tour_info_id' => Yii::t('app', 'Tour Info Id'),
             'hotels_info_id' => Yii::t('app', 'Hotels Info Id'),
             'trans_info_id' => Yii::t('app', 'Trans Info Id'),
@@ -137,9 +137,10 @@ abstract class SalBasket extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserinfo()
+    //TODO роверить, необходимость записи
+    public function getUser()
     {
-        return $this->hasOne(\common\models\Userinfo::className(), ['id' => 'userinfo_id']);
+        return $this->hasOne(\common\models\User::className(), ['id' => 'user_id']);
     }
 
 

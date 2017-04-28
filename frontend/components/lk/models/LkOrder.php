@@ -33,7 +33,7 @@ class LkOrder extends SalOrder
     public $stars_id;
     //public $hotels_appartment_id;
     //public $trans_info_id;
-    //public $userinfo_id;
+    //public $user_id;
     //public $tour_info_id;
     /*public $date_begin;
     public $date_end;*/
@@ -65,13 +65,13 @@ class LkOrder extends SalOrder
                     'tourist_count', 'child_count', 'child_years', 'trans_info_id',
                     'trans_info_id_reverse', 'city_id', 'country_id', 'stars_id', 'days'
                 ], 'safe'],
-                [['sal_order_status_id', 'userinfo_id', 'tour_info_id', 'hotels_type_of_food_id'], 'required'],
+                [['sal_order_status_id', 'user_id', 'tour_info_id', 'hotels_type_of_food_id'], 'required'],
                 [['sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id',
                     'trans_info_id',
                     'trans_way_id',
                     'trans_info_id_reverse',
                     'trans_way_id_reverse',
-                    'userinfo_id', 'tour_info_id',
+                    'user_id', 'tour_info_id',
                     'created_by', 'updated_by', 'lock', 'hotels_type_of_food_id','hotels_appartment_full_sale', 'hotels_pay_period_id'], 'integer'],
                 [['full_price'], 'number'],
                 [['insurance_info'], 'string'],
@@ -92,7 +92,7 @@ class LkOrder extends SalOrder
             'hotels_info_id' => Yii::t('app', 'Hotels Info ID'),
             'hotels_appartment_id' => Yii::t('app', 'Hotels Appartment ID'),
             'hotels_type_of_food_id' => Yii::t('app', 'Hotels Type Of Food Id'),
-            'userinfo_id' => Yii::t('app', 'Userinfo ID'),
+            'user_id' => Yii::t('app', 'Userinfo ID'),
             'tour_info_id' => Yii::t('app', 'Tour Info ID'),
             'full_price' => Yii::t('app', 'Full Price'),
             'insurance_info' => Yii::t('app', 'Insurance Info'),
@@ -293,6 +293,7 @@ class LkOrder extends SalOrder
         $this->trans_info_id_reverse = $_REQUEST['LkOrder']['trans_info_id_reverse'];
         $this->trans_way_id_reverse = $_REQUEST['LkOrder']['trans_route_reverse'];
     }
+
 
     public function genInvoiceTable($salId){
         $res = array();

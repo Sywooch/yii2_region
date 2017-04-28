@@ -34,6 +34,8 @@ class BusWay extends \yii\db\ActiveRecord
 {
     use \mootensai\relation\RelationTrait;
 
+    public $rangedate1;
+
     /**
      * @inheritdoc
      */
@@ -44,8 +46,13 @@ class BusWay extends \yii\db\ActiveRecord
             [['name'], 'string'],
             [['bus_info_id', 'active', 'ended', 'bus_route_id', 'created_by', 'updated_by', 'lock'/*, 'stop'*/], 'integer'],
             [['date_begin', 'date_end', 'date_add', 'date_edit'], 'safe'],
-            [['price'], 'number'],
+            /*['date_begin', 'date', 'timestampAttribute' => 'date_begin'],
+            ['date_end', 'date', 'timestampAttribute' => 'date_end'],
+            ['date_begin','compare','compareAttribute'=>'date_end', 'operator'=>'<','enableClientValidation' => false],
+*/          [['price'], 'number'],
+
             [['path_time'], 'string', 'max' => 45],
+
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ];

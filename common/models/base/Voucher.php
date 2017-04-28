@@ -20,7 +20,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $hotels_appartment_id
  * @property integer $trans_info_id
  * @property integer $hotels_type_of_food_id
- * @property integer $userinfo_id
+ * @property integer $user_id
  * @property integer $tour_info_id
  * @property double $full_price
  * @property string $insurance_info
@@ -51,8 +51,8 @@ class Voucher extends \yii\db\ActiveRecord
     {
         return [
             [['date', 'date_begin', 'date_end', 'date_add', 'date_edit'], 'safe'],
-            [['sal_order_status_id', 'userinfo_id', 'tour_info_id'], 'required'],
-            [['sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id', 'trans_info_id', 'hotels_type_of_food_id', 'userinfo_id', 'tour_info_id', 'created_by', 'updated_by', 'lock'], 'integer'],
+            [['sal_order_status_id', 'user_id', 'tour_info_id'], 'required'],
+            [['sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id', 'trans_info_id', 'hotels_type_of_food_id', 'user_id', 'tour_info_id', 'created_by', 'updated_by', 'lock'], 'integer'],
             [['full_price'], 'number'],
             [['insurance_info'], 'string'],
             [['lock'], 'default', 'value' => '0'],
@@ -96,7 +96,7 @@ class Voucher extends \yii\db\ActiveRecord
             'hotels_appartment_id' => Yii::t('app', 'Hotels Appartment ID'),
             'trans_info_id' => Yii::t('app', 'Trans Info ID'),
             'hotels_type_of_food_id' => Yii::t('app', 'Hotels Type Of Food ID'),
-            'userinfo_id' => Yii::t('app', 'Userinfo ID'),
+            'user_id' => Yii::t('app', 'Userinfo ID'),
             'tour_info_id' => Yii::t('app', 'Tour Info ID'),
             'full_price' => Yii::t('app', 'Full Price'),
             'insurance_info' => Yii::t('app', 'Insurance Info'),
@@ -157,9 +157,10 @@ class Voucher extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserinfo()
+    //TODO Переделать на получение турагентов из таблицы AgentRekv
+    public function getUser()
     {
-        return $this->hasOne(\common\models\Userinfo::className(), ['id' => 'userinfo_id'])->inverseOf('vouchers');
+        return $this->hasOne(\common\models\User::className(), ['id' => 'user_id'])->inverseOf('vouchers');
     }
 
     /**

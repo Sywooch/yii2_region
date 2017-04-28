@@ -91,6 +91,8 @@ ut-air
     104
         - $image = new \abeautifulsite\SimpleImage($this->getPathToOrigin());
         + $image = new \claviska\SimpleImage($this->getPathToOrigin());
+        $sizes['width'] = $image->get_width();
+
     185
     - $image = new \abeautifulsite\SimpleImage($imagePath);
     + $image = new \claviska\SimpleImage($imagePath);
@@ -119,3 +121,6 @@ ut-air
     * $image->toFile($pathToSave, null, 100);
 
 
+
+//TODO Переделать всё на получение турагентов из таблицы AgentRekv.
+//TODO Переделать везде, где указано 'user.username' на наименование турагента из AgentRekv

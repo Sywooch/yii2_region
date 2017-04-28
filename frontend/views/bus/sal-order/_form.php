@@ -95,8 +95,9 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'userinfo_id')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => \yii\helpers\ArrayHelper::map(\common\models\Userinfo::find()->orderBy('id')->asArray()->all(), 'id', 'username'),
+    <?= $form->field($model, 'user_id')->widget(\kartik\widgets\Select2::classname(), [
+            //TODO Переделать на получение турагентов из таблицы AgentRekv
+        'data' => \yii\helpers\ArrayHelper::map(\common\models\User::find()->orderBy('id')->asArray()->all(), 'id', 'username'),
         'options' => ['placeholder' => Yii::t('app', 'Choose Userinfo')],
         'pluginOptions' => [
             'allowClear' => true

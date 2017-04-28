@@ -95,7 +95,7 @@ use yii\widgets\ActiveForm;
         ],
     ]); */ ?>
 
-    <?php /* echo $form->field($model, 'userinfo_id')->widget(\kartik\widgets\Select2::classname(), [
+    <?php /* echo $form->field($model, 'user_id')->widget(\kartik\widgets\Select2::classname(), [
         'data' => \yii\helpers\ArrayHelper::map(\common\models\Userinfo::find()->orderBy('id')->asArray()->all(), 'id', 'username'),
         'options' => ['placeholder' => Yii::t('app', 'Choose Userinfo')],
         'pluginOptions' => [

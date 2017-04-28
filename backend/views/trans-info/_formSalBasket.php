@@ -35,12 +35,13 @@
                     ],
                 ]
             ],
-            'userinfo_id' => [
-                'label' => 'Userinfo',
+            'user_id' => [
+                'label' => 'Агентство',
                 'type' => TabularForm::INPUT_WIDGET,
                 'widgetClass' => \kartik\widgets\Select2::className(),
                 'options' => [
-                    'data' => \yii\helpers\ArrayHelper::map(\common\models\Userinfo::find()->orderBy('username')->asArray()->all(), 'id', 'username'),
+                    //TODO Переделать на получение турагентов из таблицы AgentRekv
+                    'data' => \yii\helpers\ArrayHelper::map(\common\models\User::find()->orderBy('username')->asArray()->all(), 'id', 'username'),
                     'options' => ['placeholder' => Yii::t('app', 'Choose Userinfo')],
                 ],
                 'columnOptions' => ['width' => '200px']

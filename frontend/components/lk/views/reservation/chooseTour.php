@@ -187,7 +187,9 @@ if (!$model->isNewRecord) {
 
 <?= $form->errorSummary($model); ?>
 
-<?= $form->field($model, 'id', ['template' => '{input}'])->hiddenInput(['style' => 'display:none']); ?>
+<?php echo $form->field($model, 'id', ['template' => '{input}'])->hiddenInput(['style' => 'display:none']);
+?>
+
 <?php
 if ($model->no_request){
     $date = new DateTime();
@@ -596,7 +598,7 @@ if ($model->trans_info_id !== 0) {
 
 </div>
 
-<?= $form->field($model, 'userinfo_id', ['template' => '{input}'])->textInput([
+<?= $form->field($model, 'user_id', ['template' => '{input}'])->textInput([
     'value' => Yii::$app->user->id,
     'readonly' => true,
     'style' => 'display:none'

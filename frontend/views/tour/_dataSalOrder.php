@@ -34,7 +34,7 @@ $gridColumns = [
         'label' => Yii::t('app', 'Hotels Type Of Food')
     ],
     [
-        'attribute' => 'userinfo.username',
+        'attribute' => 'user.username',
         'label' => Yii::t('app', 'Userinfo')
     ],
     'full_price',

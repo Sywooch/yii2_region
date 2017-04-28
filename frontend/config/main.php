@@ -71,6 +71,7 @@ return [
                 'hotels' => 'tour',
             ],
         ],
+
         /*'user' => [
             'identityClass' => 'common\models\Userinfo',
             //'class'=>\dektrium\user\models\User::className(),

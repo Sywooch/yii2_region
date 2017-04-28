@@ -79,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ['attribute' => 'id', 'visible' => false],
                 'date',
                 [
-                    'attribute' => 'userinfo.username',
+                    'attribute' => 'user.username',
                     'label' => Yii::t('app', 'Userinfo')
                 ],
                 [
@@ -140,7 +140,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'label' => Yii::t('app', 'Hotels Type Of Food')
                 ],
                 [
-                    'attribute' => 'userinfo.username',
+                    'attribute' => 'user.username',
                     'label' => Yii::t('app', 'Userinfo')
                 ],
                 'full_price',

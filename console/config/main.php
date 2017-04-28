@@ -34,9 +34,8 @@ return [
             'baseUrl' => 'http://ltv.loc/'
         ],
         'user' => [
-            'identityClass' => 'common\models\Userinfo',
+            'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
-
         ],
     ],
     'params' => $params,

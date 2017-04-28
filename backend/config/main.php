@@ -207,8 +207,9 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'login' => 'site/login',
-                'logout' => 'site/logout',
+                'login' => 'user/login',
+                'logout' => 'user/logout',
+                'index' => 'site/index',
                 //'pages/<page:[\w-]+>' => 'pages/default/index',
                 //'pages/<page:[\w-]+>' => 'pages/default/index',
             ],

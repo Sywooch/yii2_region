@@ -60,6 +60,9 @@ class ReservationController extends Controller
                             'get-full-price', // получаем запрос на расчет полной цены
                         ],
                         'roles' => ['Super Admin', 'Manager', 'Tagent'],
+                        'matchCallback' => function ($rule, $action) {
+                            return AgentRekv::checkAgent(Yii::$app->getUser()->id);
+                        }
                     ],
                     [
                         'allow' => false
@@ -185,7 +188,7 @@ class ReservationController extends Controller
             if (isset($order->hotels_info_id)) {
                 $order->country_id = $order->getCountryByHotels($order->hotels_info_id);
                 $order->tour_info_id = $order->getTourInfoByHotelsId($order->hotels_info_id);
-                $order->userinfo_id = Yii::$app->user->id;
+                $order->user_id = Yii::$app->user->id;
             }
         }
         elseif ($order->isNewRecord && $order->load($request->get(),'')) {
@@ -232,7 +235,7 @@ class ReservationController extends Controller
             if (isset($order->hotels_info_id)) {
 
             }*/
-            $order->userinfo_id = Yii::$app->user->id;
+            $order->user_id = Yii::$app->user->id;
         }
 
 
@@ -317,6 +320,7 @@ class ReservationController extends Controller
             $endDay->format("Y-m-d H:i"),
             $typeOfFoodId, $count, $countChild);*/
 
+        //Расчитываем стоимость тура
         $model = SalOrder::findOne(['id' => $orderId]);
         if ($model->enable != 1){
             $fullPrice = GenTour::calcFullPrice(
@@ -336,7 +340,8 @@ class ReservationController extends Controller
                 $model->trans_way_id_reverse
             );
             $model->full_price = $fullPrice['price'];
-
+            //Расчитваем стоимость для турагента
+            $model->calcPriceTA();
         }
 
         /**

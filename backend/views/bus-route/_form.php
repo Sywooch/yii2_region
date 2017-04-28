@@ -35,46 +35,33 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'date')->widget(\kartik\datecontrol\DateControl::classname(), [
-        'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
-        'saveFormat' => 'php:Y-m-d',
-        'displayFormat' => 'php:d.m.Y',
-        'ajaxConversion' => true,
-        'options' => [
-            'pluginOptions' => [
-                'placeholder' => Yii::t('app', 'Choose Date'),
-                'autoclose' => true,
-            ]
-        ],
-    ]); ?>
 
-    <?= $form->field($model, 'date_begin')->widget(\kartik\datecontrol\DateControl::classname(), [
-        'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
-        //'autoWidget' => false,
-        //'widgetClass' => 'yii\jui\DatePicker',
-        'saveFormat' => 'php:Y-m-d H:i',
-        'displayFormat' => 'dd.MM.yyyy hh:mm',
-        'ajaxConversion' => true,
-        'options' => [
-            'pluginOptions' => [
-                'placeholder' => Yii::t('app', 'Choose Date Begin'),
-                'autoclose' => true,
-            ]
-        ],
-    ]); ?>
 
-    <?= $form->field($model, 'date_end')->widget(\kartik\datecontrol\DateControl::classname(), [
-        'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
-        'saveFormat' => 'php:Y-m-d H:i',
-        'displayFormat' => 'dd.MM.yyyy hh:mm',
-        'ajaxConversion' => true,
-        'options' => [
-            'pluginOptions' => [
-                'placeholder' => Yii::t('app', 'Choose Date End'),
-                'autoclose' => true,
-            ]
-        ],
-    ]); ?>
+    <label class="control-label">Период действия</label>
+    <div class="input-group drp-container">
+
+    <?php
+
+    $addon = <<< HTML
+<span class="input-group-addon">
+    <i class="glyphicon glyphicon-calendar"></i>
+</span>
+HTML;
+    echo \kartik\daterange\DateRangePicker::widget([
+        'name'=>'rangedate1',
+        'convertFormat'=>true,
+        'useWithAddon'=>true,
+        //'language'=>'Russian',             // from demo config
+        'hideInput'=>false,           // from demo config
+        'presetDropdown'=>false, // from demo config
+        'pluginOptions'=>[
+            'locale'=>['format'=>'d.m.y'], // from demo config
+            'separator'=>' - ',       // from demo config
+            'opens'=>'left'
+        ]
+    ]).$addon;
+    ?>
+    </div>
 
     <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 

@@ -152,6 +152,8 @@ return [
 
         'user' => [
             'class' => 'dektrium\user\Module',
+            'enableRegistration' => false,
+            'enableConfirmation' => false,
             /*'modelMap' => [
                 'User' => 'common\models\User',
             ],*/
@@ -172,8 +174,8 @@ return [
             'showScriptName' => false,
             
             'rules' => [
-                //'login' => 'site/login',
-                //'logout' => 'site/logout',
+                'login' => 'user/login',
+                'logout' => 'user/logout',
                 'pages/<page:[\w-]+>' => 'pages/default/index',
                 '<id:\d+>/<alias:[A-Za-z0-9 -_.]+>' => 'articles/categories/view',
                 '<cat>/<id:\d+>/<alias:[A-Za-z0-9 -_.]+>' => 'articles/items/view',

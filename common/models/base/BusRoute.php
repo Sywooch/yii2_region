@@ -27,6 +27,9 @@ class BusRoute extends \yii\db\ActiveRecord
 {
     use \mootensai\relation\RelationTrait;
 
+    public $bReverse;
+    public $rangedate1;
+
     /**
      * @inheritdoc
      */

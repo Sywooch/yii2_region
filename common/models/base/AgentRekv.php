@@ -144,4 +144,21 @@ class AgentRekv extends \yii\db\ActiveRecord
     {
         return new \common\models\AgentRekvQuery(get_called_class());
     }
+
+    /**
+     * Проверка на наличие агента
+     *
+     * @param $userId
+     * @return bool
+     */
+    public static function checkAgent($userId){
+        $model = self::findOne(['user_id'=>$userId, 'active'=>1]);
+        if ($model === null){
+            return false;
+        }
+        elseif ($model->className() == 'common\models\AgentRekv'){
+            return true;
+        }
+
+    }
 }

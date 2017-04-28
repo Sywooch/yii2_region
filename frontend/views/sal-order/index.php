@@ -4,9 +4,9 @@
 /* @var $searchModel frontend\models\SearchSalOrder */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-use yii\helpers\Html;
 use kartik\export\ExportMenu;
 use kartik\grid\GridView;
+use yii\helpers\Html;
 
 $this->title = Yii::t('app', 'Sal Orders');
 $this->params['breadcrumbs'][] = $this->title;
@@ -92,17 +92,18 @@ $this->registerJs($search);
             'filterInputOptions' => ['placeholder' => 'Tour type transport', 'id' => 'grid-search-sal-order-trans_info_id']
         ],
         [
-            'attribute' => 'userinfo_id',
+            'attribute' => 'user_id',
             'label' => Yii::t('app', 'Userinfo'),
             'value' => function ($model) {
-                return $model->userinfo->username;
+                return $model->user->username;
             },
             'filterType' => GridView::FILTER_SELECT2,
-            'filter' => \yii\helpers\ArrayHelper::map(\common\models\Userinfo::find()->asArray()->all(), 'id', 'username'),
+            //TODO Переделать на получение турагентов из таблицы AgentRekv
+            'filter' => \yii\helpers\ArrayHelper::map(\common\models\User::find()->asArray()->all(), 'id', 'username'),
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Userinfo', 'id' => 'grid-search-sal-order-userinfo_id']
+            'filterInputOptions' => ['placeholder' => 'Userinfo', 'id' => 'grid-search-sal-order-user_id']
         ],
         [
             'attribute' => 'tour_info_id',

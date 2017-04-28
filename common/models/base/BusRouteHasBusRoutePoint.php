@@ -134,5 +134,29 @@ abstract class BusRouteHasBusRoutePoint extends \yii\db\ActiveRecord
         return new \common\models\BusRouteHasBusRoutePointQuery(get_called_class());
     }
 
+    /**
+     * @param $sourceId
+     * @param $destinationId
+     * @return bool
+     */
+    public function reverseRouteSave($sourceId, $destinationId){
+        if ($sourceId === 0){
+            return false;
+        }
+        //Сохраняем обратный путь
+        //Получаем текущий путь
+        $model = self::find()
+            ->andWhere(['bus_route_id'=>$sourceId])
+        ;
+        $points = $model->asArray()->all();
+        $newPoints = array();
+        //Инвертируем путь
+        $lenPoints = count($points);
+        foreach ($points as $key => $value){
+
+        }
+
+        return true;
+    }
 
 }

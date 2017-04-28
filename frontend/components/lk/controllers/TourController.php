@@ -29,7 +29,11 @@ class TourController extends Controller
                         'allow' => true,
                         'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new'],
                         'roles' => ['Super Admin', 'Manager', 'Tagent'],
+                        'matchCallback' => function ($rule, $action) {
+                            return AgentRekv::checkAgent(Yii::$app->getUser()->id);
+                        }
                     ],
+
                     [
                         'allow' => false
                     ]

@@ -30,7 +30,8 @@ $gridColumns = [
         'label' => Yii::t('app', 'Hotels Type Of Food')
     ],
     [
-        'attribute' => 'userinfo.username',
+        //TODO Переделать на получение турагентов из таблицы AgentRekv
+        'attribute' => 'user.username',
         'label' => Yii::t('app', 'Userinfo')
     ],
     [

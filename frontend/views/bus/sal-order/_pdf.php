@@ -1,8 +1,8 @@
 <?php
 
+use kartik\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\bus\SalOrder */
@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => Yii::t('app', 'Trans Info')
             ],
             [
-                'attribute' => 'userinfo.username',
+                'attribute' => 'user.username',
                 'label' => Yii::t('app', 'Userinfo')
             ],
             [

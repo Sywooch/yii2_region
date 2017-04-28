@@ -7,7 +7,6 @@
 /* @var $model common\models\SalOrder */
 $this->title = $model->id;
 
-
 ?>
 
 <table width="100%" cellpadding="2" cellspacing="2" class="invoice_bank_rekv">
@@ -82,6 +81,7 @@ $this->title = $model->id;
 
 <div style="font-weight: bold; font-size: 16pt; padding-left:5px;">
     <p>Счет № <?= $model->id ?> от <?= $model->date_add ?></p>
+    <p style="font-size: 12pt;"><?php echo Yii::t('app', 'Rezervation') . ' №' . \yii\helpers\Html::encode($model->num_rezerv); ?></p>
     <p style="font-weight: inherit; font-size: 14pt;"><i><?= $model->tourInfo->name ?></i></p>
 </div>
 
@@ -102,9 +102,7 @@ $this->title = $model->id;
             <div style=" padding-left:2px;">Покупатель: </div>
         </td>
         <td>
-            <div style="font-weight:bold;  padding-left:2px;"> <i><?= $model->people[0]->lastname ?>
-                    <?= $model->people[0]->firstname ?>
-                    <?= $model->people[0]->secondname ?>
+            <div style="font-weight:bold;  padding-left:2px;"> <i><?= $agent->name ?>
                 </i> </div>
         </td>
     </tr>
@@ -144,9 +142,15 @@ echo \kartik\grid\GridView::widget([
 <table border="0" width="100%" cellpadding="1" cellspacing="1">
     <tr>
         <td></td>
-        <td style="width:27mm; font-weight:bold;  text-align:right;">Итого:</td>
-        <td style="width:27mm; font-weight:bold;  text-align:right;"> <?= $model->full_price ?> руб. </td>
+        <td style="width:127mm; text-align:right;">Полная стоимость тура (с учетом всех скидок) составляет:</td>
+        <td style="width:27mm; text-align:right;"> <?= $model->full_price ?> руб. </td>
     </tr>
+    <tr>
+        <td></td>
+        <td style="width:67mm; font-weight:bold;  text-align:right;">Стоимость для турагенства:</td>
+        <td style="width:27mm; font-weight:bold;  text-align:right;"> <?= $model->price_ta ?> руб. </td>
+    </tr>
+
 </table>
 
 <br /><br />

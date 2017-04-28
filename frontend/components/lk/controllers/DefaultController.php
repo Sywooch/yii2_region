@@ -2,6 +2,7 @@
 
 namespace frontend\components\lk\controllers;
 
+use common\models\AgentRekv;
 use common\models\Organization;
 use common\models\Person;
 use common\models\SalOrder;
@@ -19,6 +20,7 @@ use yii\web\Response;
 
 class DefaultController extends Controller
 {
+
     public function behaviors()
     {
         return [
@@ -36,12 +38,18 @@ class DefaultController extends Controller
                         'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new',
                             'ajax-person-index', 'ajax-person-create', 'mpdf-voucher', 'mpdf-invoice'],
                         'roles' => ['Super Admin', 'Manager', 'Tagent'],
+                        'matchCallback' => function ($rule, $action) {
+
+                            return AgentRekv::checkAgent(Yii::$app->getUser()->id);
+                        }
                     ],
                     [
                         'allow' => false
                     ],
                 ]
-            ]
+            ],
+
+
         ];
     }
 
@@ -83,19 +91,25 @@ class DefaultController extends Controller
         //$headers->add('Content-Type', 'application/pdf');
 
         $model = SalOrder::findOne(['id' => $id]);
+        //Перерасчитываем процент агенства по полной стоимости
+        $model->calcPriceTA();
+
+
         $order = new LkOrder();
+
         $tableInvoice = new ArrayDataProvider([
             'allModels' => $order->genInvoiceTable($id)
         ]);
-        //Получаем реквизиты организации (по-умолчанию, он у нас одна)
+        //Получаем реквизиты организации (по-умолчанию, она у нас одна)
         $rekv = Organization::findOne(['id'=>1]);
-
+        //Получаем информацию о агентстве
+        $agent = AgentRekv::findOne(['user_id'=>$model->created_by, 'active'=>1]);
 
         //$model = $this->findModel();
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
             'content' => $this->renderPartial('viewinvoice',
-                ['model' => $model, 'tableInvoice' => $tableInvoice, 'rekv' => $rekv]),
+                ['model' => $model, 'tableInvoice' => $tableInvoice, 'rekv' => $rekv, 'agent' => $agent]),
             'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
             'cssInline' => '.img-circle {border-radius: 50%;}',
             'options' => [
@@ -109,7 +123,6 @@ class DefaultController extends Controller
         ]);
 
         return $pdf->render();
-
 
     }
     public function actionMpdfVoucher($id)

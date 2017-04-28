@@ -16,7 +16,7 @@ class SearchSalOrder extends SalOrder
     public function rules()
     {
         return [
-            [['id', 'sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id', 'trans_info_id', 'userinfo_id', 'tour_info_id', 'created_by', 'updated_by', 'lock'], 'integer'],
+            [['id', 'sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id', 'trans_info_id', 'user_id', 'tour_info_id', 'created_by', 'updated_by', 'lock'], 'integer'],
             [['date', 'date_begin', 'date_end', 'insurance_info', 'date_add', 'date_edit'], 'safe'],
             [['full_price'], 'number'],
         ];
@@ -64,7 +64,7 @@ class SearchSalOrder extends SalOrder
             'hotels_info_id' => $this->hotels_info_id,
             'hotels_appartment_id' => $this->hotels_appartment_id,
             'trans_info_id' => $this->trans_info_id,
-            'userinfo_id' => $this->userinfo_id,
+            'user_id' => $this->user_id,
             'tour_info_id' => $this->tour_info_id,
             'full_price' => $this->full_price,
             'date_add' => $this->date_add,

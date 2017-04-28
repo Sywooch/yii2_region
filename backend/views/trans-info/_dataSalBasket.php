@@ -11,7 +11,7 @@ $gridColumns = [
     ['attribute' => 'id', 'visible' => false],
     'date',
     [
-        'attribute' => 'userinfo.username',
+        'attribute' => 'user.username',
         'label' => Yii::t('app', 'Userinfo')
     ],
     [

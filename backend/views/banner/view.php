@@ -86,12 +86,12 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View');
             [
                 'format' => 'html',
                 'attribute' => 'created_by',
-                'value' => ($model->created_by ? \common\models\Userinfo::findOne(['id' => $model->created_by])->username : '<span class="label label-warning">?</span>'),
+                'value' => ($model->created_by ? \common\models\User::findOne(['id' => $model->created_by])->username : '<span class="label label-warning">?</span>'),
             ],
             [
                 'format' => 'html',
                 'attribute' => 'updated_by',
-                'value' => ($model->updated_by ? \common\models\Userinfo::findOne(['id' => $model->updated_by])->username : '<span class="label label-warning">?</span>'),
+                'value' => ($model->updated_by ? \common\models\User::findOne(['id' => $model->updated_by])->username : '<span class="label label-warning">?</span>'),
             ],
         ],
     ]); ?>

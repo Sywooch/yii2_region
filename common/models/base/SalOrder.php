@@ -26,7 +26,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $trans_way_id
  * @property integer $trans_info_id_reverse
  * @property integer $trans_way_id_reverse
- * @property integer $userinfo_id
+ * @property integer $user_id
  * @property integer $tour_info_id
  * @property double $full_price
  * @property string $insurance_info
@@ -38,6 +38,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $hotels_appartment_full_sale
  * @property string $hotel_date_begin
  * @property string $hotel_date_end
+ * @property string $price_ta
  *
  * @property \common\models\HotelsAppartment $hotelsAppartment
  * @property \common\models\HotelsInfo $hotelsInfo
@@ -79,16 +80,17 @@ class SalOrder extends \yii\db\ActiveRecord
     {
         return [
             [['date', 'date_begin', 'date_end', 'date_add', 'date_edit', 'hotel_date_begin', 'hotel_date_end'], 'safe'],
-            [['sal_order_status_id', 'userinfo_id', 'tour_info_id', 'hotels_type_of_food_id'], 'required'],
+            [['sal_order_status_id', 'user_id', 'tour_info_id', 'hotels_type_of_food_id'], 'required'],
             [['sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id',
                 'trans_info_id', 'trans_way_id', 'trans_info_id_reverse', 'trans_way_id_reverse', 'hotels_type_of_food_id',
-                'userinfo_id', 'tour_info_id', 'created_by', 'updated_by', 'lock', 'hotels_appartment_full_sale', 'hotels_pay_period_id'], 'integer'],
-            [['full_price'], 'number'],
+                'user_id', 'tour_info_id', 'created_by', 'updated_by', 'lock', 'hotels_appartment_full_sale', 'hotels_pay_period_id'], 'integer'],
+            [['full_price','price_ta'], 'number'],
             [['insurance_info'], 'string'],
+            [['num_rezerv'], 'integer'],
+            ['num_rezerv','validNumRezerv'],
             [['lock'], 'default', 'value' => '0'],
-            [['num_rezerv'], 'integer', 'max'=>8],
             [['lock'], 'mootensai\components\OptimisticLockValidator'],
-            /*[['num_rezerv'],'filter', 'filter' => $this->calcNumRezerv()],*/
+
 
 
         ];
@@ -134,7 +136,7 @@ class SalOrder extends \yii\db\ActiveRecord
             'trans_way_id' => Yii::t('app', 'Trans Way ID'),
             'trans_info_id_reverse' => Yii::t('app', 'Trans Info ID Reverse'),
             'trans_way_id_reverse' => Yii::t('app', 'Trans Way ID Reverse'),
-            'userinfo_id' => Yii::t('app', 'Userinfo ID'),
+            'user_id' => Yii::t('app', 'Userinfo ID'),
             'tour_info_id' => Yii::t('app', 'Tour Info ID'),
             'full_price' => Yii::t('app', 'Full Price'),
             'insurance_info' => Yii::t('app', 'Insurance Info'),
@@ -145,6 +147,7 @@ class SalOrder extends \yii\db\ActiveRecord
             'hotel_date_begin' => Yii::t('app', 'Hotel Date Begin'),
             'hotel_date_end' => Yii::t('app', 'Hotel Date End'),
             'hotels_pay_period_id' => Yii::t('app', 'Hotels pay period'),
+            'price_ta' => Yii::t('app','Agent Price'),
         ];
     }
 
@@ -221,9 +224,10 @@ class SalOrder extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserinfo()
+    public function getUser()
     {
-        return $this->hasOne(\common\models\Userinfo::className(), ['id' => 'userinfo_id'])->inverseOf('salOrders');
+        //TODO Переделать на получение турагентов из таблицы AgentRekv
+        return $this->hasOne(\common\models\User::className(), ['id' => 'user_id'])->inverseOf('salOrders');
     }
 
     /**
@@ -352,6 +356,38 @@ class SalOrder extends \yii\db\ActiveRecord
         return $numRezerv;
     }
 
+    /**
+     * Фукнция-валидатор, необходима для проверки значения "Номера резервации"
+     * @param $attribute
+     */
+    public function validNumRezerv($attribute){
+        if (!is_integer($attribute)){
+            $this->addError($attribute, 'Номер резервации должно быть числом');
+        }
+        if (strlen($attribute) != 8){
+            $this->addError($attribute, 'Количество символов должно быть равно 8!');
+        }
+    }
+
+    /**
+     * Расчет цены со скидкой турагентства
+     * @return bool
+     */
+    public function calcPriceTA(){
+        $userId = Yii::$app->getUser()->id;
+        $taPercent = \common\models\AgentPercent::findOne(['user_id'=>$userId,'active'=>1])->percent;
+        if (!($taPercent > 0)){
+            //Частный процент не установлен для агента, применяем общий
+            $taPercent = \common\models\AgentDefaultPercent::findOne(['active'=>1])->percent;
+        }
+        if ($this->full_price){
+            $this->price_ta = $this->full_price * (100-$taPercent)/100;
+            return true;
+        }
+        return false;
+
+    }
+
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)){
@@ -374,8 +410,9 @@ class SalOrder extends \yii\db\ActiveRecord
     {
         $statuses = array([self::ORDER_STATUS_NULL, self::ORDER_STATUS_NEW, self::ORDER_STATUS_CANCEL, self::ORDER_STATUS_ARCHIVE]);
         if (parent::beforeDelete()){
-            if (in_array($this->sal_order_status_id,$statuses)){
+            if (!in_array($this->sal_order_status_id,$statuses)){
                 //TODO Генерировать ошибку запрета удаления
+                $this->addError('sal_order_status_id', 'Удалить запись нельзя, так как текущий заказ находится в работе');
                 return false;
             }
             return true;

@@ -111,7 +111,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'label' => Yii::t('app', 'Trans Info'),
                     ],
                     [
-                        'attribute' => 'userinfo.username',
+                        'attribute' => 'user.username',
                         'label' => Yii::t('app', 'Userinfo'),
                     ],
                     [

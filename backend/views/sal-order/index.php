@@ -160,17 +160,18 @@ $colorPluginOptions = [
             'filterInputOptions' => ['placeholder' => Yii::t('app','Hotels type of food'), 'id' => 'grid-search-sal-order-hotels_type_of_food_id']
         ],*/
         [
-            'attribute' => 'userinfo_id',
+            'attribute' => 'user_id',
             'label' => Yii::t('app', 'Userinfo'),
             'value' => function ($model) {
-                return $model->userinfo->username;
+                return $model->user->username;
             },
             'filterType' => GridView::FILTER_SELECT2,
-            'filter' => \yii\helpers\ArrayHelper::map(\common\models\Userinfo::find()->asArray()->all(), 'id', 'username'),
+            //TODO Переделать на получение турагентов из таблицы AgentRekv
+            'filter' => \yii\helpers\ArrayHelper::map(\common\models\User::find()->asArray()->all(), 'id', 'username'),
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Userinfo'), 'id' => 'grid-search-sal-order-userinfo_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Userinfo'), 'id' => 'grid-search-sal-order-user_id']
             ],
 
 

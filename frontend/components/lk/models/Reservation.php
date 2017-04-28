@@ -24,7 +24,7 @@ class Reservation extends ActiveRecord
     public $stars_id;
     public $hotels_appartment_id;
     public $trans_info_id;
-    public $userinfo_id;
+    public $user_id;
     public $tour_info_id;
     public $date_begin;
     public $date_end;
@@ -51,7 +51,7 @@ class Reservation extends ActiveRecord
             'hotels_info_id' => Yii::t('app', 'Hotels Info ID'),
             'hotels_appartment_id' => Yii::t('app', 'Hotels Appartment ID'),
             'trans_info_id' => Yii::t('app', 'Trans Info ID'),
-            'userinfo_id' => Yii::t('app', 'Userinfo ID'),
+            'user_id' => Yii::t('app', 'Userinfo ID'),
             'tour_info_id' => Yii::t('app', 'Tour Info ID'),
             'full_price' => Yii::t('app', 'Full Price'),
             'insurance_info' => Yii::t('app', 'Insurance Info'),
@@ -67,8 +67,8 @@ class Reservation extends ActiveRecord
         return
             [
                 [['country_id', 'sal_order_status_id', 'city_id', 'hotels_info_id', 'stars_id',
-                    'hotels_appartment_id', 'trans_info_id', 'userinfo_id', 'tour_info_id'], 'integer'],
-                [['sal_order_status_id', 'hotels_info_id', 'hotels_appartment_id', 'userinfo_id', 'tour_info_id',
+                    'hotels_appartment_id', 'trans_info_id', 'user_id', 'tour_info_id'], 'integer'],
+                [['sal_order_status_id', 'hotels_info_id', 'hotels_appartment_id', 'user_id', 'tour_info_id',
                     'date_begin', 'date_end', 'type_of_food_id'], 'required'],
                 [['date_begin', 'date_end'], 'safe'],
                 [['date_begin', 'date_end'], 'date', 'format' => 'php:Y-m-d'],
@@ -131,9 +131,10 @@ class Reservation extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserinfo()
+    //TODO Переделать на получение турагентств
+    public function getUser()
     {
-        return $this->hasOne(\common\models\Userinfo::className(), ['id' => 'userinfo_id'])->inverseOf('salOrders');
+        return $this->hasOne(\common\models\User::className(), ['id' => 'user_id'])->inverseOf('salOrders');
     }
 
     /**

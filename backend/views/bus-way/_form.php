@@ -36,29 +36,31 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'price')->widget(\kartik\money\MaskMoney::className()) ?>
 
-    <?= $form->field($model, 'date_begin')->widget(\kartik\datecontrol\DateControl::classname(), [
-        'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
-        'saveFormat' => 'php:Y-m-d H:i:s',
-        'ajaxConversion' => true,
-        'options' => [
-            'pluginOptions' => [
-                'placeholder' => Yii::t('app', 'Choose Date Begin'),
-                'autoclose' => true,
+    <div class="input-group drp-container">
+    <?php
+    $addon = <<< HTML
+<span class="input-group-addon">
+    <i class="glyphicon glyphicon-calendar"></i>
+</span>
+HTML;
+    echo \kartik\daterange\DateRangePicker::widget([
+            'model'=>$model,
+            'attribute' => 'rangedate1',
+            'useWithAddon'=>true,
+            'convertFormat'=>true,
+            'startAttribute' => 'date_begin',
+            'endAttribute' => 'date_end',
+            //'saveFormat' => 'php:Y-m-d H:i:s',
+            'pluginOptions'=>[
+                'timePicker'=>true,
+                'timePickerIncrement'=>10,
+                'locale'=>['format' => 'Y-m-d H:i'],
+                'opens' => 'left',
             ]
-        ],
-    ]); ?>
+        ]).$addon;
+    ?>
+    </div>
 
-    <?= $form->field($model, 'date_end')->widget(\kartik\datecontrol\DateControl::classname(), [
-        'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
-        'saveFormat' => 'php:Y-m-d H:i:s',
-        'ajaxConversion' => true,
-        'options' => [
-            'pluginOptions' => [
-                'placeholder' => Yii::t('app', 'Choose Date End'),
-                'autoclose' => true,
-            ]
-        ],
-    ]); ?>
 
     <?= $form->field($model, 'path_time')->textInput(['maxlength' => true, 'placeholder' => 'Path Time']) ?>
 

@@ -19,7 +19,7 @@ class SearchSalOrder extends SalOrder
     {
         return [
             [['id', 'sal_order_status_id', /*'child',*/
-                'enable', 'hotels_info_id', 'trans_info_id', 'userinfo_id', 'tour_info_id', 'hotels_appartment_id', 'created_by', 'updated_by', 'lock'], 'integer'],
+                'enable', 'hotels_info_id', 'trans_info_id', 'user_id', 'tour_info_id', 'hotels_appartment_id', 'created_by', 'updated_by', 'lock'], 'integer'],
             [['date', /*'persons',*/
                 'date_begin', 'date_end', 'insurance_info', 'date_add', 'date_edit'], 'safe'],
             [['full_price'], 'number'],
@@ -52,7 +52,7 @@ class SearchSalOrder extends SalOrder
         die;*/
         $query = SalOrder::find();
         if (!$user->can('Полный доступ')) {
-            $query->andFilterWhere(['userinfo_id' => $user->id]);
+            $query->andFilterWhere(['user_id' => $user->id]);
         }
 
         $dataProvider = new ActiveDataProvider([
@@ -78,7 +78,7 @@ class SearchSalOrder extends SalOrder
             'full_price' => $this->full_price,
             'hotels_info_id' => $this->hotels_info_id,
             'trans_info_id' => $this->trans_info_id,
-            'userinfo_id' => $this->userinfo_id,
+            'user_id' => $this->user_id,
             'tour_info_id' => $this->tour_info_id,
             'hotels_appartment_id' => $this->hotels_appartment_id,
             'date_add' => $this->date_add,

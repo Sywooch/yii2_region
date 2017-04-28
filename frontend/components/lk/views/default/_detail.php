@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\SalOrder */
@@ -39,7 +38,7 @@ use kartik\grid\GridView;
                 'label' => Yii::t('app', 'Trans Info'),
             ],
             [
-                'attribute' => 'userinfo.username',
+                'attribute' => 'user.username',
                 'label' => Yii::t('app', 'Userinfo'),
             ],
             [

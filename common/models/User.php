@@ -19,5 +19,18 @@ use dektrium\user\models\User as BaseUser;
  */
 class User extends BaseUser
 {
+    const STATUS_BLOCKED = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_WAIT = 2;
+
+    /**
+     * Creates a new SalOrder model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function getSalOrders()
+    {
+        return $this->hasMany(\common\models\SalOrder::className(), ['trans_info_id' => 'id']);
+    }
 
 }
