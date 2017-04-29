@@ -23,6 +23,38 @@ use yii\widgets\ActiveForm;
         'isNewRecord' => ($model->isNewRecord) ? 1 : 0
     ]
 ]);
+
+//Создаем автоназвание тура (отключаем в случае ручного редактирования пользователем)
+$this->registerJs('
+    var $carsList = $("#hotelsappartment-name"),
+        stop = false,
+        items = [],
+    carObj = {};
+    carObj.length = 0;
+    if (stop == false){
+        $(".ha-name").change(function(){
+            editValue(this);
+        });
+        $("#hotelsappartment-count_rooms").change(function(){
+            editValue(this);
+        });
+    }
+    $carsList.change(function(){
+        stop = true;
+    });
+    function editValue(value) {
+        if ($(value).val() != null){
+                items[$(".ha-name").index(value)] = $(value).find("option:selected").text();
+            }
+            value = items.join(", ");
+            if ($("#hotelsappartment-count_rooms").val()){
+                value += ", комнат:" + $("#hotelsappartment-count_rooms").val();
+            }
+            $($carsList).val("Номер: " + value);
+    }
+
+');
+
 $hotelsInfoData = null;
 $countryId = 0;
 if ($model->getCountry()) {
@@ -34,6 +66,7 @@ if ($model->getCountry()) {
             ->asArray()
             ->all(), 'id', 'name');
 }
+
 
 ?>
 
@@ -62,10 +95,14 @@ if ($model->getCountry()) {
     $form->field($model, 'hotels_info_id')->widget(\kartik\widgets\DepDrop::className(), [
             'type' => \kartik\widgets\DepDrop::TYPE_SELECT2,
             'data' => $hotelsInfoData,
-            'options' => ['placeholder' => Yii::t('app', 'Begin Select Country')],
+            'options' => [
+                'placeholder' => Yii::t('app', 'Begin Select Country'),
+                'class' => 'ha-name',
+            ],
             'select2Options' => ['pluginOptions' => ['allowClear' => true]],
             'pluginOptions' => [
                 'depends' => ['hotelsappartment-country'],
+
                 'url' => \yii\helpers\Url::to(['/hotels-appartment/child-hotels-info']),
                 'loadingText' => Yii::t('app', 'Please wait, loading data ...'),
             ]
@@ -73,23 +110,26 @@ if ($model->getCountry()) {
     );
     ?>
 
-    <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'price')->textInput(['placeholder' => 'Price']) ?>
-
     <?= $form->field($model, 'hotels_appartment_item_id')->widget(\kartik\widgets\Select2::classname(), [
         'data' => \yii\helpers\ArrayHelper::map(\common\models\HotelsAppartmentItem::find()->active()->orderBy('id')->asArray()->all(), 'id', 'name'),
-        'options' => ['placeholder' => Yii::t('app', 'Choose Hotels appartment item')],
+        'options' => [
+            'placeholder' => Yii::t('app', 'Choose Hotels appartment item'),
+            'class' => 'ha-name',
+        ],
         'pluginOptions' => [
-            'allowClear' => true
+            'allowClear' => true,
         ],
     ]); ?>
 
+    <?= $form->field($model, 'name')->textInput(['placeholder' => 'Название (формируется автоматически)']) ?>
+
+    <?= $form->field($model, 'price')->textInput(['placeholder' => 'Базовая цена за комнату (выбирается, если не заполнять календарь цен)']) ?>
+
     <?= $form->field($model, 'active')->checkbox() ?>
 
-    <?= $form->field($model, 'count_rooms')->textInput(['placeholder' => 'Count Rooms']) ?>
+    <?= $form->field($model, 'count_rooms')->textInput(['placeholder' => 'Общее количество комнат']) ?>
 
-    <?= $form->field($model, 'count_beds')->textInput(['placeholder' => 'Count Beds']) ?>
+    <?= $form->field($model, 'count_beds')->textInput(['placeholder' => 'Количество мест(в одной комнате)']) ?>
 
     <?= $form->field($model, 'imageFiles[]')->widget(\kartik\file\FileInput::className(), [
         'language' => 'ru',
