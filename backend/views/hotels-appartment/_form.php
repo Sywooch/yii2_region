@@ -27,7 +27,7 @@ use yii\widgets\ActiveForm;
 //Создаем автоназвание тура (отключаем в случае ручного редактирования пользователем)
 //Отключаем авторедактирование при изменении записи
 $sStop = 'stop = false,';
-if (!$model->isNewRecord){
+if ((!$model->isNewRecord && $model->name != "") ){
     $sStop = 'stop = true,';
 }
 $jsVar = '
