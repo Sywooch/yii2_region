@@ -174,8 +174,8 @@ return [
             'showScriptName' => false,
             
             'rules' => [
-                'login' => 'user/login',
-                'logout' => 'user/logout',
+                //'login' => 'user/login',
+                //'logout' => 'user/logout',
                 'pages/<page:[\w-]+>' => 'pages/default/index',
                 '<id:\d+>/<alias:[A-Za-z0-9 -_.]+>' => 'articles/categories/view',
                 '<cat>/<id:\d+>/<alias:[A-Za-z0-9 -_.]+>' => 'articles/items/view',
