@@ -25,35 +25,56 @@ use yii\widgets\ActiveForm;
 ]);
 
 //Создаем автоназвание тура (отключаем в случае ручного редактирования пользователем)
-$this->registerJs('
+//Отключаем авторедактирование при изменении записи
+$sStop = 'stop = false,';
+if (!$model->isNewRecord){
+    $sStop = 'stop = true,';
+}
+$jsVar = '
     var $carsList = $("#hotelsappartment-name"),
-        stop = false,
-        items = [],
-    carObj = {};
-    carObj.length = 0;
-    if (stop == false){
+        ' .$sStop . '
+        items = [];
+';
+
+$this->registerJs($jsVar . '    
         $(".ha-name").change(function(){
-            editValue(this);
-        });
-        $("#hotelsappartment-count_rooms").change(function(){
-            editValue(this);
-        });
-    }
-    $carsList.change(function(){
-        stop = true;
-    });
-    function editValue(value) {
-        if ($(value).val() != null){
-                items[$(".ha-name").index(value)] = $(value).find("option:selected").text();
+        if (stop == false){
+            editValue(".ha-name");
             }
+        });
+        $("#hotelsappartment-count_beds").change(function(){
+        if (stop == false){
+            editValue(".ha-name");
+            }
+        });
+    
+    //Включаем авторедактирование, если запись очистили
+    $carsList.change(function(){
+    t = $(this).val();
+        if (t.length == 0){
+            stop = false
+        }
+        else{
+            stop = true;
+        }
+    });
+    
+    function editValue(hclass,text){
+        $(hclass).each(function(){
+            if ($(this).val() != null){
+                items[$(hclass).index(this)] = $(this).find("option:selected").text();
+            }
+        });
             value = items.join(", ");
-            if ($("#hotelsappartment-count_rooms").val()){
-                value += ", комнат:" + $("#hotelsappartment-count_rooms").val();
+            if ($("#hotelsappartment-count_beds").val()){
+                value += ", комнат:" + $("#hotelsappartment-count_beds").val();
             }
             $($carsList).val("Номер: " + value);
     }
 
 ');
+
+
 
 $hotelsInfoData = null;
 $countryId = 0;
