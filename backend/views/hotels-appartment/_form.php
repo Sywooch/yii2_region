@@ -39,12 +39,12 @@ $jsVar = '
 $this->registerJs($jsVar . '    
         $(".ha-name").change(function(){
         if (stop == false){
-            editValue(".ha-name");
+            editValue(".ha-name","#hotelsappartment-count_beds");
             }
         });
         $("#hotelsappartment-count_beds").change(function(){
         if (stop == false){
-            editValue(".ha-name");
+            editValue(".ha-name","#hotelsappartment-count_beds");
             }
         });
     
@@ -59,15 +59,15 @@ $this->registerJs($jsVar . '
         }
     });
     
-    function editValue(hclass,text){
+    function editValue(hclass,hid){
         $(hclass).each(function(){
             if ($(this).val() != null){
                 items[$(hclass).index(this)] = $(this).find("option:selected").text();
             }
         });
             value = items.join(", ");
-            if ($("#hotelsappartment-count_beds").val()){
-                value += ", комнат:" + $("#hotelsappartment-count_beds").val();
+            if ($(hid).val()){
+                value += ", комнат:" + $(hid).val();
             }
             $($carsList).val("Номер: " + value);
     }

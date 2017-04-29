@@ -60,30 +60,56 @@ else{
     ]
 ]);
 
-
-$this->registerJs('
+//Создаем автоназвание тура (отключаем в случае ручного редактирования пользователем)
+//Отключаем авторедактирование при изменении записи
+$sStop = 'stop = false,';
+if (!$model->isNewRecord){
+    $sStop = 'stop = true,';
+}
+$jsVar = '
     var $carsList = $("#tourinfo-name"),
-        stop = false,
-        items = [],
-    carObj = {};
-    carObj.length = 0;
-    if (stop == false){
-        $(".tour-name").change(function(){
-            if ($(this).val() != null){
-                items[$(".tour-name").index(this)] = $(this).find("option:selected").text();
+        ' .$sStop . '
+        items = [];
+';
+
+$this->registerJs($jsVar . '    
+        $(".ha-name").change(function(){
+        if (stop == false){
+            editValue(".tour-name","#tourinfo-date_begin");
             }
-            value = "\"" + items.join("->") + "\"";
-            if ($("#tourinfo-date_begin").val()){
-                value += " от " + $("#tourinfo-date_begin").val();
-            }
-            $($carsList).val("Тур " + value); 
-            
         });
-    }
+        $("#tourinfo-date_begin").change(function(){
+        if (stop == false){
+            editValue(".tour-name","#tourinfo-date_begin");
+            }
+        });
+    
+    //Включаем авторедактирование, если запись очистили
     $carsList.change(function(){
-        stop = true;
+    t = $(this).val();
+        if (t.length == 0){
+            stop = false
+        }
+        else{
+            stop = true;
+        }
     });
+    
+    function editValue(hclass,hid){
+        $(hclass).each(function(){
+            if ($(this).val() != null){
+                items[$(hclass).index(this)] = $(this).find("option:selected").text();
+            }
+        });
+            value = items.join(", ");
+            if ($(hid).val()){
+                value += ", комнат:" + $(hid).val();
+            }
+            $($carsList).val("Номер: " + value);
+    }
+
 ');
+
 /*
 $this->registerJs('
 var $carsList = $("#tourinfo-name"),
