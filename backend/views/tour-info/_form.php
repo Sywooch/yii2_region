@@ -101,11 +101,11 @@ $this->registerJs($jsVar . '
                 items[$(hclass).index(this)] = $(this).find("option:selected").text();
             }
         });
-            value = items.join(", ");
+        value = "\"" + items.join("->") + "\"";
             if ($(hid).val()){
-                value += ", комнат:" + $(hid).val();
+                value += " от " + $(hid).val();
             }
-            $($carsList).val("Номер: " + value);
+            $($carsList).val("Тур " + value)
     }
 
 ');

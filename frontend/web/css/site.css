@@ -370,12 +370,12 @@ a.link:hover{
 
 /*Высота шапки для гостиниц*/
 .hotel-vhead{
-    min-height: 120px;
+    height: 120px;
     clear:both;
 }
 
 .hotel-vdesc{
-    min-height: 105px;
+    height: 120px;
     clear:both;
 }
 

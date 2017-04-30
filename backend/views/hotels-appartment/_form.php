@@ -67,7 +67,7 @@ $this->registerJs($jsVar . '
         });
             value = items.join(", ");
             if ($(hid).val()){
-                value += ", комнат:" + $(hid).val();
+                value += ", мест:" + $(hid).val();
             }
             $($carsList).val("Номер: " + value);
     }
