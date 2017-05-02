@@ -1,5 +1,6 @@
 <?php
 
+
 return [
     [
         'label' => 'Дата заезда',
@@ -62,7 +63,9 @@ return [
     [
         //'class' => '\yii\bootstrap\Html',
         //'attribute' => 'tour_type_transport_id',
-        'label' => 'Цена (один турист)',
+        //Формируем наименования полей в зависимости от типа возвращаемого результата(
+//в фильтре может быть результат поиска либо туров, либо отелей)
+        'label' => 1,
         'format' => 'raw',
         'value' => function ($model) {
             $date_begin = $_REQUEST['SearchAdvancedFilter']['date_begin'];

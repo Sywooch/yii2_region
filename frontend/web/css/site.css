@@ -346,7 +346,7 @@ a.link:hover{
 }
 
 .result-hotels {
-    font-size: 0.85em;
+    /*font-size: 0.85em;*/
 }
 
 .hotels .list-view .col-md-4 {
@@ -489,4 +489,10 @@ a.link:hover{
 #w7.navbar-default .navbar-toggle:hover .icon-bar,
 #w7.navbar-default .navbar-toggle:focus .icon-bar {
     background-color: #ffffff;
+}
+
+
+.site-grid-filter-header-cell{
+    text-align:center;
+    vertical-align:middle;
 }

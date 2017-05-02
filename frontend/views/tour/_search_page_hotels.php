@@ -28,6 +28,17 @@ if (!isset($model->date_end) or $model->date_end == "") {
     $model->date_end = date('d.m.Y');
 }
 
+if (!isset($model->touristCount) or $model->touristCount == ""){
+    $model->touristCount = 2;
+}
+
+if (!isset($model->childCount) or $model->childCount == ""){
+    $model->childCount = 0;
+}
+elseif($model->childCount > 0 && $model->touristCount < $model->childCount){
+    $model->touristCount = $model->childCount;
+}
+
 ?>
 
 <div class="hotels-info-search">

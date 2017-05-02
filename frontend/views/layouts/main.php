@@ -13,26 +13,6 @@ use yii\widgets\Breadcrumbs;
 AppAsset::register($this);
 //$this->registerJs('jQuery("div.animation")')
 ?>
-
-<style>table td:hover {
-        background: none;
-    }
-
-    ;
-    table td {
-        vertical-align: middle;
-    }
-
-    ;
-    table tbody td tr:hover td {
-        background: none
-    }
-
-    table tbody td tr:hover td {
-        background: none
-    }</style>
-<!--  END: topbiz.md Widget HTML 1.0-->
-
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">

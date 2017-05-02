@@ -45,6 +45,11 @@ class SearchAdvancedFilter extends TourInfo
     public $date_end; //Окончание периода, в который ищется начало тура (tour_info -> date_end) +
     public $tour_type_name; //Добавлено для перехода из строки меню
 
+    public $type;
+
+    //В зависимости от типа фильтра будет формироваться "шапка" сайта
+    const TYPE_FILTER_HOTELS = 'hotels';
+    const TYPE_FILTER_TOUR = 'tour';
     /**
      * TODO Формирование счета, сразу после подтверждения админом брони.
      * После оплаты счета, заявка становится подтвержденной и становятся доступны документы для скачки:
@@ -183,7 +188,7 @@ class SearchAdvancedFilter extends TourInfo
             'hpp.id as hotels_pay_period_id',
             'tp.price as min_full_price',
             'http.tour_type_transport_id',
-            's.selected_date'
+            '`s`.`selected_date`'
         ]);
         //$query->select(['date_begin'=>$date_begin,'date_end'=>$date_end]);
         //$query->distinct();
@@ -290,8 +295,6 @@ class SearchAdvancedFilter extends TourInfo
 
     public function searchInHotels($params)
     {
-
-
         $query = new Query();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -299,11 +302,7 @@ class SearchAdvancedFilter extends TourInfo
 
         $this->load($params);
 
-        //!!!!!!!!Если выбирается страна и/или город отправления, тогда переходим на обычный поиск туров
-        if ((isset($this->countryOut) && $this->countryOut > 0) || (isset($this->cityOut) && $this->cityOut > 0)){
-            return $this->search($params);
-        }
-        //!!!!!!!!
+
 
         if (isset($params['tour_type_name']) && $params['tour_type_name'] != "") {
             $this->tourTypes = TourType::findOne(['name' => $params['tour_type_name']])->id;
@@ -356,7 +355,8 @@ class SearchAdvancedFilter extends TourInfo
             'htof.id as type_food_id',
             'hpp.price as price',
             'hpp.id as hotels_pay_period_id',
-            '`s`.`selected_date`, "1" as days'
+            '`s`.`selected_date`, 1 as days, "hotels" as type'
+
         ]);
 
         //$query->select(['date_begin'=>$date_begin,'date_end'=>$date_end]);
@@ -364,10 +364,14 @@ class SearchAdvancedFilter extends TourInfo
 
         $query
             ->leftJoin('hotels_appartment as ha', 'ha.hotels_info_id = hi.id and ha.active=1')
-            ->leftJoin('hotels_appartment_has_hotels_type_of_food as htf', 'htf.id = ha.id')
+
+            ->leftJoin('hotels_pricing as hp', 'hp.hotels_appartment_id = ha.id and hp.active=1')
+            ->leftJoin('hotels_pay_period as hpp', 'hpp.hotels_pricing_id = hp.id and hpp.active=1')
+
+            ->leftJoin('hotels_appartment_has_hotels_type_of_food as htf', 'htf.id = ha.id and 
+            hp.hotels_type_of_food_id = htf.hotels_type_of_food_id')
             ->leftJoin('`hotels_type_of_food` `htof`', 'htof.id = htf.hotels_type_of_food_id')
-            ->leftJoin('hotels_pricing as hp', 'hp.hotels_info_id = hi.id and hp.active=1')
-            ->leftJoin('hotels_pay_period as hpp', 'hpp.hotels_pricing_id = hp.id and hpp.active=1');
+        ;
 
         $query->andFilterWhere(['hi.active' => 1])
             ->andWhere('s.selected_date between hpp.date_begin and hpp.date_end')

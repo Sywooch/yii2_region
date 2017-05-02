@@ -20,6 +20,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $updated_by
  *
  * @property \common\models\BusRouteHasBusRoutePoint[] $busRouteHasBusRoutePoints
+ * @property \common\models\BusRouteHasBusRoutePoint[] $brToBrpTimes
  * @property \common\models\BusRoutePoint[] $busRoutePoints
  * @property \common\models\BusWay[] $busWays
  */
@@ -85,6 +86,14 @@ class BusRoute extends \yii\db\ActiveRecord
      * @return \yii\db\ActiveQuery
      */
     public function getBusRouteHasBusRoutePoints()
+    {
+        return $this->hasMany(\common\models\BusRouteHasBusRoutePoint::className(), ['bus_route_id' => 'id'])->inverseOf('busRoute')->orderBy('position');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBrToBrpTimes()
     {
         return $this->hasMany(\common\models\BusRouteHasBusRoutePoint::className(), ['bus_route_id' => 'id'])->inverseOf('busRoute')->orderBy('position');
     }

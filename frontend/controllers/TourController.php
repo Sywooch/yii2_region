@@ -56,11 +56,24 @@ class TourController extends Controller
     public function actionIndex()
     {
         $searchModel = new SearchAdvancedFilter();
-        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider = $searchModel->searchInHotels(Yii::$app->request->queryParams);
+
+        //!!!!!!!!Если выбирается страна и/или город отправления, тогда переходим на обычный поиск туров
+        if ((array_key_exists('countryOut',$_REQUEST) && $_REQUEST['countryOut'] > 0)
+            || (array_key_exists('cityOut',$_REQUEST) && $_REQUEST['cityOut'] > 0))
+        {
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $typeSearch = SearchAdvancedFilter::TYPE_FILTER_TOUR;
+        }
+        else{
+            $dataProvider = $searchModel->searchInHotels(Yii::$app->request->queryParams);
+            $typeSearch = SearchAdvancedFilter::TYPE_FILTER_HOTELS;
+        }
+        //!!!!!!!!
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'type'=>$typeSearch,
         ]);
     }
 

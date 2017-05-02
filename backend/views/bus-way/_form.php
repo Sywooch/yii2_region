@@ -36,6 +36,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'price')->widget(\kartik\money\MaskMoney::className()) ?>
 
+    <label class="control-label">Период действия</label>
     <div class="input-group drp-container">
     <?php
     $addon = <<< HTML
