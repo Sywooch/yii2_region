@@ -29,10 +29,10 @@
                 </li>
                 <li>
                     <a href="/lk/docs">Документы</a>
-                </li>-->
+                </li>
                 <li>
                     <a href="/lk/agent-payment"> Финансы </a>
-                </li>
+                </li>-->
             </ul>
             <ul class="nav navbar-nav navbar-right">
 

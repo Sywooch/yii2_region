@@ -47,7 +47,7 @@ AppAsset::register($this);
             'items' => [
                 ['label' => 'Справочник "Статусы заказов"', 'url' => ['/sal-order-status']],
                 ['label' => 'Заказы','url'=>['/sal-order']],
-                ['label' => 'Онлайн заявки','url'=>['/salary-feedback']],
+                //['label' => 'Онлайн заявки','url'=>['/salary-feedback']],
                 ['label' => 'Справочник туристы(пассажиры, отдыхающие)', 'url' => ['/person']]
             ],
         ];
