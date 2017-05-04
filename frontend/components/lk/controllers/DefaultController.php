@@ -83,7 +83,7 @@ class DefaultController extends Controller
      */
     public function actionMpdfInvoice($id)
     {
-        if ($model->sal_order_status_id == 4 || $model->sal_order_status_id == 5) {
+
             $this->layout = 'invoice';
 
             Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
@@ -91,6 +91,7 @@ class DefaultController extends Controller
             //$headers->add('Content-Type', 'application/pdf');
 
             $model = SalOrder::findOne(['id' => $id]);
+        if ($model->sal_order_status_id == 4 || $model->sal_order_status_id == 5) {
             //Перерасчитываем процент агенства по полной стоимости
             $model->calcPriceTA();
 
