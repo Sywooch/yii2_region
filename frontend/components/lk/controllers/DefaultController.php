@@ -6,6 +6,7 @@ use common\models\AgentRekv;
 use common\models\Organization;
 use common\models\Person;
 use common\models\SalOrder;
+use common\models\SalOrderHasPerson;
 use frontend\components\lk\models\LkOrder;
 use frontend\models\GenTour;
 use frontend\models\SearchPerson;
@@ -91,6 +92,33 @@ class DefaultController extends Controller
             //$headers->add('Content-Type', 'application/pdf');
 
             $model = SalOrder::findOne(['id' => $id]);
+        $beginDay = new \DateTime($order->date_begin);
+        //$countDay = 1;
+        if (isset($order->days) && $order->days > 0){
+            $endDay = $beginDay->add(new \DateInterval("P".$order->days."D"));
+            $countDay = $order->days;
+        }
+        else {
+            $endDay = new \DateTime($order->date_end);
+            $countDay = $beginDay->diff($endDay)->days;
+        }
+        $count = SalOrderHasPerson::findAll(['sal_order_id'=>$model->id])->count();
+            $model->full_price = GenTour::calcFullPrice(
+                $model->tour_info_id,
+                $model->hotels_appartment_id,
+                $model->hotels_type_of_food_id,
+                $model->date_begin,
+                $model->date_end,
+                $countDay,
+                $count,
+                $countChild,
+                $childYears,
+                $model->date_begin,
+                $model->trans_info_id,
+                $model->trans_way_id,
+                $model->trans_info_id_reverse,
+                $model->trans_way_id_reverse
+            );
         if ($model->sal_order_status_id == 4 || $model->sal_order_status_id == 5) {
             //Перерасчитываем процент агенства по полной стоимости
             $model->calcPriceTA();
