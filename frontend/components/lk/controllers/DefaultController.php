@@ -102,7 +102,7 @@ class DefaultController extends Controller
             $endDay = new \DateTime($order->date_end);
             $countDay = $beginDay->diff($endDay)->days;
         }
-        $count = SalOrderHasPerson::findAll(['sal_order_id'=>$model->id]);
+        $count = SalOrderHasPerson::find()->andWhere(['sal_order_id'=>$model->id])->asArray()->all();
         $count = count($count);
             $model->full_price = GenTour::calcFullPrice(
                 $model->tour_info_id,
