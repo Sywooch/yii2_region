@@ -1824,7 +1824,7 @@ CREATE TABLE `user_role` (
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` VALUES (1,'Гость'),(2,'Зарегистрированный пользователь'),(3,'Турагенство'),(4,'Менеджер'),(5,'Администратор'),(6,'Супер-администратор');
+INSERT INTO `user_role` VALUES (1,'Гость'),(2,'Зарегистрированный пользователь'),(3,'Турагентство'),(4,'Менеджер'),(5,'Администратор'),(6,'Супер-администратор');
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 

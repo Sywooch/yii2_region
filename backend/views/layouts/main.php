@@ -53,12 +53,12 @@ AppAsset::register($this);
         ];
 
         $menuItems[] = [
-            'label' => 'Агенства',
+            'label' => 'Агентства',
             'items' => [
                 ['label' => 'Администрирование пользователей', 'url' => ['/user/admin']],
                 ['label' => ''],
-                ['label' => 'Стандартные проценты агенств', 'url' => ['/agent-default-percent']],
-                ['label' => 'Информация об агенствах', 'url' => ['/agent-rekv']],
+                ['label' => 'Стандартные проценты агентств', 'url' => ['/agent-default-percent']],
+                ['label' => 'Информация об агентствах', 'url' => ['/agent-rekv']],
                 ['label' => 'Установка процентов', 'url' => ['/agent-percent']],
                 ['label' => 'Выплаты', 'url' => ['/agent-payment']],
                 //['label' => 'Права пользователей','url'=>['/user-role']],

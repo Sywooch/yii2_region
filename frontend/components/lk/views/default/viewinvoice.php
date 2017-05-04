@@ -147,7 +147,7 @@ echo \kartik\grid\GridView::widget([
     </tr>
     <tr>
         <td></td>
-        <td style="width:67mm; font-weight:bold;  text-align:right;">Стоимость для турагенства:</td>
+        <td style="width:67mm; font-weight:bold;  text-align:right;">Стоимость для турагентства:</td>
         <td style="width:27mm; font-weight:bold;  text-align:right;"> <?= $model->price_ta ?> руб. </td>
     </tr>
 

@@ -548,15 +548,15 @@ return [
 
     'Create Agent Default Percent' => 'Создать новую запись',
 
-    'Agent Rekvs' => 'Информация об агенствах',
-    'Agent Rekv' => 'Информация об агенстве',
+    'Agent Rekvs' => 'Информация об агентствах',
+    'Agent Rekv' => 'Информация об агентстве',
     'Create Agent Rekv' => 'Заполнить реквизиты нового агента',
     'User ID' => 'Пользователи',
     'User' => 'Пользователь',
 
-    'Agent Percents' => 'Проценты агенств',
-    'Agent Percent' => 'Проценты агенства',
-    'Create Agent Percent' => 'Уставновка нового процента агенству',
+    'Agent Percents' => 'Проценты агентств',
+    'Agent Percent' => 'Проценты агентства',
+    'Create Agent Percent' => 'Уставновка нового процента агентству',
 
     'Agent Payments' => 'Выплаты агентствам',
     'Agent Payment' => 'Выплаты агентству',
@@ -564,7 +564,7 @@ return [
     'Payment' => 'Сумма',
     'Comment' => 'Комментарий',
 
-    'Agent Price' => 'Стоимость для агенства',
+    'Agent Price' => 'Стоимость для агентства',
 
 
 
