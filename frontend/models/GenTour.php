@@ -234,6 +234,10 @@ class GenTour extends \yii\db\ActiveRecord
                 }
             }
         }
+
+        //Добавляем проверку на наличие скидок (акция раннего бронирования и горячие туры)
+        $tourModel = TourInfo::findOne($tourInfoId);
+
         return $fullPrice;
     }
 
