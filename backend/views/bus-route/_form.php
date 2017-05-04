@@ -15,6 +15,14 @@ use yii\widgets\ActiveForm;
         'isNewRecord' => ($model->isNewRecord) ? 1 : 0
     ]
 ]);
+/*\mootensai\components\JsBlock::widget(['viewFile' => '_script', 'pos' => \yii\web\View::POS_END,
+    'viewParams' => [
+        'class' => 'BrToBrpTime',
+        'relID' => 'br-to-brp-time',
+        'value' => \yii\helpers\Json::encode($model->brToBrpTimes),
+        'isNewRecord' => ($model->isNewRecord) ? 1 : 0
+    ]
+]);*/
 \mootensai\components\JsBlock::widget(['viewFile' => '_script', 'pos' => \yii\web\View::POS_END,
     'viewParams' => [
         'class' => 'BusWay',
@@ -23,6 +31,11 @@ use yii\widgets\ActiveForm;
         'isNewRecord' => ($model->isNewRecord) ? 1 : 0
     ]
 ]);
+
+if ($model->isNewRecord){
+    $model->date_begin = date('Y-m-d');
+}
+
 ?>
 
 <div class="bus-route-form">
@@ -35,10 +48,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
 
-
-
     <label class="control-label">Период действия</label>
-    <div class="input-group drp-container">
+    <div class="input-group drp-container" style="margin-bottom: 10px;">
 
     <?php
 
@@ -48,37 +59,50 @@ use yii\widgets\ActiveForm;
 </span>
 HTML;
     echo \kartik\daterange\DateRangePicker::widget([
-        'name'=>'rangedate1',
+            'model' => $model,
+            'attribute' => 'rangedate1',
+            'startAttribute' => 'date_begin',
+            'endAttribute' => 'date_end',
+        //'name'=>'rangedate1',
         'convertFormat'=>true,
         'useWithAddon'=>true,
         //'language'=>'Russian',             // from demo config
         'hideInput'=>false,           // from demo config
         'presetDropdown'=>false, // from demo config
         'pluginOptions'=>[
-            'locale'=>['format'=>'d.m.y'], // from demo config
-            'separator'=>' - ',       // from demo config
+            'locale'=>['format'=>'Y-m-d'], // from demo config
+            'separator'=>' - ',//from demo config
             'opens'=>'left'
         ]
     ]).$addon;
     ?>
     </div>
 
+    <?= $form->field($model, 'b_reverse')->checkbox() ?>
+
     <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
     <?php
     $forms = [
+        /*[
+            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode(Yii::t('app', 'Тестовые маршрутные точки')),
+            'content' => $this->render('_formBrToBrpTime', [
+                'row' => \yii\helpers\ArrayHelper::toArray($model->brToBrpTimes),
+            ]),
+        ],*/
         [
             'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode(Yii::t('app', 'BusRouteHasBusRoutePoint')),
             'content' => $this->render('_formBusRouteHasBusRoutePoint', [
                 'row' => \yii\helpers\ArrayHelper::toArray($model->busRouteHasBusRoutePoints),
             ]),
         ],
-        [
+        /*[
             'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode(Yii::t('app', 'BusWay')),
             'content' => $this->render('_formBusWay', [
                 'row' => \yii\helpers\ArrayHelper::toArray($model->busWays),
             ]),
-        ],
+        ],*/
+
     ];
     echo kartik\tabs\TabsX::widget([
         'items' => $forms,

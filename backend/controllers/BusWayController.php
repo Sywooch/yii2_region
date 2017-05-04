@@ -3,6 +3,9 @@
 namespace backend\controllers;
 
 use backend\models\SearchBusWay;
+use common\models\BusRoute;
+use common\models\BusRouteHasBusRoutePoint;
+use common\models\BusRoutePoint;
 use common\models\BusWay;
 use Yii;
 use yii\filters\VerbFilter;
@@ -81,6 +84,36 @@ class BusWayController extends Controller
         $model = new BusWay();
 
         if ($model->loadAll(Yii::$app->request->post(), ['BusReservation']) && $model->saveAll(['BusReservation'])) {
+            //Добавляем новый путевой лист с обраткой, если существует соответствующий маршрут
+            if ($model->b_reverse == 1){
+
+                //TODO поиск маршрута не только по id, но и по наличию автономного маршрута
+                $revId = BusRoute::find()->andWhere(['id'=>$model->bus_route_id])
+                ->one()->reverse_id;
+                if (isset($revId) && $revId >= 0) {
+                    //Создаем копию модели с обратным маршрутом
+                    $reverseModel = new BusWay();
+                    $reverseModel->load(['BusWay'=>$model->getAttributes()]);
+                    $reverseModel->bus_route_id = $revId;
+                    $reverseModel->date_begin = $model->reverse_date_begin;
+                    $reverseModel->date_end = $model->reverse_date_end;
+                    $brModel = BusRouteHasBusRoutePoint::find()
+                        ->andWhere(['bus_route_id'=>$reverseModel->bus_route_id])
+                        ->andWhere('first_point = 1 OR end_point = 1')
+                        ->orderBy('position')
+                        ->all();
+                    $name = '';
+                    foreach ($brModel as $value){
+                        $name .= BusRoutePoint::findOne(['id'=>$value->bus_route_point_id])->name . " - ";
+                    }
+                    $name .= $reverseModel->date_begin;
+                    $reverseModel->name = $name;//Вставить название из "старого" маршрута
+                    $reverseModel->save();
+                    /*$revId = $reverseModel->id;
+                    $model->reverse_id = $revId;
+                    $model->save();*/
+                }
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -104,6 +137,35 @@ class BusWayController extends Controller
         }
 
         if ($model->loadAll(Yii::$app->request->post(), ['BusReservation']) && $model->saveAll(['BusReservation'])) {
+            if ($model->b_reverse == 1){
+
+                //TODO поиск маршрута не только по id, но и по наличию автономного маршрута
+                $revId = BusRoute::find()->andWhere(['id'=>$model->bus_route_id])
+                    ->one()->reverse_id;
+                if (isset($revId) && $revId >= 0) {
+                    //Создаем копию модели с обратным маршрутом
+                    $reverseModel = new BusWay();
+                    $reverseModel->load(['BusWay'=>$model->getAttributes()]);
+                    $reverseModel->bus_route_id = $revId;
+                    $reverseModel->date_begin = $model->reverse_date_begin;
+                    $reverseModel->date_end = $model->reverse_date_end;
+                    $brModel = BusRouteHasBusRoutePoint::find()
+                        ->andWhere(['bus_route_id'=>$reverseModel->bus_route_id])
+                        ->andWhere('first_point = 1 OR end_point = 1')
+                        ->orderBy('position')
+                        ->all();
+                    $name = '';
+                    foreach ($brModel as $value){
+                        $name .= BusRoutePoint::findOne(['id'=>$value->bus_route_point_id])->name . " - ";
+                    }
+                    $name .= $reverseModel->date_begin;
+                    $reverseModel->name = $name;//Вставить название из "старого" маршрута
+                    $reverseModel->save();
+                    /*$revId = $reverseModel->id;
+                    $model->reverse_id = $revId;
+                    $model->save();*/
+                }
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

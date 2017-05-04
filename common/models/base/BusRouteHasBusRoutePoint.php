@@ -6,6 +6,7 @@ namespace common\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\Exception;
 
 /**
  * This is the base-model class for table "bus_route_has_bus_route_point".
@@ -135,26 +136,62 @@ abstract class BusRouteHasBusRoutePoint extends \yii\db\ActiveRecord
     }
 
     /**
+     * Конструирование обратного маршрута
      * @param $sourceId
      * @param $destinationId
      * @return bool
      */
-    public function reverseRouteSave($sourceId, $destinationId){
+    public static function reverseRouteSave($sourceId, $destinationId){
         if ($sourceId === 0){
             return false;
         }
         //Сохраняем обратный путь
         //Получаем текущий путь
+        //$route = \common\models\BusRoute::findOne(['id'=>$sourceId]);
         $model = self::find()
             ->andWhere(['bus_route_id'=>$sourceId])
         ;
-        $points = $model->asArray()->all();
-        $newPoints = array();
-        //Инвертируем путь
-        $lenPoints = count($points);
-        foreach ($points as $key => $value){
+        $newPoints = $model->orderBy(['position'=>SORT_DESC])->asArray()->all();
+        //$newPoints = array_reverse($points);
+        //Запихиваем пересохранение в единую транзакцию
+        $transaction = Yii::$app->db->beginTransaction();
 
+        $mRouteId = $destinationId;
+        $counter = 10;
+
+        //TODO Что-то надо придумать со временем (сейчас не пересчитывает)
+        foreach ($newPoints as $key => $value){
+            //Получаем все атрибуты и убираем из них ID
+            $mBrpCur = array_diff($value,['id','date_add','date_edit','created_by',
+                'update_by','lock']);
+            $mBrpCur['bus_route_id'] = $mRouteId;
+
+            if ($mBrpCur['first_point'] == "1" && $mBrpCur['end_point'] == "0"){
+                $mBrpCur['first_point'] = 0;
+                $mBrpCur['end_point'] = 1;
+            }
+            elseif ($mBrpCur['first_point'] == "0" && $mBrpCur['end_point'] == "1"){
+                $mBrpCur['first_point'] = 1;
+                $mBrpCur['end_point'] = 0;
+            }
+            $mBrpCur['position'] = $counter;
+            $counter = $counter + 10;
+            //Создаем новое подключение к БД
+            //и сохраняем все данные
+            $bModel = new \common\models\BusRouteHasBusRoutePoint();
+            $bModel->load(['BusRouteHasBusRoutePoint' => $mBrpCur]);
+            try {
+                $bModel->save();
+            }
+            catch(Exception $e){
+                $transaction->rollBack();
+                return false;
+            }
+            unset ($mBrpCur);
+            unset ($bModel);
         }
+
+        $transaction->commit();
 
         return true;
     }

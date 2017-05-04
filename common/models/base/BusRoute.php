@@ -18,6 +18,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $date_edit
  * @property integer $created_by
  * @property integer $updated_by
+ * @property integer $reverse_id
  *
  * @property \common\models\BusRouteHasBusRoutePoint[] $busRouteHasBusRoutePoints
  * @property \common\models\BusRouteHasBusRoutePoint[] $brToBrpTimes
@@ -28,7 +29,7 @@ class BusRoute extends \yii\db\ActiveRecord
 {
     use \mootensai\relation\RelationTrait;
 
-    public $bReverse;
+    public $b_reverse; //Определяет, нужно ли строить обратный маршрут
     public $rangedate1;
 
     /**
@@ -40,7 +41,7 @@ class BusRoute extends \yii\db\ActiveRecord
             [['name'], 'required'],
             [['name'], 'string'],
             [['date', 'date_begin', 'date_end', 'date_add', 'date_edit'], 'safe'],
-            [['created_by', 'updated_by'], 'integer'],
+            [['created_by', 'updated_by','b_reverse'], 'integer'],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ];
@@ -79,6 +80,7 @@ class BusRoute extends \yii\db\ActiveRecord
             'date_end' => Yii::t('app', 'Date End'),
             'date_add' => Yii::t('app', 'Date Add'),
             'date_edit' => Yii::t('app', 'Date Edit'),
+            'b_reverse' => Yii::t('app','Формирование обратного маршрута')
         ];
     }
 
@@ -93,10 +95,10 @@ class BusRoute extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBrToBrpTimes()
+    /*public function getBrToBrpTimes()
     {
         return $this->hasMany(\common\models\BusRouteHasBusRoutePoint::className(), ['bus_route_id' => 'id'])->inverseOf('busRoute')->orderBy('position');
-    }
+    }*/
 
     /**
      * @return \yii\db\ActiveQuery

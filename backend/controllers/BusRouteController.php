@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\SearchBusRoute;
 use common\models\BusRoute;
+use common\models\BusRouteHasBusRoutePoint;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -28,7 +29,8 @@ class BusRouteController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'add-bus-route-has-bus-route-point', 'add-bus-way'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'add-bus-route-has-bus-route-point', 'add-bus-way',
+                        'test'],
                         'roles' => ['@']
                     ],
                     [
@@ -85,6 +87,22 @@ class BusRouteController extends Controller
         $model = new BusRoute();
 
         if ($model->loadAll(Yii::$app->request->post(), ['BusWay']) && $model->saveAll(['BusWay'])) {
+            //Формируем обратный маршрут, если выбрана галочка "Формирование обратного маршрута
+            if ($model->b_reverse == 1){
+                $revId = $model->reverse_id;
+                if (!isset($revId) || $revId <= 0) {
+                    //Создаем копию модели с обратным маршрутом
+                    $reverseModel = new BusRoute();
+                    $reverseModel->load(['BusRoute'=>$model->getAttributes()]);
+                    $reverseModel->name = "Обратный маршрут: " . $reverseModel->name;//Вставить название из "старого" маршрута
+                    $reverseModel->save();
+                    $revId = $reverseModel->id;
+                    $model->reverse_id = $revId;
+                    $model->save();
+                }
+
+                BusRouteHasBusRoutePoint::reverseRouteSave($model->id, $revId);
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -108,7 +126,26 @@ class BusRouteController extends Controller
         }
 
         if ($model->loadAll(Yii::$app->request->post(), ['busWays']) && $model->saveAll(['busWays'])) {
+            if ($model->b_reverse == 1){
+                $revId = $model->reverse_id;
+                if (!isset($revId) || $revId <= 0) {
+                    //Создаем копию модели с обратным маршрутом
+                    $reverseModel = new BusRoute();
+                    $reverseModel->load(['BusRoute'=>$model->getAttributes()]);
+                    $reverseModel->name = "Обратный маршрут: " . $reverseModel->name;//Вставить название из "старого" маршрута
+                    $reverseModel->save();
+                    $revId = $reverseModel->id;
+                    $model->reverse_id = $revId;
+                    $model->save();
+                }
+
+                BusRouteHasBusRoutePoint::reverseRouteSave($model->id, $revId);
+            }
+            /*return $this->render('update', [
+                'model' => $model,
+            ]);*/
             return $this->redirect(['view', 'id' => $model->id]);
+
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -222,13 +259,19 @@ class BusRouteController extends Controller
     {
         if (Yii::$app->request->isAjax) {
             $row = Yii::$app->request->post('BusRouteHasBusRoutePoint');
-            if ((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
+            if ((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add'){
                 $row[] = [];
+            }
+            $key = array_keys($row);
+            $l = end($key)-1;
+            $row[$l+1]['position'] = $row[$l]['position'] + 10;
+
             return $this->renderAjax('_formBusRouteHasBusRoutePoint', ['row' => $row]);
         } else {
             throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
         }
     }
+
 
     /**
      * Action to load a tabular form grid
@@ -248,5 +291,11 @@ class BusRouteController extends Controller
         } else {
             throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
         }
+    }
+
+
+
+    public function actionTest(){
+        BusRouteHasBusRoutePoint::reverseRouteSave(1,2);
     }
 }

@@ -35,6 +35,11 @@ class BusWay extends \yii\db\ActiveRecord
     use \mootensai\relation\RelationTrait;
 
     public $rangedate1;
+    public $rangedate2;
+    //Добавляем переменные для автоматического создания обратного путевого листа
+    public $b_reverse;
+    public $reverse_date_begin;
+    public $reverse_date_end;
 
     /**
      * @inheritdoc
@@ -42,10 +47,11 @@ class BusWay extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'bus_info_id', 'bus_route_id'], 'required'],
+            [['name', 'bus_info_id', 'bus_route_id','price'], 'required'],
             [['name'], 'string'],
-            [['bus_info_id', 'active', 'ended', 'bus_route_id', 'created_by', 'updated_by', 'lock'/*, 'stop'*/], 'integer'],
-            [['date_begin', 'date_end', 'date_add', 'date_edit'], 'safe'],
+            [['bus_info_id', 'active','b_reverse', 'ended', 'bus_route_id', 'created_by', 'updated_by', 'lock'/*, 'stop'*/], 'integer'],
+            [['date_begin', 'date_end', 'date_add', 'date_edit',
+                'reverse_date_begin','reverse_date_end'], 'safe'],
             /*['date_begin', 'date', 'timestampAttribute' => 'date_begin'],
             ['date_end', 'date', 'timestampAttribute' => 'date_end'],
             ['date_begin','compare','compareAttribute'=>'date_end', 'operator'=>'<','enableClientValidation' => false],

@@ -31,18 +31,24 @@
                 'columnOptions' => ['width' => '200px']
             ],
             'first_point' => [
+                'label' => Yii::t('app', 'First Point'),
                 'type' => TabularForm::INPUT_CHECKBOX,
                 'options' => [
                     'style' => 'position : relative; margin-top : -9px'
                 ]
             ],
-            'end_point' => ['type' => TabularForm::INPUT_CHECKBOX,
+            'end_point' => [
+                'label' => Yii::t('app', 'End Point'),
+                'type' => TabularForm::INPUT_CHECKBOX,
                 'options' => [
                     'style' => 'position : relative; margin-top : -9px'
                 ]
             ],
-            'position' => ['type' => TabularForm::INPUT_TEXT],
-            'date_point_forward' => ['type' => TabularForm::INPUT_WIDGET,
+            'position' => [
+                'label' => Yii::t('app', 'Position'),
+                'type' => TabularForm::INPUT_TEXT],
+            /*'date_point_forward' => [
+                    'type' => TabularForm::INPUT_WIDGET,
                 'widgetClass' => \kartik\datecontrol\DateControl::classname(),
                 'options' => [
                     'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
@@ -58,9 +64,11 @@
                         ]
                     ],
                 ]
-            ],
-            'time_pause' => ['type' => TabularForm::INPUT_TEXT],
-            'date_point_reverse' => ['type' => TabularForm::INPUT_WIDGET,
+            ],*/
+            'time_pause' => [
+                'label' => Yii::t('app', 'Time Pause'),
+                'type' => TabularForm::INPUT_TEXT],
+            /*'date_point_reverse' => ['type' => TabularForm::INPUT_WIDGET,
                 'widgetClass' => \kartik\datecontrol\DateControl::classname(),
                 'options' => [
                     'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
@@ -73,7 +81,7 @@
                         ]
                     ],
                 ]
-            ],
+            ],*/
             'del' => [
                 'type' => 'raw',
                 'label' => '',

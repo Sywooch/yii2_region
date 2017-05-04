@@ -19,8 +19,10 @@ class BusWay extends BaseBusWay
             [
                 [['name', 'bus_info_id', 'bus_route_id'], 'required'],
                 [['name'], 'string'],
-                [['bus_info_id', 'active', 'ended', 'bus_route_id', 'created_by', 'updated_by', 'lock'], 'integer'],
-                [['date_begin', 'date_end', 'date_add', 'date_edit'], 'safe'],
+                [['bus_info_id', 'active','b_reverse', 'ended',
+                    'bus_route_id', 'created_by', 'updated_by', 'lock'], 'integer'],
+                [['date_begin', 'date_end', 'date_add', 'date_edit',
+                    'reverse_date_begin','reverse_date_end'], 'safe'],
                 [['price'], 'number'],
                 [['path_time'], 'string', 'max' => 45],
                 [['lock'], 'default', 'value' => '0'],

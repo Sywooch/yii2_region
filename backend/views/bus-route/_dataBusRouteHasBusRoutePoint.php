@@ -14,12 +14,18 @@ $gridColumns = [
         'attribute' => 'busRoutePoint.name',
         'label' => Yii::t('app', 'Bus Route Point')
     ],
-    'first_point:boolean',
-    'end_point:boolean',
+    [
+        'attribute' => 'first_point',
+        'label' => Yii::t('app', 'First Point'),
+    ],
+    [
+        'attribute' => 'end_point',
+        'label' => Yii::t('app', 'End Point'),
+    ],
     'position',
-    'date_point_forward',
+    //'date_point_forward',
     'time_pause:ntext',
-    'date_point_reverse',
+    //'date_point_reverse',
     [
         'class' => 'yii\grid\ActionColumn',
         'controller' => 'bus-route-has-bus-route-point'

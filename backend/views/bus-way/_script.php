@@ -18,4 +18,5 @@ use yii\helpers\Url;
     function delRow<?= $class ?>(id) {
         $('#add-<?= $relID?> tr[data-key=' + id + ']').remove();
     }
+
 </script>
