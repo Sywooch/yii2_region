@@ -60,7 +60,7 @@ AppAsset::register($this);
                 ['label' => 'Стандартные проценты агентств', 'url' => ['/agent-default-percent']],
                 ['label' => 'Информация об агентствах', 'url' => ['/agent-rekv']],
                 ['label' => 'Установка процентов', 'url' => ['/agent-percent']],
-                ['label' => 'Выплаты', 'url' => ['/agent-payment']],
+                //['label' => 'Выплаты', 'url' => ['/agent-payment']],
                 //['label' => 'Права пользователей','url'=>['/user-role']],
                 //['label' => 'Справочник Контрагенты (организации)','url'=>['/kontragent-persons']]
             ],
