@@ -192,6 +192,43 @@ class ReservationController extends Controller
                 $order->user_id = Yii::$app->user->id;
             }
         }
+        elseif($order->isNewRecord && $request->get('hotels_appartment_id')){
+            //$beginDay = new \DateTime($order->date_begin . HotelsPricing::CHECKOUT_TIME);
+            $countDay = 1;
+            /*if (isset($order->days) && $order->days > 0){
+                $endDay = $beginDay->add(new \DateInterval("P".$order->days."D"));
+                $countDay = $order->days;
+            }
+            else {
+                $endDay = new \DateTime($order->date_end . HotelsPricing::CHECKOUT_TIME);
+                $countDay = $beginDay->diff($endDay)->days;
+            }*/
+
+            $order->load($request->get());
+            $order->no_request = true;
+            if (isset($order->hotels_appartment_id)) {
+                //Заполняем (перезаполняем) делаем запрос к БД для
+                //Информация об отеле
+                $order->hotels_info_id = $order->getHotelsInfoByAppartmentId($order->hotels_appartment_id);
+                $order->full_price = GenTour::calcFullPrice(
+                    $order->tour_info_id,
+                    $order->hotels_appartment_id,
+                    $order->type_of_food_id,
+                    $order->date_begin,
+                    $order->date_end,
+                    $countDay,
+                    $order->tourist_count,
+                    $order->child_count,
+                    $order->child_years,
+                    $order->date_begin
+                );
+            }
+            if (isset($order->hotels_info_id)) {
+                $order->country_id = $order->getCountryByHotels($order->hotels_info_id);
+                //$order->tour_info_id = $order->getTourInfoByHotelsId($order->hotels_info_id);
+                $order->user_id = Yii::$app->user->id;
+            }
+        }
         elseif ($order->isNewRecord && $order->load($request->get(),'')) {
             $order->no_request = false;
             //Выбран готовый заказ из фильтра. Добавляем данные
@@ -204,6 +241,7 @@ class ReservationController extends Controller
              * 6. Дата начала проживания в номере / для однодневных туров и экскурсий - дата выезда
              * 7. Количество дней проживания в отеле
              * */
+            //TODO Добавить выбор только гостиницы
             $date = new Tour();
             $date = $date->datePeriodDays($order->date_begin,$order->days);
             $beginDay = $date['begin'];
@@ -214,6 +252,7 @@ class ReservationController extends Controller
 
             /*TODO !!!Проверить будет ли выбран только отель, или уже с комнатой*/
             //TODO !!!Предусмотреть возможность выбора типа номера во фронтенде
+
             $tour = TourInfo::findOne(['id'=>$order->tour_info_id]);
             $hotel = $tour->getHotelsInfo()->one();
             $order->hotels_info_id = $hotel->id;
