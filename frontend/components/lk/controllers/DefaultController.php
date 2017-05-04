@@ -83,45 +83,48 @@ class DefaultController extends Controller
      */
     public function actionMpdfInvoice($id)
     {
-        $this->layout = 'invoice';
+        if ($model->sal_order_status_id == 4 || $model->sal_order_status_id == 5) {
+            $this->layout = 'invoice';
 
-        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
-        $headers = Yii::$app->response->headers;
-        //$headers->add('Content-Type', 'application/pdf');
+            Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+            $headers = Yii::$app->response->headers;
+            //$headers->add('Content-Type', 'application/pdf');
 
-        $model = SalOrder::findOne(['id' => $id]);
-        //Перерасчитываем процент агенства по полной стоимости
-        $model->calcPriceTA();
+            $model = SalOrder::findOne(['id' => $id]);
+            //Перерасчитываем процент агенства по полной стоимости
+            $model->calcPriceTA();
 
 
-        $order = new LkOrder();
+            $order = new LkOrder();
 
-        $tableInvoice = new ArrayDataProvider([
-            'allModels' => $order->genInvoiceTable($id)
-        ]);
-        //Получаем реквизиты организации (по-умолчанию, она у нас одна)
-        $rekv = Organization::findOne(['id'=>1]);
-        //Получаем информацию о агентстве
-        $agent = AgentRekv::findOne(['user_id'=>$model->created_by, 'active'=>1]);
+            $tableInvoice = new ArrayDataProvider([
+                'allModels' => $order->genInvoiceTable($id)
+            ]);
+            //Получаем реквизиты организации (по-умолчанию, она у нас одна)
+            $rekv = Organization::findOne(['id' => 1]);
+            //Получаем информацию о агентстве
+            $agent = AgentRekv::findOne(['user_id' => $model->created_by, 'active' => 1]);
 
-        //$model = $this->findModel();
-        $pdf = new Pdf([
-            'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
-            'content' => $this->renderPartial('viewinvoice',
-                ['model' => $model, 'tableInvoice' => $tableInvoice, 'rekv' => $rekv, 'agent' => $agent]),
-            'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
-            'cssInline' => '.img-circle {border-radius: 50%;}',
-            'options' => [
-                /*'title' => $model->title,*/
-                'subject' => 'PDF'
-            ],
-            'methods' => [
-                'SetHeader' => ['Лайф Тур Вояж'],
-                'SetFooter' => ['|{PAGENO}|'],
-            ]
-        ]);
+            //$model = $this->findModel();
+            $pdf = new Pdf([
+                'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
+                'content' => $this->renderPartial('viewinvoice',
+                    ['model' => $model, 'tableInvoice' => $tableInvoice, 'rekv' => $rekv, 'agent' => $agent]),
+                'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+                'cssInline' => '.img-circle {border-radius: 50%;}',
+                'options' => [
+                    /*'title' => $model->title,*/
+                    'subject' => 'PDF'
+                ],
+                'methods' => [
+                    'SetHeader' => ['Лайф Тур Вояж'],
+                    'SetFooter' => ['|{PAGENO}|'],
+                ]
+            ]);
 
-        return $pdf->render();
+            return $pdf->render();
+        }
+        return false;
 
     }
     public function actionMpdfVoucher($id)
