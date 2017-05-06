@@ -219,9 +219,10 @@ class Reservation extends ActiveRecord
         //Получаем отели во всех активных турах
         $query = \common\models\HotelsInfo::find();
         $query->select('hotels_info.*, ti.id as tour_info_id')
-            ->innerJoin('tour_info ti', 'ti.hotels_info_id = hotels_info.id');
-        $query->andWhere(['hotels_info.active' => 1, 'ti.active' => 1])
-            ->andWhere(['>=','ti.date_end',date('Y-m-d')]);
+            ->leftJoin('tour_info ti', 'ti.hotels_info_id = hotels_info.id 
+            and ti.active = 1 and ti.date_end >= '."'".date('Y-m-d')."'");
+
+        $query->andWhere(['hotels_info.active' => 1]);
 
         if ($appartment_id != null){
             $query->innerJoin('hotels_appartment ha','ha.hotels_info_id = hotels_info.id');

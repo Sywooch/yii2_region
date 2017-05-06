@@ -80,7 +80,7 @@ class SalOrder extends \yii\db\ActiveRecord
     {
         return [
             [['date', 'date_begin', 'date_end', 'date_add', 'date_edit', 'hotel_date_begin', 'hotel_date_end'], 'safe'],
-            [['sal_order_status_id', 'user_id', 'tour_info_id', 'hotels_type_of_food_id'], 'required'],
+            [['sal_order_status_id', 'user_id', /*'tour_info_id',*/ 'hotels_type_of_food_id'], 'required'],
             [['sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id',
                 'trans_info_id', 'trans_way_id', 'trans_info_id_reverse', 'trans_way_id_reverse', 'hotels_type_of_food_id',
                 'user_id', 'tour_info_id', 'created_by', 'updated_by', 'lock', 'hotels_appartment_full_sale', 'hotels_pay_period_id'], 'integer'],

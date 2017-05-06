@@ -10,6 +10,7 @@ namespace frontend\models;
 
 use common\models\HotelsInfo;
 use common\models\HotelsPayPeriod;
+use common\models\Organization;
 use common\models\TourInfo;
 use Yii;
 
@@ -192,30 +193,54 @@ class GenTour extends \yii\db\ActiveRecord
 
         $hotelPrice = HotelsPayPeriod::calculatedAppartmentPrice($hotelsAppartmentId, $dateBegin, $countDay, $typeOfFood, $countTourist, $countChild, $childYears);
         $transPrice = self::getTourTransport($tourInfoId, $hotelsBegin, $hotelsEnd, $hotel_enable,
-            $trans_info_id, $trans_way_id, $trans_info_id_reverse, $trans_way_id_reverse);
+            $trans_info_id, $trans_way_id, $trans_info_id_reverse, $trans_way_id_reverse,$countTourist, $countChild, $childYears);
 
         $otherPrice = 0; //self::calcOtherPrice($tourInfoId);
+
+        //Добавляем проверку на наличие скидок (акция раннего бронирования и горящие туры)
+        $percent = 1;
+        if (isset($tourInfoId) && $tourInfoId > 0){
+            $tourModel = TourInfo::findOne($tourInfoId);
+            $earlyDays = Organization::findOne('id = 1')->early_day;
+            //Получаем даты
+            $dateTour = new \DateTime($tourModel->date_begin);
+            $dateSal = new \DateTime();
+            $days = $dateTour->diff($dateSal)->d;
+            $hotTour = $tourModel->hot;
+            $hotPercent = $tourModel->hot_percent;
+            $earlyTour = $tourModel->early;
+            $earlyPercent = $tourModel->early_percent;
+
+            if ($hotTour == "1" && is_int($hotPercent) && $hotPercent > 0){
+                $percent = (100 - $hotPercent)/100;
+            }
+            elseif ($earlyDays <= $days && $earlyTour == "1" && is_int($earlyPercent) && $earlyPercent > 0){
+                $percent = (100 - $earlyPercent)/100;
+            }
+        }
+
         //формируем массив с ценой
         $typeT = $transPrice[0];
         unset ($transPrice[0]);
+
         if ($typeT === 1){
 
             //TODO Ошибка при формировании цены, проверить
             $transPriceTo = 0;
             $transPriceOut = 0;
             if ($transPrice['to']){
-                $transPriceOut = $transPrice['to']->price;
+                $transPriceTo = $transPrice['to']->price*$countTourist;
             }
             if ($transPrice['out']){
-                $transPriceOut = $transPrice['out']->price;
+                $transPriceOut = $transPrice['out']->price*$countTourist;
             }
 
 
             $fullPrice['price'] =
-                $transPriceTo
+                ($transPriceTo
                 + $transPriceOut
                 + $hotelPrice
-                + $otherPrice;
+                + $otherPrice)*$percent;
         }
 
         elseif($typeT === 2) {
@@ -224,19 +249,21 @@ class GenTour extends \yii\db\ActiveRecord
                 $price = ($value['to']->price ? $value['to']->price : 0) + ($value['out']->price ? $value['out']->price : 0);
                 if ($price != 0){
                     $fullPrice[$key][0] = true;
-                    $fullPrice[$key]['price'] = $price + $hotelPrice;
+                    $fullPrice[$key]['price'] = ($price + $hotelPrice)*$percent;
                     $fullPrice[$key]['to'] = $value['to']->id;
                     $fullPrice[$key]['out'] = $value['out']->id;
                 }
                 else{
                     $fullPrice[$key][0] = false;
-                    $fullPrice[$key]['hotelPrice'] = $hotelPrice;
+                    $fullPrice[$key]['hotelPrice'] = $hotelPrice*$percent;
                 }
+            }
+            if (is_array($fullPrice) && count($fullPrice) == 0){
+                $fullPrice['price'] = $hotelPrice;
             }
         }
 
-        //Добавляем проверку на наличие скидок (акция раннего бронирования и горячие туры)
-        $tourModel = TourInfo::findOne($tourInfoId);
+
 
         return $fullPrice;
     }

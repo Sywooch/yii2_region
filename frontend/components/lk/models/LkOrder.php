@@ -65,7 +65,7 @@ class LkOrder extends SalOrder
                     'tourist_count', 'child_count', 'child_years', 'trans_info_id',
                     'trans_info_id_reverse', 'city_id', 'country_id', 'stars_id', 'days'
                 ], 'safe'],
-                [['sal_order_status_id', 'user_id', 'tour_info_id', 'hotels_type_of_food_id'], 'required'],
+                [['sal_order_status_id', 'user_id', /*'tour_info_id',*/ 'hotels_type_of_food_id'], 'required'],
                 [['sal_order_status_id', 'enable', 'hotels_info_id', 'hotels_appartment_id',
                     'trans_info_id',
                     'trans_way_id',

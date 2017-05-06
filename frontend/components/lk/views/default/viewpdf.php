@@ -130,7 +130,7 @@ $this->title = $model->id;
     </div>
 
     <?php
-    if (is_object($providerTransportTo)) {
+    if (is_object($providerTransportTo) && $providerTransportTo->allModels[0] != 0) {
         ?>
         <div class="row">
             <div class="panel panel-info">
@@ -208,7 +208,7 @@ $this->title = $model->id;
     <?php } ?>
 
     <?php
-    if (is_object($providerTransportOut)) {
+    if (is_object($providerTransportOut) && $providerTransportOut->allModels[0] != 0) {
         ?>
         <div class="row">
             <div class="panel panel-info">

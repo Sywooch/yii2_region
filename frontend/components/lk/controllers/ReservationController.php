@@ -87,7 +87,7 @@ class ReservationController extends Controller
         //$order = $model->processChooseTour();
         /*TODO Произвести автоматический расчет суммы*/
         $order->sal_order_status_id = LkOrder::SAL_STATUS_DEFAULT;
-
+        $order->date = date('Y-m-d H:i');
 
         //$order->full_price = 25000;
         //$dayCount = $order;
@@ -101,19 +101,21 @@ class ReservationController extends Controller
             $order->loadTrans();
 
             $date = new Tour();
-            $date = $date->datePeriodDays($order->date_begin, $order->days, $order->date_end);
+            $date = $date->datePeriodDays($order->hotel_date_begin, $order->days, $order->hotel_date_end);
             $beginDay = $date['begin'];
             $endDay = $date['end'];
             $countDay = $date['period'];
 
-            $order->hotel_date_begin = $beginDay;
-            $order->hotel_date_end = $endDay;
+            //TODO Автоматическое создание даты тура (если это тур), иначе просто проживание.
+            //Сейчас работает только иначе
+            $order->date_begin = $beginDay;
+            $order->date_end = $endDay;
 
             if (isset($request->post()['_toperson'])) {
                 $order->full_price = GenTour::calcFullPrice(
                     $order->tour_info_id,
                     $order->hotels_appartment_id,
-                    $order->type_of_food_id,
+                    $order->hotels_type_of_food_id,
                     $order->hotel_date_begin,
                     $order->hotel_date_end,
                     $countDay,
