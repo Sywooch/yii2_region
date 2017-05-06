@@ -58,10 +58,10 @@ class TourController extends Controller
         $searchModel = new SearchAdvancedFilter();
 
         //!!!!!!!!Если выбирается страна и/или город отправления, тогда переходим на обычный поиск туров
-        if ((array_key_exists('countryOut',$_REQUEST['SearchAdvancedFilter'])
+        if (is_array($_REQUEST['SearchAdvancedFilter']) && ((array_key_exists('countryOut',$_REQUEST['SearchAdvancedFilter'])
                 && $_REQUEST['SearchAdvancedFilter']['countryOut'] > 0)
             || (array_key_exists('cityOut',$_REQUEST['SearchAdvancedFilter'])
-                && $_REQUEST['SearchAdvancedFilter']['cityOut'] > 0))
+                && $_REQUEST['SearchAdvancedFilter']['cityOut'] > 0)))
         {
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
             $typeSearch = SearchAdvancedFilter::TYPE_FILTER_TOUR;
