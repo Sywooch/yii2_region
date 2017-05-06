@@ -11,7 +11,7 @@ use yii\helpers\Html;
 
 <div class="item-view">
     <header>
-        <h1><?= Html::encode($model->title) ?></h1>
+        <p><strong><?= Html::encode($model->title) ?></strong></p>
         <time pubdate datetime="<?= $model->created ?>"></time>
         <?php if ($model->image): ?>
             <figure>
