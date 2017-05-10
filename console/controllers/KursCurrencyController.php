@@ -8,9 +8,14 @@
 
 namespace console\controllers;
 
-use backend\controllers\KursCurrencyController as BackendKursCurrencyController;
+use common\models\KursCurrency;
+use yii\console\Controller as ConsoleController;
 
-class KursCurrencyController extends BackendKursCurrencyController
+class KursCurrencyController extends ConsoleController
 {
-
+    public function actionUpdateKurs(){
+        $n = new KursCurrency();
+        echo $n->CurrencyUpdated();
+        //return $this->redirect(['index']);
+    }
 }

@@ -31,12 +31,12 @@ return [
             ],
         ],
         'urlManager' => [
-            'baseUrl' => 'http://ltv.loc/'
+            'baseUrl' => 'http://турлайф.рф/'
         ],
-        'user' => [
+        /*'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
-        ],
+        ],*/
     ],
     'params' => $params,
 ];
