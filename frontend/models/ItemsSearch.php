@@ -3,7 +3,6 @@
 
 namespace frontend\models;
 
-use cinghie\articles\models\Items;
 use cinghie\articles\models\ItemsSearch as BaseItemSearch;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -37,7 +36,8 @@ class ItemsSearch extends BaseItemSearch
         } else {
             throw new ForbiddenHttpException;
         }*/
-        $query = Items::find();
+        //$query = Items::find();
+        $query = News::find();
 
         $query->joinWith('category');
         $query->joinWith('createdby');

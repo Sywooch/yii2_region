@@ -58,7 +58,7 @@
     "miloschuman/yii2-highcharts-widget": "*",
     "kartik-v/yii2-markdown": "dev-master",
     "michelf/php-smartypants": "1.6-beta1",
-    "cinghie/yii2-articles": "*",
+    "cinghie/yii2-articles": "@dev",
     "dektrium/yii2-user": "@dev",
     "dektrium/yii2-rbac": "dev-master",
     "mootensai/yii2-enhanced-gii": "dev-master",
