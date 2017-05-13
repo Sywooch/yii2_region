@@ -21,7 +21,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => [/*'login',*/ 'error'],
+                        'actions' => [/*'login',*/ 'error','t'],
                         'allow' => true,
                     ],
                     [
@@ -55,6 +55,10 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    public function actionT(){
+        return phpinfo();
     }
 
     /*public function actionLogin()
