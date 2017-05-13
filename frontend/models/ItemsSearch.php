@@ -38,6 +38,7 @@ class ItemsSearch extends BaseItemSearch
         }*/
         //$query = Items::find();
         $query = News::find();
+        //$query->andFilterWhere(['state' => 1]);
 
         $query->joinWith('category');
         $query->joinWith('createdby');
@@ -64,7 +65,7 @@ class ItemsSearch extends BaseItemSearch
         $query->andFilterWhere([
             'id' => $this->id,
             'userid' => $this->userid,
-            'state' => $this->state,
+            'article_items.state' => 1,//$this->state,
             'access' => $this->access,
             'ordering' => $this->ordering,
             'hits' => $this->hits,

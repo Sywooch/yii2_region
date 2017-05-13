@@ -36,6 +36,10 @@ return [
             // Show Titles in the views, 
             'showTitles' => true,
         ],
+        /*'news' => [
+            'class' => frontend\controllers\NewsController::className(),
+            'userClass' => 'dektrium\user\models\User',
+        ],*/
 
 
         /** Begin User Access Settings */
