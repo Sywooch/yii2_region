@@ -3,7 +3,7 @@ use kartik\grid\GridView;
 use yii\data\ArrayDataProvider;
 
 $dataProvider = new ArrayDataProvider([
-    'allModels' => $model->salOrders,
+    'allModels' => $model->salOrders ? $model->salOrders : null,
     'key' => 'id'
 ]);
 $gridColumns = [
