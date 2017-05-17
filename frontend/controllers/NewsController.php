@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use frontend\models\ItemsSearch;
+use frontend\models\News;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -83,9 +84,14 @@ class NewsController extends \cinghie\articles\controllers\ItemsController
     {
         // Check RBAC Permission
 
-        return $this->render('view', [
+        $model = News::findOne(['id' => $id]);
+        return $this->render('view',[
+            'model' => $model,
+        ]);
+
+        /*return $this->render('view', [
                 'model' => $this->findModel($id),
-            ]);
+            ]);*/
     }
 
 }
