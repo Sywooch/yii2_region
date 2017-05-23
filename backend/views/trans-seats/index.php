@@ -55,7 +55,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Trans info', 'id' => 'grid-search-trans-seats-trans_info_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Trans info'), 'id' => 'grid-search-trans-seats-trans_info_id']
         ],
         [
             'attribute' => 'trans_seats_type_id',
@@ -68,7 +68,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Trans seats type', 'id' => 'grid-search-trans-seats-trans_seats_type_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Trans seats type'), 'id' => 'grid-search-trans-seats-trans_seats_type_id']
         ],
         'name',
         'count',

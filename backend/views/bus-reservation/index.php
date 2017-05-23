@@ -56,7 +56,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Bus info', 'id' => 'grid-search-bus-reservation-bus_info_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Bus info'), 'id' => 'grid-search-bus-reservation-bus_info_id']
         ],
         [
             'attribute' => 'bus_way_id',
@@ -69,7 +69,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Bus way', 'id' => 'grid-search-bus-reservation-bus_way_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Bus way'), 'id' => 'grid-search-bus-reservation-bus_way_id']
         ],
         [
             'attribute' => 'person_id',
@@ -82,7 +82,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Person', 'id' => 'grid-search-bus-reservation-person_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Person'), 'id' => 'grid-search-bus-reservation-person_id']
         ],
         'number_seat',
         'date',

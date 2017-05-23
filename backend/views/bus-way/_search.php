@@ -63,9 +63,9 @@ use yii\widgets\ActiveForm;
         ],
     ]); */ ?>
 
-    <?php /* echo $form->field($model, 'path_time')->textInput(['maxlength' => true, 'placeholder' => 'Path Time']) */ ?>
+    <?php /* echo $form->field($model, 'path_time')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Path Time')]) */ ?>
 
-    <?php /* echo $form->field($model, 'price')->textInput(['placeholder' => 'Price']) */ ?>
+    <?php /* echo $form->field($model, 'price')->textInput(['placeholder' => Yii::t('app', 'Price')]) */ ?>
 
     <?php /* echo $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); */ ?>
 

@@ -58,7 +58,7 @@ $this->registerJs($search);
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
-                'filterInputOptions' => ['placeholder' => 'Kurs type currency', 'id' => 'grid-search-kurs-currency-kurs_type_currency_id']
+                'filterInputOptions' => ['placeholder' => Yii::t('app', 'Kurs type currency'), 'id' => 'grid-search-kurs-currency-kurs_type_currency_id']
             ],
         'okurs',
         'skurs',

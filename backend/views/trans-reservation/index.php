@@ -60,7 +60,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Person', 'id' => 'grid-search-trans-reservation-person_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Person'), 'id' => 'grid-search-trans-reservation-person_id']
         ],
         'status',
         [
@@ -74,7 +74,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Trans price', 'id' => 'grid-search-trans-reservation-trans_price_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Trans price'), 'id' => 'grid-search-trans-reservation-trans_price_id']
         ],
         'active',
         ['attribute' => 'lock', 'visible' => false],

@@ -56,7 +56,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Bus info', 'id' => 'grid-search-bus-way-bus_info_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Bus info'), 'id' => 'grid-search-bus-way-bus_info_id']
         ],
         'date_begin',
         'date_end',
@@ -73,7 +73,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Bus route', 'id' => 'grid-search-bus-way-bus_route_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Bus route'), 'id' => 'grid-search-bus-way-bus_route_id']
         ],
         'path_time',
         'price',

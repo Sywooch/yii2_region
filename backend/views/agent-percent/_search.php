@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'percent')->textInput(['placeholder' => 'Percent']) ?>
+    <?= $form->field($model, 'percent')->textInput(['placeholder' => Yii::t('app', 'Percent')]) ?>
 
     <?= $form->field($model, 'date_begin')->widget(\kartik\datecontrol\DateControl::classname(), [
         'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,

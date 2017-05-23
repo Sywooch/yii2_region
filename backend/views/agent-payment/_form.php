@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'payment')->textInput(['placeholder' => 'Payment']) ?>
+    <?= $form->field($model, 'payment')->textInput(['placeholder' => Yii::t('app', 'Payment')]) ?>
 
     <?= $form->field($model, 'comment')->textarea(['rows' => 6]) ?>
 

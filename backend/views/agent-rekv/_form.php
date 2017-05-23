@@ -25,37 +25,37 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => 'Name']) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Name')]) ?>
 
     <?= $form->field($model, 'fullname')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'inn')->textInput(['placeholder' => 'Inn']) ?>
+    <?= $form->field($model, 'inn')->textInput(['placeholder' => Yii::t('app', 'Inn')]) ?>
 
-    <?= $form->field($model, 'kpp')->textInput(['placeholder' => 'Kpp']) ?>
+    <?= $form->field($model, 'kpp')->textInput(['placeholder' => Yii::t('app', 'Kpp')]) ?>
 
-    <?= $form->field($model, 'ogrn')->textInput(['placeholder' => 'Ogrn']) ?>
+    <?= $form->field($model, 'ogrn')->textInput(['placeholder' => Yii::t('app', 'Ogrn')]) ?>
 
-    <?= $form->field($model, 'bik')->textInput(['placeholder' => 'Bik']) ?>
+    <?= $form->field($model, 'bik')->textInput(['placeholder' => Yii::t('app', 'Bik')]) ?>
 
-    <?= $form->field($model, 'bankname')->textInput(['maxlength' => true, 'placeholder' => 'Bankname']) ?>
+    <?= $form->field($model, 'bankname')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Bankname')]) ?>
 
-    <?= $form->field($model, 'rs')->textInput(['maxlength' => true, 'placeholder' => 'Rs']) ?>
+    <?= $form->field($model, 'rs')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Rs')]) ?>
 
-    <?= $form->field($model, 'ks')->textInput(['maxlength' => true, 'placeholder' => 'Ks']) ?>
+    <?= $form->field($model, 'ks')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Ks')]) ?>
 
-    <?= $form->field($model, 'direktor_fio')->textInput(['maxlength' => true, 'placeholder' => 'Direktor Fio']) ?>
+    <?= $form->field($model, 'direktor_fio')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Direktor Fio')]) ?>
 
-    <?= $form->field($model, 'direktor_dolgnost')->textInput(['maxlength' => true, 'placeholder' => 'Direktor Dolgnost']) ?>
+    <?= $form->field($model, 'direktor_dolgnost')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Direktor Dolgnost')]) ?>
 
-    <?= $form->field($model, 'glbuh_fio')->textInput(['maxlength' => true, 'placeholder' => 'Glbuh Fio']) ?>
+    <?= $form->field($model, 'glbuh_fio')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Glbuh Fio')]) ?>
 
-    <?= $form->field($model, 'glbuh_dolgnost')->textInput(['maxlength' => true, 'placeholder' => 'Glbuh Dolgnost']) ?>
+    <?= $form->field($model, 'glbuh_dolgnost')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Glbuh Dolgnost')]) ?>
 
     <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
     <?= $form->field($model, 'active')->checkbox() ?>
 
-    <?= $form->field($model, 'phone')->textInput(['maxlength' => true, 'placeholder' => 'Phone']) ?>
+    <?= $form->field($model, 'phone')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Phone')]) ?>
 
     <?= $form->field($model, 'phone2')->textarea(['rows' => 6]) ?>
 

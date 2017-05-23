@@ -64,7 +64,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Gender', 'id' => 'grid-search-person-gender_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Gender'), 'id' => 'grid-search-person-gender_id']
         ],
         [
             'class' => 'yii\grid\ActionColumn',

@@ -56,7 +56,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Sal order status', 'id' => 'grid-search-sal-order-sal_order_status_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Sal order status'), 'id' => 'grid-search-sal-order-sal_order_status_id']
         ],
         'persons:ntext',
         'child',
@@ -76,7 +76,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Hotels info', 'id' => 'grid-search-sal-order-hotels_info_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Hotels info'), 'id' => 'grid-search-sal-order-hotels_info_id']
         ],
         [
             'attribute' => 'trans_info_id',
@@ -89,7 +89,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Tour type transport', 'id' => 'grid-search-sal-order-trans_info_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tour type transport'), 'id' => 'grid-search-sal-order-trans_info_id']
         ],
         [
             'attribute' => 'user_id',
@@ -103,7 +103,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Userinfo', 'id' => 'grid-search-sal-order-user_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Userinfo'), 'id' => 'grid-search-sal-order-user_id']
         ],
         [
             'attribute' => 'tour_info_id',
@@ -116,7 +116,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Tour info', 'id' => 'grid-search-sal-order-tour_info_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tour info'), 'id' => 'grid-search-sal-order-tour_info_id']
         ],
         [
             'attribute' => 'hotels_appartment_id',
@@ -129,7 +129,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Hotels appartment', 'id' => 'grid-search-sal-order-hotels_appartment_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Hotels appartment'), 'id' => 'grid-search-sal-order-hotels_appartment_id']
         ],
         'date_add',
         'date_edit',

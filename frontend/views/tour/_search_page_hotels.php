@@ -179,19 +179,19 @@ elseif($model->childCount > 0 && $model->touristCount < $model->childCount){
 
             <?= $form->field($model, 'days')->widget(\kartik\widgets\TouchSpin::classname(), [
                 //'readonly' => true,
-                'options' => ['placeholder' => ''],
+                'options' => ['placeholder' => Yii::t('app', '')],
             ]); ?>
         </div>
         <div class="col-md-12">
             <?= $form->field($model, 'touristCount')->widget(\kartik\widgets\TouchSpin::classname(), [
                 'readonly' => true,
-                'options' => ['placeholder' => ''],
+                'options' => ['placeholder' => Yii::t('app', '')],
             ]); ?>
         </div>
         <div class="col-md-12">
             <?= $form->field($model, 'childCount')->widget(\kartik\widgets\TouchSpin::classname(), [
                 'readonly' => true,
-                'options' => ['placeholder' => ''],
+                'options' => ['placeholder' => Yii::t('app', '')],
             ]); ?>
         </div>
         <div class="col-md-12">

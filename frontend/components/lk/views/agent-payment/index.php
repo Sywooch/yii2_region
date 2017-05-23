@@ -43,7 +43,7 @@ $this->registerJs($search);
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
-                'filterInputOptions' => ['placeholder' => 'User', 'id' => 'grid-search-agent-payment-user_id']
+                'filterInputOptions' => ['placeholder' => Yii::t('app', 'User'), 'id' => 'grid-search-agent-payment-user_id']
             ],
         'payment',
         'comment:ntext',

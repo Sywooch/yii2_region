@@ -83,7 +83,7 @@ CrudAsset::register($this);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Hotels info', 'id' => 'grid-search-sal-order-hotels_info_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Hotels info'), 'id' => 'grid-search-sal-order-hotels_info_id']
         ],
         [
             'attribute' => 'hotels_appartment_id',
@@ -96,7 +96,7 @@ CrudAsset::register($this);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Hotels appartment', 'id' => 'grid-search-sal-order-hotels_appartment_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Hotels appartment'), 'id' => 'grid-search-sal-order-hotels_appartment_id']
         ],
         [
             'attribute' => 'trans_info_id',
@@ -112,7 +112,7 @@ CrudAsset::register($this);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Tour type transport', 'id' => 'grid-search-sal-order-trans_info_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tour type transport'), 'id' => 'grid-search-sal-order-trans_info_id']
         ],
         [
             'attribute' => 'user_id',
@@ -126,7 +126,7 @@ CrudAsset::register($this);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Agent', 'id' => 'grid-search-sal-order-user_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Agent'), 'id' => 'grid-search-sal-order-user_id']
         ],
         [
             'attribute' => 'tour_info_id',
@@ -139,7 +139,7 @@ CrudAsset::register($this);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Tour info', 'id' => 'grid-search-sal-order-tour_info_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tour info'), 'id' => 'grid-search-sal-order-tour_info_id']
         ],
         'full_price',
         'insurance_info:ntext',

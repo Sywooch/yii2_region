@@ -55,7 +55,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
                 ],
-            'filterInputOptions' => ['placeholder' => 'Hotels pricing', 'id' => 'grid-search-hotels-pay-period-hotels_pricing_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Hotels pricing'), 'id' => 'grid-search-hotels-pay-period-hotels_pricing_id']
         ],
         'date_begin',
         'date_end',

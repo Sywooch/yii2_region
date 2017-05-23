@@ -62,7 +62,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Hotels info', 'id' => 'grid-search-tour-info-hotels_info_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Hotels info'), 'id' => 'grid-search-tour-info-hotels_info_id']
         ],
         [
             'attribute' => 'city_id',
@@ -75,7 +75,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'City', 'id' => 'grid-search-tour-info-city_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'City'), 'id' => 'grid-search-tour-info-city_id']
         ],
         /*[
                 //'attribute' => 'tour_composition_id',
@@ -88,7 +88,7 @@ $this->registerJs($search);
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
-                'filterInputOptions' => ['placeholder' => 'Tour composition', 'id' => 'grid-search-tour-info-tour_composition_id']
+                'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tour composition'), 'id' => 'grid-search-tour-info-tour_composition_id']
             ],*/
         ['attribute' => 'lock', 'visible' => false],
         [

@@ -56,7 +56,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Trans type', 'id' => 'grid-search-trans-info-trans_type_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Trans type'), 'id' => 'grid-search-trans-info-trans_type_id']
         ],
         [
             'attribute' => 'trans_route_id',
@@ -69,7 +69,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Trans route', 'id' => 'grid-search-trans-info-trans_route_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Trans route'), 'id' => 'grid-search-trans-info-trans_route_id']
         ],
         'seats',
         'active',

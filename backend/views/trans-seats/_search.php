@@ -33,9 +33,9 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => 'Name']) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Name')]) ?>
 
-    <?= $form->field($model, 'count')->textInput(['placeholder' => 'Count']) ?>
+    <?= $form->field($model, 'count')->textInput(['placeholder' => Yii::t('app', 'Count')]) ?>
 
     <?php /* echo $form->field($model, 'active')->checkbox() */ ?>
 

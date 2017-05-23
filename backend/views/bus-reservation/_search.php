@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => 'Name']) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Name')]) ?>
 
     <?= $form->field($model, 'bus_info_id')->widget(\kartik\widgets\Select2::classname(), [
         'data' => \yii\helpers\ArrayHelper::map(\common\models\BusInfo::find()->orderBy('id')->asArray()->all(), 'id', 'name'),
@@ -43,7 +43,7 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?php /* echo $form->field($model, 'number_seat')->textInput(['placeholder' => 'Number Seat']) */ ?>
+    <?php /* echo $form->field($model, 'number_seat')->textInput(['placeholder' => Yii::t('app', 'Number Seat')]) */ ?>
 
     <?php /* echo $form->field($model, 'date')->widget(\kartik\datecontrol\DateControl::classname(), [
         'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
@@ -57,7 +57,7 @@ use yii\widgets\ActiveForm;
         ],
     ]); */ ?>
 
-    <?php /* echo $form->field($model, 'status')->textInput(['placeholder' => 'Status']) */ ?>
+    <?php /* echo $form->field($model, 'status')->textInput(['placeholder' => Yii::t('app', 'Status')]) */ ?>
 
     <?php /* echo $form->field($model, 'active')->checkbox() */ ?>
 

@@ -59,7 +59,7 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'seats')->textInput(['placeholder' => 'Seats']) ?>
+    <?= $form->field($model, 'seats')->textInput(['placeholder' => Yii::t('app', 'Seats')]) ?>
 
     <?= $form->field($model, 'active')->checkbox() ?>
 

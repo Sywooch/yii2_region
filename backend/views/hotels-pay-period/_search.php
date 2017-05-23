@@ -51,7 +51,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'active')->checkbox() ?>
 
-    <?php /* echo $form->field($model, 'price')->textInput(['maxlength' => true, 'placeholder' => 'Price']) */ ?>
+    <?php /* echo $form->field($model, 'price')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Price')]) */ ?>
 
     <?php /* echo $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); */ ?>
 

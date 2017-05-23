@@ -39,7 +39,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'persons')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'child')->textInput(['placeholder' => 'Child']) ?>
+    <?= $form->field($model, 'child')->textInput(['placeholder' => Yii::t('app', 'Child')]) ?>
 
     <?= $form->field($model, 'date_begin')->widget(\kartik\datecontrol\DateControl::classname(), [
         'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
@@ -67,7 +67,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'enable')->checkbox() ?>
 
-    <?= $form->field($model, 'full_price')->textInput(['placeholder' => 'Full Price']) ?>
+    <?= $form->field($model, 'full_price')->textInput(['placeholder' => Yii::t('app', 'Full Price')]) ?>
 
     <?= $form->field($model, 'insurance_info')->textarea(['rows' => 6]) ?>
 

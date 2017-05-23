@@ -120,7 +120,7 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'full_price')->textInput(['placeholder' => 'Full Price']) ?>
+    <?= $form->field($model, 'full_price')->textInput(['placeholder' => Yii::t('app', 'Full Price')]) ?>
 
     <?= $form->field($model, 'insurance_info')->textarea(['rows' => 6]) ?>
 

@@ -27,7 +27,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'price')->textInput(['placeholder' => 'Price']) ?>
+    <?= $form->field($model, 'price')->textInput(['placeholder' => Yii::t('app', 'Price')]) ?>
 
     <?= $form->field($model, 'hotels_appartment_item_id')->widget(\kartik\widgets\Select2::classname(), [
         'data' => \yii\helpers\ArrayHelper::map(\common\models\HotelsAppartmentItem::find()->orderBy('id')->asArray()->all(), 'id', 'name'),
@@ -39,9 +39,9 @@ use yii\widgets\ActiveForm;
 
     <?php /* echo $form->field($model, 'active')->checkbox() */ ?>
 
-    <?php /* echo $form->field($model, 'count_rooms')->textInput(['placeholder' => 'Count Rooms']) */ ?>
+    <?php /* echo $form->field($model, 'count_rooms')->textInput(['placeholder' => Yii::t('app', 'Count Rooms')]) */ ?>
 
-    <?php /* echo $form->field($model, 'count_beds')->textInput(['placeholder' => 'Count Beds']) */ ?>
+    <?php /* echo $form->field($model, 'count_beds')->textInput(['placeholder' => Yii::t('app', 'Count Beds')]) */ ?>
 
     <?php /* echo $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); */ ?>
 

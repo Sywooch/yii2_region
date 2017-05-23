@@ -25,11 +25,11 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'okurs')->textInput(['placeholder' => 'Okurs']) ?>
+    <?= $form->field($model, 'okurs')->textInput(['placeholder' => Yii::t('app', 'Okurs')]) ?>
 
-    <?= $form->field($model, 'skurs')->textInput(['placeholder' => 'Skurs']) ?>
+    <?= $form->field($model, 'skurs')->textInput(['placeholder' => Yii::t('app', 'Skurs')]) ?>
 
-    <?= $form->field($model, 'percent')->textInput(['placeholder' => 'Percent']) ?>
+    <?= $form->field($model, 'percent')->textInput(['placeholder' => Yii::t('app', 'Percent')]) ?>
 
     <?php /* echo $form->field($model, 'active')->checkbox() */ ?>
 

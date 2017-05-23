@@ -55,7 +55,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
                 ],
-            'filterInputOptions' => ['placeholder' => 'Hotels appartment', 'id' => 'grid-search-hotels-pricing-hotels_appartment_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Hotels appartment'), 'id' => 'grid-search-hotels-pricing-hotels_appartment_id']
         ],
         [
             'attribute' => 'hotels_info_id',
@@ -68,7 +68,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
                 ],
-            'filterInputOptions' => ['placeholder' => 'Hotels info', 'id' => 'grid-search-hotels-pricing-hotels_info_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Hotels info'), 'id' => 'grid-search-hotels-pricing-hotels_info_id']
         ],
         [
             'attribute' => 'hotels_type_of_food_id',
@@ -81,7 +81,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
                 ],
-            'filterInputOptions' => ['placeholder' => 'Hotels type of food', 'id' => 'grid-search-hotels-pricing-hotels_type_of_food_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Hotels type of food'), 'id' => 'grid-search-hotels-pricing-hotels_type_of_food_id']
         ],
         'name:ntext',
         'active',

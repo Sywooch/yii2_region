@@ -67,7 +67,7 @@ $model->date = date('Y-m-d H:i:s')
         ],
     ]); ?>
 
-    <?php /* echo $form->field($model, 'status')->textInput(['placeholder' => 'Status'])*/ ?>
+    <?php /* echo $form->field($model, 'status')->textInput(['placeholder' => Yii::t('app', 'Status')])*/ ?>
 
     <?= $form->field($model, 'active')->checkbox() ?>
 

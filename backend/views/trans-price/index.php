@@ -55,7 +55,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Trans info', 'id' => 'grid-search-trans-price-trans_info_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Trans info'), 'id' => 'grid-search-trans-price-trans_info_id']
         ],
         [
             'attribute' => 'trans_seats_id',
@@ -68,7 +68,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Trans seats', 'id' => 'grid-search-trans-price-trans_seats_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Trans seats'), 'id' => 'grid-search-trans-price-trans_seats_id']
         ],
         'date_begin',
         'date_end',

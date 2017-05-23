@@ -55,7 +55,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Hotels info', 'id' => 'grid-search-hotels-appartment-hotels_info_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Hotels info'), 'id' => 'grid-search-hotels-appartment-hotels_info_id']
             ],
         'name:ntext',
         'price',
@@ -70,7 +70,7 @@ $this->registerJs($search);
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => 'Hotels appartment item', 'id' => 'grid-search-hotels-appartment-hotels_appartment_item_id']
+            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Hotels appartment item'), 'id' => 'grid-search-hotels-appartment-hotels_appartment_item_id']
             ],
         [
             'class' => '\kartik\grid\BooleanColumn',

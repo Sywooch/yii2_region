@@ -72,9 +72,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($model, 'secondname')->textInput(['placeholder' => Yii::t('app', 'Secondname')]) ?>
 
-    <?= $form->field($model, 'passport_ser')->textInput(['placeholder' => 'Passport Ser']) ?>
+    <?= $form->field($model, 'passport_ser')->textInput(['placeholder' => Yii::t('app', 'Passport Ser')]) ?>
 
-    <?= $form->field($model, 'passport_num')->textInput(['placeholder' => 'Passport Num']) ?>
+    <?= $form->field($model, 'passport_num')->textInput(['placeholder' => Yii::t('app', 'Passport Num')]) ?>
 
     <?= $form->field($model, 'birthday')->widget(\kartik\datecontrol\DateControl::className(), [
         'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,

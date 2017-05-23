@@ -33,11 +33,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
-    <?= $form->field($model, 'firstname')->textInput(['maxlength' => true, 'placeholder' => 'Firstname']) ?>
+    <?= $form->field($model, 'firstname')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Firstname')]) ?>
 
-    <?= $form->field($model, 'lastname')->textInput(['maxlength' => true, 'placeholder' => 'Lastname']) ?>
+    <?= $form->field($model, 'lastname')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Lastname')]) ?>
 
-    <?= $form->field($model, 'secondname')->textInput(['maxlength' => true, 'placeholder' => 'Secondname']) ?>
+    <?= $form->field($model, 'secondname')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Secondname')]) ?>
 
     <?= $form->field($model, 'date_new')->widget(\kartik\datecontrol\DateControl::classname(), [
         'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
@@ -63,9 +63,9 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'passport_ser')->textInput(['maxlength' => true, 'placeholder' => 'Passport Ser']) ?>
+    <?= $form->field($model, 'passport_ser')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Passport Ser')]) ?>
 
-    <?= $form->field($model, 'passport_num')->textInput(['maxlength' => true, 'placeholder' => 'Passport Num']) ?>
+    <?= $form->field($model, 'passport_num')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Passport Num')]) ?>
 
     <?= $form->field($model, 'contacts')->textarea(['rows' => 6]) ?>
 

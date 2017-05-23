@@ -25,11 +25,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => 'Name']) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Name')]) ?>
 
-    <?= $form->field($model, 'ncode')->textInput(['placeholder' => 'Ncode']) ?>
+    <?= $form->field($model, 'ncode')->textInput(['placeholder' => Yii::t('app', 'Ncode')]) ?>
 
-    <?= $form->field($model, 'tcode')->textInput(['maxlength' => true, 'placeholder' => 'Tcode']) ?>
+    <?= $form->field($model, 'tcode')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Tcode')]) ?>
 
     <?= $form->field($model, 'active')->checkbox() ?>
 

@@ -93,7 +93,7 @@ HTML;
         ?>
     </div>
 
-    <?= $form->field($model, 'path_time')->textInput(['maxlength' => true, 'placeholder' => 'Path Time']) ?>
+    <?= $form->field($model, 'path_time')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Path Time')]) ?>
     <div class="panel panel-default" style="padding: 10px;">
         <p><strong>Активация обратного путевого листа (при наличии такого маршрута):</strong></p>
         <div class="container-fluid">

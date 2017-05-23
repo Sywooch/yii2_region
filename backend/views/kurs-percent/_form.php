@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
-    <?= $form->field($model, 'percent')->textInput(['placeholder' => 'Percent']) ?>
+    <?= $form->field($model, 'percent')->textInput(['placeholder' => Yii::t('app', 'Percent')]) ?>
 
     <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 

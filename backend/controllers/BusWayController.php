@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\BusWayGenerator;
 use backend\models\SearchBusWay;
 use common\models\BusRoute;
 use common\models\BusRouteHasBusRoutePoint;
@@ -31,7 +32,8 @@ class BusWayController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'add-bus-reservation'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf',
+                            'save-as-new', 'add-bus-reservation', 'generate'],
                         'roles' => ['@']
                     ],
                     [
@@ -281,6 +283,17 @@ class BusWayController extends Controller
             return $this->renderAjax('_formBusReservation', ['row' => $row]);
         } else {
             throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+        }
+    }
+
+    public function actionGenerate(){
+        $model = new BusWayGenerator();
+        if ($model->load(Yii::$app->request->post()) && $model->generate()) {
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('generate', [
+                'model' => $model,
+            ]);
         }
     }
 }
