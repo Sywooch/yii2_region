@@ -1,11 +1,7 @@
 <?php
 
 use dmstr\helpers\Html;
-use yii\helpers\Url;
-use yii\grid\GridView;
 use yii\widgets\DetailView;
-use yii\widgets\Pjax;
-use dmstr\bootstrap\Tabs;
 
 /**
  * @var yii\web\View $this
@@ -86,7 +82,7 @@ $items = $model->getImage2amigos(true);
 
         <?= \dosamigos\gallery\Gallery::widget(['items' => $items,
             'options' => [
-                'class' => 'row',
+                //'class' => 'row',
             ],
         ]); ?>
     </div>
