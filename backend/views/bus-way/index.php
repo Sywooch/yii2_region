@@ -24,6 +24,7 @@ $this->registerJs($search);
     <p>
         <?= Html::a(Yii::t('app', 'Create Bus Way'), ['create'], ['class' => 'btn btn-success']) ?>
         <?= Html::a(Yii::t('app', 'Advance Search'), '#', ['class' => 'btn btn-info search-button']) ?>
+        <?= Html::a(Yii::t('app', 'Сгенерировать'), ['generate'], ['class' => 'btn btn-primary']) ?>
     </p>
     <div class="search-form" style="display:none">
         <?= $this->render('_search', ['model' => $searchModel]); ?>

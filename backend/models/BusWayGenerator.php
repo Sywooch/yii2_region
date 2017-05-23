@@ -16,7 +16,7 @@ class BusWayGenerator extends BaseBusWayGenerator
     {
         return array_replace_recursive(parent::rules(),
 	    [
-            [['name', 'bus_info_id', 'bus_route_id'], 'required'],
+            [[ 'bus_info_id', 'bus_route_id'], 'required'],
             [['name'], 'string'],
             [['bus_info_id', 'active', 'ended', 'bus_route_id', 'created_by', 'updated_by', 'lock', 'stop'], 'integer'],
             [['date_begin', 'date_end', 'date_add', 'date_edit'], 'safe'],

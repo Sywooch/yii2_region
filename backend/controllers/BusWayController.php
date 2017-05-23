@@ -288,7 +288,7 @@ class BusWayController extends Controller
 
     public function actionGenerate(){
         $model = new BusWayGenerator();
-        if ($model->load(Yii::$app->request->post()) && $model->generate()) {
+        if ($model->loadGenerateData(Yii::$app->request->post()) && $model->generate()) {
             return $this->redirect(['index']);
         } else {
             return $this->render('generate', [
