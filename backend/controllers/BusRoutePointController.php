@@ -2,15 +2,14 @@
 
 namespace backend\controllers;
 
-use dektrium\user\clients\Yandex;
-use Yii;
-use common\models\BusRoutePoint;
 use backend\models\SearchBusRoutePoint;
+use common\models\BusRoutePoint;
+use Yii;
+use yii\filters\VerbFilter;
+use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use \yii\web\Response;
-use yii\helpers\Html;
+use yii\web\Response;
 
 /**
  * BusRoutePointController implements the CRUD actions for BusRoutePoint model.
@@ -30,6 +29,19 @@ class BusRoutePointController extends Controller
                     'bulk-delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'bulk-delete'],
+                        'roles' => ['admin','Super Admin']
+                    ],
+                    [
+                        'allow' => false
+                    ]
+                ]
+            ]
         ];
     }
 

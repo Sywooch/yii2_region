@@ -33,7 +33,7 @@ class HotelsPricingController extends Controller
                         'allow' => true,
                         'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new',
                             'add-hotels-pay-period', 'child-hotels-info', 'child-hotels-appartment'],
-                        'roles' => ['@']
+                        'roles' => ['admin','Super Admin']
                     ],
                     [
                         'allow' => false

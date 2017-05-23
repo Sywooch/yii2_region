@@ -29,7 +29,7 @@ class TransInfoController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'add-sal-basket', 'add-trans-price', 'add-trans-seats'],
-                        'roles' => ['@']
+                        'roles' => ['admin','Super Admin']
                     ],
                     [
                         'allow' => false

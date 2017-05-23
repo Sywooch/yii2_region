@@ -33,7 +33,7 @@ class HotelsAppartmentController extends Controller
                         'allow' => true,
                         'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new',
                             'add-hotels-appartment-has-hotels-type-of-food', 'add-hotels-pricing', 'child-hotels-info'],
-                        'roles' => ['@']
+                        'roles' => ['admin','Super Admin']
                     ],
                     [
                         'allow' => false

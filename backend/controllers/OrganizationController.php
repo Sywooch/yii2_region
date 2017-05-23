@@ -29,7 +29,7 @@ class OrganizationController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new'],
-                        'roles' => ['@']
+                        'roles' => ['admin','Super Admin']
                     ],
                     [
                         'allow' => false

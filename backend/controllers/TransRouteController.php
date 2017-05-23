@@ -29,7 +29,7 @@ class TransRouteController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'add-trans-route-has-trans-station'],
-                        'roles' => ['@']
+                        'roles' => ['admin','Super Admin']
                     ],
                     [
                         'allow' => false

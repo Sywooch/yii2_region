@@ -4,13 +4,13 @@
 
 namespace backend\controllers\base;
 
-use common\models\TourPrice;
 use backend\models\SearchTourPrice;
+use common\models\TourPrice;
+use dmstr\bootstrap\Tabs;
+use yii\filters\VerbFilter;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\HttpException;
-use yii\helpers\Url;
-use yii\filters\AccessControl;
-use dmstr\bootstrap\Tabs;
 
 /**
  * TourPriceController implements the CRUD actions for TourPrice model.
@@ -23,6 +23,31 @@ class TourPriceController extends Controller
      */
     public $enableCsrfValidation = false;
 
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                    'bulk-delete' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'bulk-delete'],
+                        'roles' => ['admin','Super Admin']
+                    ],
+                    [
+                        'allow' => false
+                    ]
+                ]
+            ]
+        ];
+    }
 
     /**
      * Lists all TourPrice models.

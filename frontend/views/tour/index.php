@@ -1,5 +1,6 @@
 <?php
 /* @var $this yii\web\View */
+use kartik\helpers\Html;
 
 $this->title = Yii::t('app', 'Лайф Тур Вояж - оператор позитивного отдыха');
 ?>
@@ -46,7 +47,11 @@ if ((Yii::$app->getRequest()->getPathInfo() == 'hotels') or
                 'class' => '\kartik\grid\DataColumn',
                 'attribute' => 'name',
                 'value'=>function ($model, $key, $index, $widget) {
-                    return \yii\bootstrap\Html::a($model['name'],
+        $hotel = new \common\models\HotelsInfo(['id'=>$model['hotels_info_id']]);
+                    $s = "<div>".
+                        Html::img($hotel->getImage()->getUrl('120x'))
+                        ."</div>";
+                    return $s. \yii\bootstrap\Html::a($model['name'],
                         ['/hotels/details','id'=>$model['hotels_info_id']],
                         ['title'=>'Детальная информация о гостинице']);
                 },

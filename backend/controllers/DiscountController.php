@@ -2,14 +2,14 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\Discount;
 use backend\models\SearchDiscount;
+use common\models\Discount;
+use Yii;
+use yii\filters\VerbFilter;
+use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use \yii\web\Response;
-use yii\helpers\Html;
+use yii\web\Response;
 
 /**
  * DiscountController implements the CRUD actions for Discount model.
@@ -29,6 +29,19 @@ class DiscountController extends Controller
                     'bulk-delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'bulk-delete'],
+                        'roles' => ['admin','Super Admin']
+                    ],
+                    [
+                        'allow' => false
+                    ]
+                ]
+            ]
         ];
     }
 

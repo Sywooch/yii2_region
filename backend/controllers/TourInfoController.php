@@ -35,7 +35,7 @@ class TourInfoController extends Controller
                             'add-tour-info-has-tour-type-transport', 'add-tour-price', 'get-city',
                             'add-tour-other-price',
                             'child-city', 'child-hotels-info'],
-                        'roles' => ['@']
+                        'roles' => ['admin','Super Admin']
                     ],
                     [
                         'allow' => false

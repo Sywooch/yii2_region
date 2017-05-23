@@ -2,14 +2,14 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\City;
 use backend\models\SearchCity;
+use common\models\City;
+use Yii;
+use yii\filters\VerbFilter;
+use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use \yii\web\Response;
-use yii\helpers\Html;
+use yii\web\Response;
 
 /**
  * CityController implements the CRUD actions for City model.
@@ -29,6 +29,19 @@ class CityController extends Controller
                     'bulk-delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'bulk-delete'],
+                        'roles' => ['admin','Super Admin']
+                    ],
+                    [
+                        'allow' => false
+                    ]
+                ]
+            ]
         ];
     }
 

@@ -4,13 +4,13 @@
 
 namespace backend\controllers\base;
 
-use common\models\TransInfo;
 use backend\models\SearchTransInfo;
+use common\models\TransInfo;
+use dmstr\bootstrap\Tabs;
+use yii\filters\VerbFilter;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\HttpException;
-use yii\helpers\Url;
-use yii\filters\AccessControl;
-use dmstr\bootstrap\Tabs;
 
 /**
  * TransInfoController implements the CRUD actions for TransInfo model.
@@ -23,6 +23,31 @@ class TransInfoController extends Controller
      */
     public $enableCsrfValidation = false;
 
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                    'bulk-delete' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'bulk-delete'],
+                        'roles' => ['admin','Super Admin']
+                    ],
+                    [
+                        'allow' => false
+                    ]
+                ]
+            ]
+        ];
+    }
 
     /**
      * Lists all TransInfo models.

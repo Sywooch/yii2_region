@@ -9,8 +9,6 @@ $asset = $this->assetBundles['cinghie\articles\assets\ArticlesAsset'];
 
 ?>
 
-<div class="row">
-
     <div class="articles">
         <?= \yii\widgets\ListView::widget([
             'dataProvider' => $dataProvider,
@@ -23,6 +21,6 @@ $asset = $this->assetBundles['cinghie\articles\assets\ArticlesAsset'];
             'summary' => '',
         ]) ?>
     </div>
-</div>
+
 
 

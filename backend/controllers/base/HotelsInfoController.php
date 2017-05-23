@@ -7,6 +7,7 @@ namespace backend\controllers\base;
 use backend\models\SearchHotelsInfo;
 use common\models\HotelsInfo;
 use dmstr\bootstrap\Tabs;
+use yii\filters\VerbFilter;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\HttpException;
@@ -22,6 +23,32 @@ class HotelsInfoController extends Controller
      * CSRF validation is enabled only when both this property and [[Request::enableCsrfValidation]] are true.
      */
     public $enableCsrfValidation = false;
+
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                    'bulk-delete' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'bulk-delete'],
+                        'roles' => ['admin','Super Admin']
+                    ],
+                    [
+                        'allow' => false
+                    ]
+                ]
+            ]
+        ];
+    }
 
     /**
      * Lists all HotelsInfo models.

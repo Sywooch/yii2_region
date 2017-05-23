@@ -18,15 +18,15 @@ class NewsController extends \cinghie\articles\controllers\ItemsController
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
-                    [
+                    /*[
                         'allow' => true,
                         'actions' => ['index', 'create', 'update', 'delete', 'deleteimage', 'deletemultiple', 'changestate', 'activemultiple', 'deactivemultiple', 'news-list'],
                         'roles' => ['@']
-                    ],
+                    ],*/
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'news-list', 'articles-index-all-items'],
-                        'roles' => ['?', '@', '*']
+                        /*'actions' => ['index', 'view', 'news-list', 'articles-index-all-items'],
+                        'roles' => ['?', '@', '*']*/
                     ],
                 ],
                 'denyCallback' => function () {
@@ -48,8 +48,6 @@ class NewsController extends \cinghie\articles\controllers\ItemsController
     public function actionIndex()
     {
         // Check RBAC Permission
-        if($this->userCanIndex())
-        {
             $searchModel = new ItemsSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -57,9 +55,6 @@ class NewsController extends \cinghie\articles\controllers\ItemsController
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
-        } else {
-            throw new ForbiddenHttpException;
-        }
     }
 
     public function actionNewsList()

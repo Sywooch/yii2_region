@@ -31,7 +31,7 @@ class BusRouteController extends Controller
                         'allow' => true,
                         'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf', 'save-as-new', 'add-bus-route-has-bus-route-point', 'add-bus-way',
                         'test'],
-                        'roles' => ['@']
+                        'roles' => ['admin','Super Admin']
                     ],
                     [
                         'allow' => false

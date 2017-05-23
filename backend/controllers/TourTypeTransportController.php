@@ -2,14 +2,14 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\TourTypeTransport;
 use backend\models\SearchTourTypeTransport;
+use common\models\TourTypeTransport;
+use Yii;
+use yii\filters\VerbFilter;
+use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use \yii\web\Response;
-use yii\helpers\Html;
+use yii\web\Response;
 
 /**
  * TourTypeTransportController implements the CRUD actions for TourTypeTransport model.
@@ -29,6 +29,19 @@ class TourTypeTransportController extends Controller
                     'bulk-delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'bulk-delete'],
+                        'roles' => ['admin','Super Admin']
+                    ],
+                    [
+                        'allow' => false
+                    ]
+                ]
+            ]
         ];
     }
 
