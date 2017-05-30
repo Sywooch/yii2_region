@@ -64,6 +64,8 @@ class TourController extends Controller
                 && $_REQUEST['SearchAdvancedFilter']['cityOut'] > 0)))
         {
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $points['to'] = $searchModel->cityTo;
+            $points['out'] = $searchModel->cityOut;
             $typeSearch = SearchAdvancedFilter::TYPE_FILTER_TOUR;
         }
         else{

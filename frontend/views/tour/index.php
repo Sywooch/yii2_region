@@ -3,6 +3,7 @@
 use kartik\helpers\Html;
 
 $this->title = Yii::t('app', 'Лайф Тур Вояж - оператор позитивного отдыха');
+//$model['points_to'] = $points
 ?>
 
 
@@ -125,7 +126,9 @@ if ((Yii::$app->getRequest()->getPathInfo() == 'hotels') or
                     if (key_exists('tour_info_id',$model)){
                         $price = \frontend\models\GenTour::calcFullPrice($model['tour_info_id'],
                             $model['hotels_appartment_id'], $model['type_food_id'], $model['selected_date'], $model['selected_date'],
-                            $model['days'], 1, 0, array(), $model['selected_date']);
+                            $model['days'], 1, 0, array(), $model['selected_date'],
+                            false, false, false, false,
+                            true, $model['city_to'], $model['city_out']);
                         $str = "";
                         if (is_array($price) && count($price) > 0) {
 

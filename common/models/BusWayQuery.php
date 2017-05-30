@@ -11,8 +11,8 @@ class BusWayQuery extends \yii\db\ActiveQuery
 {
     public function active()
     {
-        $this->andWhere('[[active]]=1')
-        ->andWhere('[[ended]] = 0');
+        $this->andWhere('[[bus_way.active]]=1')
+        ->andWhere('[[bus_way.ended]] = 0');
         return $this;
     }
 

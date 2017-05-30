@@ -188,8 +188,10 @@ class SearchAdvancedFilter extends TourInfo
             'hpp.id as hotels_pay_period_id',
             'tp.price as min_full_price',
             'http.tour_type_transport_id',
-            '`s`.`selected_date`'
+            '`s`.`selected_date`',
+            'CONCAT("'.$this->cityTo . '") as city_to, CONCAT("'. $this->cityOut . '") as city_out '
         ]);
+        //$query->addSelect();
         //$query->select(['date_begin'=>$date_begin,'date_end'=>$date_end]);
         //$query->distinct();
 

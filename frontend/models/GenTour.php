@@ -92,8 +92,10 @@ class GenTour extends \yii\db\ActiveRecord
      * @return array
      */
     public static function getTourTransport($tour_info_id, $date_start, $date_end, $hotel = true,
-                            $trans_info_id = false, $trans_way_id = false, $trans_info_id_reverse = false, $trans_way_id_reverse = false)
+                                            $trans_info_id = false, $trans_way_id = false, $trans_info_id_reverse = false,
+                                            $trans_way_id_reverse = false, $city_to = false, $city_out = false)
     {
+        //TODO !!!Добавить в запрос города отправки и прибытия
         $route = array();
         //Получаем только конкретные маршруты и цены
         //TODO Добавить проверку забронированных маршрутов
@@ -140,31 +142,70 @@ class GenTour extends \yii\db\ActiveRecord
             foreach ($transType->all() as $key => $value) {
                 $transTour = $value['tour_type_transport_id'];
                 unset($query);
+                $table = '';
+                $fieldCity = 'city_id';
                 if ($transTour == 1) {
                     //Получаем автобусы, которые идут в конкретное время в конкретное место
                     $query = \common\models\BusWay::find()->active();
+                    $table = '`bus_way`';
+                    $tablePoints = '`bus_route_point`';
+                    $tableStation = '`bus_route_has_bus_route_point`';
+                    $fieldPoint = 'bus_route_point_id';
+                    $fieldRoute = 'bus_route_id';
+                    $query->select($table . '.*');
+                    $query->innerJoin('bus_route as r', "r.id = $table.bus_route_id");
+                    $query->innerJoin('bus_route_has_bus_route_point as rp', 'rp.bus_route_id = r.id');
+                    $query->innerJoin('bus_route_point as c', 'rp.'. $fieldPoint . ' = c.id');
+                    //$query->innerJoin('')
+
 
                 } elseif ($transTour == 2 or $transTour == 3) {
+                    $table = '`trans_price`';
+                    $tableStation = '`trans_route_has_trans_station`';
+                    $tablePoints = '`trans_station`';
+                    $fieldPoint = 'trans_station_id';
+                    $fieldRoute = 'trans_route_id';
                     //Получаем модель транспорта: поезда
                     //Получаем поезд, который идет в конкретное время в конкретное место
                     $query = \common\models\TransPrice::find()->active();
                     $query->innerJoin('trans_info as ti', 'trans_price.trans_info_id = ti.id')
                         ->andWhere(['ti.trans_type_id' => $transTour]);
+                    $query->innerJoin('trans_route as r', "r.id = ti.trans_route_id");
+                    $query->innerJoin($tableStation . ' as rp', 'rp.trans_route_id = r.id');
+                    $query->innerJoin('trans_station as c', 'rp.'. $fieldPoint . ' = c.id');
                 }
                 if ($transTour > 0 && $transTour < 4) {
                     $query_to = clone $query;
                     $query_out = clone $query;
+                    //Привязываемся к городу
+                    if ($city_to !== false && $city_out !== false){
+                        //Получаем маршруты "Туда":
+                        $query_to->andWhere(['c.'.$fieldCity => $city_to]);
+                        $query_to->andWhere("
+                        rp.position > (SELECT position FROM $tableStation b
+                         INNER JOIN $tablePoints w ON w.id = b.$fieldPoint WHERE w.city_id = $city_out AND b.$fieldRoute = r.id limit 1)
+                        ");
+                        //Получаем маршруты "Обратно":
+                        $query_out->andWhere(['c.'.$fieldCity => $city_to]);
+                        $query_out->andWhere("
+                        rp.position < (SELECT position FROM $tableStation b 
+                        INNER JOIN $tablePoints w ON w.id = b.$fieldPoint WHERE w.city_id = $city_out AND b.$fieldRoute = r.id limit 1)
+                        ");
+                    }
+
                     if ($hotel === true) {
                         //Получаем маршруты "Туда":
-                        $route[$transTour]['to'] = $query_to->andWhere(["DATE_FORMAT(`date_end`,'%Y-%m-%d')" => $date_start])->one();
+                        $route[$transTour]['to'] = $query_to->andWhere(["DATE_FORMAT($table.`date_end`,'%Y-%m-%d')" => $date_start])->one();
                         //Получаем маршруты "Обратно":
-                        $route[$transTour]['out'] = $query_out->andWhere(["DATE_FORMAT(`date_begin`,'%Y-%m-%d')" => $date_end])->one();
+                        $route[$transTour]['out'] = $query_out->andWhere(["DATE_FORMAT($table.`date_begin`,'%Y-%m-%d')" => $date_end])->one();
+
                     } else {
                         //Получаем маршруты "Туда":
-                        $route[$transTour]['to'] = $query->andWhere(["DATE_FORMAT(`date_begin`,'%Y-%m-%d')" => $date_start])->one();
+                        $route[$transTour]['to'] = $query->andWhere(["DATE_FORMAT($table.`date_begin`,'%Y-%m-%d')" => $date_start])->one();
                         //Получаем маршруты "Обратно":
-                        $route[$transTour]['out'] = $query->andWhere(["DATE_FORMAT(`date_end`,'%Y-%m-%d')" => $date_end])->one();
+                        $route[$transTour]['out'] = $query->andWhere(["DATE_FORMAT($table.`date_end`,'%Y-%m-%d')" => $date_end])->one();
                     }
+
                 }
             }
 
@@ -173,9 +214,11 @@ class GenTour extends \yii\db\ActiveRecord
         return $route;
     }
 
-    public static function calcFullPrice($tourInfoId, $hotelsAppartmentId, $typeOfFood, $hotelsBegin, $hotelsEnd, $countDay,
-            $countTourist, $countChild, $childYears, $transDateBegin, $trans_info_id = false, $trans_way_id = false,
-             $trans_info_id_reverse = false,$trans_way_id_reverse = false, $hotel_enable = true)
+    public static function calcFullPrice($tourInfoId, $hotelsAppartmentId, $typeOfFood, $hotelsBegin, $hotelsEnd,
+                                         $countDay, $countTourist, $countChild, $childYears, $transDateBegin,
+                                         $trans_info_id = false, $trans_way_id = false, $trans_info_id_reverse = false,
+                                         $trans_way_id_reverse = false, $hotel_enable = true, $point_to = false,
+                                         $point_out = false)
     {
         $fullPrice = array();
 
@@ -192,8 +235,9 @@ class GenTour extends \yii\db\ActiveRecord
         $hotelsEnd = $dateEnd->format('Y-m-d');
 
         $hotelPrice = HotelsPayPeriod::calculatedAppartmentPrice($hotelsAppartmentId, $dateBegin, $countDay, $typeOfFood, $countTourist, $countChild, $childYears);
-        $transPrice = self::getTourTransport($tourInfoId, $hotelsBegin, $hotelsEnd, $hotel_enable,
-            $trans_info_id, $trans_way_id, $trans_info_id_reverse, $trans_way_id_reverse,$countTourist, $countChild, $childYears);
+        $transPrice = self::getTourTransport(  $tourInfoId, $hotelsBegin, $hotelsEnd, $hotel_enable,
+            $trans_info_id, $trans_way_id, $trans_info_id_reverse, $trans_way_id_reverse,  $point_to, $point_out, $countTourist, $countChild,
+            $childYears );
 
         $otherPrice = 0; //self::calcOtherPrice($tourInfoId);
 
