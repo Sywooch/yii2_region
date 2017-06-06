@@ -104,6 +104,7 @@ class BusWay extends \yii\db\ActiveRecord
             'date_edit' => Yii::t('app', 'Date Edit'),
             'lock' => Yii::t('app', 'Lock'),
             //'stop' => Yii::t('app', 'Stop'),
+            'b_reverse' => Yii::t('app','B Reverse'),
         ];
     }
 

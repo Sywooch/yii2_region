@@ -146,7 +146,7 @@ class DefaultController extends Controller
                 'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
                 'content' => $this->renderPartial('viewinvoice',
                     ['model' => $model, 'tableInvoice' => $tableInvoice, 'rekv' => $rekv, 'agent' => $agent]),
-                'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+                'cssFile' => '@frontend/components/lk/assets/assets/kv-mpdf-bootstrap.css',
                 'cssInline' => '.img-circle {border-radius: 50%;}',
                 'options' => [
                     /*'title' => $model->title,*/
@@ -191,7 +191,7 @@ class DefaultController extends Controller
                         'providerTransportTo' => $transportTo, 'providerTransportOut'=>$transportOut,
                         'providerTypeTransportTo' => $transWay[0],
                         'providerTypeTransportOut' => $transWayReverse[0]]),
-                'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+                'cssFile' => '@frontend/components/lk/assets/css/kv-mpdf-bootstrap.css',
                 'cssInline' => '.img-circle {border-radius: 50%;}',
                 'options' => [
                     /*'title' => $model->title,*/

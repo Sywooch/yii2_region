@@ -30,7 +30,7 @@ AppAsset::register($this);
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
             <?= Alert::widget() ?>
-            <div class="row" style="background-color: white; padding: 5px 10px;">
+            <div class="row" style="background-color: white; padding: 3px 10px;">
                 <?= $content ?>
             </div>
             <div class="row">

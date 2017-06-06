@@ -36,8 +36,9 @@ $this->title = $model->id;
 
     <div class="row">
         <div class="col-sm-9">
-            <h2><?php echo Yii::t('app', 'Voucher') . ' №' . Html::encode($this->title); ?></h2>
-            <h3><?php echo Yii::t('app', 'Rezervation') . ' №' . Html::encode($model->num_rezerv); ?></h3>
+            <h2><?php echo Yii::t('app', 'Voucher') . ' №' . Html::encode($this->title); ?>
+            (<span style="font-size: 75%"><?php echo Yii::t('app', 'Rezervation') . ' №' . Html::encode($model->num_rezerv); ?></span>)
+            </h2>
         </div>
     </div>
 
